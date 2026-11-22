@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tambah Pesanan Baru — TailorHub</title>
+<meta name="description" content="Formulir input pesanan baru, data pelanggan, detail ukuran pakaian, estimasi biaya dan tanggal deadline.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body>
+
+<!-- SVG Sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+</defs></svg>
+
+<div class="app">
+  <div class="scrim" onclick="document.querySelector('.app').classList.remove('nav-open')"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <div class="side-sec">Operasional</div>
+    <a href="../dashboard.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-home"/></svg>
+      <span>Dashboard</span>
+    </a>
+    <a href="index.html" class="nav-i is-on">
+      <svg width="18" height="18"><use href="#i-order"/></svg>
+      <span>Pesanan</span>
+      <span class="n-badge">12</span>
+    </a>
+    <a href="../production/board.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-scissors"/></svg>
+      <span>Produksi</span>
+    </a>
+    <a href="../customers/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-users"/></svg>
+      <span>Customer</span>
+    </a>
+
+    <div class="side-sec">Keuangan &amp; Analitik</div>
+    <a href="../payments/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-pay"/></svg>
+      <span>Pembayaran</span>
+    </a>
+    <a href="../reports/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-chart"/></svg>
+      <span>Laporan</span>
+    </a>
+
+    <div class="side-sec">Pengaturan</div>
+    <a href="../notifications/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-bell"/></svg>
+      <span>Notifikasi</span>
+      <span class="n-badge">3</span>
+    </a>
+    <a href="../team/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-users"/></svg>
+      <span>Tim</span>
+    </a>
+    <a href="../settings/tenant.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-gear"/></svg>
+      <span>Pengaturan</span>
+    </a>
+
+    <div class="side-foot">
+      <a href="../../account/profile.html" class="side-user">
+        <span class="top-avatar" style="width:36px;height:36px;font-size:.82rem">PM</span>
+        <div>
+          <b>Pak Mardi</b>
+          <small>Pemilik · Jahit Lestari</small>
+        </div>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <header class="top">
+      <button class="burger" onclick="document.querySelector('.app').classList.toggle('nav-open')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+
+      <div class="search">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" placeholder="Cari kode pesanan, nama pemesan...">
+      </div>
+
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi">
+          <svg width="20" height="20"><use href="#i-bell"/></svg>
+          <span class="dot"></span>
+        </a>
+        <a href="../../account/profile.html" class="top-avatar">PM</a>
+      </div>
+    </header>
+
+    <!-- KONTEN -->
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span class="sep">/</span>
+            <a href="index.html">Pesanan</a>
+            <span class="sep">/</span>
+            <b>Tambah Pesanan</b>
+          </nav>
+          <h1>Tambah Pesanan Baru</h1>
+          <p class="sub">Input spesifikasi jahitan, data pelanggan, rincian biaya, dan target penyelesaian (FR-06).</p>
+        </div>
+        <div>
+          <a href="index.html" class="btn btn--ghost">Kembali ke Daftar</a>
+        </div>
+      </div>
+
+      <form action="detail.html" method="GET" style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;">
+        <!-- KOLOM UTAMA -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          
+          <!-- KARTU 1: DATA PELANGGAN -->
+          <div class="card">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+              <h3 style="display:flex;align-items:center;gap:8px;">
+                <span class="badge-count" style="width:24px;height:24px;">1</span> Data Pelanggan
+              </h3>
+              <div style="display:flex;gap:12px;">
+                <label class="check" style="font-size:.84rem;">
+                  <input type="radio" name="cust_type" value="existing" checked onclick="document.getElementById('secExisting').style.display='block';document.getElementById('secNew').style.display='none';"> Pelanggan Lama
+                </label>
+                <label class="check" style="font-size:.84rem;">
+                  <input type="radio" name="cust_type" value="new" onclick="document.getElementById('secExisting').style.display='none';document.getElementById('secNew').style.display='block';"> Pelanggan Baru
+                </label>
+              </div>
+            </div>
+
+            <!-- Pilih Pelanggan Lama -->
+            <div id="secExisting">
+              <div class="field">
+                <label for="selectCust">Pilih Pelanggan Terdaftar <span class="req">*</span></label>
+                <select id="selectCust" class="select" required>
+                  <option value="">-- Pilih dari database customer --</option>
+                  <option value="1" selected>Hendra Gunawan (0812-9876-5432) — VIP Member</option>
+                  <option value="2">Nurul Aisyah (0857-1122-3344) — 3 Pesanan</option>
+                  <option value="3">Bambang Wijaya (0813-4455-6677) — 1 Pesanan</option>
+                  <option value="4">Maya Safitri (0819-8877-6655) — 5 Pesanan</option>
+                  <option value="5">Denny Yanuar (0812-3344-9900) — Konveksi Seragam</option>
+                </select>
+                <span class="help">Pilih untuk memuat riwayat ukuran badan otomatis jika sudah pernah memesan sebelumnya.</span>
+              </div>
+            </div>
+
+            <!-- Form Pelanggan Baru -->
+            <div id="secNew" style="display:none;background:var(--cream-200);border-radius:var(--r-m);padding:16px;border:1px dashed var(--sand-dark);">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div class="field">
+                  <label>Nama Lengkap Pelanggan <span class="req">*</span></label>
+                  <input type="text" class="input" placeholder="Contoh: Budi Santoso">
+                </div>
+                <div class="field">
+                  <label>Nomor WhatsApp / HP <span class="req">*</span></label>
+                  <input type="tel" class="input" placeholder="08xxxxxxxxxx">
+                </div>
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <label>Alamat Pengantaran / Domisili</label>
+                <input type="text" class="input" placeholder="Jl. Anggrek No. 12, Kelurahan...">
+              </div>
+            </div>
+          </div>
+
+          <!-- KARTU 2: RINCIAN PESANAN & ITEM -->
+          <div class="card">
+            <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <span class="badge-count" style="width:24px;height:24px;">2</span> Rincian Item Pakaian
+            </h3>
+
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;">
+              <div class="field">
+                <label for="orderTitle">Judul / Nama Pesanan <span class="req">*</span></label>
+                <input type="text" id="orderTitle" class="input" placeholder="Misal: Jas Formal Modern 2 Kancing" required value="Jas Formal Pria Full Set">
+              </div>
+              <div class="field">
+                <label for="category">Kategori Pakaian <span class="req">*</span></label>
+                <select id="category" class="select" required>
+                  <option value="jas" selected>Jas / Blazer Pria</option>
+                  <option value="kemeja">Kemeja Formal / Batik</option>
+                  <option value="celana">Celana Bahan / Chino</option>
+                  <option value="kebaya">Kebaya &amp; Gaun Pesta</option>
+                  <option value="gamis">Gamis / Busana Muslim</option>
+                  <option value="seragam">Seragam Kerja / Konveksi</option>
+                  <option value="makloon">Jasa Vermak / Permak</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+              <div class="field">
+                <label for="itemQty">Jumlah Item (Pcs/Stel) <span class="req">*</span></label>
+                <input type="number" id="itemQty" class="input" value="1" min="1" required>
+              </div>
+              <div class="field">
+                <label for="fabric">Jenis Bahan / Kain</label>
+                <input type="text" id="fabric" class="input" placeholder="Wool, Katun, Sutra..." value="Semi Wool Italian">
+              </div>
+              <div class="field">
+                <label for="fabricSource">Asal Bahan</label>
+                <select id="fabricSource" class="select">
+                  <option value="customer" selected>Bahan Disediakan Customer</option>
+                  <option value="tailor">Bahan Dari Bengkel Jahit</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Detail Ukuran (Fitting Measurements) -->
+            <div style="background:var(--cream);border:1px solid var(--sand);border-radius:var(--r-m);padding:16px;margin:16px 0;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <b style="font-size:.9rem;color:var(--ink);">Ukuran Tubuh (Fitting CM)</b>
+                <span style="font-size:.76rem;color:var(--ink-45);">Satuan Sentimeter (cm)</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;">
+                <div class="field" style="margin-bottom:0;">
+                  <label style="font-size:.78rem;">Lingkar Dada</label>
+                  <input type="number" class="input" value="102" style="padding:8px 10px;">
+                </div>
+                <div class="field" style="margin-bottom:0;">
+                  <label style="font-size:.78rem;">Panjang Baju</label>
+                  <input type="number" class="input" value="74" style="padding:8px 10px;">
+                </div>
+                <div class="field" style="margin-bottom:0;">
+                  <label style="font-size:.78rem;">Lebar Pundak</label>
+                  <input type="number" class="input" value="46" style="padding:8px 10px;">
+                </div>
+                <div class="field" style="margin-bottom:0;">
+                  <label style="font-size:.78rem;">Panjang Lengan</label>
+                  <input type="number" class="input" value="61" style="padding:8px 10px;">
+                </div>
+                <div class="field" style="margin-bottom:0;">
+                  <label style="font-size:.78rem;">Lingkar Pinggang</label>
+                  <input type="number" class="input" value="88" style="padding:8px 10px;">
+                </div>
+                <div class="field" style="margin-bottom:0;">
+                  <label style="font-size:.78rem;">Panjang Celana</label>
+                  <input type="number" class="input" value="98" style="padding:8px 10px;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Catatan Khusus & Lampiran -->
+            <div class="field">
+              <label for="orderNotes">Instruksi Khusus Penjahit &amp; Finishing</label>
+              <textarea id="orderNotes" class="textarea" placeholder="Contoh: Belahan jas dobel (double vent), furing warna maroon corak sutra, kantong paspol samping...">Model slim fit modern, lapel notch standard 7cm, furing maroon, saku vest di dalam 2 sisi.</textarea>
+            </div>
+
+            <!-- Lampiran Foto Model / Desain -->
+            <div class="field" style="margin-bottom:0;">
+              <label>Lampiran Contoh Desain / Pola</label>
+              <div style="border:2px dashed var(--sand-dark);border-radius:var(--r-m);padding:24px;text-align:center;background:var(--paper);cursor:pointer;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin:0 auto 8px;color:var(--clay);"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                <div style="font-size:.88rem;font-weight:700;color:var(--ink);">Klik atau seret file foto referensi ke sini</div>
+                <div style="font-size:.78rem;color:var(--ink-45);margin-top:4px;">Format JPG, PNG atau PDF (Maks. 5MB)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KOLOM SAMPING: WAKTU & KEUANGAN -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <!-- KARTU 3: DEADLINE & PENANGGUNG JAWAB -->
+          <div class="card">
+            <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <span class="badge-count" style="width:24px;height:24px;">3</span> Jadwal &amp; Staf
+            </h3>
+
+            <div class="field">
+              <label for="orderDate">Tanggal Masuk Pesanan <span class="req">*</span></label>
+              <input type="date" id="orderDate" class="input" value="2026-11-22" required>
+            </div>
+
+            <div class="field">
+              <label for="deadlineDate">Target Deadline Selesai <span class="req">*</span></label>
+              <input type="date" id="deadlineDate" class="input" value="2026-11-28" required>
+              <span class="help" style="color:var(--clay);display:inline-flex;align-items:center;gap:4px;font-weight:600;">
+                <svg width="14" height="14"><use href="#i-clock"/></svg> Durasi pengerjaan: 6 hari
+              </span>
+            </div>
+
+            <div class="field" style="margin-bottom:0;">
+              <label for="assignedStaff">Tetapkan Penjahit Utama</label>
+              <select id="assignedStaff" class="select">
+                <option value="">-- Bebas (Staff Antrean) --</option>
+                <option value="budi" selected>Mas Budi (Spesialis Jas &amp; Formal)</option>
+                <option value="siti">Mbak Siti (Spesialis Kebaya &amp; Gaun)</option>
+                <option value="joko">Pak Joko (Spesialis Kemeja &amp; Celana)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- KARTU 4: PEMBAYARAN -->
+          <div class="card">
+            <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <span class="badge-count" style="width:24px;height:24px;">4</span> Biaya &amp; Pembayaran
+            </h3>
+
+            <div class="field">
+              <label for="priceTotal">Total Biaya Jahit (Rp) <span class="req">*</span></label>
+              <input type="number" id="priceTotal" class="input" style="font-size:1.15rem;font-weight:800;color:var(--ink);" value="1650000" required>
+            </div>
+
+            <div class="field">
+              <label for="payStatus">Status Pembayaran Masuk <span class="req">*</span></label>
+              <select id="payStatus" class="select" required onchange="toggleDpField(this.value)">
+                <option value="unpaid">Belum Bayar (Rp 0)</option>
+                <option value="dp" selected>Uang Muka / DP</option>
+                <option value="paid">Lunas Penuh</option>
+              </select>
+            </div>
+
+            <div class="field" id="dpAmountField">
+              <label for="dpNominal">Nominal DP Dibayar (Rp)</label>
+              <input type="number" id="dpNominal" class="input" value="800000">
+              <span class="help" style="color:var(--pay-unpaid);font-weight:600;">Sisa tagihan saat diambil: Rp 850.000</span>
+            </div>
+
+            <div class="field">
+              <label for="payMethod">Metode Pembayaran</label>
+              <select id="payMethod" class="select">
+                <option value="transfer_bca" selected>Transfer BCA (Rekening Toko)</option>
+                <option value="qris">QRIS (Gopay / OVO / ShopeePay)</option>
+                <option value="cash">Tunai (Cash di Kasir)</option>
+              </select>
+            </div>
+
+            <hr style="border:0;border-top:1px solid var(--sand);margin:18px 0;">
+
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <button type="submit" class="btn btn--primary btn--block">
+                <svg width="18" height="18"><use href="#i-check"/></svg>
+                <span>Simpan &amp; Masukkan Antrean</span>
+              </button>
+              <button type="button" class="btn btn--ghost btn--block" onclick="alert('Pesanan disimpan ke draft!')">
+                Simpan sebagai Draft
+              </button>
+              <a href="index.html" class="btn btn--light btn--block" style="text-align:center;">
+                Batalkan
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+
+<script>
+function toggleDpField(val) {
+  var dp = document.getElementById('dpAmountField');
+  if (val === 'dp') {
+    dp.style.display = 'block';
+  } else {
+    dp.style.display = 'none';
+  }
+}
+</script>
+
+</body>
+</html>
