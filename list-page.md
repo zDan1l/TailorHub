@@ -22,7 +22,7 @@ Sebagian ditandai *(partial)* = potongan HTML/modal yang disisipkan, bukan halam
 | **1** | Dev 1 | Situs Publik, Marketing & Halaman Sistem | 10 | **Danil**
 | **2** | Dev 2 | Autentikasi & Akun Pengguna | 10 |
 | **3** | Dev 3 | Dashboard, Laporan & Notifikasi | 10 |
-| **4** | Dev 4 | Manajemen Pesanan & Customer | 11 |
+| **4** | Dev 4 | Manajemen Pesanan & Customer | 11 | **Zelvia** |
 | **5** | Dev 5 | Produksi, Tugas Staff & Portal Customer | 13 |
 | **6** | Dev 6 | Pembayaran, Tim & Pengaturan Tenant | 13 |
 
