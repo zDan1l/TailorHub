@@ -217,6 +217,85 @@
   padding-left: 42px;
 }
 
+.input-group .toggle-pass {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--ink-45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: color .2s, background .2s;
+  z-index: 2;
+}
+
+.input-group .toggle-pass:hover {
+  color: var(--clay);
+  background: var(--cream-200);
+}
+
+.input-group .toggle-pass svg {
+  position: static;
+  pointer-events: auto;
+  color: inherit;
+}
+
+.input-group .input--has-toggle {
+  padding-right: 44px;
+}
+
+/* Upload Box Component */
+.upload-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  background: var(--cream-200);
+  border: 1.5px dashed var(--sand-dark);
+  border-radius: var(--r-m);
+  transition: border-color .2s, background .2s;
+}
+
+.upload-box:hover {
+  border-color: var(--clay-300);
+  background: #FFF4E8;
+}
+
+.upload-preview {
+  width: 76px;
+  height: 76px;
+  border-radius: var(--r-s);
+  background: var(--paper);
+  border: 1.5px solid var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  flex: none;
+  box-shadow: var(--shadow-s);
+}
+
+.upload-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink-45);
+  font-size: .72rem;
+  font-weight: 800;
+}
+
 /* Checkbox & Radio */
 .check {
   display: flex;
