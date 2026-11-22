@@ -59,8 +59,8 @@
           <div class="input-group">
             <svg width="18" height="18"><use href="#i-key"/></svg>
             <input class="input input--has-toggle" id="password" type="password" placeholder="••••••••" required>
-            <button type="button" class="toggle-pass" onclick="togglePassword('password', this)" aria-label="Lihat kata sandi">
-              <svg width="18" height="18"><use href="#i-eye"/></svg>
+            <button type="button" class="toggle-pass" onclick="togglePassword('password', this)" aria-label="Tampilkan kata sandi">
+              <svg width="18" height="18"><use href="#i-eye-off"/></svg>
             </button>
           </div>
         </div>
@@ -101,12 +101,12 @@ function togglePassword(inputId, btn) {
   var icon = btn.querySelector('use');
   if (input.type === 'password') {
     input.type = 'text';
-    icon.setAttribute('href', '#i-eye-off');
+    icon.setAttribute('href', '#i-eye');
     btn.setAttribute('aria-label', 'Sembunyikan kata sandi');
   } else {
     input.type = 'password';
-    icon.setAttribute('href', '#i-eye');
-    btn.setAttribute('aria-label', 'Lihat kata sandi');
+    icon.setAttribute('href', '#i-eye-off');
+    btn.setAttribute('aria-label', 'Tampilkan kata sandi');
   }
 }
 </script>
