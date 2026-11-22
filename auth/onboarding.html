@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Awal Usaha (Onboarding) — TailorHub</title>
+<meta name="description" content="Setup awal profil usaha jahit dan preferensi tenant TailorHub.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+
+<!-- SVG Sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+</defs></svg>
+
+<div class="auth-wrap">
+  <div class="auth-box auth-box--wide">
+    
+    <header class="auth-header">
+      <a href="../index.html" class="auth-brand">
+        <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <rect width="40" height="40" rx="12" fill="#C05424"/>
+          <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+          <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+        </svg>
+        <span>Tailor<em>Hub</em></span>
+      </a>
+      <h1>Setup Profil Usaha Anda</h1>
+      <p>Lengkapi informasi dasar workshop usaha jahit Anda dalam waktu kurang dari 5 menit</p>
+    </header>
+
+    <!-- Wizard Steps Indicator -->
+    <div class="steps-nav">
+      <div class="step-item is-done">
+        <div class="step-num"><svg width="14" height="14"><use href="#i-check"/></svg></div>
+        <span class="step-label">Registrasi</span>
+      </div>
+      <div class="step-item is-active">
+        <div class="step-num">2</div>
+        <span class="step-label">Profil Workshop</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <span class="step-label">Layanan Jahit</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <span class="step-label">Selesai</span>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      <form action="../app/dashboard.html" method="GET">
+        
+        <div class="field">
+          <label>Logo Usaha / Foto Workshop (Opsional)</label>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div style="width:72px; height:72px; border-radius:var(--r-m); background:var(--cream-200); border:2px dashed var(--sand-dark); display:flex; align-items:center; justify-content:center; color:var(--ink-45); font-weight:800; font-size:.8rem;">
+              LOGO
+            </div>
+            <div>
+              <button type="button" class="btn btn--light btn--sm" onclick="alert('Pilih file logo dari perangkat Anda');">Unggah Logo</button>
+              <span class="help" style="display:block; margin-top:4px;">PNG, JPG maksimal 2MB. Tampil di nota &amp; portal tracking pelanggan.</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="field">
+            <label for="tenant_phone">Nomor WhatsApp Usaha <span class="req">*</span></label>
+            <div class="input-group">
+              <svg width="18" height="18"><use href="#i-phone"/></svg>
+              <input class="input" id="tenant_phone" type="tel" placeholder="mis. 081234567890" required>
+            </div>
+            <span class="help">Untuk pengiriman otomatis notifikasi pesanan ke customer.</span>
+          </div>
+
+          <div class="field">
+            <label for="tenant_category">Fokus Utama Usaha <span class="req">*</span></label>
+            <select class="select" id="tenant_category" required>
+              <option value="">Pilih Kategori Usaha</option>
+              <option value="custom" selected>Jahit Busana Custom &amp; Kebaya</option>
+              <option value="convection">Konveksi Massal &amp; Seragam</option>
+              <option value="suit">Spesialis Jas &amp; Formal Pria</option>
+              <option value="alteration">Permak &amp; Modifikasi Pakaian</option>
+              <option value="mixed">Campuran (Custom &amp; Konveksi)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tenant_address">Alamat Workshop / Rumah Jahit <span class="req">*</span></label>
+          <textarea class="textarea" id="tenant_address" placeholder="Jl. Melati No. 45, RT 02/RW 03, Kelurahan Sukajadi, Kota Bandung" required style="min-height:80px;"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Fitur Awal yang Langsung Diaktifkan:</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px;">
+            <label class="check"><input type="checkbox" checked> <span>Portal Pelacakan Pesanan Mandiri</span></label>
+            <label class="check"><input type="checkbox" checked> <span>Peringatan Deadline Pesanan Otomatis</span></label>
+            <label class="check"><input type="checkbox" checked> <span>Notifikasi Status via WhatsApp</span></label>
+            <label class="check"><input type="checkbox" checked> <span>Pencatatan Pembayaran DP &amp; Lunas</span></label>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:18px; border-top:1px solid var(--sand);">
+          <a href="../app/dashboard.html" style="font-size:.88rem; font-weight:700; color:var(--ink-45);">Lewati setup awal</a>
+          <button type="submit" class="btn btn--primary">
+            Selesai &amp; Buka Dashboard
+            <svg width="17" height="17"><use href="#i-arrow"/></svg>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
