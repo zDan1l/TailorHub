@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Usaha Baru — TailorHub</title>
+<meta name="description" content="Daftarkan usaha jahit atau konveksi Anda di platform SaaS multi-tenant TailorHub.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+
+<!-- SVG Sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m21 3-9.5 9.5M15.5 7.5l3 3M17.5 5.5l2 2"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61M2 2l20 20"/></symbol>
+</defs></svg>
+
+<div class="auth-wrap">
+  <div class="auth-box auth-box--wide">
+    
+    <header class="auth-header">
+      <a href="../index.html" class="auth-brand" title="Kembali ke Beranda TailorHub">
+        <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <rect width="40" height="40" rx="12" fill="#C05424"/>
+          <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+          <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+        </svg>
+        <span>Tailor<em>Hub</em></span>
+      </a>
+      <h1>Daftarkan Usaha Jahit Anda</h1>
+      <p>Mulai 14 hari coba gratis tanpa kartu kredit. Data bisnis Anda terisolasi aman.</p>
+    </header>
+
+    <div class="auth-card">
+      <form action="verify-email.html" method="GET">
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="field">
+            <label for="business_name">Nama Usaha / Konveksi <span class="req">*</span></label>
+            <div class="input-group">
+              <svg width="18" height="18"><use href="#i-scissors"/></svg>
+              <input class="input" id="business_name" type="text" placeholder="mis. Melati Tailor &amp; Mode" required autofocus>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="owner_name">Nama Pemilik <span class="req">*</span></label>
+            <div class="input-group">
+              <svg width="18" height="18"><use href="#i-users"/></svg>
+              <input class="input" id="owner_name" type="text" placeholder="mis. Ibu Siti Rahma" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reg_email">Email Usaha (untuk login) <span class="req">*</span></label>
+          <div class="input-group">
+            <svg width="18" height="18"><use href="#i-mail"/></svg>
+            <input class="input" id="reg_email" type="email" placeholder="kontak@melatitailor.com" required>
+          </div>
+          <span class="help">Tautan konfirmasi pendaftaran akan dikirim ke email ini.</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="field">
+            <label for="reg_password">Kata Sandi <span class="req">*</span></label>
+            <div class="input-group">
+              <svg width="18" height="18"><use href="#i-key"/></svg>
+              <input class="input input--has-toggle" id="reg_password" type="password" placeholder="Minimal 8 karakter" required minlength="8">
+              <button type="button" class="toggle-pass" onclick="togglePassword('reg_password', this)" aria-label="Tampilkan kata sandi">
+                <svg width="18" height="18"><use href="#i-eye-off"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="reg_password_conf">Konfirmasi Sandi <span class="req">*</span></label>
+            <div class="input-group">
+              <svg width="18" height="18"><use href="#i-key"/></svg>
+              <input class="input input--has-toggle" id="reg_password_conf" type="password" placeholder="Ulangi kata sandi" required minlength="8">
+              <button type="button" class="toggle-pass" onclick="togglePassword('reg_password_conf', this)" aria-label="Tampilkan kata sandi">
+                <svg width="18" height="18"><use href="#i-eye-off"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:4px;">
+          <label class="check">
+            <input type="checkbox" required>
+            <span>Saya menyetujui <a href="../terms.html" target="_blank" style="color:var(--clay); font-weight:700;">Syarat &amp; Ketentuan</a> serta <a href="../privacy.html" target="_blank" style="color:var(--clay); font-weight:700;">Kebijakan Privasi</a> TailorHub.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block" style="margin-top:14px;">
+          Buat Akun Usaha Baru
+          <svg width="17" height="17"><use href="#i-arrow"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <footer class="auth-footer">
+      Sudah memiliki akun usaha? <a href="login.html">Masuk di sini</a>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+function togglePassword(inputId, btn) {
+  var input = document.getElementById(inputId);
+  var icon = btn.querySelector('use');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.setAttribute('href', '#i-eye');
+    btn.setAttribute('aria-label', 'Sembunyikan kata sandi');
+  } else {
+    input.type = 'password';
+    icon.setAttribute('href', '#i-eye-off');
+    btn.setAttribute('aria-label', 'Tampilkan kata sandi');
+  }
+}
+</script>
+
+</body>
+</html>
