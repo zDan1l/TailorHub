@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TailorHub — Style Guide &amp; Component Library</title>
+<meta name="description" content="Panduan gaya visual dan pustaka komponen untuk membangun seluruh halaman aplikasi TailorHub. Token warna, tipografi, tombol, form, tabel, status, navigasi, dan pola UI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TAILORHUB — DESIGN TOKENS
+   Sumber kebenaran tunggal untuk seluruh halaman aplikasi.
+   Token ini IDENTIK dengan landing page (index.html) — salin
+   blok :root ini apa adanya ke assets/css/tokens.css.
+   Tipografi: Plus Jakarta Sans untuk seluruh elemen.
+   ============================================================ */
+:root{
+  /* --- Warna utama (Clay / Terracotta) --- */
+  --clay:#C05424; --clay-700:#9E4218; --clay-500:#D2703E;
+  --clay-300:#E89A72; --clay-100:#F9DFCF;
+  /* --- Netral hangat (latar) --- */
+  --cream:#FFF8EF; --cream-200:#FDEFDF; --paper:#FFFDFA;
+  /* --- Teks (Ink) --- */
+  --ink:#3C2418; --ink-900:#2A1810; --ink-70:#6B4A3A; --ink-45:#8E7266;
+  /* --- Aksen sekunder (Indigo) --- */
+  --indigo:#495ECD; --indigo-300:#8E9BE4; --indigo-100:#E2E6FA;
+  /* --- Garis & border (Sand) --- */
+  --sand:#EADBC8; --sand-dark:#D8C4AC;
+  /* --- Semantik --- */
+  --green:#2F8F5B; --green-100:#DDF0E5;
+  --amber:#D98A14; --amber-100:#FBEBCF;
+  --red:#C0392B; --red-100:#F7DEDA;
+  /* --- Status SOLID (latar pekat + teks putih), diselaraskan clay --- */
+  --s-queue:#7A6155; --s-cut:#495ECD; --s-sew:#C05424; --s-finish:#9A6209;
+  --s-qc:#3C4FA6; --s-done:#2F8F5B; --s-taken:#20683F;
+  --pay-unpaid:#C0392B; --pay-dp:#9A6209; --pay-paid:#2F8F5B; --warn:#B06E12;
+  /* --- Radius --- */
+  --r-s:12px; --r-m:18px; --r-l:26px; --r-xl:36px;
+  /* --- Bayangan --- */
+  --shadow-s:0 2px 6px rgba(60,36,24,.06);
+  --shadow-m:0 12px 32px rgba(60,36,24,.10);
+  --shadow-l:0 26px 64px rgba(60,36,24,.16);
+  /* --- Easing --- */
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--cream); color:var(--ink);
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3,h4{margin:0;line-height:1.13;}
+h1{font-size:clamp(2rem,3.6vw,2.9rem);font-weight:800;letter-spacing:-.04em;line-height:1.08;}
+h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:800;letter-spacing:-.034em;}
+h3{font-size:1.12rem;font-weight:700;letter-spacing:-.02em;}
+h4{font-size:.97rem;font-weight:700;letter-spacing:-.012em;}
+p{margin:0;}
+ul,ol{margin:0;padding:0;list-style:none;}
+code,pre{font-family:'SFMono-Regular',ui-monospace,'Cascadia Code',Consolas,monospace;}
+
+/* ============================================================
+   LAYOUT STYLE-GUIDE (khusus halaman panduan ini)
+   ============================================================ */
+.sg-shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+.sg-nav{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+  background:var(--paper);border-right:1px solid var(--sand);padding:26px 20px;}
+.sg-brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.2rem;letter-spacing:-.038em;margin-bottom:6px;}
+.sg-brand span em{font-style:normal;color:var(--clay);}
+.sg-nav small{display:block;color:var(--ink-45);font-size:.78rem;font-weight:700;letter-spacing:.04em;margin:0 0 20px 51px;}
+.sg-nav h5{font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-45);margin:22px 0 8px;}
+.sg-nav a{display:block;padding:7px 12px;border-radius:10px;font-size:.9rem;font-weight:600;color:var(--ink-70);transition:background .2s,color .2s;}
+.sg-nav a:hover{background:var(--cream-200);color:var(--clay);}
+.sg-main{padding:48px clamp(22px,4vw,64px) 120px;max-width:1180px;}
+.sg-hero{margin-bottom:46px;}
+.sg-hero .eyebrow{margin-bottom:16px;}
+.sg-hero p{color:var(--ink-70);max-width:62ch;font-size:1.05rem;margin-top:14px;}
+
+.sg-sec{padding:40px 0;border-top:1px solid var(--sand);scroll-margin-top:20px;}
+.sg-sec:first-of-type{border-top:0;}
+.sg-sec > h2{margin-bottom:6px;}
+.sg-sec > .sg-note{color:var(--ink-70);max-width:70ch;margin-bottom:28px;font-size:.98rem;}
+.sg-sub{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin:30px 0 14px;}
+
+/* kartu demo + label */
+.demo{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-m);padding:26px;box-shadow:var(--shadow-s);margin-bottom:14px;}
+.demo--pad{display:flex;flex-wrap:wrap;gap:16px;align-items:center;}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.stack{display:grid;gap:14px;}
+.hint{font-size:.82rem;color:var(--ink-45);margin-top:10px;}
+pre.code{background:var(--ink-900);color:#F4E4D6;border-radius:var(--r-s);padding:16px 18px;overflow-x:auto;font-size:.82rem;line-height:1.7;margin:10px 0 0;}
+pre.code .t{color:var(--clay-300);} pre.code .a{color:var(--indigo-300);} pre.code .c{color:#8E7266;}
+.sg-grid{display:grid;gap:16px;}
+.c2{grid-template-columns:repeat(2,1fr);} .c3{grid-template-columns:repeat(3,1fr);} .c4{grid-template-columns:repeat(4,1fr);}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;color:var(--ink-45);background:var(--cream-200);border:1px solid var(--sand);border-radius:999px;padding:3px 10px;margin-left:8px;}
+
+/* ---- Swatch warna ---- */
+.sw{border-radius:var(--r-s);overflow:hidden;border:1px solid var(--sand);background:var(--paper);}
+.sw-top{height:76px;}
+.sw-meta{padding:10px 12px;}
+.sw-name{font-weight:700;font-size:.86rem;}
+.sw-val{font-size:.76rem;color:var(--ink-45);font-family:ui-monospace,monospace;}
+.sw-var{font-size:.72rem;color:var(--clay);font-weight:700;}
+
+/* ---- Tipografi demo ---- */
+.type-row{display:flex;align-items:baseline;gap:18px;padding:14px 0;border-bottom:1px dashed var(--sand);flex-wrap:wrap;}
+.type-row:last-child{border-bottom:0;}
+.type-meta{font-size:.76rem;color:var(--ink-45);font-family:ui-monospace,monospace;min-width:150px;}
+
+/* ============================================================
+   KOMPONEN PRODUK — salin ke assets/css/components.css
+   Blok di bawah ini adalah pustaka komponen aplikasi.
+   ============================================================ */
+
+/* ----- Eyebrow / label ----- */
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.76rem;font-weight:800;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--clay);background:var(--clay-100);
+  border:1px solid rgba(192,84,36,.18);padding:7px 15px;border-radius:999px;}
+.lead{font-size:1.06rem;color:var(--ink-70);max-width:58ch;font-weight:500;}
+
+/* ----- Tombol ----- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:700;
+  font-size:.95rem;letter-spacing:-.01em;padding:13px 24px;border-radius:999px;
+  border:2px solid transparent;cursor:pointer;font-family:inherit;
+  transition:transform .3s var(--ease),background .25s,border-color .25s,color .25s,box-shadow .3s;}
+.btn:hover{transform:translateY(-2px);}
+.btn svg{transition:transform .3s var(--ease);}
+.btn--primary{background:var(--clay);color:#fff;box-shadow:0 8px 20px rgba(192,84,36,.26);}
+.btn--primary:hover{background:var(--clay-700);box-shadow:0 14px 30px rgba(192,84,36,.34);}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--sand);}
+.btn--ghost:hover{border-color:var(--clay);color:var(--clay);}
+.btn--light{background:#fff;color:var(--clay);border-color:var(--sand);}
+.btn--light:hover{background:var(--cream-200);}
+.btn--danger{background:var(--red);color:#fff;box-shadow:0 8px 20px rgba(192,57,43,.22);}
+.btn--danger:hover{background:#A5281B;}
+.btn--sm{padding:9px 16px;font-size:.85rem;}
+.btn--lg{padding:16px 30px;font-size:1rem;}
+.btn--icon{padding:12px;border-radius:12px;}
+.btn--block{width:100%;}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* ----- Form ----- */
+.field{display:grid;gap:7px;margin-bottom:16px;}
+.field > label{font-size:.86rem;font-weight:700;color:var(--ink);letter-spacing:-.01em;}
+.field .req{color:var(--clay);}
+.field .help{font-size:.78rem;color:var(--ink-45);}
+.field .err{font-size:.78rem;color:var(--red);font-weight:600;}
+.input,.select,.textarea{width:100%;font-family:inherit;font-size:.94rem;color:var(--ink);
+  background:var(--paper);border:1.6px solid var(--sand);border-radius:var(--r-s);
+  padding:12px 14px;transition:border-color .2s,box-shadow .2s,background .2s;}
+.input::placeholder,.textarea::placeholder{color:var(--ink-45);}
+.input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--clay);
+  box-shadow:0 0 0 4px rgba(192,84,36,.12);background:#fff;}
+.textarea{min-height:104px;resize:vertical;line-height:1.55;}
+.select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%238E7266' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;cursor:pointer;}
+.input--err{border-color:var(--red);}
+.input--err:focus{box-shadow:0 0 0 4px rgba(192,57,43,.12);}
+.input:disabled,.select:disabled,.textarea:disabled{background:var(--cream-200);color:var(--ink-45);cursor:not-allowed;}
+.input-group{position:relative;display:flex;align-items:center;}
+.input-group svg{position:absolute;left:14px;color:var(--ink-45);pointer-events:none;}
+.input-group .input{padding-left:42px;}
+
+/* checkbox & radio */
+.check{display:flex;align-items:center;gap:10px;font-size:.92rem;font-weight:600;color:var(--ink);cursor:pointer;}
+.check input{appearance:none;width:20px;height:20px;border:1.8px solid var(--sand-dark);border-radius:6px;
+  background:var(--paper);flex:none;cursor:pointer;position:relative;transition:background .2s,border-color .2s;}
+.check input[type=radio]{border-radius:50%;}
+.check input:checked{background:var(--clay);border-color:var(--clay);}
+.check input:checked::after{content:"";position:absolute;inset:0;background:no-repeat center/13px
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.6 4.4 4.4L19 6.8'/%3E%3C/svg%3E");}
+.check input[type=radio]:checked::after{background:#fff;border-radius:50%;inset:5px;}
+/* toggle */
+.toggle{position:relative;width:46px;height:26px;flex:none;cursor:pointer;}
+.toggle input{appearance:none;width:100%;height:100%;margin:0;border-radius:999px;background:var(--sand-dark);cursor:pointer;transition:background .25s;}
+.toggle input:checked{background:var(--clay);}
+.toggle input::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .25s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle input:checked::after{transform:translateX(20px);}
+
+/* ----- Badge / chip / status ----- */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.73rem;font-weight:700;padding:4px 11px;border-radius:999px;white-space:nowrap;color:#fff;line-height:1.4;}
+.chip .d{width:6px;height:6px;border-radius:50%;background:currentColor;}
+/* Status produksi (urut tahap) */
+.chip--queue{background:var(--s-queue);} .chip--cut{background:var(--s-cut);}
+.chip--sew{background:var(--s-sew);} .chip--finish{background:var(--s-finish);}
+.chip--qc{background:var(--s-qc);} .chip--done{background:var(--s-done);} .chip--taken{background:var(--s-taken);}
+/* Pembayaran */
+.chip--unpaid{background:var(--pay-unpaid);} .chip--dp{background:var(--pay-dp);} .chip--paid{background:var(--pay-paid);}
+/* Lain */
+.chip--clay{background:var(--clay);} .chip--danger{background:var(--red);}
+.chip--soft{background:var(--cream-200);color:var(--ink-70);border:1px solid var(--sand);}
+/* Alias generik (tetap solid) agar markup lama ikut berubah */
+.chip--grey{background:var(--s-queue);} .chip--indigo{background:var(--s-cut);}
+.chip--green{background:var(--s-done);} .chip--amber{background:var(--s-finish);} .chip--red{background:var(--pay-unpaid);}
+.badge-count{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;
+  font-size:.72rem;font-weight:800;color:#fff;background:var(--clay);border-radius:999px;}
+
+/* ----- Kartu ----- */
+.card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:24px;
+  box-shadow:var(--shadow-s);transition:transform .4s var(--ease),box-shadow .4s,border-color .4s;}
+.card--hover:hover{transform:translateY(-6px);box-shadow:var(--shadow-m);border-color:var(--clay-300);}
+.card-pad-sm{padding:18px;}
+
+/* stat tile / KPI */
+.tile{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-m);padding:18px;
+  transition:transform .35s var(--ease),border-color .35s;}
+.tile:hover{transform:translateY(-4px);border-color:var(--clay-300);}
+.tile small{display:block;font-size:.71rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-45);}
+.tile b{font-size:1.7rem;font-weight:800;display:block;line-height:1.15;margin:6px 0 8px;letter-spacing:-.035em;}
+.tile-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.delta{font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:999px;}
+.delta{color:#fff;}
+.delta--up{background:var(--green);}
+.delta--down{background:var(--red);}
+.delta--warn{background:var(--warn);}
+
+/* ----- Tabel ----- */
+.table-wrap{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-m);overflow:hidden;box-shadow:var(--shadow-s);}
+.table{width:100%;border-collapse:collapse;font-size:.9rem;}
+.table thead th{text-align:left;font-size:.72rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink-45);padding:14px 18px;background:var(--cream-200);border-bottom:1px solid var(--sand);white-space:nowrap;}
+.table tbody td{padding:14px 18px;border-bottom:1px solid var(--sand);color:var(--ink-70);vertical-align:middle;}
+.table tbody tr:last-child td{border-bottom:0;}
+.table tbody tr{transition:background .2s;}
+.table tbody tr:hover{background:var(--cream);}
+.table td b{color:var(--ink);font-weight:700;}
+.table .num{text-align:right;font-variant-numeric:tabular-nums;}
+
+/* ----- Alert ----- */
+.alert{display:flex;gap:13px;align-items:center;padding:15px 18px;border-radius:var(--r-m);font-size:.9rem;color:#fff;}
+.alert svg{flex:none;}
+.alert b{font-weight:800;}
+.alert--info{background:var(--indigo);}
+.alert--success{background:var(--green);}
+.alert--warn{background:var(--warn);}
+.alert--error{background:var(--red);}
+
+/* ----- Toast ----- */
+.toast{display:flex;gap:12px;align-items:center;background:var(--ink-900);color:#fff;border-radius:var(--r-s);
+  padding:14px 18px;box-shadow:var(--shadow-l);max-width:360px;}
+.toast svg{flex:none;}
+.toast small{display:block;color:rgba(255,248,239,.7);font-size:.8rem;}
+
+/* ----- Avatar ----- */
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--clay-100);color:var(--clay-700);
+  display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex:none;border:2px solid var(--paper);}
+.avatar--sm{width:30px;height:30px;font-size:.78rem;}
+.avatar--lg{width:56px;height:56px;font-size:1.1rem;}
+.avatar--indigo{background:var(--indigo-100);color:#30409A;}
+.avatar-stack{display:flex;}
+.avatar-stack .avatar{margin-left:-10px;}
+.avatar-stack .avatar:first-child{margin-left:0;}
+
+/* ----- Tabs ----- */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--sand);}
+.tabs a{padding:11px 16px;font-size:.9rem;font-weight:700;color:var(--ink-45);border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;}
+.tabs a:hover{color:var(--clay);}
+.tabs a.is-on{color:var(--clay);border-bottom-color:var(--clay);}
+
+/* ----- Breadcrumb ----- */
+.crumb{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--ink-45);}
+.crumb a:hover{color:var(--clay);}
+.crumb .sep{color:var(--sand-dark);}
+.crumb b{color:var(--ink);font-weight:700;}
+
+/* ----- Pagination ----- */
+.pager{display:flex;gap:6px;align-items:center;}
+.pager a{min-width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;
+  border-radius:10px;font-size:.88rem;font-weight:700;color:var(--ink-70);border:1px solid var(--sand);background:var(--paper);transition:all .2s;}
+.pager a:hover{border-color:var(--clay);color:var(--clay);}
+.pager a.is-on{background:var(--clay);color:#fff;border-color:var(--clay);}
+.pager a.is-off{opacity:.45;pointer-events:none;}
+
+/* ----- Progress ----- */
+.bar-track{height:9px;border-radius:999px;background:var(--sand);overflow:hidden;}
+.bar-fill{height:100%;border-radius:999px;background:var(--clay);}
+
+/* ----- Empty state ----- */
+.empty{text-align:center;padding:48px 24px;}
+.empty-ic{width:62px;height:62px;border-radius:18px;background:var(--clay-100);color:var(--clay);
+  display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.empty h3{margin-bottom:6px;}
+.empty p{color:var(--ink-45);font-size:.92rem;max-width:40ch;margin:0 auto 18px;}
+
+/* ----- Modal (statis untuk demo) ----- */
+.modal-demo{position:relative;background:rgba(42,24,16,.42);border-radius:var(--r-m);padding:34px 20px;display:flex;justify-content:center;}
+.modal{background:var(--paper);border-radius:var(--r-l);box-shadow:var(--shadow-l);width:100%;max-width:420px;overflow:hidden;}
+.modal-head{padding:22px 24px 0;}
+.modal-body{padding:14px 24px 22px;color:var(--ink-70);font-size:.93rem;}
+.modal-foot{display:flex;gap:10px;justify-content:flex-end;padding:16px 24px;border-top:1px solid var(--sand);background:var(--cream);}
+
+/* ----- Kanban (ringkas) ----- */
+.kanban{display:grid;grid-template-columns:repeat(4,minmax(200px,1fr));gap:14px;}
+.kcol{background:var(--cream-200);border:1px solid var(--sand);border-radius:var(--r-l);padding:12px;}
+.kcol header{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:4px 6px 0;}
+.kcol header .kcol-dot{width:10px;height:10px;border-radius:50%;flex:none;}
+.kcol h4{font-size:.86rem;font-weight:800;}
+.kcount{margin-left:auto;font-size:.72rem;font-weight:800;color:var(--ink-70);background:var(--paper);padding:2px 9px;border-radius:999px;border:1px solid var(--sand);}
+/* KARTU KANBAN KHUSUS (bukan kartu generik) */
+/* Semua kartu memakai SATU warna yang sama (seragam, tidak per-tahap) */
+.kcard{--acc:var(--s-queue);position:relative;background:var(--paper);border:1px solid var(--sand);border-radius:16px;
+  padding:14px 15px 13px;margin-bottom:10px;box-shadow:var(--shadow-s);cursor:grab;overflow:hidden;
+  transition:transform .3s var(--ease),box-shadow .3s,border-color .3s;}
+.kcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--acc);}
+.kcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-m);border-color:var(--acc);}
+.kc-top{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.kc-code{font-weight:800;font-size:.9rem;letter-spacing:-.02em;color:var(--ink);}
+.kc-type{margin-left:auto;font-size:.7rem;font-weight:700;color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,#fff);
+  border:1px solid color-mix(in srgb,var(--acc) 26%,#fff);padding:2px 8px;border-radius:999px;}
+.kc-title{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.kc-cust{display:flex;align-items:center;gap:7px;font-size:.77rem;color:var(--ink-45);margin-bottom:11px;}
+.kc-cust .mini{width:20px;height:20px;border-radius:50%;background:var(--sand);color:var(--ink-70);display:inline-flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;flex:none;}
+.kc-steps{display:flex;gap:3px;margin-bottom:6px;}
+.kc-steps i{flex:1;height:5px;border-radius:999px;background:var(--sand);}
+.kc-steps i.on{background:var(--acc);}
+.kc-stepslabel{display:flex;align-items:center;justify-content:space-between;font-size:.72rem;font-weight:700;color:var(--ink-70);margin-bottom:11px;}
+.kc-stepslabel .pct{color:var(--acc);}
+.kc-foot{display:flex;align-items:center;gap:8px;padding-top:10px;border-top:1px solid var(--sand);}
+.kc-dead{display:inline-flex;align-items:center;gap:5px;font-size:.73rem;font-weight:800;color:var(--ink-70);}
+.kc-dead.is-late{color:var(--red);}
+.kc-assignee{margin-left:auto;width:26px;height:26px;border-radius:50%;background:var(--clay);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;border:2px solid var(--paper);box-shadow:var(--shadow-s);}
+.kc-assignee.indigo{background:var(--indigo);}
+
+/* ----- App shell mini (pratinjau layout aplikasi) ----- */
+.shell{display:grid;grid-template-columns:200px 1fr;border:1px solid var(--sand);border-radius:var(--r-m);overflow:hidden;background:var(--cream);min-height:300px;}
+.shell-side{background:var(--ink);padding:18px 14px;}
+.shell-side .sb-brand{color:#fff;font-weight:800;font-size:1.05rem;margin-bottom:18px;display:flex;gap:8px;align-items:center;}
+.shell-side .sb{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:11px;font-size:.84rem;font-weight:600;color:rgba(255,248,239,.72);margin-bottom:3px;transition:background .2s,color .2s;}
+.shell-side .sb svg{flex:none;}
+.shell-side .sb:hover{background:rgba(255,255,255,.08);color:#fff;}
+.shell-side .sb.is-on{background:var(--clay);color:#fff;}
+.shell-top{display:flex;align-items:center;gap:14px;padding:13px 20px;background:var(--paper);border-bottom:1px solid var(--sand);}
+.shell-top .input-group{max-width:280px;flex:1;}
+.shell-top .input{padding-top:9px;padding-bottom:9px;}
+.shell-body{padding:20px;}
+
+/* ----- Icon palette ----- */
+.icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;}
+.ic{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border:1px solid var(--sand);border-radius:var(--r-s);background:var(--paper);color:var(--ink);}
+.ic svg{color:var(--clay);}
+.ic span{font-size:.74rem;color:var(--ink-45);font-family:ui-monospace,monospace;}
+
+/* ----- Radius & shadow demo ----- */
+.box-demo{height:84px;background:var(--clay-100);border:1px solid var(--clay-300);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--clay-700);}
+.shadow-demo{height:84px;background:var(--paper);border-radius:var(--r-m);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--ink-70);}
+
+/* ----- Responsive ----- */
+@media (max-width:980px){
+  .sg-shell{grid-template-columns:1fr;}
+  .sg-nav{position:static;height:auto;border-right:0;border-bottom:1px solid var(--sand);}
+  .c4,.c3{grid-template-columns:repeat(2,1fr);}
+  .kanban{grid-template-columns:repeat(2,1fr);}
+  .shell{grid-template-columns:1fr;}
+  .shell-side{display:none;}
+}
+@media (max-width:620px){
+  .c2,.c3,.c4{grid-template-columns:1fr;}
+  .kanban{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- Set ikon SVG bersama (identik dengan index.html). Simpan di assets/partials/icons.svg lalu sertakan di tiap halaman. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.2 7 12l5-6.6L17 12l3.6-4.8v10.4a1.6 1.6 0 0 1-1.6 1.6H5a1.6 1.6 0 0 1-1.6-1.6Z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5h17M9 6.5V4.5h6v2M6 6.5l1 14h10l1-14"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8Z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5 12 3l9 4.5v9L12 21 3 16.5Z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/></symbol>
+</defs></svg>
+
+<div class="sg-shell">
+  <!-- ===================== NAV ===================== -->
+  <aside class="sg-nav">
+    <div class="sg-brand">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+    <small>Style Guide v1.0</small>
+    <h5>Fondasi</h5>
+    <a href="#intro">Cara pakai</a>
+    <a href="#color">Warna</a>
+    <a href="#type">Tipografi</a>
+    <a href="#space">Spasi &amp; Layout</a>
+    <a href="#radius">Radius &amp; Bayangan</a>
+    <a href="#icon">Ikon</a>
+    <h5>Komponen</h5>
+    <a href="#button">Tombol</a>
+    <a href="#form">Form &amp; Input</a>
+    <a href="#badge">Badge &amp; Status</a>
+    <a href="#card">Kartu &amp; KPI</a>
+    <a href="#table">Tabel</a>
+    <a href="#alert">Alert &amp; Toast</a>
+    <a href="#nav">Navigasi</a>
+    <a href="#avatar">Avatar</a>
+    <a href="#modal">Modal</a>
+    <a href="#kanban">Kanban</a>
+    <a href="#empty">Empty state</a>
+    <h5>Pola</h5>
+    <a href="#shell">App shell</a>
+    <a href="#status-map">Peta status pesanan</a>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main class="sg-main">
+    <header class="sg-hero" id="intro">
+      <span class="eyebrow">Design System</span>
+      <h1>TailorHub — Style Guide &amp; Pustaka Komponen</h1>
+      <p>Panduan ini adalah sumber kebenaran tunggal untuk membangun seluruh halaman aplikasi TailorHub. Semua token (warna, tipografi, radius, bayangan) diambil langsung dari landing page <code>index.html</code> agar aplikasi dan halaman pemasaran terasa satu produk. Komponen aplikasi (form, tabel, navigasi, status) ditambahkan di sini karena belum ada di landing page.</p>
+
+      <div class="alert alert--info" style="margin-top:22px;max-width:760px">
+        <svg width="20" height="20"><use href="#i-info"/></svg>
+        <div><b>Aturan utama bagi 6 pengembang:</b> jangan menulis nilai warna/ukuran mentah (hex, px) langsung di halaman. Selalu gunakan variabel CSS (<code>var(--clay)</code>) dan kelas komponen di bawah ini. Letakkan token di <code>assets/css/tokens.css</code> dan komponen di <code>assets/css/components.css</code>, lalu impor keduanya di setiap halaman. Dengan begitu 6 orang menghasilkan tampilan yang konsisten.</div>
+      </div>
+    </header>
+
+    <!-- ===================== WARNA ===================== -->
+    <section class="sg-sec" id="color">
+      <h2>Warna</h2>
+      <p class="sg-note">Palet hangat berbasis <em>clay / terracotta</em> dengan netral krem dan aksen indigo. Warna semantik dipakai untuk status, bukan dekorasi.</p>
+
+      <div class="sg-sub">Brand — Clay</div>
+      <div class="sg-grid c4">
+        <div class="sw"><div class="sw-top" style="background:#C05424"></div><div class="sw-meta"><div class="sw-name">Clay</div><div class="sw-var">--clay</div><div class="sw-val">#C05424</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#9E4218"></div><div class="sw-meta"><div class="sw-name">Clay 700</div><div class="sw-var">--clay-700</div><div class="sw-val">#9E4218</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#D2703E"></div><div class="sw-meta"><div class="sw-name">Clay 500</div><div class="sw-var">--clay-500</div><div class="sw-val">#D2703E</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#E89A72"></div><div class="sw-meta"><div class="sw-name">Clay 300</div><div class="sw-var">--clay-300</div><div class="sw-val">#E89A72</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#F9DFCF"></div><div class="sw-meta"><div class="sw-name">Clay 100</div><div class="sw-var">--clay-100</div><div class="sw-val">#F9DFCF</div></div></div>
+      </div>
+
+      <div class="sg-sub">Netral — Cream &amp; Ink</div>
+      <div class="sg-grid c4">
+        <div class="sw"><div class="sw-top" style="background:#FFF8EF"></div><div class="sw-meta"><div class="sw-name">Cream (latar)</div><div class="sw-var">--cream</div><div class="sw-val">#FFF8EF</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#FDEFDF"></div><div class="sw-meta"><div class="sw-name">Cream 200</div><div class="sw-var">--cream-200</div><div class="sw-val">#FDEFDF</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#FFFDFA"></div><div class="sw-meta"><div class="sw-name">Paper (kartu)</div><div class="sw-var">--paper</div><div class="sw-val">#FFFDFA</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#EADBC8"></div><div class="sw-meta"><div class="sw-name">Sand (border)</div><div class="sw-var">--sand</div><div class="sw-val">#EADBC8</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#D8C4AC"></div><div class="sw-meta"><div class="sw-name">Sand dark</div><div class="sw-var">--sand-dark</div><div class="sw-val">#D8C4AC</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#3C2418"></div><div class="sw-meta"><div class="sw-name">Ink (teks)</div><div class="sw-var">--ink</div><div class="sw-val">#3C2418</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#2A1810"></div><div class="sw-meta"><div class="sw-name">Ink 900</div><div class="sw-var">--ink-900</div><div class="sw-val">#2A1810</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#6B4A3A"></div><div class="sw-meta"><div class="sw-name">Ink 70</div><div class="sw-var">--ink-70</div><div class="sw-val">#6B4A3A</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#8E7266"></div><div class="sw-meta"><div class="sw-name">Ink 45</div><div class="sw-var">--ink-45</div><div class="sw-val">#8E7266</div></div></div>
+      </div>
+
+      <div class="sg-sub">Aksen &amp; Semantik</div>
+      <div class="sg-grid c4">
+        <div class="sw"><div class="sw-top" style="background:#495ECD"></div><div class="sw-meta"><div class="sw-name">Indigo</div><div class="sw-var">--indigo</div><div class="sw-val">#495ECD</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#E2E6FA"></div><div class="sw-meta"><div class="sw-name">Indigo 100</div><div class="sw-var">--indigo-100</div><div class="sw-val">#E2E6FA</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#2F8F5B"></div><div class="sw-meta"><div class="sw-name">Green (sukses)</div><div class="sw-var">--green</div><div class="sw-val">#2F8F5B</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#D98A14"></div><div class="sw-meta"><div class="sw-name">Amber (peringatan)</div><div class="sw-var">--amber</div><div class="sw-val">#D98A14</div></div></div>
+        <div class="sw"><div class="sw-top" style="background:#C0392B"></div><div class="sw-meta"><div class="sw-name">Red (bahaya)</div><div class="sw-var">--red</div><div class="sw-val">#C0392B</div></div></div>
+      </div>
+      <p class="hint">Catatan: <code>--red</code>, <code>--red-100</code> adalah tambahan untuk aplikasi (hapus pesanan, pembayaran gagal, validasi error) — tidak ada di landing page tapi mengikuti bahasa warna yang sama.</p>
+    </section>
+
+    <!-- ===================== TIPOGRAFI ===================== -->
+    <section class="sg-sec" id="type">
+      <h2>Tipografi</h2>
+      <p class="sg-note">Satu typeface: <b>Plus Jakarta Sans</b> (400/500/600/700/800). Judul memakai letter-spacing negatif dan bobot 800 agar padat dan tegas.</p>
+      <div class="demo">
+        <div class="type-row"><span class="type-meta">h1 · 800 · clamp 2–2.9rem</span><h1>Semua pesanan jahit</h1></div>
+        <div class="type-row"><span class="type-meta">h2 · 800 · clamp 1.5–2rem</span><h2>Ringkasan bisnis</h2></div>
+        <div class="type-row"><span class="type-meta">h3 · 700 · 1.12rem</span><h3>Detail pesanan TH-2041</h3></div>
+        <div class="type-row"><span class="type-meta">h4 · 700 · .97rem</span><h4>Informasi pembayaran</h4></div>
+        <div class="type-row"><span class="type-meta">.lead · 500 · 1.06rem</span><p class="lead">Teks pengantar untuk menjelaskan konteks sebuah bagian.</p></div>
+        <div class="type-row"><span class="type-meta">body · 400 · 16px</span><p>Teks isi standar dengan tinggi baris 1.6 untuk keterbacaan di layar.</p></div>
+        <div class="type-row"><span class="type-meta">.eyebrow</span><span class="eyebrow">Label Bagian</span></div>
+      </div>
+    </section>
+
+    <!-- ===================== SPASI ===================== -->
+    <section class="sg-sec" id="space">
+      <h2>Spasi &amp; Layout</h2>
+      <p class="sg-note">Skala spasi mengikuti kelipatan 4px. Untuk halaman aplikasi, konten dibungkus dalam area maksimum dan padding konsisten.</p>
+      <div class="demo">
+        <div class="stack">
+          <div><b>Container aplikasi:</b> lebar penuh di dalam <code>.shell-body</code>, padding 20–24px. Landing page memakai <code>.wrap</code> (80vw, max 1600px).</div>
+          <div><b>Skala spasi:</b> 4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 · 64px</div>
+          <div class="row">
+            <div style="width:4px;height:36px;background:var(--clay-300)"></div>
+            <div style="width:8px;height:36px;background:var(--clay-300)"></div>
+            <div style="width:12px;height:36px;background:var(--clay-300)"></div>
+            <div style="width:16px;height:36px;background:var(--clay-300)"></div>
+            <div style="width:24px;height:36px;background:var(--clay-300)"></div>
+            <div style="width:32px;height:36px;background:var(--clay-300)"></div>
+            <div style="width:48px;height:36px;background:var(--clay-300)"></div>
+            <div style="width:64px;height:36px;background:var(--clay-300)"></div>
+          </div>
+          <div><b>Grid utilitas:</b> <code>.sg-grid.c2 / .c3 / .c4</code> — gunakan pola yang sama (<code>.grid .g-2/.g-3/.g-4</code> di landing page) dengan gap 16–22px.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== RADIUS & SHADOW ===================== -->
+    <section class="sg-sec" id="radius">
+      <h2>Radius &amp; Bayangan</h2>
+      <div class="sg-sub">Border radius</div>
+      <div class="sg-grid c4">
+        <div class="box-demo" style="border-radius:var(--r-s)">--r-s · 12px</div>
+        <div class="box-demo" style="border-radius:var(--r-m)">--r-m · 18px</div>
+        <div class="box-demo" style="border-radius:var(--r-l)">--r-l · 26px</div>
+        <div class="box-demo" style="border-radius:var(--r-xl)">--r-xl · 36px</div>
+      </div>
+      <div class="sg-sub">Bayangan</div>
+      <div class="sg-grid c3">
+        <div class="shadow-demo" style="box-shadow:var(--shadow-s)">--shadow-s</div>
+        <div class="shadow-demo" style="box-shadow:var(--shadow-m)">--shadow-m</div>
+        <div class="shadow-demo" style="box-shadow:var(--shadow-l)">--shadow-l</div>
+      </div>
+      <p class="hint">Transisi standar memakai <code>--ease: cubic-bezier(.22,.61,.36,1)</code>. Hover kartu: naik 6px + ganti ke <code>--shadow-m</code>.</p>
+    </section>
+
+    <!-- ===================== IKON ===================== -->
+    <section class="sg-sec" id="icon">
+      <h2>Ikon</h2>
+      <p class="sg-note">Ikon garis (stroke) 1.8–2.2, <code>currentColor</code> agar ikut warna teks. Disediakan sebagai SVG <code>&lt;symbol&gt;</code> dan dipanggil via <code>&lt;use href="#i-nama"/&gt;</code>. Simpan setnya di <code>assets/partials/icons.svg</code>.</p>
+      <div class="demo">
+        <div class="icons">
+          <div class="ic"><svg width="24" height="24"><use href="#i-check"/></svg><span>#i-check</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-arrow"/></svg><span>#i-arrow</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-clock"/></svg><span>#i-clock</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-bell"/></svg><span>#i-bell</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-pay"/></svg><span>#i-pay</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-chart"/></svg><span>#i-chart</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-order"/></svg><span>#i-order</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-users"/></svg><span>#i-users</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-crown"/></svg><span>#i-crown</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-gear"/></svg><span>#i-gear</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-scissors"/></svg><span>#i-scissors</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-phone"/></svg><span>#i-phone</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-search"/></svg><span>#i-search</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-plus"/></svg><span>#i-plus</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-edit"/></svg><span>#i-edit</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-trash"/></svg><span>#i-trash</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-filter"/></svg><span>#i-filter</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-info"/></svg><span>#i-info</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-warn"/></svg><span>#i-warn</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-home"/></svg><span>#i-home</span></div>
+          <div class="ic"><svg width="24" height="24"><use href="#i-box"/></svg><span>#i-box</span></div>
+        </div>
+        <pre class="code">&lt;<span class="t">svg</span> <span class="a">width</span>=<span>"18"</span> <span class="a">height</span>=<span>"18"</span>&gt;&lt;<span class="t">use</span> <span class="a">href</span>=<span>"#i-order"</span>/&gt;&lt;/<span class="t">svg</span>&gt;</pre>
+      </div>
+    </section>
+
+    <!-- ===================== TOMBOL ===================== -->
+    <section class="sg-sec" id="button">
+      <h2>Tombol</h2>
+      <p class="sg-note">Tombol berbentuk pil (radius 999px). <b>Primary</b> untuk aksi utama (satu per layar), <b>ghost</b> untuk sekunder, <b>danger</b> untuk aksi merusak.</p>
+      <div class="demo demo--pad">
+        <button class="btn btn--primary">Simpan Pesanan <svg width="17" height="17"><use href="#i-arrow"/></svg></button>
+        <button class="btn btn--ghost">Batal</button>
+        <button class="btn btn--light">Ekspor</button>
+        <button class="btn btn--danger"><svg width="16" height="16"><use href="#i-trash"/></svg> Hapus</button>
+        <button class="btn btn--primary" disabled>Menyimpan…</button>
+      </div>
+      <div class="demo demo--pad">
+        <button class="btn btn--primary btn--sm">Small</button>
+        <button class="btn btn--primary">Default</button>
+        <button class="btn btn--primary btn--lg">Large</button>
+        <button class="btn btn--ghost btn--icon" aria-label="Edit"><svg width="18" height="18"><use href="#i-edit"/></svg></button>
+      </div>
+      <pre class="code">&lt;<span class="t">button</span> <span class="a">class</span>=<span>"btn btn--primary"</span>&gt;Simpan&lt;/<span class="t">button</span>&gt;
+&lt;<span class="t">button</span> <span class="a">class</span>=<span>"btn btn--ghost"</span>&gt;Batal&lt;/<span class="t">button</span>&gt;</pre>
+    </section>
+
+    <!-- ===================== FORM ===================== -->
+    <section class="sg-sec" id="form">
+      <h2>Form &amp; Input</h2>
+      <p class="sg-note">Dipakai di form pesanan, data customer, pembayaran, onboarding, dan pengaturan. Fokus memakai cincin clay. Error memakai merah.</p>
+      <div class="demo">
+        <div class="sg-grid c2">
+          <div>
+            <div class="field">
+              <label>Nama customer <span class="req">*</span></label>
+              <input class="input" type="text" placeholder="mis. Budi Santoso">
+            </div>
+            <div class="field">
+              <label>Cari pesanan</label>
+              <div class="input-group">
+                <svg width="18" height="18"><use href="#i-search"/></svg>
+                <input class="input" type="search" placeholder="Kode / nama customer">
+              </div>
+            </div>
+            <div class="field">
+              <label>Jenis pesanan</label>
+              <select class="select">
+                <option>Kemeja</option><option>Celana</option><option>Jas / Blazer</option><option>Seragam</option><option>Permak</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Email <span class="req">*</span></label>
+              <input class="input input--err" type="email" value="budi@@mail">
+              <span class="err">Format email tidak valid.</span>
+            </div>
+          </div>
+          <div>
+            <div class="field">
+              <label>Catatan / detail pesanan</label>
+              <textarea class="textarea" placeholder="Ukuran, bahan, model, dsb."></textarea>
+              <span class="help">Lampiran foto bisa ditambahkan setelah pesanan dibuat.</span>
+            </div>
+            <div class="field">
+              <label>Field nonaktif</label>
+              <input class="input" type="text" value="Terkunci" disabled>
+            </div>
+            <div class="stack" style="margin-top:6px">
+              <label class="check"><input type="checkbox" checked> Kirim notifikasi WhatsApp ke customer</label>
+              <label class="check"><input type="radio" name="bayar" checked> Bayar penuh (Lunas)</label>
+              <label class="check"><input type="radio" name="bayar"> Uang muka (DP)</label>
+              <div class="row" style="justify-content:space-between;max-width:280px">
+                <span style="font-size:.9rem;font-weight:600">Aktifkan portal tracking</span>
+                <label class="toggle"><input type="checkbox" checked></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <pre class="code">&lt;<span class="t">div</span> <span class="a">class</span>=<span>"field"</span>&gt;
+  &lt;<span class="t">label</span>&gt;Nama customer &lt;<span class="t">span</span> <span class="a">class</span>=<span>"req"</span>&gt;*&lt;/<span class="t">span</span>&gt;&lt;/<span class="t">label</span>&gt;
+  &lt;<span class="t">input</span> <span class="a">class</span>=<span>"input"</span> <span class="a">type</span>=<span>"text"</span> <span class="a">placeholder</span>=<span>"…"</span>&gt;
+&lt;/<span class="t">div</span>&gt;</pre>
+    </section>
+
+    <!-- ===================== BADGE / STATUS ===================== -->
+    <section class="sg-sec" id="badge">
+      <h2>Badge &amp; Status</h2>
+      <p class="sg-note">Chip status dipakai di tabel, kartu, dan kanban. Warna chip wajib mengikuti <a href="#status-map" style="color:var(--clay);font-weight:700">peta status pesanan</a> agar sama di semua halaman.</p>
+      <div class="demo demo--pad">
+        <span class="chip chip--queue"><span class="d"></span>Antrean</span>
+        <span class="chip chip--cut"><span class="d"></span>Pemotongan</span>
+        <span class="chip chip--sew"><span class="d"></span>Penjahitan</span>
+        <span class="chip chip--finish"><span class="d"></span>Finishing</span>
+        <span class="chip chip--qc"><span class="d"></span>QC</span>
+        <span class="chip chip--done"><span class="d"></span>Selesai</span>
+        <span class="chip chip--taken"><span class="d"></span>Diambil</span>
+      </div>
+      <div class="demo demo--pad">
+        <span class="tag" style="margin:0">Pembayaran:</span>
+        <span class="chip chip--unpaid">Belum Bayar</span>
+        <span class="chip chip--dp">DP</span>
+        <span class="chip chip--paid">Lunas</span>
+        <span class="tag" style="margin-left:14px">Lain:</span>
+        <span class="chip chip--clay">Mendekati deadline</span>
+        <span class="chip chip--danger">Lewat deadline</span>
+        <span class="chip chip--soft">Label netral</span>
+        <span class="badge-count">3</span>
+      </div>
+    </section>
+
+    <!-- ===================== KARTU / KPI ===================== -->
+    <section class="sg-sec" id="card">
+      <h2>Kartu &amp; KPI</h2>
+      <p class="sg-note">Kartu dasar untuk konten. <b>Tile</b> untuk angka ringkasan di dashboard dan laporan.</p>
+      <div class="sg-grid c4" style="margin-bottom:16px">
+        <div class="tile"><small>Pesanan aktif</small><b>128</b><div class="tile-foot"><span class="chip chip--soft">bulan ini</span><span class="delta delta--up">+12%</span></div></div>
+        <div class="tile"><small>Selesai</small><b>86</b><div class="tile-foot"><span class="chip chip--soft">bulan ini</span><span class="delta delta--up">+5%</span></div></div>
+        <div class="tile"><small>Pemasukan</small><b>Rp42,6jt</b><div class="tile-foot"><span class="chip chip--soft">bulan ini</span><span class="delta delta--warn">-3%</span></div></div>
+        <div class="tile"><small>Mendekati deadline</small><b>7</b><div class="tile-foot"><span class="chip chip--soft">3 hari</span><span class="delta delta--down">urgent</span></div></div>
+      </div>
+      <div class="sg-grid c3">
+        <div class="card card--hover">
+          <h3>Kartu dasar</h3>
+          <p style="color:var(--ink-70);font-size:.93rem;margin-top:8px">Latar <code>--paper</code>, border <code>--sand</code>, radius <code>--r-l</code>. Tambahkan <code>.card--hover</code> bila bisa diklik.</p>
+        </div>
+        <div class="card card--hover">
+          <div class="row" style="justify-content:space-between;margin-bottom:12px"><span class="chip chip--sew"><span class="d"></span>Penjahitan</span><span class="tag" style="margin:0">TH-2041</span></div>
+          <h3 style="margin-bottom:4px">Kemeja — Budi Santoso</h3>
+          <p style="color:var(--ink-45);font-size:.86rem">Deadline 25 Nov · 3 item</p>
+          <div class="bar-track" style="margin-top:14px"><div class="bar-fill" style="width:45%"></div></div>
+        </div>
+        <div class="card card--hover">
+          <div class="row"><div class="avatar avatar--indigo">AS</div><div><h4 style="margin-bottom:2px">Ani Suryani</h4><span style="font-size:.82rem;color:var(--ink-45)">Staff produksi · 14 tugas</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TABEL ===================== -->
+    <section class="sg-sec" id="table">
+      <h2>Tabel</h2>
+      <p class="sg-note">Pola utama untuk daftar pesanan, customer, pembayaran, dan laporan. Header krem, baris hover, angka rata kanan.</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Kode</th><th>Customer</th><th>Jenis</th><th>Status</th><th>Pembayaran</th><th class="num">Total</th><th>Deadline</th></tr></thead>
+          <tbody>
+            <tr><td><b>TH-2041</b></td><td>Budi Santoso</td><td>Kemeja ×3</td><td><span class="chip chip--sew"><span class="d"></span>Penjahitan</span></td><td><span class="chip chip--dp">DP</span></td><td class="num">Rp450.000</td><td>25 Nov</td></tr>
+            <tr><td><b>TH-2040</b></td><td>Citra Dewi</td><td>Jas</td><td><span class="chip chip--qc"><span class="d"></span>QC</span></td><td><span class="chip chip--paid">Lunas</span></td><td class="num">Rp1.200.000</td><td>24 Nov</td></tr>
+            <tr><td><b>TH-2039</b></td><td>PT Maju Jaya</td><td>Seragam ×40</td><td><span class="chip chip--queue"><span class="d"></span>Antrean</span></td><td><span class="chip chip--unpaid">Belum Bayar</span></td><td class="num">Rp8.000.000</td><td>02 Des</td></tr>
+            <tr><td><b>TH-2038</b></td><td>Dewi Lestari</td><td>Permak</td><td><span class="chip chip--done"><span class="d"></span>Selesai</span></td><td><span class="chip chip--paid">Lunas</span></td><td class="num">Rp75.000</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row" style="justify-content:space-between;margin-top:16px">
+        <span style="font-size:.85rem;color:var(--ink-45)">Menampilkan 1–4 dari 128</span>
+        <div class="pager">
+          <a href="#table" class="is-off">‹</a>
+          <a href="#table" class="is-on">1</a>
+          <a href="#table">2</a>
+          <a href="#table">3</a>
+          <a href="#table">…</a>
+          <a href="#table">32</a>
+          <a href="#table">›</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ALERT / TOAST ===================== -->
+    <section class="sg-sec" id="alert">
+      <h2>Alert &amp; Toast</h2>
+      <p class="sg-note">Alert menetap di dalam halaman; toast muncul sementara setelah aksi (mis. "Pesanan tersimpan").</p>
+      <div class="stack" style="margin-bottom:18px">
+        <div class="alert alert--info"><svg width="20" height="20"><use href="#i-info"/></svg><div><b>Info.</b> Portal tracking untuk tenant ini aktif di <code>namausaha.tailorhub.id</code>.</div></div>
+        <div class="alert alert--success"><svg width="20" height="20"><use href="#i-check"/></svg><div><b>Berhasil.</b> Pesanan TH-2041 berhasil disimpan dan masuk antrean.</div></div>
+        <div class="alert alert--warn"><svg width="20" height="20"><use href="#i-clock"/></svg><div><b>Perhatian.</b> 7 pesanan mendekati deadline dalam 3 hari.</div></div>
+        <div class="alert alert--error"><svg width="20" height="20"><use href="#i-warn"/></svg><div><b>Gagal.</b> Pembayaran tidak dapat diproses. Coba lagi.</div></div>
+      </div>
+      <div class="toast"><svg width="20" height="20" style="color:var(--green)"><use href="#i-check"/></svg><div><b>Tersimpan</b><small>Status pesanan diperbarui ke "Finishing".</small></div></div>
+    </section>
+
+    <!-- ===================== NAVIGASI ===================== -->
+    <section class="sg-sec" id="nav">
+      <h2>Navigasi</h2>
+      <div class="sg-sub">Tabs</div>
+      <div class="demo">
+        <div class="tabs"><a href="#nav" class="is-on">Detail</a><a href="#nav">Produksi</a><a href="#nav">Pembayaran</a><a href="#nav">Riwayat</a></div>
+      </div>
+      <div class="sg-sub">Breadcrumb</div>
+      <div class="demo">
+        <nav class="crumb"><a href="#nav">Dashboard</a><span class="sep">/</span><a href="#nav">Pesanan</a><span class="sep">/</span><b>TH-2041</b></nav>
+      </div>
+      <div class="sg-sub">Pagination</div>
+      <div class="demo demo--pad">
+        <div class="pager"><a href="#nav" class="is-off">‹</a><a href="#nav" class="is-on">1</a><a href="#nav">2</a><a href="#nav">3</a><a href="#nav">›</a></div>
+      </div>
+    </section>
+
+    <!-- ===================== AVATAR ===================== -->
+    <section class="sg-sec" id="avatar">
+      <h2>Avatar</h2>
+      <p class="sg-note">Inisial di atas latar clay/indigo. Dipakai untuk anggota tim, customer, dan assignee tugas.</p>
+      <div class="demo demo--pad">
+        <div class="avatar avatar--sm">BS</div>
+        <div class="avatar">AS</div>
+        <div class="avatar avatar--indigo">CD</div>
+        <div class="avatar avatar--lg">PM</div>
+        <div class="avatar-stack" style="margin-left:14px">
+          <div class="avatar avatar--sm">A</div><div class="avatar avatar--sm avatar--indigo">B</div><div class="avatar avatar--sm">C</div><div class="avatar avatar--sm" style="background:var(--sand);color:var(--ink-70)">+5</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MODAL ===================== -->
+    <section class="sg-sec" id="modal">
+      <h2>Modal / Dialog</h2>
+      <p class="sg-note">Untuk konfirmasi (hapus pesanan), form singkat (undang tim), atau update status. Latar gelap transparan + kartu paper.</p>
+      <div class="modal-demo">
+        <div class="modal">
+          <div class="modal-head"><h3>Hapus pesanan TH-2041?</h3></div>
+          <div class="modal-body">Tindakan ini permanen. Riwayat produksi dan data pembayaran pesanan ini akan ikut terhapus.</div>
+          <div class="modal-foot"><button class="btn btn--ghost btn--sm">Batal</button><button class="btn btn--danger btn--sm">Ya, hapus</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== KANBAN ===================== -->
+    <section class="sg-sec" id="kanban">
+      <h2>Papan Kanban Produksi</h2>
+      <p class="sg-note">Tampilan utama modul tracking produksi. Tiap kolom = satu tahap; kartu bisa dipindah antar tahap.</p>
+      <div class="kanban">
+        <div class="kcol">
+          <header><span class="kcol-dot" style="background:var(--s-queue)"></span><h4>Antrean</h4><span class="kcount">5</span></header>
+          <article class="kcard" data-stage="antrean" draggable="true">
+            <div class="kc-top"><span class="kc-code">TH-2039</span><span class="kc-type">Seragam</span></div>
+            <div class="kc-title">Seragam Kantor ×40</div>
+            <div class="kc-cust"><span class="mini">PM</span> PT Maju Jaya</div>
+            <div class="kc-steps"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="kc-stepslabel"><span>Antrean</span><span class="pct">1/7</span></div>
+            <div class="kc-foot"><span class="kc-dead">⏱ 02 Des</span><span class="chip chip--unpaid">Belum Bayar</span></div>
+          </article>
+        </div>
+        <div class="kcol">
+          <header><span class="kcol-dot" style="background:var(--s-cut)"></span><h4>Pemotongan</h4><span class="kcount">3</span></header>
+          <article class="kcard" data-stage="potong" draggable="true">
+            <div class="kc-top"><span class="kc-code">TH-2037</span><span class="kc-type">Kemeja</span></div>
+            <div class="kc-title">Kemeja Batik ×6</div>
+            <div class="kc-cust"><span class="mini">SW</span> Sari Wulandari</div>
+            <div class="kc-steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="kc-stepslabel"><span>Pemotongan</span><span class="pct">2/7</span></div>
+            <div class="kc-foot"><span class="kc-dead">⏱ 29 Nov</span><span class="kc-assignee indigo">AS</span></div>
+          </article>
+        </div>
+        <div class="kcol">
+          <header><span class="kcol-dot" style="background:var(--s-sew)"></span><h4>Penjahitan</h4><span class="kcount">4</span></header>
+          <article class="kcard" data-stage="jahit" draggable="true">
+            <div class="kc-top"><span class="kc-code">TH-2041</span><span class="kc-type">Kemeja</span></div>
+            <div class="kc-title">Kemeja Formal ×3</div>
+            <div class="kc-cust"><span class="mini">BS</span> Budi Santoso</div>
+            <div class="kc-steps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+            <div class="kc-stepslabel"><span>Penjahitan</span><span class="pct">3/7</span></div>
+            <div class="kc-foot"><span class="kc-dead is-late">⏱ Besok</span><span class="kc-assignee">AS</span></div>
+          </article>
+        </div>
+        <div class="kcol">
+          <header><span class="kcol-dot" style="background:var(--s-qc)"></span><h4>QC &amp; Selesai</h4><span class="kcount">6</span></header>
+          <article class="kcard" data-stage="qc" draggable="true">
+            <div class="kc-top"><span class="kc-code">TH-2040</span><span class="kc-type">Jas</span></div>
+            <div class="kc-title">Jas Formal ×1</div>
+            <div class="kc-cust"><span class="mini">CD</span> Citra Dewi</div>
+            <div class="kc-steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+            <div class="kc-stepslabel"><span>Quality Check</span><span class="pct">5/7</span></div>
+            <div class="kc-foot"><span class="kc-dead">⏱ 24 Nov</span><span class="chip chip--paid">Lunas</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EMPTY STATE ===================== -->
+    <section class="sg-sec" id="empty">
+      <h2>Empty State</h2>
+      <p class="sg-note">Ditampilkan saat belum ada data (pesanan pertama, hasil filter kosong, customer baru).</p>
+      <div class="demo">
+        <div class="empty">
+          <div class="empty-ic"><svg width="30" height="30"><use href="#i-order"/></svg></div>
+          <h3>Belum ada pesanan</h3>
+          <p>Mulai dengan menambahkan pesanan pertama. Pesanan akan langsung masuk ke papan produksi.</p>
+          <button class="btn btn--primary"><svg width="17" height="17"><use href="#i-plus"/></svg> Tambah Pesanan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== APP SHELL ===================== -->
+    <section class="sg-sec" id="shell">
+      <h2>App Shell (kerangka halaman aplikasi)</h2>
+      <p class="sg-note">Seluruh halaman internal (dashboard, pesanan, customer, laporan, pengaturan) memakai kerangka ini: <b>sidebar gelap</b> + <b>topbar</b> + area konten. Portal customer publik TIDAK memakai shell ini (lihat list-page).</p>
+      <div class="shell">
+        <aside class="shell-side">
+          <div class="sb-brand"><svg width="24" height="24" viewBox="0 0 40 40"><rect width="40" height="40" rx="12" fill="#C05424"/><path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/><circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg> TailorHub</div>
+          <div class="sb is-on"><svg width="18" height="18"><use href="#i-home"/></svg> Dashboard</div>
+          <div class="sb"><svg width="18" height="18"><use href="#i-order"/></svg> Pesanan</div>
+          <div class="sb"><svg width="18" height="18"><use href="#i-scissors"/></svg> Produksi</div>
+          <div class="sb"><svg width="18" height="18"><use href="#i-users"/></svg> Customer</div>
+          <div class="sb"><svg width="18" height="18"><use href="#i-pay"/></svg> Pembayaran</div>
+          <div class="sb"><svg width="18" height="18"><use href="#i-chart"/></svg> Laporan</div>
+          <div class="sb"><svg width="18" height="18"><use href="#i-gear"/></svg> Pengaturan</div>
+        </aside>
+        <div>
+          <div class="shell-top">
+            <div class="input-group"><svg width="18" height="18"><use href="#i-search"/></svg><input class="input" placeholder="Cari pesanan, customer…"></div>
+            <div style="margin-left:auto" class="row">
+              <button class="btn btn--ghost btn--icon" aria-label="Notifikasi" style="position:relative"><svg width="18" height="18"><use href="#i-bell"/></svg></button>
+              <div class="avatar avatar--sm">PM</div>
+            </div>
+          </div>
+          <div class="shell-body">
+            <nav class="crumb" style="margin-bottom:14px"><a href="#shell">Dashboard</a></nav>
+            <h3 style="margin-bottom:14px">Ringkasan Hari Ini</h3>
+            <div class="sg-grid c3">
+              <div class="tile"><small>Pesanan aktif</small><b>128</b></div>
+              <div class="tile"><small>Selesai</small><b>86</b></div>
+              <div class="tile"><small>Pemasukan</small><b>Rp42,6jt</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PETA STATUS ===================== -->
+    <section class="sg-sec" id="status-map">
+      <h2>Peta Status Pesanan (wajib konsisten)</h2>
+      <p class="sg-note">Agar 6 pengembang memakai warna yang sama, ini pemetaan resmi status → warna chip. Status produksi mengikuti FR-11 pada PRD.</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Tahap / Status</th><th>Kelas chip</th><th>Contoh</th><th>Makna</th></tr></thead>
+          <tbody>
+            <tr><td><b>Antrean</b></td><td><code>chip--queue</code></td><td><span class="chip chip--queue"><span class="d"></span>Antrean</span></td><td>Masuk sistem, belum dikerjakan</td></tr>
+            <tr><td><b>Pemotongan</b></td><td><code>chip--cut</code></td><td><span class="chip chip--cut"><span class="d"></span>Pemotongan</span></td><td>Tahap awal produksi</td></tr>
+            <tr><td><b>Penjahitan</b></td><td><code>chip--sew</code></td><td><span class="chip chip--sew"><span class="d"></span>Penjahitan</span></td><td>Sedang dikerjakan</td></tr>
+            <tr><td><b>Finishing</b></td><td><code>chip--finish</code></td><td><span class="chip chip--finish"><span class="d"></span>Finishing</span></td><td>Penyelesaian akhir</td></tr>
+            <tr><td><b>QC</b></td><td><code>chip--qc</code></td><td><span class="chip chip--qc"><span class="d"></span>QC</span></td><td>Pemeriksaan kualitas</td></tr>
+            <tr><td><b>Selesai</b></td><td><code>chip--done</code></td><td><span class="chip chip--done"><span class="d"></span>Selesai</span></td><td>Siap diambil</td></tr>
+            <tr><td><b>Diambil</b></td><td><code>chip--taken</code></td><td><span class="chip chip--taken"><span class="d"></span>Diambil</span></td><td>Pesanan tutup</td></tr>
+            <tr><td><b>Belum Bayar</b></td><td><code>chip--unpaid</code></td><td><span class="chip chip--unpaid">Belum Bayar</span></td><td>Status pembayaran</td></tr>
+            <tr><td><b>DP</b></td><td><code>chip--dp</code></td><td><span class="chip chip--dp">DP</span></td><td>Status pembayaran</td></tr>
+            <tr><td><b>Lunas</b></td><td><code>chip--paid</code></td><td><span class="chip chip--paid">Lunas</span></td><td>Status pembayaran</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert--info" style="margin-top:22px">
+        <svg width="20" height="20"><use href="#i-info"/></svg>
+        <div>Selanjutnya: lihat <code>list-page.md</code> untuk daftar seluruh halaman (dibagi 6 orang) dan <code>structure-folder.md</code> untuk struktur folder proyek.</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>
