@@ -42,24 +42,48 @@
       <p>Lengkapi informasi workshop usaha jahit Anda dalam waktu kurang dari 5 menit</p>
     </header>
 
-    <!-- Wizard Steps Indicator -->
-    <div class="steps-nav">
-      <div class="step-item is-done">
-        <div class="step-num"><svg width="14" height="14"><use href="#i-check"/></svg></div>
-        <span class="step-label">Registrasi</span>
-      </div>
-      <div class="step-item is-active">
-        <div class="step-num">2</div>
-        <span class="step-label">Profil Workshop</span>
-      </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <span class="step-label">Layanan Jahit</span>
-      </div>
-      <div class="step-item">
-        <div class="step-num">4</div>
-        <span class="step-label">Selesai</span>
-      </div>
+    <!-- Wizard Steps Indicator (Identik dengan Pipeline Timeline Landing Page) -->
+    <div style="width:100%; max-width:680px; margin:0 auto 28px; overflow-x:auto;">
+      <svg viewBox="0 0 680 115" width="100%" style="min-width:540px; display:block;" role="img" aria-label="Alur onboarding empat langkah: Registrasi, Profil Workshop, Layanan Jahit, Selesai">
+        <!-- Garis penghubung antar titik -->
+        <line x1="112" y1="36" x2="220" y2="36" stroke="#C05424" stroke-width="3" stroke-linecap="round"/>
+        <line x1="290" y1="36" x2="398" y2="36" stroke="#D8C4AC" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 6"/>
+        <line x1="452" y1="36" x2="568" y2="36" stroke="#D8C4AC" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 6"/>
+
+        <!-- Lingkaran luar putus-putus untuk langkah aktif (Langkah 2) -->
+        <circle cx="255" cy="36" r="29" fill="none" stroke="#C05424" stroke-width="2" stroke-dasharray="5 5"/>
+
+        <!-- Titik Lingkaran Langkah (Nodes) -->
+        <!-- Langkah 1: Selesai -->
+        <circle cx="85" cy="36" r="22" fill="#C05424"/>
+        <!-- Langkah 2: Sedang Berjalan -->
+        <circle cx="255" cy="36" r="22" fill="#FFF8EF" stroke="#C05424" stroke-width="2.5"/>
+        <!-- Langkah 3: Menunggu -->
+        <circle cx="425" cy="36" r="22" fill="#FDEFDF" stroke="#D8C4AC" stroke-width="2"/>
+        <!-- Langkah 4: Menunggu -->
+        <circle cx="595" cy="36" r="22" fill="#FDEFDF" stroke="#D8C4AC" stroke-width="2"/>
+
+        <!-- Teks angka dan label di dalam/bawah lingkaran -->
+        <g font-family="'Plus Jakarta Sans', system-ui, sans-serif" text-anchor="middle">
+          <text x="85" y="42" font-size="16" font-weight="800" fill="#FFF8EF">1</text>
+          <text x="255" y="42" font-size="16" font-weight="800" fill="#C05424">2</text>
+          <text x="425" y="42" font-size="16" font-weight="800" fill="#8E7266">3</text>
+          <text x="595" y="42" font-size="16" font-weight="800" fill="#8E7266">4</text>
+
+          <!-- Label Judul Langkah -->
+          <text x="85" y="78" font-size="14.5" font-weight="700" fill="#3C2418">Registrasi</text>
+          <text x="85" y="96" font-size="12" font-weight="600" fill="#2F8F5B">Selesai ✓</text>
+
+          <text x="255" y="78" font-size="14.5" font-weight="800" fill="#C05424">Profil Workshop</text>
+          <text x="255" y="96" font-size="12" font-weight="700" fill="#C05424">Sedang berjalan</text>
+
+          <text x="425" y="78" font-size="14.5" font-weight="700" fill="#6B4A3A">Layanan Jahit</text>
+          <text x="425" y="96" font-size="12" font-weight="500" fill="#8E7266">Tahap 3</text>
+
+          <text x="595" y="78" font-size="14.5" font-weight="700" fill="#6B4A3A">Selesai</text>
+          <text x="595" y="96" font-size="12" font-weight="500" fill="#8E7266">Buka dashboard</text>
+        </g>
+      </svg>
     </div>
 
     <div class="auth-card" style="padding: 36px 32px;">
