@@ -79,7 +79,7 @@
         <input type="search" placeholder="Cari nama pelanggan, nomor WhatsApp...">
       </div>
       <div class="top-actions">
-        <a href="../notifications/index.html" class="icon-btn"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
         <a href="../../account/profile.html" class="top-avatar">PM</a>
       </div>
     </header>
@@ -125,6 +125,35 @@
         </div>
       </section>
 
+      <!-- Toolbar Filter -->
+      <section class="prod-toolbar" aria-label="Filter customer">
+        <div class="field">
+          <div class="input-group">
+            <svg width="17" height="17"><use href="#i-search"/></svg>
+            <input type="search" id="customerSearch" class="input" placeholder="Cari nama customer, nomor WhatsApp, atau email…">
+          </div>
+        </div>
+
+        <div class="field">
+          <select id="filterCategory" class="select" aria-label="Filter kategori customer">
+            <option value="">Semua Kategori</option>
+            <option value="vip">VIP Member</option>
+            <option value="regular">Reguler</option>
+            <option value="corporate">Konveksi / Korporat</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <select id="filterSort" class="select" aria-label="Urutkan daftar customer">
+            <option value="latest">Urut: Pesanan Terbaru</option>
+            <option value="most">Urut: Pesanan Terbanyak</option>
+            <option value="value">Urut: Transaksi Tertinggi</option>
+          </select>
+        </div>
+
+        <button type="button" id="filterReset" class="btn btn--ghost btn--sm" onclick="document.getElementById('customerSearch').value='';document.getElementById('filterCategory').selectedIndex=0;document.getElementById('filterSort').selectedIndex=0;">Reset</button>
+      </section>
+
       <!-- TABEL DATABASE CUSTOMER -->
       <div class="table-wrap">
         <table class="table">
@@ -141,27 +170,27 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr data-category="vip" data-orders="4" data-spending="3950000">
               <td>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span class="avatar avatar--sm">HG</span>
+                  <span class="avatar avatar--sm">HW</span>
                   <div>
-                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Hendra Gunawan</a>
+                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Hendra Wibowo</a>
                     <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Jan 2025</div>
                   </div>
                 </div>
               </td>
               <td>
                 <div style="font-weight:700;color:var(--ink);">0812-9876-5432</div>
-                <div style="font-size:.74rem;color:var(--ink-45);">hendra.gunawan@email.com</div>
+                <div style="font-size:.74rem;color:var(--ink-45);">hendra.wibowo@email.com</div>
               </td>
               <td>Jakarta Selatan</td>
               <td><span class="chip chip--clay">VIP Member</span></td>
-              <td class="num"><b>7 Pesanan</b></td>
-              <td class="num"><b>Rp 4.250.000</b></td>
+              <td class="num"><b>4 Pesanan</b></td>
+              <td class="num"><b>Rp 3.950.000</b></td>
               <td>
-                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">ORD-2026-0089</a>
-                <div style="font-size:.74rem;color:var(--ink-45);">20 Nov 2026</div>
+                <a href="../orders/detail.html" style="font-weight:700;color:var(--red);">TH-2033</a>
+                <div style="font-size:.74rem;color:var(--ink-45);">10 Nov 2026</div>
               </td>
               <td style="text-align:right;white-space:nowrap;">
                 <a href="detail.html" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a>
@@ -169,27 +198,27 @@
               </td>
             </tr>
 
-            <tr>
+            <tr data-category="vip" data-orders="4" data-spending="2800000">
               <td>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span class="avatar avatar--sm" style="background:var(--indigo-100);color:var(--indigo);">NA</span>
+                  <span class="avatar avatar--sm" style="background:var(--clay-100);color:var(--clay-700);">BS</span>
                   <div>
-                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Nurul Aisyah</a>
-                    <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Mar 2025</div>
+                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Budi Santoso</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Feb 2025</div>
                   </div>
                 </div>
               </td>
               <td>
-                <div style="font-weight:700;color:var(--ink);">0857-1122-3344</div>
-                <div style="font-size:.74rem;color:var(--ink-45);">nurul.aisyah@email.com</div>
+                <div style="font-weight:700;color:var(--ink);">0813-2345-6789</div>
+                <div style="font-size:.74rem;color:var(--ink-45);">budi.santoso@email.com</div>
               </td>
-              <td>Tangerang Selatan</td>
-              <td><span class="chip chip--soft">Reguler</span></td>
-              <td class="num"><b>3 Pesanan</b></td>
-              <td class="num"><b>Rp 2.100.000</b></td>
+              <td>Jakarta Pusat</td>
+              <td><span class="chip chip--clay">VIP Prioritas</span></td>
+              <td class="num"><b>4 Pesanan</b></td>
+              <td class="num"><b>Rp 2.800.000</b></td>
               <td>
-                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">ORD-2026-0088</a>
-                <div style="font-size:.74rem;color:var(--ink-45);">19 Nov 2026</div>
+                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">TH-2041</a>
+                <div style="font-size:.74rem;color:var(--ink-45);">16 Nov 2026</div>
               </td>
               <td style="text-align:right;white-space:nowrap;">
                 <a href="detail.html" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a>
@@ -197,27 +226,27 @@
               </td>
             </tr>
 
-            <tr>
+            <tr data-category="regular" data-orders="5" data-spending="3400000">
               <td>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span class="avatar avatar--sm">BW</span>
+                  <span class="avatar avatar--sm" style="background:var(--indigo-100);color:var(--indigo);">CD</span>
                   <div>
-                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Bambang Wijaya</a>
-                    <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Okt 2026</div>
+                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Citra Dewi</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Apr 2025</div>
                   </div>
                 </div>
               </td>
               <td>
-                <div style="font-weight:700;color:var(--ink);">0813-4455-6677</div>
-                <div style="font-size:.74rem;color:var(--ink-45);">bambang.w@corp.co.id</div>
+                <div style="font-weight:700;color:var(--ink);">0818-3456-7890</div>
+                <div style="font-size:.74rem;color:var(--ink-45);">citra.dewi@email.com</div>
               </td>
-              <td>Depok</td>
+              <td>Jakarta Selatan</td>
               <td><span class="chip chip--soft">Reguler</span></td>
-              <td class="num"><b>1 Pesanan</b></td>
-              <td class="num"><b>Rp 700.000</b></td>
+              <td class="num"><b>5 Pesanan</b></td>
+              <td class="num"><b>Rp 3.400.000</b></td>
               <td>
-                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">ORD-2026-0087</a>
-                <div style="font-size:.74rem;color:var(--ink-45);">19 Nov 2026</div>
+                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">TH-2040</a>
+                <div style="font-size:.74rem;color:var(--ink-45);">15 Nov 2026</div>
               </td>
               <td style="text-align:right;white-space:nowrap;">
                 <a href="detail.html" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a>
@@ -225,32 +254,147 @@
               </td>
             </tr>
 
-            <tr>
+            <tr data-category="corporate" data-orders="4" data-spending="18500000">
               <td>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <span class="avatar avatar--sm" style="background:#FDE8E6;color:var(--red);">DY</span>
+                  <span class="avatar avatar--sm" style="background:var(--red-100);color:var(--red);">PM</span>
                   <div>
-                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Denny Yanuar (PT Mega Kreasi)</a>
+                    <a href="detail.html" style="font-weight:800;color:var(--ink);">PT Maju Jaya (Denny Yanuar)</a>
                     <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Jun 2025</div>
                   </div>
                 </div>
               </td>
               <td>
                 <div style="font-weight:700;color:var(--ink);">0812-3344-9900</div>
-                <div style="font-size:.74rem;color:var(--ink-45);">procurement@megakreasi.com</div>
+                <div style="font-size:.74rem;color:var(--ink-45);">procurement@majujaya.co.id</div>
               </td>
-              <td>Bekasi Barat</td>
-              <td><span class="chip chip--cut">Konveksi Korporat</span></td>
+              <td>Jakarta Barat</td>
+              <td><span class="chip chip--clay">Konveksi Korporat</span></td>
               <td class="num"><b>4 Pesanan</b></td>
-              <td class="num"><b>Rp 12.800.000</b></td>
+              <td class="num"><b>Rp 18.500.000</b></td>
               <td>
-                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">ORD-2026-0074</a>
-                <div style="font-size:.74rem;color:var(--ink-45);">10 Nov 2026</div>
+                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">TH-2045</a>
+                <div style="font-size:.74rem;color:var(--ink-45);">22 Nov 2026</div>
               </td>
               <td style="text-align:right;white-space:nowrap;">
                 <a href="detail.html" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a>
                 <a href="../orders/create.html?customer_id=4" class="btn btn--primary btn--sm">+ Order</a>
               </td>
+            </tr>
+
+            <tr data-category="regular" data-orders="3" data-spending="2100000">
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span class="avatar avatar--sm" style="background:var(--indigo-100);color:var(--indigo);">NL</span>
+                  <div>
+                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Nurul Laila</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Mar 2025</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div style="font-weight:700;color:var(--ink);">0857-1122-3344</div>
+                <div style="font-size:.74rem;color:var(--ink-45);">nurul.laila@email.com</div>
+              </td>
+              <td>Tangerang Selatan</td>
+              <td><span class="chip chip--soft">Reguler</span></td>
+              <td class="num"><b>3 Pesanan</b></td>
+              <td class="num"><b>Rp 2.100.000</b></td>
+              <td>
+                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">TH-2038</a>
+                <div style="font-size:.74rem;color:var(--ink-45);">14 Nov 2026</div>
+              </td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a>
+                <a href="../orders/create.html?customer_id=5" class="btn btn--primary btn--sm">+ Order</a>
+              </td>
+            </tr>
+
+            <tr data-category="regular" data-orders="2" data-spending="1950000">
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span class="avatar avatar--sm" style="background:var(--clay-100);color:var(--clay-700);">SW</span>
+                  <div>
+                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Sari Wulandari</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Jul 2025</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div style="font-weight:700;color:var(--ink);">0857-8899-0011</div>
+                <div style="font-size:.74rem;color:var(--ink-45);">sari.w@email.com</div>
+              </td>
+              <td>Depok</td>
+              <td><span class="chip chip--soft">Reguler</span></td>
+              <td class="num"><b>2 Pesanan</b></td>
+              <td class="num"><b>Rp 1.950.000</b></td>
+              <td>
+                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">TH-2037</a>
+                <div style="font-size:.74rem;color:var(--ink-45);">13 Nov 2026</div>
+              </td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a>
+                <a href="../orders/create.html?customer_id=6" class="btn btn--primary btn--sm">+ Order</a>
+              </td>
+            </tr>
+
+            <tr data-category="regular" data-orders="2" data-spending="1200000">
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span class="avatar avatar--sm" style="background:var(--sand);color:var(--ink-900);">RD</span>
+                  <div>
+                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Rudi Darmawan</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Agu 2025</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div style="font-weight:700;color:var(--ink);">0812-5566-7788</div>
+                <div style="font-size:.74rem;color:var(--ink-45);">rudi.darmawan@email.com</div>
+              </td>
+              <td>Bekasi</td>
+              <td><span class="chip chip--soft">Reguler</span></td>
+              <td class="num"><b>2 Pesanan</b></td>
+              <td class="num"><b>Rp 1.200.000</b></td>
+              <td>
+                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">TH-2044</a>
+                <div style="font-size:.74rem;color:var(--ink-45);">21 Nov 2026</div>
+              </td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a>
+                <a href="../orders/create.html?customer_id=7" class="btn btn--primary btn--sm">+ Order</a>
+              </td>
+            </tr>
+
+            <tr data-category="regular" data-orders="6" data-spending="5600000">
+              <td>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span class="avatar avatar--sm" style="background:var(--sand);color:var(--ink-900);">IR</span>
+                  <div>
+                    <a href="detail.html" style="font-weight:800;color:var(--ink);">Ibu Ratna</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">Member sejak Jan 2025</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div style="font-weight:700;color:var(--ink);">0813-9900-1122</div>
+                <div style="font-size:.74rem;color:var(--ink-45);">ratna.kebaya@email.com</div>
+              </td>
+              <td>Jakarta Timur</td>
+              <td><span class="chip chip--soft">Reguler</span></td>
+              <td class="num"><b>6 Pesanan</b></td>
+              <td class="num"><b>Rp 5.600.000</b></td>
+              <td>
+                <a href="../orders/detail.html" style="font-weight:700;color:var(--clay);">TH-2026</a>
+                <div style="font-size:.74rem;color:var(--ink-45);">05 Nov 2026</div>
+              </td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a>
+                <a href="../orders/create.html?customer_id=8" class="btn btn--primary btn--sm">+ Order</a>
+              </td>
+            </tr>
+            <tr id="noCustomerRow" style="display:none;">
+              <td colspan="8" style="text-align:center;padding:36px;color:var(--ink-45);">Tidak ada pelanggan yang cocok dengan kriteria filter.</td>
             </tr>
           </tbody>
         </table>
@@ -258,18 +402,134 @@
 
       <!-- Pagination Footer -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;">
-        <span style="font-size:.86rem;color:var(--ink-45);">Menampilkan <b>1–4</b> dari <b>86</b> pelanggan</span>
-        <div class="pager">
-          <a href="#" class="is-off">‹</a>
-          <a href="#" class="is-on">1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">›</a>
-        </div>
+        <span style="font-size:.86rem;color:var(--ink-45);">Menampilkan <b id="customerRange">1–5</b> dari <b id="customerCount">8</b> pelanggan</span>
+        <div class="pager" id="customerPager"></div>
       </div>
     </main>
   </div>
 </div>
 
+<script>
+(function() {
+  'use strict';
+  var PER_PAGE = 5;
+  var currentPage = 1;
+
+  var searchInput = document.getElementById('customerSearch');
+  var topSearch = document.querySelector('.top .search input');
+  var categorySelect = document.getElementById('filterCategory');
+  var sortSelect = document.getElementById('filterSort');
+  var resetBtn = document.getElementById('filterReset');
+  var tbody = document.querySelector('.table tbody');
+  var counter = document.getElementById('customerCount');
+  var rangeText = document.getElementById('customerRange');
+  var pager = document.getElementById('customerPager');
+  var emptyRow = document.getElementById('noCustomerRow');
+
+  function getRows() {
+    return Array.from(tbody.querySelectorAll('tr:not(#noCustomerRow)'));
+  }
+
+  // simpan urutan awal supaya "Pesanan Terbaru" bisa dipulihkan setelah sort lain
+  getRows().forEach(function(r, i) { r.setAttribute('data-idx', i); });
+
+  function num(row, attr) {
+    return parseInt(row.getAttribute(attr), 10) || 0;
+  }
+
+  function render() {
+    var q = ((searchInput && searchInput.value) || '').toLowerCase().trim();
+    var cat = (categorySelect && categorySelect.value) || '';
+    var sortVal = (sortSelect && sortSelect.value) || 'latest';
+    var rows = getRows();
+
+    // 1. filter
+    var matched = rows.filter(function(row) {
+      var matchQ = !q || row.textContent.toLowerCase().indexOf(q) !== -1;
+      var matchCat = !cat || (row.getAttribute('data-category') || '') === cat;
+      return matchQ && matchCat;
+    });
+
+    // 2. sort
+    matched.sort(function(a, b) {
+      if (sortVal === 'most')  return num(b, 'data-orders') - num(a, 'data-orders');
+      if (sortVal === 'value') return num(b, 'data-spending') - num(a, 'data-spending');
+      return num(a, 'data-idx') - num(b, 'data-idx');
+    });
+    matched.forEach(function(r) { tbody.appendChild(r); });
+
+    // 3. paginasi
+    var total = matched.length;
+    var totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    var start = (currentPage - 1) * PER_PAGE;
+    var end = Math.min(start + PER_PAGE, total);
+
+    rows.forEach(function(r) { r.style.display = 'none'; });
+    matched.slice(start, end).forEach(function(r) { r.style.display = ''; });
+
+    if (emptyRow) {
+      emptyRow.style.display = total === 0 ? '' : 'none';
+      tbody.appendChild(emptyRow);
+    }
+    if (counter) counter.textContent = total;
+    if (rangeText) rangeText.textContent = total === 0 ? '0' : (start + 1) + '–' + end;
+    renderPager(totalPages);
+  }
+
+  function renderPager(totalPages) {
+    if (!pager) return;
+    pager.innerHTML = '';
+    pager.style.display = totalPages <= 1 ? 'none' : '';
+
+    function add(label, page, cls, aria) {
+      var a = document.createElement('a');
+      a.href = '#';
+      a.textContent = label;
+      if (cls) a.className = cls;
+      if (aria) a.setAttribute('aria-label', aria);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (cls && cls.indexOf('is-off') !== -1) return;
+        currentPage = page;
+        render();
+      });
+      pager.appendChild(a);
+    }
+
+    add('‹', currentPage - 1, currentPage === 1 ? 'is-off' : '', 'Sebelumnya');
+    for (var i = 1; i <= totalPages; i++) {
+      add(String(i), i, i === currentPage ? 'is-on' : '', 'Halaman ' + i);
+    }
+    add('›', currentPage + 1, currentPage === totalPages ? 'is-off' : '', 'Berikutnya');
+  }
+
+  function onFilterChange() {
+    currentPage = 1;
+    render();
+  }
+
+  if (searchInput) searchInput.addEventListener('input', onFilterChange);
+  if (topSearch) {
+    topSearch.addEventListener('input', function() {
+      if (searchInput) searchInput.value = this.value;
+      onFilterChange();
+    });
+  }
+  if (categorySelect) categorySelect.addEventListener('change', onFilterChange);
+  if (sortSelect) sortSelect.addEventListener('change', onFilterChange);
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function() {
+      if (searchInput) searchInput.value = '';
+      if (topSearch) topSearch.value = '';
+      if (categorySelect) categorySelect.value = '';
+      if (sortSelect) sortSelect.value = 'latest';
+      onFilterChange();
+    });
+  }
+
+  render();
+})();
+</script>
 </body>
 </html>
