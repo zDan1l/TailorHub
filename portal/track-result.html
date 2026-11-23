@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progres Pesanan — Jahit Lestari · TailorHub</title>
+<meta name="description" content="Pantau progres jahitan Anda secara real-time mulai dari antrean hingga siap diambil di Jahit Lestari.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/portal.css">
+</head>
+<body class="portal-page">
+
+<!-- Inline SVG Sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+</defs></svg>
+
+<header class="portal-header">
+  <div class="portal-header-in">
+    <a href="landing.html" class="portal-brand" title="Beranda Portal Jahit Lestari">
+      <span class="portal-brand-mark" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-scissors"/></svg>
+      </span>
+      <span class="portal-brand-text">
+        <b>Jahit Lestari</b>
+        <small>Portal Pelanggan</small>
+      </span>
+    </a>
+
+    <nav class="portal-nav" aria-label="Navigasi Portal">
+      <a href="track.html" class="portal-nav-link">
+        <svg width="16" height="16"><use href="#i-search"/></svg>
+        <span>Lacak Lain</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="portal-shell">
+  <div class="portal-back-row">
+    <a href="track.html" class="portal-back-link">
+      <svg width="16" height="16" style="transform:rotate(180deg)"><use href="#i-arrow"/></svg>
+      <span>Cari Kode Pesanan Lain</span>
+    </a>
+    <a href="landing.html" class="portal-back-link" style="color:var(--ink-70)">Beranda Toko</a>
+  </div>
+
+  <!-- Tampilan Saat Kode Tidak Ditemukan -->
+  <section id="notFoundView" class="portal-empty" hidden>
+    <div class="empty-ic" style="margin:0 auto 14px">
+      <svg width="28" height="28"><use href="#i-warn"/></svg>
+    </div>
+    <h3>Kode Pesanan Tidak Ditemukan</h3>
+    <p id="notFoundText">Kode pesanan yang Anda masukkan belum terdaftar di sistem Jahit Lestari.</p>
+    <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+      <a href="track.html" class="btn btn--primary">
+        <svg width="17" height="17"><use href="#i-search"/></svg>
+        <span>Cari Kode Lain</span>
+      </a>
+      <a id="waNotFoundBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">
+        <svg width="17" height="17"><use href="#i-phone"/></svg>
+        <span>Tanya WhatsApp CS</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Tampilan Hasil Pelacakan -->
+  <div id="resultView">
+    <section class="result-summary" aria-labelledby="orderTitle">
+      <div class="result-top">
+        <div>
+          <span class="result-code" id="orderCodeBadge">TH-2041</span>
+          <h1 id="orderTitle">Kemeja Formal ×3</h1>
+          <p class="result-customer" id="orderCustomer">Pelanggan: Budi Santoso · Jahit Lestari</p>
+        </div>
+      </div>
+
+      <div class="result-chips" id="resultChips"></div>
+
+      <div class="result-progress-wrap">
+        <div class="result-progress-head">
+          <span id="progressStepText">Tahap 3 dari 7</span>
+          <span id="progressPctText">43%</span>
+        </div>
+        <div class="bar-track" aria-hidden="true">
+          <div class="bar-fill" id="progressBarFill" style="width:43%"></div>
+        </div>
+      </div>
+
+      <div class="result-meta-grid">
+        <div class="result-meta-item">
+          <small>Detail Pesanan</small>
+          <b id="metaQty">3 Pcs (M, L, L) · Poplin Jepang</b>
+        </div>
+        <div class="result-meta-item">
+          <small>Pembaruan Terakhir</small>
+          <b id="metaUpdated">23 Nov 2026 · 13:15 WIB</b>
+        </div>
+      </div>
+
+      <div class="result-note-box">
+        <small>Catatan Pengerjaan</small>
+        <span id="orderNote">Bagian badan utama sudah dijahit, saat ini masuk pemasangan lengan dan kerah.</span>
+      </div>
+    </section>
+
+    <section class="p-stepper-card" aria-labelledby="stepperHeading">
+      <div class="p-stepper-head">
+        <h2 id="stepperHeading">Tahapan Pengerjaan (7 Langkah)</h2>
+        <span class="chip chip--soft"><span class="d"></span><span id="stepperCountChip">3/7 Tahap</span></span>
+      </div>
+      <ol class="p-stepper" id="orderStepper"></ol>
+    </section>
+
+    <section class="wa-help-card" aria-label="Bantuan Pelanggan">
+      <h3>Ada pertanyaan tentang pesanan ini?</h3>
+      <p>Hubungi admin atau penjahit Jahit Lestari untuk konsultasi ukuran, jadwal fitting, atau pengambilan busana.</p>
+      <div class="wa-help-actions">
+        <a id="waHelpBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+          <svg width="17" height="17"><use href="#i-phone"/></svg>
+          <span>Hubungi WhatsApp CS</span>
+        </a>
+        <a href="track.html" class="btn btn--ghost">
+          <svg width="17" height="17"><use href="#i-search"/></svg>
+          <span>Lacak Pesanan Lain</span>
+        </a>
+      </div>
+    </section>
+
+    <p class="portal-subtle-link">
+      Punya beberapa pesanan? <a href="customer-login.html">Lihat di Akun Pelanggan</a>
+    </p>
+  </div>
+</main>
+
+<footer class="portal-footer">
+  <div class="portal-footer-in">
+    <span><b>Jahit Lestari</b> · Jl. Dharmawangsa No. 48, Surabaya · Senin–Sabtu 08.00–17.00 WIB</span>
+    <div class="portal-footer-links">
+      <a href="landing.html">Beranda</a>
+      <a href="track.html">Lacak Pesanan</a>
+      <a id="waFooterLink" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">WhatsApp CS</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/portal.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var portal = window.TailorPortal;
+  if (!portal) return;
+
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+
+  function createCheckSvg() {
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('width', '15');
+    svg.setAttribute('height', '15');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2.8');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    var path = document.createElementNS(SVG_NS, 'path');
+    path.setAttribute('d', 'm5 12.6 4.4 4.4L19 6.8');
+    svg.appendChild(path);
+    return svg;
+  }
+
+  function activeBadgeLabel(step) {
+    if (step === 6) return 'Siap Diambil';
+    if (step === 7) return 'Selesai & Diambil';
+    return 'Sedang Dikerjakan';
+  }
+
+  function activeBadgeClass(step) {
+    if (step === 6) return 'chip--done';
+    if (step === 7) return 'chip--taken';
+    return 'chip--clay';
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var rawCode = params.get('code');
+  var hasQueryCode = rawCode !== null && String(rawCode).trim() !== '';
+  var lookupCode = hasQueryCode ? rawCode : 'TH-2041';
+  var order = portal.findOrder(lookupCode);
+
+  var notFoundView = document.getElementById('notFoundView');
+  var resultView = document.getElementById('resultView');
+  var waFooter = document.getElementById('waFooterLink');
+  if (waFooter) waFooter.href = portal.buildWaUrl(order ? order.code : '');
+
+  if (!order) {
+    resultView.hidden = true;
+    notFoundView.hidden = false;
+    var clean = portal.normalizeCode(rawCode);
+    var nfText = document.getElementById('notFoundText');
+    if (nfText && clean) {
+      nfText.textContent = 'Pesanan berkode "' + clean + '" belum ditemukan. Periksa ulang kode pada nota cetak atau hubungi admin kami.';
+    }
+    var waNf = document.getElementById('waNotFoundBtn');
+    if (waNf) waNf.href = portal.buildWaUrl(clean);
+    document.title = 'Pesanan Tidak Ditemukan — Jahit Lestari · TailorHub';
+    return;
+  }
+
+  notFoundView.hidden = true;
+  resultView.hidden = false;
+  document.title = 'Progres ' + order.code + ' — ' + portal.TENANT.name + ' · TailorHub';
+
+  document.getElementById('orderCodeBadge').textContent = order.code;
+  document.getElementById('orderTitle').textContent = order.title;
+  document.getElementById('orderCustomer').textContent = 'Pelanggan: ' + order.customer + ' · ' + portal.TENANT.name;
+
+  var chipsWrap = document.getElementById('resultChips');
+  chipsWrap.textContent = '';
+  chipsWrap.appendChild(portal.createChip(order.stageClass, order.stageLabel));
+  chipsWrap.appendChild(portal.createChip(order.payClass, 'Bayar: ' + order.payLabel));
+  chipsWrap.appendChild(portal.createChip(order.deadlineClass, order.estimateLabel));
+
+  var pct = Math.round((order.step / portal.STAGES.length) * 100);
+  document.getElementById('progressStepText').textContent = 'Tahap ' + order.step + ' dari ' + portal.STAGES.length;
+  document.getElementById('progressPctText').textContent = pct + '%';
+  document.getElementById('progressBarFill').style.width = pct + '%';
+  document.getElementById('stepperCountChip').textContent = order.step + '/' + portal.STAGES.length + ' Tahap';
+
+  document.getElementById('metaQty').textContent = order.qty;
+  document.getElementById('metaUpdated').textContent = order.lastUpdate;
+  document.getElementById('orderNote').textContent = order.customerNote;
+
+  var waHelp = document.getElementById('waHelpBtn');
+  if (waHelp) waHelp.href = portal.buildWaUrl(order.code);
+
+  // Render 7-stage visual stepper secara aman (DOM API)
+  var stepperEl = document.getElementById('orderStepper');
+  stepperEl.textContent = '';
+
+  portal.STAGES.forEach(function (stage) {
+    var isDone = stage.step < order.step;
+    var isActive = stage.step === order.step;
+
+    var li = document.createElement('li');
+    li.className = 'p-step ' + (isDone ? 'is-done' : (isActive ? 'is-active' : 'is-pending'));
+    if (isActive) {
+      li.setAttribute('aria-current', 'step');
+    }
+
+    var rail = document.createElement('div');
+    rail.className = 'p-step-rail';
+    rail.setAttribute('aria-hidden', 'true');
+
+    var dot = document.createElement('span');
+    dot.className = 'p-step-dot';
+    if (isDone || (isActive && stage.step === 7)) {
+      dot.appendChild(createCheckSvg());
+    } else {
+      dot.textContent = String(stage.step);
+    }
+
+    var line = document.createElement('span');
+    line.className = 'p-step-line';
+
+    rail.appendChild(dot);
+    rail.appendChild(line);
+
+    var body = document.createElement('div');
+    body.className = 'p-step-body';
+
+    var titleRow = document.createElement('div');
+    titleRow.className = 'p-step-title-row';
+
+    var title = document.createElement('b');
+    title.className = 'p-step-title';
+    title.textContent = stage.step + '. ' + stage.label;
+    titleRow.appendChild(title);
+
+    var stepTime = order.stepTimes && order.stepTimes[stage.step] ? order.stepTimes[stage.step] : '';
+
+    if (isActive) {
+      var badge = portal.createChip(activeBadgeClass(stage.step) + ' p-step-badge', activeBadgeLabel(stage.step));
+      titleRow.appendChild(badge);
+    } else if (isDone) {
+      var doneTime = document.createElement('span');
+      doneTime.className = 'p-step-time';
+      doneTime.textContent = stepTime || 'Selesai';
+      titleRow.appendChild(doneTime);
+    } else {
+      var waitLabel = document.createElement('span');
+      waitLabel.className = 'p-step-time';
+      waitLabel.textContent = 'Menunggu giliran';
+      titleRow.appendChild(waitLabel);
+    }
+
+    var desc = document.createElement('p');
+    desc.className = 'p-step-desc';
+    if (isActive) {
+      desc.textContent = stage.customerDesc + (stepTime ? ' (Diperbarui ' + stepTime + ')' : '');
+    } else if (isDone) {
+      desc.textContent = stage.customerDesc;
+    } else {
+      desc.textContent = stage.customerDesc;
+    }
+
+    body.appendChild(titleRow);
+    body.appendChild(desc);
+
+    li.appendChild(rail);
+    li.appendChild(body);
+    stepperEl.appendChild(li);
+  });
+})();
+</script>
+</body>
+</html>
