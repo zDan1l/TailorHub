@@ -153,7 +153,7 @@
           </a>
           <a href="deadline-alerts.html" class="btn btn--ghost">
             <svg width="17" height="17"><use href="#i-clock"/></svg>
-            <span>Pantau Deadline</span>
+            <span>Pantau Deadline (2)</span>
           </a>
           <a href="update-status.html" class="btn btn--primary">
             <svg width="17" height="17"><use href="#i-scissors"/></svg>
@@ -348,6 +348,31 @@
                 </td>
               </tr>
 
+              <tr data-stage="qc" data-staff="MB" data-pay="dp">
+                <td>
+                  <a href="detail.html?code=TH-2042" style="color:var(--clay)"><b>TH-2042</b></a>
+                  <div style="font-size:.8rem;color:var(--ink-45)">Blazer Kerja ×2</div>
+                </td>
+                <td>
+                  <div class="cust-cell"><span class="mini">IM</span><span>Ibu Maya</span></div>
+                </td>
+                <td>
+                  <span class="chip chip--qc"><span class="d"></span>QC</span>
+                  <span style="font-size:.76rem;color:var(--ink-45);font-weight:700;margin-left:6px">5/7</span>
+                </td>
+                <td>
+                  <div class="staff-cell"><span class="avatar avatar--sm avatar--indigo">MB</span><span>Mas Budi</span></div>
+                </td>
+                <td><span class="chip chip--dp"><span class="d"></span>DP</span></td>
+                <td>27 Nov 2026</td>
+                <td>
+                  <div class="row-actions">
+                    <a href="detail.html?code=TH-2042" class="btn btn--ghost btn--sm">Detail</a>
+                    <a href="update-status.html?code=TH-2042" class="btn btn--primary btn--sm">Update</a>
+                  </div>
+                </td>
+              </tr>
+
               <tr data-stage="antrean" data-staff="" data-pay="dp">
                 <td>
                   <a href="detail.html?code=TH-2044" style="color:var(--clay)"><b>TH-2044</b></a>
@@ -423,6 +448,31 @@
                 </td>
               </tr>
 
+              <tr data-stage="potong" data-staff="RN" data-pay="dp">
+                <td>
+                  <a href="detail.html?code=TH-2043" style="color:var(--clay)"><b>TH-2043</b></a>
+                  <div style="font-size:.8rem;color:var(--ink-45)">Kaos Komunitas ×30</div>
+                </td>
+                <td>
+                  <div class="cust-cell"><span class="mini">KL</span><span>Komunitas Lari Sby</span></div>
+                </td>
+                <td>
+                  <span class="chip chip--cut"><span class="d"></span>Pemotongan</span>
+                  <span style="font-size:.76rem;color:var(--ink-45);font-weight:700;margin-left:6px">2/7</span>
+                </td>
+                <td>
+                  <div class="staff-cell"><span class="avatar avatar--sm">RN</span><span>Rina N.</span></div>
+                </td>
+                <td><span class="chip chip--dp"><span class="d"></span>DP</span></td>
+                <td>01 Des 2026</td>
+                <td>
+                  <div class="row-actions">
+                    <a href="detail.html?code=TH-2043" class="btn btn--ghost btn--sm">Detail</a>
+                    <a href="update-status.html?code=TH-2043" class="btn btn--primary btn--sm">Update</a>
+                  </div>
+                </td>
+              </tr>
+
               <tr data-stage="antrean" data-staff="" data-pay="unpaid">
                 <td>
                   <a href="detail.html?code=TH-2045" style="color:var(--clay)"><b>TH-2045</b></a>
@@ -473,6 +523,31 @@
                 </td>
               </tr>
 
+              <tr data-stage="diambil" data-staff="RN" data-pay="paid">
+                <td>
+                  <a href="detail.html?code=TH-2026" style="color:var(--clay)"><b>TH-2026</b></a>
+                  <div style="font-size:.8rem;color:var(--ink-45)">Kebaya Wisuda ×1</div>
+                </td>
+                <td>
+                  <div class="cust-cell"><span class="mini">IR</span><span>Ibu Ratna</span></div>
+                </td>
+                <td>
+                  <span class="chip chip--taken"><span class="d"></span>Diambil</span>
+                  <span style="font-size:.76rem;color:var(--ink-45);font-weight:700;margin-left:6px">7/7</span>
+                </td>
+                <td>
+                  <div class="staff-cell"><span class="avatar avatar--sm">RN</span><span>Rina N.</span></div>
+                </td>
+                <td><span class="chip chip--paid"><span class="d"></span>Lunas</span></td>
+                <td>Diambil 20 Nov</td>
+                <td>
+                  <div class="row-actions">
+                    <a href="detail.html?code=TH-2026" class="btn btn--ghost btn--sm">Detail</a>
+                    <a href="update-status.html?code=TH-2026" class="btn btn--primary btn--sm">Update</a>
+                  </div>
+                </td>
+              </tr>
+
               <tr id="emptyRow" hidden>
                 <td colspan="7">
                   <div class="empty" style="padding:32px 16px;">
@@ -487,11 +562,12 @@
         </div>
 
         <div class="table-foot">
-          <span id="tableInfo">Menampilkan 1–9 dari 9 pesanan aktif</span>
-          <nav class="pager" aria-label="Navigasi halaman tabel">
+          <span id="tableInfo">Menampilkan 1–10 dari 12 pesanan</span>
+          <nav class="pager" id="tablePager" aria-label="Navigasi halaman tabel">
             <a href="#" class="is-off" aria-label="Sebelumnya">&lsaquo;</a>
             <a href="#" class="is-on">1</a>
-            <a href="#" class="is-off" aria-label="Berikutnya">&rsaquo;</a>
+            <a href="#">2</a>
+            <a href="#" aria-label="Berikutnya">&rsaquo;</a>
           </nav>
         </div>
       </section>
@@ -503,6 +579,9 @@
 (function () {
   'use strict';
 
+  var PAGE_SIZE = 10;
+  var currentPage = 1;
+
   var searchInput = document.getElementById('listSearch');
   var stageSelect = document.getElementById('filterStage');
   var staffSelect = document.getElementById('filterStaff');
@@ -511,16 +590,16 @@
   var emptyResetBtn = document.getElementById('emptyResetBtn');
   var emptyRow = document.getElementById('emptyRow');
   var tableInfo = document.getElementById('tableInfo');
+  var tablePager = document.getElementById('tablePager');
   var rows = Array.prototype.slice.call(document.querySelectorAll('#prodTable tbody tr[data-stage]'));
 
-  function applyTableFilter() {
+  function getMatchedRows() {
     var query = searchInput.value.trim().toLowerCase();
     var stageVal = stageSelect.value;
     var staffVal = staffSelect.value;
     var payVal = paySelect.value;
-    var visibleCount = 0;
 
-    rows.forEach(function (row) {
+    return rows.filter(function (row) {
       var text = row.textContent.toLowerCase();
       var rStage = row.getAttribute('data-stage') || '';
       var rStaff = row.getAttribute('data-staff') || '';
@@ -533,15 +612,80 @@
         : (!staffVal || rStaff === staffVal);
       var matchPay = !payVal || rPay === payVal;
 
-      var show = matchQuery && matchStage && matchStaff && matchPay;
-      row.hidden = !show;
-      if (show) visibleCount += 1;
+      return matchQuery && matchStage && matchStaff && matchPay;
+    });
+  }
+
+  function createPageLink(label, targetPage, opts) {
+    var a = document.createElement('a');
+    a.href = '#';
+    a.textContent = label;
+    if (opts.ariaLabel) a.setAttribute('aria-label', opts.ariaLabel);
+    if (opts.active) a.classList.add('is-on');
+    if (opts.disabled) {
+      a.classList.add('is-off');
+      a.setAttribute('aria-disabled', 'true');
+    }
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (opts.disabled || targetPage === currentPage) return;
+      currentPage = targetPage;
+      renderTable();
+    });
+    return a;
+  }
+
+  function renderPager(totalMatched, totalPages) {
+    tablePager.textContent = '';
+    if (totalMatched === 0) return;
+
+    tablePager.appendChild(createPageLink('‹', currentPage - 1, {
+      ariaLabel: 'Sebelumnya',
+      disabled: currentPage <= 1
+    }));
+
+    for (var p = 1; p <= totalPages; p++) {
+      tablePager.appendChild(createPageLink(String(p), p, {
+        active: p === currentPage
+      }));
+    }
+
+    tablePager.appendChild(createPageLink('›', currentPage + 1, {
+      ariaLabel: 'Berikutnya',
+      disabled: currentPage >= totalPages
+    }));
+  }
+
+  function renderTable() {
+    var matched = getMatchedRows();
+    var totalMatched = matched.length;
+    var totalPages = Math.max(1, Math.ceil(totalMatched / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    var startIdx = (currentPage - 1) * PAGE_SIZE;
+    var endIdx = startIdx + PAGE_SIZE;
+    var pageSet = matched.slice(startIdx, endIdx);
+
+    rows.forEach(function (row) {
+      row.hidden = pageSet.indexOf(row) === -1;
     });
 
-    emptyRow.hidden = visibleCount > 0;
-    tableInfo.textContent = visibleCount > 0
-      ? 'Menampilkan 1–' + visibleCount + ' dari ' + rows.length + ' pesanan aktif'
-      : 'Menampilkan 0 dari ' + rows.length + ' pesanan aktif';
+    emptyRow.hidden = totalMatched > 0;
+
+    if (totalMatched > 0) {
+      var shownStart = startIdx + 1;
+      var shownEnd = Math.min(endIdx, totalMatched);
+      tableInfo.textContent = 'Menampilkan ' + shownStart + '–' + shownEnd + ' dari ' + totalMatched + ' pesanan';
+    } else {
+      tableInfo.textContent = 'Menampilkan 0 dari ' + rows.length + ' pesanan';
+    }
+
+    renderPager(totalMatched, totalPages);
+  }
+
+  function onFilterChange() {
+    currentPage = 1;
+    renderTable();
   }
 
   function resetFilters() {
@@ -549,15 +693,18 @@
     stageSelect.value = '';
     staffSelect.value = '';
     paySelect.value = '';
-    applyTableFilter();
+    currentPage = 1;
+    renderTable();
   }
 
-  searchInput.addEventListener('input', applyTableFilter);
-  stageSelect.addEventListener('change', applyTableFilter);
-  staffSelect.addEventListener('change', applyTableFilter);
-  paySelect.addEventListener('change', applyTableFilter);
+  searchInput.addEventListener('input', onFilterChange);
+  stageSelect.addEventListener('change', onFilterChange);
+  staffSelect.addEventListener('change', onFilterChange);
+  paySelect.addEventListener('change', onFilterChange);
   resetBtn.addEventListener('click', resetFilters);
   emptyResetBtn.addEventListener('click', resetFilters);
+
+  renderTable();
 })();
 </script>
 </body>
