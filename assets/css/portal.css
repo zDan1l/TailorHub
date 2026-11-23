@@ -1,0 +1,1187 @@
+/* ============================================================
+   TAILORHUB — PORTAL PELANGGAN PUBLIK STYLES
+   Khusus halaman portal/*.html (TANPA App Shell / app.css).
+   Mobile-first (360px–430px) & responsif hingga desktop.
+   Semua warna/radius/bayangan memakai token dari tokens.css.
+   ============================================================ */
+
+[hidden] {
+  display: none !important;
+}
+
+/* ----- Shell Publik (Tanpa Sidebar / Topbar Internal) ----- */
+.portal-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.portal-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--paper);
+  border-bottom: 1px solid var(--sand);
+}
+
+.portal-header-in {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.portal-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.portal-brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-s);
+  background: var(--clay);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-shadow: var(--shadow-s);
+}
+
+.portal-brand-text {
+  min-width: 0;
+}
+
+.portal-brand-text b {
+  display: block;
+  font-size: .98rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  color: var(--ink-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.portal-brand-text small {
+  display: block;
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--ink-45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.portal-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.portal-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  border: 1px solid var(--sand);
+  background: var(--paper);
+  white-space: nowrap;
+  min-height: 38px;
+  transition: border-color .2s var(--ease), color .2s var(--ease), background .2s var(--ease);
+}
+
+.portal-nav-link:hover {
+  border-color: var(--clay);
+  color: var(--clay);
+}
+
+.portal-nav-link.is-on {
+  background: var(--clay-100);
+  border-color: var(--clay-300);
+  color: var(--clay-700);
+}
+
+.portal-shell {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 44px;
+  flex: 1;
+}
+
+.portal-shell--wide {
+  max-width: 760px;
+}
+
+.portal-footer {
+  border-top: 1px solid var(--sand);
+  background: var(--paper);
+  padding: 20px 16px;
+  font-size: .82rem;
+  color: var(--ink-70);
+}
+
+.portal-footer-in {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.portal-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.portal-footer-links a {
+  color: var(--clay);
+  font-weight: 700;
+}
+
+.portal-footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* ----- Landing Tenant Publik ----- */
+.portal-hero {
+  background: linear-gradient(155deg, var(--paper) 0%, var(--cream-200) 100%);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-m);
+  margin-bottom: 18px;
+}
+
+.portal-hero-badge {
+  margin-bottom: 14px;
+}
+
+.portal-hero h1 {
+  font-size: clamp(1.55rem, 3.2vw, 2.15rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  color: var(--ink-900);
+  margin-bottom: 10px;
+}
+
+.portal-hero-lead {
+  font-size: .95rem;
+  color: var(--ink-70);
+  margin-bottom: 20px;
+}
+
+.portal-quick-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.portal-quick-form .input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.portal-quick-form .btn {
+  min-height: 48px;
+  white-space: nowrap;
+  flex: none;
+}
+
+.portal-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.portal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.portal-info-card {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 18px;
+  box-shadow: var(--shadow-s);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.portal-info-ic {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-s);
+  background: var(--clay-100);
+  color: var(--clay-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.portal-info-ic--indigo {
+  background: var(--indigo-100);
+  color: var(--indigo);
+}
+
+.portal-info-ic--green {
+  background: var(--green-100);
+  color: var(--green);
+}
+
+.portal-info-card small {
+  display: block;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  margin-bottom: 3px;
+}
+
+.portal-info-card b {
+  display: block;
+  font-size: .95rem;
+  font-weight: 800;
+  color: var(--ink-900);
+  margin-bottom: 2px;
+}
+
+.portal-info-card p {
+  font-size: .83rem;
+  color: var(--ink-70);
+}
+
+.portal-steps-card {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 22px;
+  box-shadow: var(--shadow-s);
+}
+
+.portal-steps-card h2 {
+  font-size: 1.08rem;
+  margin-bottom: 14px;
+  color: var(--ink-900);
+}
+
+.portal-steps-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.portal-step-mini {
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 14px;
+}
+
+.portal-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--clay);
+  color: #fff;
+  font-size: .8rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.portal-step-mini b {
+  display: block;
+  font-size: .88rem;
+  color: var(--ink-900);
+  margin-bottom: 4px;
+}
+
+.portal-step-mini p {
+  font-size: .8rem;
+  color: var(--ink-70);
+}
+
+/* ----- Form Lacak Guest (track.html) ----- */
+.track-box {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 26px 24px;
+  box-shadow: var(--shadow-m);
+  margin-bottom: 16px;
+}
+
+.track-box-head {
+  margin-bottom: 18px;
+}
+
+.track-box-head h1 {
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--ink-900);
+  margin-bottom: 6px;
+}
+
+.track-box-head p {
+  font-size: .92rem;
+  color: var(--ink-70);
+}
+
+.track-input {
+  min-height: 52px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.track-error {
+  margin-top: 14px;
+  margin-bottom: 4px;
+}
+
+.track-samples {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--sand);
+}
+
+.track-samples-label {
+  display: block;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  margin-bottom: 8px;
+}
+
+.sample-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sample-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--sand-dark);
+  background: var(--cream);
+  color: var(--ink);
+  font-size: .8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  min-height: 36px;
+  transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease);
+}
+
+.sample-chip:hover {
+  border-color: var(--clay);
+  background: var(--clay-100);
+  color: var(--clay-700);
+}
+
+.track-help {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 18px;
+  box-shadow: var(--shadow-s);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.track-help-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.track-help-body b {
+  display: block;
+  font-size: .92rem;
+  color: var(--ink-900);
+  margin-bottom: 4px;
+}
+
+.track-help-body p {
+  font-size: .84rem;
+  color: var(--ink-70);
+  margin-bottom: 10px;
+}
+
+/* ----- Hasil Pelacakan & Visual Stepper (track-result.html) ----- */
+.portal-back-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.portal-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--clay);
+}
+
+.portal-back-link:hover {
+  text-decoration: underline;
+}
+
+.result-summary {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 22px;
+  box-shadow: var(--shadow-m);
+  margin-bottom: 16px;
+}
+
+.result-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.result-code {
+  display: inline-block;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--clay-700);
+  background: var(--clay-100);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+  white-space: nowrap;
+}
+
+.result-top h1 {
+  font-size: clamp(1.25rem, 2.8vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--ink-900);
+}
+
+.result-customer {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--ink-70);
+  margin-top: 3px;
+}
+
+.result-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.result-chips .chip,
+.p-step-badge,
+.cust-order-chips .chip {
+  white-space: nowrap;
+}
+
+.result-progress-wrap {
+  margin-bottom: 16px;
+}
+
+.result-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  margin-bottom: 6px;
+}
+
+.result-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--sand);
+}
+
+.result-meta-item {
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-s);
+  padding: 10px 12px;
+  min-width: 0;
+}
+
+.result-meta-item small {
+  display: block;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  margin-bottom: 2px;
+}
+
+.result-meta-item b {
+  display: block;
+  font-size: .88rem;
+  color: var(--ink-900);
+  word-break: break-word;
+}
+
+.result-note-box {
+  margin-top: 12px;
+  background: var(--cream-200);
+  border: 1px solid var(--sand);
+  border-left: 4px solid var(--clay);
+  border-radius: var(--r-s);
+  padding: 12px 14px;
+  font-size: .86rem;
+  color: var(--ink);
+}
+
+.result-note-box small {
+  display: block;
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--clay-700);
+  margin-bottom: 3px;
+}
+
+/* ----- Vertical 7-Stage Stepper ----- */
+.p-stepper-card {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 22px;
+  box-shadow: var(--shadow-s);
+  margin-bottom: 16px;
+}
+
+.p-stepper-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.p-stepper-head h2 {
+  font-size: 1.05rem;
+  color: var(--ink-900);
+}
+
+.p-stepper {
+  display: flex;
+  flex-direction: column;
+}
+
+.p-step {
+  display: flex;
+  gap: 14px;
+  position: relative;
+}
+
+.p-step-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30px;
+  flex: none;
+}
+
+.p-step-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .78rem;
+  font-weight: 800;
+  background: var(--cream-200);
+  color: var(--ink-45);
+  border: 2px solid var(--sand);
+  flex: none;
+  z-index: 2;
+}
+
+.p-step-line {
+  width: 2.5px;
+  flex: 1;
+  min-height: 22px;
+  background: var(--sand);
+  margin: 4px 0;
+}
+
+.p-step:last-child .p-step-line {
+  display: none;
+}
+
+.p-step-body {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 0 18px;
+}
+
+.p-step:last-child .p-step-body {
+  padding-bottom: 0;
+}
+
+.p-step-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 3px;
+}
+
+.p-step-title {
+  font-size: .95rem;
+  font-weight: 800;
+  color: var(--ink-45);
+}
+
+.p-step-desc {
+  font-size: .83rem;
+  color: var(--ink-45);
+}
+
+.p-step-time {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  white-space: nowrap;
+}
+
+/* Done stage */
+.p-step.is-done .p-step-dot {
+  background: var(--s-done);
+  border-color: var(--s-done);
+  color: #fff;
+}
+
+.p-step.is-done .p-step-line {
+  background: var(--s-done);
+}
+
+.p-step.is-done .p-step-title {
+  color: var(--ink-900);
+}
+
+.p-step.is-done .p-step-desc {
+  color: var(--ink-70);
+}
+
+.p-step.is-done .p-step-time {
+  color: var(--green);
+}
+
+/* Active stage */
+.p-step.is-active .p-step-dot {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: #fff;
+  box-shadow: 0 0 0 5px var(--clay-100);
+}
+
+.p-step.is-active .p-step-body {
+  background: var(--cream);
+  border: 1px solid var(--clay-300);
+  border-radius: var(--r-m);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.p-step.is-active:last-child .p-step-body {
+  margin-bottom: 0;
+}
+
+.p-step.is-active .p-step-title {
+  color: var(--clay-700);
+}
+
+.p-step.is-active .p-step-desc {
+  color: var(--ink);
+}
+
+/* ----- Kartu Bantuan WhatsApp ----- */
+.wa-help-card {
+  background: var(--ink-900);
+  color: #fff;
+  border-radius: var(--r-l);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-m);
+}
+
+.wa-help-card h3 {
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.wa-help-card p {
+  font-size: .85rem;
+  color: var(--clay-100);
+  margin-bottom: 14px;
+}
+
+.wa-help-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.wa-help-actions .btn {
+  white-space: nowrap;
+  min-height: 44px;
+}
+
+.wa-help-card .btn--ghost {
+  color: #fff;
+  border-color: var(--ink-70);
+}
+
+.wa-help-card .btn--ghost:hover {
+  border-color: var(--clay-300);
+  color: var(--clay-300);
+}
+
+.portal-subtle-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: .85rem;
+  color: var(--ink-70);
+}
+
+.portal-subtle-link a {
+  color: var(--clay);
+  font-weight: 700;
+}
+
+.portal-subtle-link a:hover {
+  text-decoration: underline;
+}
+
+/* ----- Halaman Auth Pelanggan Opsional (Login & Register) ----- */
+.portal-guest-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: .83rem;
+  color: var(--ink-70);
+}
+
+.portal-guest-note .btn {
+  white-space: nowrap;
+  flex: none;
+}
+
+.portal-demo-box {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--sand);
+}
+
+.portal-demo-box small {
+  display: block;
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  margin-bottom: 8px;
+}
+
+/* ----- Dashboard Riwayat Pesanan Customer (customer-account.html) ----- */
+.cust-banner {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-s);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.cust-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cust-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--clay);
+  color: #fff;
+  font-weight: 800;
+  font-size: .95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.cust-profile-info {
+  min-width: 0;
+}
+
+.cust-profile-info b {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--ink-900);
+}
+
+.cust-profile-info small {
+  display: block;
+  font-size: .8rem;
+  color: var(--ink-70);
+}
+
+.cust-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cust-switcher label {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  white-space: nowrap;
+}
+
+.cust-switcher .select {
+  min-width: 175px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: .84rem;
+  -webkit-appearance: none;
+  appearance: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cust-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cust-kpi {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-s);
+  min-width: 0;
+}
+
+.cust-kpi small {
+  display: block;
+  font-size: .73rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  margin-bottom: 4px;
+}
+
+.cust-kpi b {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--ink-900);
+  line-height: 1.15;
+}
+
+.cust-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.cust-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 2px;
+  max-width: 100%;
+}
+
+.cust-tab {
+  flex: none;
+  white-space: nowrap;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--sand);
+  background: var(--paper);
+  color: var(--ink-70);
+  font-size: .83rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 38px;
+  transition: all .2s var(--ease);
+}
+
+.cust-tab:hover {
+  border-color: var(--clay);
+  color: var(--clay);
+}
+
+.cust-tab.is-on {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: #fff;
+}
+
+.cust-search {
+  min-width: 220px;
+  flex: 1;
+  max-width: 280px;
+}
+
+.cust-order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cust-order-card {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 18px;
+  box-shadow: var(--shadow-s);
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+
+.cust-order-card:hover {
+  border-color: var(--clay-300);
+  box-shadow: var(--shadow-m);
+}
+
+.cust-order-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.cust-order-code {
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  color: var(--clay-700);
+  text-transform: uppercase;
+}
+
+.cust-order-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ink-900);
+}
+
+.cust-order-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cust-order-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: .82rem;
+  color: var(--ink-70);
+  margin: 10px 0 12px;
+}
+
+.cust-order-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px dashed var(--sand);
+}
+
+.cust-order-foot .btn {
+  white-space: nowrap;
+  min-height: 40px;
+}
+
+.portal-empty {
+  background: var(--paper);
+  border: 1px dashed var(--sand-dark);
+  border-radius: var(--r-l);
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.portal-empty h3 {
+  margin-bottom: 6px;
+  color: var(--ink-900);
+}
+
+.portal-empty p {
+  font-size: .88rem;
+  color: var(--ink-70);
+  margin-bottom: 16px;
+}
+
+/* ----- Responsif Mobile (<= 560px & <= 390px) ----- */
+@media (max-width: 560px) {
+  .portal-shell {
+    padding: 18px 14px 36px;
+  }
+
+  .portal-hero,
+  .track-box,
+  .result-summary,
+  .p-stepper-card {
+    padding: 20px 16px;
+    border-radius: var(--r-m);
+  }
+
+  .portal-quick-form {
+    flex-direction: column;
+  }
+
+  .portal-quick-form .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .portal-info-grid,
+  .portal-steps-3,
+  .result-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cust-kpis {
+    gap: 8px;
+  }
+
+  .cust-kpi {
+    padding: 12px 10px;
+  }
+
+  .cust-kpi small {
+    font-size: .68rem;
+  }
+
+  .cust-kpi b {
+    font-size: 1.2rem;
+  }
+
+  .cust-search {
+    max-width: none;
+    width: 100%;
+  }
+
+  .cust-switcher {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .cust-switcher .select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .wa-help-actions .btn,
+  .cust-order-foot .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .portal-guest-note {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .portal-guest-note .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .auth-card {
+    padding: 24px 18px;
+  }
+}
