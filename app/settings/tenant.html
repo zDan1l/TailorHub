@@ -351,6 +351,61 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const form = document.querySelector("main form");
+  if (!form) return;
+  const textInputs = form.querySelectorAll('input[type="text"]');
+  const nameInput = textInputs[0];
+  const slugInput = textInputs[2];
+  const phoneInput = form.querySelector('input[type="tel"]');
+  const addrArea = form.querySelector("textarea");
+  const cityInput = textInputs[4];
+
+  try {
+    const { tenant } = await TH.api("/api/settings/tenant");
+    if (tenant) {
+      if (nameInput) nameInput.value = tenant.name || "";
+      if (slugInput) slugInput.value = tenant.slug || "";
+      if (phoneInput) phoneInput.value = tenant.phone || "";
+      if (addrArea && tenant.address) addrArea.value = tenant.address;
+      if (cityInput && tenant.city) cityInput.value = tenant.city;
+      const brandH3 = document.querySelector(".brand-card h3");
+      if (brandH3) brandH3.textContent = tenant.name || "Jahit Lestari";
+      const brandLogo = document.querySelector(".brand-logo-wrap");
+      if (brandLogo) brandLogo.textContent = TH.initials(tenant.name || "JL");
+    }
+  } catch (e) {
+    console.warn("Load tenant settings error:", e);
+  }
+
+  form.removeAttribute("onsubmit");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      await TH.api("/api/settings/tenant", {
+        method: "PUT",
+        body: {
+          name: nameInput?.value.trim(),
+          slug: slugInput?.value.trim(),
+          phone: phoneInput?.value.trim(),
+          address: addrArea?.value.trim(),
+          city: cityInput?.value.trim()
+        }
+      });
+      alert("Data profil dan branding usaha berhasil diperbarui!");
+    } catch (err) {
+      alert(err.message || "Gagal menyimpan profil usaha");
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+});
+</script>
 </body>
 </html>

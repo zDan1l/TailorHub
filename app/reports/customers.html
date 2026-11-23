@@ -547,8 +547,49 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
+(async function () {
+  function initials(name) {
+    var parts = String(name || "").trim().split(/\s+/);
+    if (!parts[0]) return "PL";
+    return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
+  }
+  try {
+    var res = await TH.get("/api/customers");
+    var list = (res && res.data) || [];
+    if (list.length) {
+      var kpiEls = document.querySelectorAll(".kpis .kpi b");
+      var repeatCount = list.filter(function (c) { return (c.order_count || 0) >= 2; }).length;
+      var totalSpend = list.reduce(function (s, c) { return s + (c.total_value || 0); }, 0);
+      if (kpiEls[0]) kpiEls[0].textContent = list.length;
+      if (kpiEls[2]) kpiEls[2].textContent = Math.round((repeatCount / list.length) * 100) + "%";
+      if (kpiEls[3]) kpiEls[3].textContent = TH.rupiah(Math.round(totalSpend / list.length));
+
+      var tbody = document.querySelector("#customersTable tbody");
+      if (tbody) {
+        tbody.innerHTML = list.map(function (c) {
+          return (
+            "<tr>" +
+              "<td>Terdaftar</td>" +
+              "<td><div class='cust-cell'><span class='cust-avatar' style='background:var(--clay-100);color:var(--clay-800)'>" + TH.esc(initials(c.name)) + "</span><b>" + TH.esc(c.name) + "</b></div></td>" +
+              "<td>" + TH.esc(c.phone || "-") + "</td>" +
+              "<td>" + TH.esc(c.order_count || 0) + " pesanan</td>" +
+              "<td><b>" + TH.rupiah(c.total_value || 0) + "</b></td>" +
+              "<td><span class='chip chip--neutral' style='font-size:.74rem'>" + TH.esc(c.address || "Workshop") + "</span></td>" +
+              "<td><a href='/app/customers/detail.html?id=" + encodeURIComponent(c.id) + "' class='chip chip--done' style='text-decoration:none'>Aktif</a></td>" +
+            "</tr>"
+          );
+        }).join("");
+      }
+    }
+  } catch (e) {
+    console.error("Gagal memuat laporan pelanggan:", e);
+  }
+})();
+
 function filterCustomerTable() {
   var input = document.getElementById('custSearch').value.toLowerCase();
   var rows = document.querySelectorAll('#customersTable tbody tr');

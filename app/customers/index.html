@@ -409,6 +409,9 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 (function() {
   'use strict';
@@ -425,6 +428,60 @@
   var rangeText = document.getElementById('customerRange');
   var pager = document.getElementById('customerPager');
   var emptyRow = document.getElementById('noCustomerRow');
+
+  function initials(name) {
+    var parts = String(name || '').trim().split(/\s+/);
+    if (!parts[0]) return 'PL';
+    return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
+  }
+
+  async function loadCustomersFromD1() {
+    try {
+      var res = await TH.get('/api/customers?limit=200');
+      var list = (res && res.data) || [];
+      if (!list.length) return;
+
+      var tiles = document.querySelectorAll('.tile b');
+      var vipCount = list.filter(function (c) { return (c.order_count || 0) >= 2; }).length;
+      var totalSpend = list.reduce(function (s, c) { return s + (c.total_value || 0); }, 0);
+      if (tiles[0]) tiles[0].textContent = list.length;
+      if (tiles[1]) tiles[1].textContent = vipCount;
+      if (tiles[2]) tiles[2].textContent = TH.rupiah(Math.round(totalSpend / list.length));
+      if (tiles[3]) tiles[3].textContent = Math.round((vipCount / list.length) * 100) + '%';
+
+      getRows().forEach(function (r) { r.remove(); });
+      list.forEach(function (c, idx) {
+        var isCorp = c.name.toUpperCase().indexOf('PT ') === 0 || c.name.toUpperCase().indexOf('CV ') === 0;
+        var cat = isCorp ? 'corporate' : ((c.order_count || 0) >= 2 ? 'vip' : 'regular');
+        var catLabel = isCorp ? 'Konveksi Korporat' : (cat === 'vip' ? 'VIP Member' : 'Reguler');
+        var chipCls = cat === 'regular' ? 'chip--soft' : 'chip--clay';
+        var tr = document.createElement('tr');
+        tr.setAttribute('data-category', cat);
+        tr.setAttribute('data-orders', String(c.order_count || 0));
+        tr.setAttribute('data-spending', String(c.total_value || 0));
+        tr.setAttribute('data-idx', String(idx));
+        tr.innerHTML =
+          '<td><div style="display:flex;align-items:center;gap:10px;"><span class="avatar avatar--sm">' + TH.esc(initials(c.name)) + '</span>' +
+            '<div><a href="detail.html?id=' + encodeURIComponent(c.id) + '" style="font-weight:800;color:var(--ink);">' + TH.esc(c.name) + '</a>' +
+            '<div style="font-size:.74rem;color:var(--ink-45);">ID: CUST-' + TH.esc(c.id) + '</div></div></div></td>' +
+          '<td><div style="font-weight:700;color:var(--ink);">' + TH.esc(c.phone || '-') + '</div>' +
+            '<div style="font-size:.74rem;color:var(--ink-45);">' + TH.esc(c.email || '-') + '</div></td>' +
+          '<td>' + TH.esc(c.address || '-') + '</td>' +
+          '<td><span class="chip ' + chipCls + '">' + catLabel + '</span></td>' +
+          '<td class="num"><b>' + TH.esc(c.order_count || 0) + ' Pesanan</b></td>' +
+          '<td class="num"><b>' + TH.rupiah(c.total_value || 0) + '</b></td>' +
+          '<td><span style="font-size:.78rem;color:var(--ink-45);">Tercatat</span></td>' +
+          '<td style="text-align:right;white-space:nowrap;">' +
+            '<a href="detail.html?id=' + encodeURIComponent(c.id) + '" class="btn btn--ghost btn--sm">Profil &amp; Riwayat</a> ' +
+            '<a href="../orders/create.html?customer_id=' + encodeURIComponent(c.id) + '" class="btn btn--primary btn--sm">+ Order</a>' +
+          '</td>';
+        tbody.insertBefore(tr, emptyRow);
+      });
+      render();
+    } catch (e) {
+      console.error('Gagal memuat daftar customer dari D1:', e);
+    }
+  }
 
   function getRows() {
     return Array.from(tbody.querySelectorAll('tr:not(#noCustomerRow)'));
@@ -529,6 +586,7 @@
   }
 
   render();
+  loadCustomersFromD1();
 })();
 </script>
 </body>

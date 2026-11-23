@@ -276,5 +276,100 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(async function () {
+  var id = new URLSearchParams(location.search).get('id') || '1';
+  try {
+    var d = await TH.get('/api/customers/' + encodeURIComponent(id));
+    if (!d || !d.customer) return;
+    var c = d.customer;
+    var orders = d.orders || [];
+    document.title = 'Profil Pelanggan: ' + c.name + ' — TailorHub';
+
+    var crumbB = document.querySelector('.crumb b');
+    if (crumbB) crumbB.textContent = c.name;
+    var h1 = document.querySelector('.page-head h1');
+    if (h1) h1.textContent = c.name;
+    var sub = document.querySelector('.page-head .sub');
+    if (sub) sub.textContent = 'Pelanggan terdaftar · ID: CUST-00' + c.id;
+
+    var headBtns = document.querySelectorAll('.page-head a.btn');
+    if (headBtns[0]) headBtns[0].href = 'form.html?id=' + encodeURIComponent(c.id);
+    if (headBtns[1]) headBtns[1].href = '../orders/create.html?customer_id=' + encodeURIComponent(c.id);
+
+    // Tambah tombol hapus customer di header
+    var headActionWrap = document.querySelector('.page-head > div:last-child');
+    if (headActionWrap) {
+      var delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'btn btn--ghost';
+      delBtn.style.color = 'var(--red)';
+      delBtn.textContent = 'Hapus';
+      delBtn.addEventListener('click', async function () {
+        if (!confirm('Hapus pelanggan ' + c.name + '?')) return;
+        try {
+          await TH.del('/api/customers/' + encodeURIComponent(c.id));
+          location.href = '/app/customers/index.html';
+        } catch (err) {
+          alert('Gagal menghapus pelanggan: ' + err.message);
+        }
+      });
+      headActionWrap.appendChild(delBtn);
+    }
+
+    // Quick stats
+    var tiles = document.querySelectorAll('.tile b');
+    var activeOrders = orders.filter(function (o) { return o.production_status !== 'Selesai' && o.production_status !== 'Diambil'; });
+    var totalSpend = orders.reduce(function (s, o) { return s + (o.price || 0); }, 0);
+    if (tiles[0]) tiles[0].textContent = orders.length + ' Kali';
+    if (tiles[1]) tiles[1].textContent = activeOrders.length + ' Pesanan';
+    if (tiles[2]) tiles[2].textContent = TH.rupiah(totalSpend);
+
+    // Kontak & alamat
+    var contactCard = document.querySelector('.card');
+    if (contactCard) {
+      var bEls = contactCard.querySelectorAll('b');
+      if (bEls[0]) bEls[0].textContent = c.phone || '-';
+      if (bEls[1]) bEls[1].textContent = c.email || '-';
+      var addrSpan = contactCard.querySelector('span:not(.d)');
+      if (addrSpan) addrSpan.textContent = c.address || '-';
+    }
+
+    // Tabel riwayat pesanan
+    var histTitle = document.querySelector('.card h3');
+    var allCards = document.querySelectorAll('.card');
+    var orderCard = allCards[allCards.length - 1];
+    if (orderCard) {
+      var h3 = orderCard.querySelector('h3');
+      if (h3) h3.textContent = 'Riwayat Pesanan Pelanggan (' + orders.length + ')';
+      var newOrdBtn = orderCard.querySelector('a.btn--primary');
+      if (newOrdBtn) newOrdBtn.href = '../orders/create.html?customer_id=' + encodeURIComponent(c.id);
+      var tbody = orderCard.querySelector('tbody');
+      if (tbody) {
+        if (!orders.length) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink-45);">Belum ada riwayat pesanan untuk pelanggan ini.</td></tr>';
+        } else {
+          tbody.innerHTML = orders.map(function (o) {
+            return '<tr>' +
+              '<td><a href="../orders/detail.html?id=' + encodeURIComponent(o.id) + '" style="font-weight:800;color:var(--clay);">' + TH.esc(o.code) + '</a>' +
+                '<div style="font-size:.74rem;color:var(--ink-45);">' + TH.esc(o.deadline || '—') + '</div></td>' +
+              '<td><b>' + TH.esc(o.type) + ' ×' + TH.esc(o.qty) + '</b></td>' +
+              '<td><span class="chip ' + TH.statusChip(o.production_status) + '"><span class="d"></span> ' + TH.esc(o.production_status) + '</span></td>' +
+              '<td><span class="chip ' + TH.statusChip(o.payment_status) + '"><span class="d"></span> ' + TH.esc(o.payment_status) + '</span></td>' +
+              '<td class="num"><b>' + TH.rupiah(o.price) + '</b></td>' +
+              '<td style="text-align:right;"><a href="../orders/detail.html?id=' + encodeURIComponent(o.id) + '" class="btn btn--ghost btn--sm">Detail</a></td>' +
+            '</tr>';
+          }).join('');
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Gagal memuat detail customer:', e);
+  }
+})();
+</script>
 </body>
 </html>

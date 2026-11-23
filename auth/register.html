@@ -44,7 +44,8 @@
     </header>
 
     <div class="auth-card">
-      <form action="verify-email.html" method="GET">
+      <div id="regError" class="alert alert--warn" style="display:none;margin-bottom:16px;background:var(--red);border-color:var(--red);color:#fff;font-size:.85rem;"></div>
+      <form id="registerForm" action="onboarding.html" method="GET">
         
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
           <div class="field">
@@ -118,6 +119,7 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
 <script>
 function togglePassword(inputId, btn) {
   var input = document.getElementById(inputId);
@@ -132,6 +134,31 @@ function togglePassword(inputId, btn) {
     btn.setAttribute('aria-label', 'Tampilkan kata sandi');
   }
 }
+
+document.getElementById('registerForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  var errBox = document.getElementById('regError');
+  errBox.style.display = 'none';
+  var usaha = document.getElementById('business_name').value.trim();
+  var nama = document.getElementById('owner_name').value.trim();
+  var email = document.getElementById('reg_email').value.trim();
+  var password = document.getElementById('reg_password').value;
+  var confirm = document.getElementById('reg_password_conf').value;
+
+  if (password !== confirm) {
+    errBox.textContent = 'Konfirmasi kata sandi tidak cocok.';
+    errBox.style.display = 'flex';
+    return;
+  }
+
+  try {
+    await TH.register({ usaha: usaha, nama: nama, email: email, password: password });
+    location.href = '/auth/onboarding.html';
+  } catch (err) {
+    errBox.textContent = err.message || 'Gagal mendaftarkan akun.';
+    errBox.style.display = 'flex';
+  }
+});
 </script>
 
 </body>

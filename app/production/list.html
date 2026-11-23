@@ -580,6 +580,9 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 (function () {
   'use strict';
@@ -710,6 +713,37 @@
   emptyResetBtn.addEventListener('click', resetFilters);
 
   renderTable();
+
+  var STAGE_TO_KEY = {
+    'Antrean': { key: 'antrean', step: '1/7', cls: 'chip--queue' },
+    'Pemotongan': { key: 'potong', step: '2/7', cls: 'chip--cut' },
+    'Penjahitan': { key: 'jahit', step: '3/7', cls: 'chip--sew' },
+    'Finishing': { key: 'finishing', step: '4/7', cls: 'chip--finish' },
+    'QC': { key: 'qc', step: '5/7', cls: 'chip--qc' },
+    'Selesai': { key: 'selesai', step: '6/7', cls: 'chip--done' },
+    'Diambil': { key: 'diambil', step: '7/7', cls: 'chip--taken' }
+  };
+
+  if (window.TH) {
+    window.TH.get('/api/orders?limit=200').then(function (res) {
+      var list = (res && res.data) || [];
+      list.forEach(function (o) {
+        var meta = STAGE_TO_KEY[o.production_status] || STAGE_TO_KEY['Antrean'];
+        rows.forEach(function (row) {
+          var bEl = row.querySelector('td a b');
+          if (bEl && bEl.textContent.trim() === o.code) {
+            row.setAttribute('data-stage', meta.key);
+            var tds = row.querySelectorAll('td');
+            if (tds[2]) {
+              tds[2].innerHTML = '<span class="chip ' + meta.cls + '"><span class="d"></span>' + window.TH.esc(o.production_status) + '</span>' +
+                '<span style="font-size:.76rem;color:var(--ink-45);font-weight:700;margin-left:6px">' + meta.step + '</span>';
+            }
+          }
+        });
+      });
+      renderTable();
+    }).catch(function () {});
+  }
 })();
 </script>
 </body>

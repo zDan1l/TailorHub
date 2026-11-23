@@ -657,7 +657,9 @@
 </div>
 
 <!-- Script App Shell + Simpan Pengaturan -->
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const btnSave = document.getElementById('btnSave');

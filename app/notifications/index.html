@@ -567,9 +567,62 @@
 </div>
 
 <!-- Script App Shell + Logika Filter Tab & Tandai Dibaca Dinamis -->
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+  try {
+    var apiNotif = await TH.get('/api/notifications');
+    if (apiNotif && Array.isArray(apiNotif.data) && apiNotif.data.length) {
+      var sideB = document.getElementById('sideBadge');
+      var tabU = document.getElementById('tabUnreadCount');
+      var tabA = document.getElementById('tabCountAll');
+      if (sideB) sideB.textContent = apiNotif.unread;
+      if (tabU) tabU.textContent = apiNotif.unread;
+      if (tabA) tabA.textContent = apiNotif.data.length;
+
+      var todayGroup = document.querySelector('.time-group[data-group="today"]');
+      if (todayGroup) {
+        var divider = todayGroup.querySelector('.time-divider');
+        var cardsHtml = apiNotif.data.map(function (n) {
+          var isUnread = !n.is_read;
+          var catType = n.type === 'warn' || n.type === 'error' ? 'deadline' : (n.title && n.title.toLowerCase().indexOf('bayar') !== -1 ? 'payment' : 'production');
+          var urgClass = isUnread ? (n.type === 'warn' ? ' is-unread urg-warn' : ' is-unread') : '';
+          var icBg = n.type === 'warn' ? 'var(--warn)' : n.type === 'success' ? 'var(--s-done)' : 'var(--clay)';
+          var icUse = n.type === 'warn' ? '#i-clock' : n.type === 'success' ? '#i-check' : '#i-order';
+          return (
+            '<article class="notif-card' + urgClass + '" data-type="' + catType + '" data-id="' + n.id + '">' +
+              '<div class="notif-icon-box" style="background:' + icBg + '"><svg width="22" height="22"><use href="' + icUse + '"/></svg></div>' +
+              '<div class="notif-body">' +
+                '<div class="notif-header">' +
+                  '<span class="notif-category notif-category--order">' + TH.esc(n.type || 'info') + '</span>' +
+                  '<div class="notif-header-right">' +
+                    (isUnread ? '<span class="badge-new">Baru</span>' : '') +
+                    '<span>' + TH.esc(n.created_at || '') + '</span>' +
+                  '</div>' +
+                '</div>' +
+                '<h2 class="notif-title">' + TH.esc(n.title) + '</h2>' +
+                '<p class="notif-message">' + TH.esc(n.body || '') + '</p>' +
+                '<div class="notif-footer">' +
+                  '<div class="notif-footer-chips"><span class="chip chip--soft">D1 Live</span></div>' +
+                  '<a href="/app/orders/index.html" class="btn btn--ghost btn--sm">Buka Pesanan <svg width="14" height="14"><use href="#i-arrow"/></svg></a>' +
+                '</div>' +
+              '</div>' +
+            '</article>'
+          );
+        }).join('');
+        todayGroup.innerHTML = (divider ? divider.outerHTML : '') + cardsHtml;
+        var yGroup = document.querySelector('.time-group[data-group="yesterday"]');
+        var eGroup = document.querySelector('.time-group[data-group="earlier"]');
+        if (yGroup) yGroup.remove();
+        if (eGroup) eGroup.remove();
+      }
+    }
+  } catch (err) {
+    console.error('Gagal memuat notifikasi:', err);
+  }
+
   const tabs = document.querySelectorAll('#notifTabs .tab-link');
   const cards = document.querySelectorAll('.notif-card');
   const timeGroups = document.querySelectorAll('.time-group');
@@ -644,7 +697,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   if (btnMarkAll) {
-    btnMarkAll.addEventListener('click', function () {
+    btnMarkAll.addEventListener('click', async function () {
+      try { await TH.patch('/api/notifications', { all: true }); } catch (e) {}
       cards.forEach(card => {
         card.classList.remove('is-unread', 'urg-danger', 'urg-warn');
       });

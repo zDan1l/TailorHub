@@ -266,6 +266,35 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const data = await TH.get("/api/notifications");
+    const items = data.data || [];
+    const tbody = document.querySelector(".table tbody");
+    if (tbody && items.length) {
+      tbody.innerHTML = items.map(n => `
+        <tr>
+          <td style="color:var(--ink-70);white-space:nowrap;">${TH.esc(n.created_at || "Hari ini")}</td>
+          <td>
+            <div class="log-user">
+              <span class="log-avatar">TH</span>
+              <b>Sistem / Staf</b>
+            </div>
+          </td>
+          <td><span class="chip chip--soft">${TH.esc((n.type || "info").toUpperCase())}</span></td>
+          <td><b>${TH.esc(n.title)}</b> — ${TH.esc(n.body || "")}</td>
+          <td><a href="../orders/index.html" style="color:var(--clay);">Lihat Detail</a></td>
+          <td><span class="chip chip--paid">Tercatat</span></td>
+        </tr>`).join("");
+    }
+  } catch (e) {
+    console.warn("Load activity log error:", e);
+  }
+});
+</script>
 </body>
 </html>

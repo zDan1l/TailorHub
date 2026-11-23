@@ -248,6 +248,85 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const statusSelect = document.querySelectorAll(".filter-bar .select")[0];
+  const qInput = document.querySelector(".filter-bar .input");
+  const tbody = document.querySelector(".table tbody");
+
+  async function load() {
+    try {
+      const [ordersData, payData] = await Promise.all([
+        TH.get("/api/orders?limit=200"),
+        TH.get("/api/payments")
+      ]);
+      let items = ordersData.data || [];
+      const payments = payData.data || [];
+
+      const totalPemasukan = Number(payData.totalDiterima || payments.reduce((a, p) => a + Number(p.amount || 0), 0));
+      const unpaidOrders = items.filter(o => o.payment_status === "Belum Bayar");
+      const dpOrders = items.filter(o => o.payment_status === "DP");
+      const paidOrders = items.filter(o => o.payment_status === "Lunas");
+
+      const piutangTotal = items.reduce((a, o) => a + Math.max(0, Number(o.price || 0) - Number(o.paid_amount || 0)), 0);
+      const dpReceived = dpOrders.reduce((a, o) => a + Number(o.paid_amount || 0), 0);
+      const paidTotal = paidOrders.reduce((a, o) => a + Number(o.paid_amount || o.price || 0), 0);
+
+      const kpis = document.querySelectorAll(".summary-cards .kpi");
+      if (kpis[0]) { const b = kpis[0].querySelector("b"); if (b) b.textContent = TH.rupiah(totalPemasukan); }
+      if (kpis[1]) {
+        const b = kpis[1].querySelector("b"); if (b) b.textContent = TH.rupiah(piutangTotal);
+        const d = kpis[1].querySelector("div"); if (d) d.textContent = unpaidOrders.length + " pesanan belum bayar";
+      }
+      if (kpis[2]) {
+        const b = kpis[2].querySelector("b"); if (b) b.textContent = TH.rupiah(dpReceived);
+        const d = kpis[2].querySelector("div"); if (d) d.textContent = dpOrders.length + " pesanan";
+      }
+      if (kpis[3]) {
+        const b = kpis[3].querySelector("b"); if (b) b.textContent = TH.rupiah(paidTotal);
+        const d = kpis[3].querySelector("div"); if (d) d.textContent = paidOrders.length + " pesanan";
+      }
+
+      const statusVal = statusSelect ? statusSelect.value : "Semua Status";
+      const qVal = qInput ? qInput.value.trim().toLowerCase() : "";
+
+      if (statusVal && statusVal !== "Semua Status") items = items.filter(o => o.payment_status === statusVal);
+      if (qVal) items = items.filter(o => (o.code || "").toLowerCase().includes(qVal) || (o.customer || "").toLowerCase().includes(qVal));
+
+      if (tbody && items.length) {
+        tbody.innerHTML = items.map(o => {
+          const cls = TH.statusChip(o.payment_status);
+          const lbl = o.payment_status || "Belum Bayar";
+          const total = Number(o.price || 0);
+          const paid = Number(o.paid_amount || 0);
+          const sisa = Math.max(0, total - paid);
+          const cust = o.customer || "Pelanggan";
+          const ini = TH.initials(cust);
+          const sisaStyle = sisa > 0 ? (o.payment_status === "Belum Bayar" ? "color:var(--red);font-weight:700" : "color:var(--amber);font-weight:700") : "";
+          return `<tr>
+            <td><b>${TH.esc(o.code)}</b></td>
+            <td><div class="cust-cell"><span class="mini">${TH.esc(ini)}</span> ${TH.esc(cust)}</div></td>
+            <td class="num">${TH.rupiah(total)}</td>
+            <td class="num">${TH.rupiah(paid)}</td>
+            <td class="num" style="${sisaStyle}">${TH.rupiah(sisa)}</td>
+            <td><span class="chip ${cls}">${TH.esc(lbl)}</span></td>
+            <td>${TH.esc(o.entry_date || "—")}</td>
+            <td><a href="detail.html?order_id=${o.id}" class="btn btn--ghost btn--sm">Detail</a></td>
+          </tr>`;
+        }).join("");
+      }
+    } catch (e) {
+      console.warn("Load payments error:", e);
+    }
+  }
+
+  if (statusSelect) statusSelect.addEventListener("change", load);
+  if (qInput) qInput.addEventListener("input", load);
+  load();
+});
+</script>
 </body>
 </html>

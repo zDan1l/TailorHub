@@ -111,7 +111,7 @@
       <!-- Alert solid -->
       <div class="alert alert--warn" id="deadlineAlert" style="margin-bottom: 26px;">
         <svg width="22" height="22" style="flex:none;stroke:#fff"><use href="#i-clock"/></svg>
-        <div style="flex:1"><b>7 pesanan</b> mendekati deadline dalam 3 hari ke depan. Prioritaskan pengerjaannya agar tidak terlambat.</div>
+        <div style="flex:1" id="deadlineAlertText"><b>7 pesanan</b> mendekati deadline dalam 3 hari ke depan. Prioritaskan pengerjaannya agar tidak terlambat.</div>
         <button class="alert-x" aria-label="Tutup" onclick="this.parentElement.style.display='none'"><svg width="15" height="15"><use href="#i-x"/></svg></button>
       </div>
 
@@ -119,22 +119,22 @@
       <section class="kpis">
         <div class="kpi">
           <span class="kpi-ic" style="background:var(--clay)"><svg width="21" height="21"><use href="#i-order"/></svg></span>
-          <small>Pesanan Aktif</small><b>128</b>
+          <small>Pesanan Aktif</small><b id="kpiAktif">128</b>
           <div class="kpi-foot"><span class="delta delta--up">+12%</span> dari bulan lalu</div>
         </div>
         <div class="kpi">
           <span class="kpi-ic" style="background:var(--s-done)"><svg width="21" height="21"><use href="#i-check"/></svg></span>
-          <small>Selesai Bulan Ini</small><b>86</b>
+          <small>Selesai Bulan Ini</small><b id="kpiSelesai">86</b>
           <div class="kpi-foot"><span class="delta delta--up">+5%</span> dari bulan lalu</div>
         </div>
         <div class="kpi">
           <span class="kpi-ic" style="background:var(--indigo)"><svg width="21" height="21"><use href="#i-pay"/></svg></span>
-          <small>Pemasukan</small><b>Rp42,6jt</b>
+          <small>Pemasukan</small><b id="kpiPemasukan">Rp42,6jt</b>
           <div class="kpi-foot"><span class="delta delta--down">-3%</span> dari bulan lalu</div>
         </div>
         <div class="kpi">
           <span class="kpi-ic" style="background:var(--red)"><svg width="21" height="21"><use href="#i-clock"/></svg></span>
-          <small>Mendekati Deadline</small><b>7</b>
+          <small>Mendekati Deadline</small><b id="kpiDeadline">7</b>
           <div class="kpi-foot"><span class="delta delta--warn">urgent</span> dalam 3 hari</div>
         </div>
       </section>
@@ -333,7 +333,7 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="recentBody">
               <tr>
                 <td><b>TH-2045</b></td>
                 <td><div class="cust-cell"><span class="mini">PM</span> PT Maju Jaya</div></td>
@@ -402,6 +402,49 @@
   </div>
 </div>
 
-<script src="../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(async function () {
+  function initials(name) {
+    var parts = String(name || "").trim().split(/\s+/);
+    if (!parts[0]) return "PL";
+    return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
+  }
+  try {
+    var d = await TH.get("/api/dashboard");
+    document.querySelector("#kpiAktif").textContent = d.kpi.pesananAktif;
+    document.querySelector("#kpiSelesai").textContent = d.kpi.selesaiBulanIni;
+    document.querySelector("#kpiPemasukan").textContent = TH.rupiah(d.kpi.pemasukanBulanIni);
+    document.querySelector("#kpiDeadline").textContent = d.kpi.mendekatiDeadline;
+
+    var alertText = document.querySelector("#deadlineAlertText");
+    if (alertText) {
+      alertText.innerHTML = "<b>" + TH.esc(d.kpi.mendekatiDeadline) + " pesanan</b> mendekati deadline dalam 3 hari ke depan. Prioritaskan pengerjaannya agar tidak terlambat.";
+    }
+
+    if (Array.isArray(d.recentOrders) && d.recentOrders.length) {
+      document.querySelector("#recentBody").innerHTML = d.recentOrders.map(function (o) {
+        var custName = o.customer || "-";
+        return (
+          "<tr>" +
+            "<td><b>" + TH.esc(o.code) + "</b></td>" +
+            "<td><div class='cust-cell'><span class='mini'>" + TH.esc(initials(custName)) + "</span> " + TH.esc(custName) + "</div></td>" +
+            "<td>" + TH.esc(o.type) + " ×" + TH.esc(o.qty) + "</td>" +
+            "<td><span class='chip " + TH.statusChip(o.production_status) + "'>" + TH.esc(o.production_status) + "</span></td>" +
+            "<td><span class='chip " + TH.statusChip(o.payment_status) + "'>" + TH.esc(o.payment_status) + "</span></td>" +
+            "<td class='num'>" + TH.rupiah(o.price) + "</td>" +
+            "<td>" + TH.esc(o.deadline || "—") + "</td>" +
+            "<td><a href='/app/orders/detail.html?id=" + encodeURIComponent(o.id) + "' class='btn btn--ghost btn--sm'>Detail</a></td>" +
+          "</tr>"
+        );
+      }).join("");
+    }
+  } catch (e) {
+    console.error("Gagal memuat dashboard:", e);
+  }
+})();
+</script>
 </body>
 </html>

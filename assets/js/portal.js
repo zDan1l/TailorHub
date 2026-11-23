@@ -488,11 +488,77 @@
     return span;
   }
 
+  var STATUS_TO_STEP = {
+    'Antrean': 1,
+    'Pemotongan': 2,
+    'Penjahitan': 3,
+    'Finishing': 4,
+    'QC': 5,
+    'Selesai': 6,
+    'Diambil': 7
+  };
+
+  var PAY_TO_CLASS = {
+    'Belum Bayar': 'chip--unpaid',
+    'DP': 'chip--dp',
+    'Lunas': 'chip--paid'
+  };
+
+  async function fetchOrderFromApi(rawCode, slug) {
+    var clean = normalizeCode(rawCode);
+    if (!clean) return null;
+    var tenantSlug = slug || new URLSearchParams(global.location.search).get('slug') || 'jahit-lestari';
+    if (global.TH) {
+      try {
+        var d = await global.TH.get('/api/public/track?slug=' + encodeURIComponent(tenantSlug) + '&code=' + encodeURIComponent(clean));
+        if (d && d.pesanan) {
+          var p = d.pesanan;
+          var stepNum = STATUS_TO_STEP[p.statusProduksi] || 1;
+          var stageMeta = getStageMeta(stepNum);
+          var existing = ORDERS[p.kode] || {};
+          var stepTimes = Object.assign({}, existing.stepTimes || {});
+          var lastUpd = existing.lastUpdate || 'Baru saja';
+          if (Array.isArray(d.riwayat) && d.riwayat.length) {
+            d.riwayat.forEach(function (h) {
+              var sIdx = STATUS_TO_STEP[h.status];
+              if (sIdx && h.created_at) stepTimes[sIdx] = h.created_at;
+            });
+            lastUpd = d.riwayat[d.riwayat.length - 1].created_at || lastUpd;
+          }
+          if (d.usaha) TENANT.name = d.usaha;
+          var merged = {
+            code: p.kode,
+            title: existing.title || ((p.jenis || 'Pesanan') + ' ×' + (p.jumlah || 1)),
+            qty: existing.qty || ((p.jumlah || 1) + ' Pcs'),
+            customer: p.customer || existing.customer || 'Pelanggan',
+            step: stepNum,
+            stageLabel: stageMeta.label + ' (' + stepNum + '/7)',
+            stageClass: stageMeta.chipClass,
+            estimateLabel: p.deadline ? ('Estimasi: ' + p.deadline) : (existing.estimateLabel || 'Sesuai Jadwal'),
+            deadlineClass: existing.deadlineClass || 'chip--soft',
+            payLabel: p.statusBayar || existing.payLabel || 'DP',
+            payClass: PAY_TO_CLASS[p.statusBayar] || existing.payClass || 'chip--dp',
+            orderDate: existing.orderDate || '-',
+            lastUpdate: lastUpd,
+            customerNote: existing.customerNote || stageMeta.customerDesc,
+            stepTimes: stepTimes
+          };
+          ORDERS[p.kode] = merged;
+          return merged;
+        }
+      } catch (e) {
+        // Fallback ke dataset lokal bila kode contoh tidak ada di seed D1
+      }
+    }
+    return findOrder(clean);
+  }
+
   global.TailorPortal = {
     TENANT: TENANT,
     STAGES: STAGES,
     normalizeCode: normalizeCode,
     findOrder: findOrder,
+    fetchOrderFromApi: fetchOrderFromApi,
     getAllOrders: getAllOrders,
     getOrdersByCustomer: getOrdersByCustomer,
     getStageMeta: getStageMeta,
