@@ -211,8 +211,8 @@
       </section>
 
       <div class="prod-count-info">
-        <span id="visibleCount">Menampilkan 10 pesanan</span>
-        <span>Seret kartu antar kolom atau tekan <b>Tahap Berikut</b> di kartu.</span>
+        <span id="visibleCount">Menampilkan 12 pesanan</span>
+        <span>Seret kartu antar kolom atau klik panah <b>← / →</b> di kartu.</span>
       </div>
 
       <!-- Papan Kanban 7 Kolom -->
@@ -241,9 +241,12 @@
                 <span class="chip chip--unpaid">Belum Bayar</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2045" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2045" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya" disabled>←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2045" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2045" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -261,9 +264,12 @@
                 <span class="chip chip--dp">DP</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2044" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2044" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya" disabled>←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2044" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2044" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -275,7 +281,7 @@
             <div class="kcol-head">
               <span class="kcol-dot" style="background:var(--s-cut)"></span>
               <h4>Pemotongan</h4>
-              <span class="kcount">1</span>
+              <span class="kcount">2</span>
             </div>
 
             <article class="kcard" data-code="TH-2037" data-stage="potong" data-staff="AS" data-deadline="normal" draggable="true">
@@ -292,9 +298,35 @@
                 <span class="kc-assignee indigo" title="Andi S.">AS</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2037" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2037" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2037" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2037" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
+              </div>
+            </article>
+
+            <article class="kcard" data-code="TH-2043" data-stage="potong" data-staff="RN" data-deadline="normal" draggable="true">
+              <div class="kc-top">
+                <a href="detail.html?code=TH-2043" class="kc-code">TH-2043</a>
+                <span class="kc-type">Kaos</span>
+              </div>
+              <div class="kc-title">Kaos Komunitas ×30</div>
+              <div class="kc-cust"><span class="mini">KL</span> Komunitas Lari Sby</div>
+              <div class="kc-steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="kc-stepslabel"><span>Pemotongan</span><span class="pct">2/7</span></div>
+              <div class="kc-foot">
+                <span class="kc-dead"><svg width="14" height="14"><use href="#i-clock"/></svg> 01 Des</span>
+                <span class="kc-assignee green" title="Rina N.">RN</span>
+              </div>
+              <div class="kc-actions">
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2043" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2043" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -323,9 +355,12 @@
                 <span class="kc-assignee" title="Andi S.">AS</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2041" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2041" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2041" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2041" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -343,9 +378,12 @@
                 <span class="kc-assignee green" title="Rina N.">RN</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2038" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2038" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2038" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2038" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -374,9 +412,12 @@
                 <span class="kc-assignee indigo" title="Mas Budi">MB</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2035" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2035" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2035" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2035" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -394,9 +435,12 @@
                 <span class="kc-assignee indigo" title="Mas Budi">MB</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2033" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2033" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2033" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2033" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -408,7 +452,7 @@
             <div class="kcol-head">
               <span class="kcol-dot" style="background:var(--s-qc)"></span>
               <h4>QC</h4>
-              <span class="kcount">1</span>
+              <span class="kcount">2</span>
             </div>
 
             <article class="kcard" data-code="TH-2040" data-stage="qc" data-staff="AS" data-deadline="soon" draggable="true">
@@ -425,9 +469,35 @@
                 <span class="kc-assignee" title="Andi S.">AS</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2040" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2040" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2040" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2040" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
+              </div>
+            </article>
+
+            <article class="kcard" data-code="TH-2042" data-stage="qc" data-staff="MB" data-deadline="normal" draggable="true">
+              <div class="kc-top">
+                <a href="detail.html?code=TH-2042" class="kc-code">TH-2042</a>
+                <span class="kc-type">Blazer</span>
+              </div>
+              <div class="kc-title">Blazer Kerja ×2</div>
+              <div class="kc-cust"><span class="mini">IM</span> Ibu Maya</div>
+              <div class="kc-steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+              <div class="kc-stepslabel"><span>QC</span><span class="pct">5/7</span></div>
+              <div class="kc-foot">
+                <span class="kc-dead"><svg width="14" height="14"><use href="#i-clock"/></svg> 27 Nov</span>
+                <span class="kc-assignee indigo" title="Mas Budi">MB</span>
+              </div>
+              <div class="kc-actions">
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2042" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2042" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -456,9 +526,12 @@
                 <span class="chip chip--paid">Lunas</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2030" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2030" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next">Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2030" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2030" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya">→</button>
               </div>
             </article>
 
@@ -487,9 +560,12 @@
                 <span class="chip chip--paid">Lunas</span>
               </div>
               <div class="kc-actions">
-                <a href="detail.html?code=TH-2026" class="kc-btn">Detail</a>
-                <a href="update-status.html?code=TH-2026" class="kc-btn">Update</a>
-                <button type="button" class="kc-btn kc-btn--next" disabled>Tahap Berikut →</button>
+                <button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya" title="Tahap sebelumnya">←</button>
+                <div class="kc-actions-mid">
+                  <a href="detail.html?code=TH-2026" class="kc-btn">Detail</a>
+                  <a href="update-status.html?code=TH-2026" class="kc-btn">Update</a>
+                </div>
+                <button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya" title="Tahap berikutnya" disabled>→</button>
               </div>
             </article>
 

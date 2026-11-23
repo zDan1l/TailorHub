@@ -120,6 +120,15 @@
       if (spans[1]) spans[1].textContent = stage.step + '/7';
     }
 
+    var prevBtn = card.querySelector('.kc-btn--prev');
+    if (prevBtn) {
+      var isFirst = stage.step <= 1;
+      prevBtn.disabled = isFirst;
+      prevBtn.title = isFirst
+        ? 'Pesanan sudah berada di tahap awal'
+        : 'Kembali ke tahap sebelumnya';
+    }
+
     var nextBtn = card.querySelector('.kc-btn--next');
     if (nextBtn) {
       var isLast = stage.step >= STAGES.length;
@@ -201,17 +210,36 @@
   }
 
   /**
+   * Menggeser tahap kartu sebanyak delta langkah (+1 maju, -1 mundur).
+   * @param {HTMLElement} card
+   * @param {number} delta
+   */
+  function stepCardStage(card, delta) {
+    if (!card) return;
+    var currentKey = card.getAttribute('data-stage');
+    var current = STAGE_MAP[currentKey];
+    if (!current) return;
+
+    var targetIndex = current.index + delta;
+    if (targetIndex < 0 || targetIndex >= STAGES.length) return;
+
+    moveCardToStage(card, STAGES[targetIndex].key);
+  }
+
+  /**
    * Memajukan kartu satu tahap ke kolom berikutnya (ramah mobile/non-drag).
    * @param {HTMLElement} card
    */
   function advanceCardStage(card) {
-    if (!card) return;
-    var currentKey = card.getAttribute('data-stage');
-    var current = STAGE_MAP[currentKey];
-    if (!current || current.index >= STAGES.length - 1) return;
+    stepCardStage(card, 1);
+  }
 
-    var nextStage = STAGES[current.index + 1];
-    moveCardToStage(card, nextStage.key);
+  /**
+   * Memundurkan kartu satu tahap ke kolom sebelumnya.
+   * @param {HTMLElement} card
+   */
+  function prevCardStage(card) {
+    stepCardStage(card, -1);
   }
 
   /**
@@ -283,11 +311,16 @@
     var board = document.querySelector('.kanban');
     if (board) {
       board.addEventListener('click', function (e) {
+        var prevBtn = e.target.closest('.kc-btn--prev');
+        if (prevBtn) {
+          var prevCard = prevBtn.closest('.kcard');
+          if (prevCard) prevCardStage(prevCard);
+          return;
+        }
         var nextBtn = e.target.closest('.kc-btn--next');
-        if (!nextBtn) return;
-        var card = nextBtn.closest('.kcard');
-        if (card) {
-          advanceCardStage(card);
+        if (nextBtn) {
+          var nextCard = nextBtn.closest('.kcard');
+          if (nextCard) advanceCardStage(nextCard);
         }
       });
     }
@@ -365,6 +398,7 @@
     STAGES: STAGES,
     moveCardToStage: moveCardToStage,
     advanceCardStage: advanceCardStage,
+    prevCardStage: prevCardStage,
     applyFilters: applyFilters,
     showToast: showToast
   };
