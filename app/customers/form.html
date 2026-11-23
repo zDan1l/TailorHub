@@ -77,7 +77,7 @@
         <input type="search" placeholder="Cari...">
       </div>
       <div class="top-actions">
-        <a href="../notifications/index.html" class="icon-btn"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
         <a href="../../account/profile.html" class="top-avatar">PM</a>
       </div>
     </header>
@@ -105,7 +105,7 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div class="field">
               <label for="cName">Nama Lengkap Pemesan <span class="req">*</span></label>
-              <input type="text" id="cName" class="input" placeholder="Contoh: Hendra Gunawan" value="Hendra Gunawan" required>
+              <input type="text" id="cName" class="input" placeholder="Contoh: Hendra Wibowo" value="Hendra Wibowo" required>
             </div>
             <div class="field">
               <label for="cCategory">Kategori / Status Membership</label>
@@ -125,7 +125,7 @@
             </div>
             <div class="field">
               <label for="cEmail">Alamat Email</label>
-              <input type="email" id="cEmail" class="input" placeholder="nama@email.com" value="hendra.gunawan@email.com">
+              <input type="email" id="cEmail" class="input" placeholder="nama@email.com" value="hendra.wibowo@email.com">
             </div>
           </div>
 
@@ -188,5 +188,58 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(async function () {
+  var id = new URLSearchParams(location.search).get('id');
+  var form = document.querySelector('form');
+
+  if (id) {
+    try {
+      var d = await TH.get('/api/customers/' + encodeURIComponent(id));
+      if (d && d.customer) {
+        var c = d.customer;
+        document.getElementById('cName').value = c.name || '';
+        document.getElementById('cPhone').value = c.phone || '';
+        document.getElementById('cEmail').value = c.email || '';
+        document.getElementById('cAddress').value = c.address || '';
+        document.getElementById('cNotes').value = c.notes || '';
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  } else {
+    document.getElementById('cName').value = '';
+    document.getElementById('cPhone').value = '';
+    document.getElementById('cEmail').value = '';
+    document.getElementById('cAddress').value = '';
+    document.getElementById('cNotes').value = '';
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var payload = {
+      name: document.getElementById('cName').value.trim(),
+      phone: document.getElementById('cPhone').value.trim(),
+      email: document.getElementById('cEmail').value.trim(),
+      address: document.getElementById('cAddress').value.trim(),
+      notes: document.getElementById('cNotes').value.trim()
+    };
+    try {
+      if (id) {
+        await TH.put('/api/customers/' + encodeURIComponent(id), payload);
+        location.href = '/app/customers/detail.html?id=' + encodeURIComponent(id);
+      } else {
+        var created = await TH.post('/api/customers', payload);
+        location.href = '/app/customers/detail.html?id=' + encodeURIComponent(created.id);
+      }
+    } catch (err) {
+      alert('Gagal menyimpan data pelanggan: ' + err.message);
+    }
+  });
+})();
+</script>
 </body>
 </html>

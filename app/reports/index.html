@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pusat Laporan & Analitik — TailorHub</title>
+<meta name="description" content="Pusat laporan bisnis jahit dan konveksi TailorHub: rekapitulasi pesanan, arus kas pemasukan, pelanggan, produktivitas, dan ekspor data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- 4 Impor CSS standar arsitektur tim -->
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* ============================================================
+   STYLING KHUSUS PUSAT LAPORAN — CLEAN SAAS ENTERPRISE
+   ============================================================ */
+
+/* Sub-Navigasi Antar Halaman Laporan (SaaS Standard) */
+.report-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.report-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .2s;
+}
+
+.report-nav-item:hover {
+  color: var(--clay);
+  background: rgba(192, 84, 36, .04);
+}
+
+.report-nav-item.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+  background: rgba(192, 84, 36, .06);
+  font-weight: 800;
+}
+
+/* Bar Filter Periode */
+.report-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 14px 20px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-s);
+  flex-wrap: wrap;
+}
+
+.report-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.report-filter-label {
+  font-size: .84rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-select {
+  padding: 8px 14px;
+  background: var(--bg);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  font-family: inherit;
+  font-size: .86rem;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+
+.filter-select:focus {
+  border-color: var(--clay);
+}
+
+.period-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--clay-100);
+  color: var(--clay-800);
+  border-radius: 99px;
+  font-size: .76rem;
+  font-weight: 700;
+}
+
+/* Hub Modul Laporan Grid (4 Kolom Rapi & Proporsional) */
+.report-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.report-hub-card {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 20px;
+  box-shadow: var(--shadow-s);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform .2s var(--ease), box-shadow .2s, border-color .2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.report-hub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-m);
+  border-color: var(--clay-300);
+}
+
+.report-hub-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.report-hub-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  color: #fff;
+}
+
+.report-hub-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.report-hub-desc {
+  font-size: .8rem;
+  line-height: 1.45;
+  color: var(--ink-70);
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.report-hub-stat {
+  background: var(--bg);
+  border-radius: var(--r-m);
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-size: .78rem;
+}
+
+.report-hub-stat span {
+  color: var(--ink-45);
+  font-weight: 700;
+}
+
+.report-hub-stat b {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.report-hub-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .82rem;
+  font-weight: 800;
+  color: var(--clay);
+  transition: gap .2s;
+}
+
+.report-hub-card:hover .report-hub-cta {
+  gap: 10px;
+}
+
+/* Category Progress Bars */
+.category-item {
+  margin-bottom: 14px;
+}
+
+.category-item:last-child {
+  margin-bottom: 0;
+}
+
+.category-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: .84rem;
+  margin-bottom: 6px;
+}
+
+.category-name {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.category-val {
+  font-weight: 800;
+  color: var(--ink-70);
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--sand);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width .6s ease;
+}
+
+@media (max-width: 1080px) {
+  .report-hub-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .report-hub-grid {
+    grid-template-columns: 1fr;
+  }
+  .report-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- SVG Sprite Standar TailorHub -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i" href="../notifications/index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i" href="../team/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <div class="main">
+    <!-- Topbar (resmi dengan form GET ke search.html) -->
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <form class="search" action="../search.html" method="GET">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" name="q" placeholder="Cari pesanan, customer, kode…">
+      </form>
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <span class="top-avatar">PM</span>
+      </div>
+    </header>
+
+    <!-- Konten Halaman -->
+    <main class="page">
+      <!-- Breadcrumb & Judul -->
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <b>Laporan</b>
+          </nav>
+          <h1>Pusat Laporan & Analitik</h1>
+          <p class="sub">Konsolidasi performa usaha jahit, rekapan omzet, tren pesanan, dan efisiensi produksi.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <a href="export.html" class="btn btn--outline">
+            <svg width="16" height="16"><use href="#i-download"/></svg>
+            Ekspor Data
+          </a>
+          <a href="../orders/index.html" class="btn btn--primary">
+            <svg width="16" height="16"><use href="#i-plus"/></svg>
+            Tambah Pesanan
+          </a>
+        </div>
+      </div>
+
+      <!-- Sub-Navigasi Antar Laporan (Unified Tab Bar) -->
+      <nav class="report-nav">
+        <a href="index.html" class="report-nav-item is-active">Ringkasan Utama</a>
+        <a href="orders.html" class="report-nav-item">Laporan Pesanan</a>
+        <a href="income.html" class="report-nav-item">Laporan Pemasukan</a>
+        <a href="customers.html" class="report-nav-item">Laporan Pelanggan</a>
+        <a href="productivity.html" class="report-nav-item">Produktivitas Staff</a>
+        <a href="export.html" class="report-nav-item">Pratinjau & Ekspor</a>
+      </nav>
+
+      <!-- Bar Filter Periode -->
+      <section class="report-filter-bar">
+        <div class="report-filter-group">
+          <span class="report-filter-label">
+            <svg width="17" height="17"><use href="#i-calendar"/></svg>
+            Periode Analisis:
+          </span>
+          <select class="filter-select" id="periodSelect" onchange="updatePeriod(this.value)">
+            <option value="month" selected>Bulan Ini (November 2026)</option>
+            <option value="last_month">Bulan Lalu (Oktober 2026)</option>
+            <option value="q4">Kuartal IV 2026</option>
+            <option value="year">Tahun Berjalan (2026)</option>
+          </select>
+          <span class="period-pill" id="periodStatus">
+            <svg width="13" height="13"><use href="#i-check"/></svg>
+            1 Nov 2026 – 30 Nov 2026
+          </span>
+        </div>
+        <div style="font-size:.82rem;color:var(--ink-45);font-weight:600">
+          Sinkronisasi data: <b>Hari ini, 12:45 WIB</b>
+        </div>
+      </section>
+
+      <!-- KPI Metrics Global (4 Kolom Sesuai Standard) -->
+      <section class="kpis">
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--indigo)"><svg width="21" height="21"><use href="#i-pay"/></svg></span>
+          <small>Total Omzet</small>
+          <b id="kpiOmzet">Rp42.650.000</b>
+          <div class="kpi-foot"><span class="delta delta--up">+14,2%</span> vs bulan lalu</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--s-done)"><svg width="21" height="21"><use href="#i-check"/></svg></span>
+          <small>Pesanan Selesai</small>
+          <b id="kpiDone">86</b>
+          <div class="kpi-foot"><span class="delta delta--up">+8%</span> dari target (80)</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--clay)"><svg width="21" height="21"><use href="#i-order"/></svg></span>
+          <small>Rata-rata Order (AOV)</small>
+          <b id="kpiAov">Rp495.900</b>
+          <div class="kpi-foot"><span class="delta delta--up">+5,4%</span> per transaksi</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--amber)"><svg width="21" height="21"><use href="#i-clock"/></svg></span>
+          <small>Ketepatan Waktu</small>
+          <b id="kpiOntime">96,5%</b>
+          <div class="kpi-foot"><span class="delta delta--up">+1,5%</span> target min. 95%</div>
+        </div>
+      </section>
+
+      <!-- Analisis Grafis Dua Kolom (.cols: 1.5fr / 1fr) -->
+      <section class="cols">
+        <!-- Kolom Kiri: Tren Omzet Mingguan (Card Standar Dashboard) -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">Tren Pertumbuhan Omzet Mingguan</h3>
+              <p class="sub" style="margin:2px 0 0;font-size:.82rem">Realisasi omzet 4 minggu periode November 2026</p>
+            </div>
+            <div class="legend">
+              <span><i style="background:var(--clay)"></i>Realisasi Omzet</span>
+              <span><i style="background:#EADBC8"></i>Target 10jt/Mgg</span>
+            </div>
+          </div>
+
+          <div style="position:relative;margin-top:10px">
+            <!-- SVG Visual Chart Bar Presisi & Elegan -->
+            <svg class="chart" id="incomeChart" viewBox="0 0 640 240" role="img" aria-label="Grafik omzet mingguan" style="cursor:crosshair">
+              <!-- Gridlines Horizontal -->
+              <g stroke="#EADBC8" stroke-width="1">
+                <line x1="44" y1="40" x2="620" y2="40"/>
+                <line x1="44" y1="93" x2="620" y2="93" stroke-dasharray="4 4"/>
+                <line x1="44" y1="146" x2="620" y2="146"/>
+                <line x1="44" y1="200" x2="620" y2="200"/>
+              </g>
+
+              <!-- Skala Nilai Y-Axis (Rapi di Kiri) -->
+              <g font-family="Plus Jakarta Sans" font-size="11" fill="#8E7266">
+                <text x="36" y="44" text-anchor="end">15jt</text>
+                <text x="36" y="97" text-anchor="end" font-weight="700" fill="var(--clay)">10jt</text>
+                <text x="36" y="150" text-anchor="end">5jt</text>
+                <text x="36" y="204" text-anchor="end">0</text>
+              </g>
+
+              <!-- Batang Bar Harmonis & Bersih -->
+              <!-- Baseline y=200 (0jt), Top y=40 (15jt) -> 1jt = 10.67px -->
+              <g>
+                <!-- M1: 9.2jt -> height=98, y=102 -->
+                <rect class="bar" data-label="Minggu 1 (1–7 Nov)" data-val="Rp9.200.000" x="90" y="102" width="68" height="98" rx="8" fill="#E89A72"/>
+                <!-- M2: 10.8jt -> height=115, y=85 -->
+                <rect class="bar" data-label="Minggu 2 (8–14 Nov)" data-val="Rp10.850.000" x="230" y="85" width="68" height="115" rx="8" fill="#D2703E"/>
+                <!-- M3: 11.4jt -> height=122, y=78 -->
+                <rect class="bar" data-label="Minggu 3 (15–21 Nov)" data-val="Rp11.400.000" x="370" y="78" width="68" height="122" rx="8" fill="#C05424"/>
+                <!-- M4: 11.2jt -> height=120, y=80 -->
+                <rect class="bar" data-label="Minggu 4 (22–28 Nov)" data-val="Rp11.200.000" x="510" y="80" width="68" height="120" rx="8" fill="#9E4218"/>
+              </g>
+
+              <!-- Label Sumbu X -->
+              <g font-family="Plus Jakarta Sans" font-size="12" font-weight="700" fill="#8E7266" text-anchor="middle">
+                <text x="124" y="224">Mgg 1</text>
+                <text x="264" y="224">Mgg 2</text>
+                <text x="404" y="224">Mgg 3</text>
+                <text x="544" y="224">Mgg 4</text>
+              </g>
+            </svg>
+
+            <!-- Tooltip Hover Dinamis Standar Dashboard -->
+            <div id="chartTip" style="
+              display:none;position:absolute;pointer-events:none;
+              background:var(--ink-900);color:#fff;border-radius:10px;
+              padding:8px 13px;font-size:.8rem;font-weight:700;
+              box-shadow:var(--shadow-m);white-space:nowrap;z-index:10;
+              transform:translate(-50%,-110%);
+            ">
+              <div id="chartTipLabel" style="font-size:.72rem;font-weight:600;color:rgba(255,248,239,.6);margin-bottom:2px"></div>
+              <div id="chartTipVal" style="font-size:.92rem;color:#fff"></div>
+              <div style="position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+                width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+                border-top:6px solid var(--ink-900)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Distribusi Kategori Busana -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">Komposisi Kategori Busana</h3>
+              <p class="sub" style="margin:2px 0 0;font-size:.82rem">Proporsi pesanan selesai periode November</p>
+            </div>
+            <a href="orders.html" class="link-more" style="font-size:.82rem">Detail →</a>
+          </div>
+
+          <div style="margin-top:14px">
+            <!-- 1. Seragam Kantor & PDL -->
+            <div class="category-item">
+              <div class="category-head">
+                <span class="category-name">Seragam Kerja & PDL</span>
+                <span class="category-val">42 pesanan (49%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:49%;background:var(--clay)"></div>
+              </div>
+            </div>
+
+            <!-- 2. Kebaya & Gaun Pesta -->
+            <div class="category-item">
+              <div class="category-head">
+                <span class="category-name">Kebaya & Busana Pesta</span>
+                <span class="category-val">24 pesanan (28%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:28%;background:var(--indigo)"></div>
+              </div>
+            </div>
+
+            <!-- 3. Jas & Blazer Formal -->
+            <div class="category-item">
+              <div class="category-head">
+                <span class="category-name">Jas & Blazer Formal</span>
+                <span class="category-val">12 pesanan (14%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:14%;background:var(--amber)"></div>
+              </div>
+            </div>
+
+            <!-- 4. Kemeja & Celana Custom -->
+            <div class="category-item">
+              <div class="category-head">
+                <span class="category-name">Kemeja Batik & Celana</span>
+                <span class="category-val">8 pesanan (9%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:9%;background:#0d9488"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;padding:12px 14px;background:var(--bg);border-radius:var(--r-m);display:flex;align-items:center;gap:12px">
+            <span style="color:var(--clay)"><svg width="18" height="18"><use href="#i-chart"/></svg></span>
+            <span style="font-size:.8rem;color:var(--ink-70);line-height:1.4">
+              <b>Kategori Terlaris:</b> Seragam Kerja mendominasi volume produksi dengan rata-rata 35 pcs per pesanan.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Heading Hub Modul -->
+      <div style="margin: 32px 0 16px; display:flex; justify-content:space-between; align-items:baseline">
+        <div>
+          <h2 style="font-size: 1.15rem; font-weight:800; color:var(--ink)">Modul Laporan Terperinci</h2>
+          <p class="sub" style="margin:2px 0 0">Pilih laporan spesifik untuk melihat analisa mendalam</p>
+        </div>
+        <a href="export.html" class="link-more" style="font-size:.84rem;font-weight:700">Pusat Ekspor & Cetak Berkas →</a>
+      </div>
+
+      <!-- Hub Modul Laporan (4 Kartu Navigasi Utama Seimbang) -->
+      <div class="report-hub-grid">
+        <!-- 1. Laporan Pesanan -->
+        <a href="orders.html" class="report-hub-card">
+          <div>
+            <div class="report-hub-card-top">
+              <span class="report-hub-icon" style="background: var(--clay)">
+                <svg width="22" height="22"><use href="#i-order"/></svg>
+              </span>
+              <div>
+                <h3 class="report-hub-title">Laporan Pesanan</h3>
+                <span class="chip chip--neutral" style="font-size:.68rem">FR-34 · Inti</span>
+              </div>
+            </div>
+            <p class="report-hub-desc">
+              Analisis volume pesanan, distribusi status tahapan jahit, dan evaluasi ketepatan tenggat waktu pengerjaan.
+            </p>
+          </div>
+          <div>
+            <div class="report-hub-stat">
+              <span>Selesai / Total</span>
+              <b>86 / 128 (94%)</b>
+            </div>
+            <span class="report-hub-cta">
+              Buka Laporan Pesanan
+              <svg width="15" height="15"><use href="#i-arrow"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 2. Laporan Pemasukan -->
+        <a href="income.html" class="report-hub-card">
+          <div>
+            <div class="report-hub-card-top">
+              <span class="report-hub-icon" style="background: var(--indigo)">
+                <svg width="22" height="22"><use href="#i-pay"/></svg>
+              </span>
+              <div>
+                <h3 class="report-hub-title">Laporan Pemasukan</h3>
+                <span class="chip chip--neutral" style="font-size:.68rem">FR-35 · Keuangan</span>
+              </div>
+            </div>
+            <p class="report-hub-desc">
+              Arus kas riil pendapatan tunai & transfer, rasio pelunasan uang muka (DP), dan status piutang sisa pembayaran.
+            </p>
+          </div>
+          <div>
+            <div class="report-hub-stat">
+              <span>Pemasukan Riil</span>
+              <b style="color:var(--green)">Rp42,6jt</b>
+            </div>
+            <span class="report-hub-cta">
+              Buka Laporan Pemasukan
+              <svg width="15" height="15"><use href="#i-arrow"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 3. Laporan Pelanggan -->
+        <a href="customers.html" class="report-hub-card">
+          <div>
+            <div class="report-hub-card-top">
+              <span class="report-hub-icon" style="background: #0d9488">
+                <svg width="22" height="22"><use href="#i-users"/></svg>
+              </span>
+              <div>
+                <h3 class="report-hub-title">Laporan Pelanggan</h3>
+                <span class="chip chip--neutral" style="font-size:.68rem">FR-28 · CRM</span>
+              </div>
+            </div>
+            <p class="report-hub-desc">
+              Segmentasi pelanggan teraktif, laju akuisisi pelanggan baru, dan daftar kontributor omzet tertinggi (VIP).
+            </p>
+          </div>
+          <div>
+            <div class="report-hub-stat">
+              <span>Repeat Order</span>
+              <b style="color:var(--clay)">68,4% (142 Akun)</b>
+            </div>
+            <span class="report-hub-cta">
+              Buka Laporan Pelanggan
+              <svg width="15" height="15"><use href="#i-arrow"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 4. Laporan Produktivitas -->
+        <a href="productivity.html" class="report-hub-card">
+          <div>
+            <div class="report-hub-card-top">
+              <span class="report-hub-icon" style="background: #7c3aed">
+                <svg width="22" height="22"><use href="#i-scissors"/></svg>
+              </span>
+              <div>
+                <h3 class="report-hub-title">Produktivitas Staff</h3>
+                <span class="chip chip--neutral" style="font-size:.68rem">FR-36 · Post-MVP</span>
+              </div>
+            </div>
+            <p class="report-hub-desc">
+              Monitoring kecepatan pengerjaan per potong busana per penjahit, evaluasi beban kerja meja potong dan jahit.
+            </p>
+          </div>
+          <div>
+            <div class="report-hub-stat">
+              <span>Rata Durasi</span>
+              <b>2,4 Hari / Pcs</b>
+            </div>
+            <span class="report-hub-cta">
+              Lihat Produktivitas
+              <svg width="15" height="15"><use href="#i-arrow"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Panel Tabel Rekap Cepat: 5 Pesanan Bernilai Tertinggi -->
+      <section class="card" style="margin-top:24px">
+        <div class="card-head">
+          <div>
+            <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">5 Pesanan Bernilai Tertinggi Periode Ini</h3>
+            <p class="sub" style="margin:2px 0 0;font-size:.82rem">Kontribusi nilai transaksi terbesar dalam bulan berjalan</p>
+          </div>
+          <a href="orders.html" class="link-more" style="font-size:.82rem">Semua Pesanan →</a>
+        </div>
+
+        <div style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No. Pesanan</th>
+                <th>Nama Pelanggan</th>
+                <th>Jenis Pesanan</th>
+                <th>Kuantitas</th>
+                <th>Total Tagihan</th>
+                <th>Status Pembayaran</th>
+                <th>Tenggat Waktu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>TH-2035</b></td>
+                <td>PT Surya Perkasa (Bpk. Anton)</td>
+                <td>Seragam PDL Korporat</td>
+                <td>50 pcs</td>
+                <td><b style="color:var(--ink)">Rp12.500.000</b></td>
+                <td><span class="chip chip--success">Lunas</span></td>
+                <td>28 Nov 2026</td>
+              </tr>
+              <tr>
+                <td><b>TH-2028</b></td>
+                <td>Ibu Rina Sasmita</td>
+                <td>Kebaya Pengantin Full Payet</td>
+                <td>1 set</td>
+                <td><b style="color:var(--ink)">Rp4.800.000</b></td>
+                <td><span class="chip chip--warn">DP 50%</span></td>
+                <td>24 Nov 2026</td>
+              </tr>
+              <tr>
+                <td><b>TH-2040</b></td>
+                <td>Bpk. Hendra Gunawan</td>
+                <td>Jas Formal Wol Premium</td>
+                <td>2 set</td>
+                <td><b style="color:var(--ink)">Rp3.900.000</b></td>
+                <td><span class="chip chip--success">Lunas</span></td>
+                <td>29 Nov 2026</td>
+              </tr>
+              <tr>
+                <td><b>TH-2041</b></td>
+                <td>Dinas Perhubungan Kota</td>
+                <td>Kemeja Batik Khusus Instansi</td>
+                <td>20 pcs</td>
+                <td><b style="color:var(--ink)">Rp3.400.000</b></td>
+                <td><span class="chip chip--warn">DP 40%</span></td>
+                <td>25 Nov 2026</td>
+              </tr>
+              <tr>
+                <td><b>TH-2024</b></td>
+                <td>Ibu Kartika Sari</td>
+                <td>Gaun Pesta Sutra Satin</td>
+                <td>2 pcs</td>
+                <td><b style="color:var(--ink)">Rp2.750.000</b></td>
+                <td><span class="chip chip--success">Lunas</span></td>
+                <td>22 Nov 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- Script Reusable Tim -->
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(async function () {
+  try {
+    var results = await Promise.all([
+      TH.get("/api/reports/orders"),
+      TH.get("/api/reports/income")
+    ]);
+    var ro = results[0];
+    var ri = results[1];
+    if (ro && ro.kpi) {
+      document.getElementById("kpiOmzet").textContent = TH.rupiah(ro.kpi.totalOmzet);
+      document.getElementById("kpiDone").textContent = ro.kpi.pesananSelesai;
+      document.getElementById("kpiAov").textContent = TH.rupiah(ro.kpi.aov);
+      document.getElementById("kpiOntime").textContent = ro.kpi.ontimePct + "%";
+    }
+    if (ro && Array.isArray(ro.orders) && ro.orders.length) {
+      var topOrders = ro.orders.slice().sort(function (a, b) { return (b.price || 0) - (a.price || 0); }).slice(0, 5);
+      var tbody = document.querySelector(".table tbody");
+      if (tbody) {
+        tbody.innerHTML = topOrders.map(function (o) {
+          return (
+            "<tr>" +
+              "<td><b>" + TH.esc(o.code) + "</b></td>" +
+              "<td>" + TH.esc(o.customer || "-") + "</td>" +
+              "<td>" + TH.esc(o.type) + "</td>" +
+              "<td>" + TH.esc(o.qty) + " pcs</td>" +
+              "<td><b style='color:var(--ink)'>" + TH.rupiah(o.price) + "</b></td>" +
+              "<td><span class='chip " + TH.statusChip(o.payment_status) + "'>" + TH.esc(o.payment_status) + "</span></td>" +
+              "<td>" + TH.esc(o.deadline || "—") + "</td>" +
+            "</tr>"
+          );
+        }).join("");
+      }
+    }
+  } catch (e) {
+    console.error("Gagal memuat laporan utama:", e);
+  }
+})();
+
+function updatePeriod(period) {
+  var status = document.getElementById('periodStatus');
+  var omzet = document.getElementById('kpiOmzet');
+  var done = document.getElementById('kpiDone');
+  var aov = document.getElementById('kpiAov');
+
+  if (period === 'last_month') {
+    status.innerHTML = '<svg width="13" height="13"><use href="#i-check"/></svg> 1 Okt 2026 – 31 Okt 2026';
+    omzet.textContent = 'Rp37.350.000';
+    done.textContent = '79';
+    aov.textContent = 'Rp472.000';
+  } else if (period === 'q4') {
+    status.innerHTML = '<svg width="13" height="13"><use href="#i-check"/></svg> 1 Okt 2026 – 31 Des 2026';
+    omzet.textContent = 'Rp80.000.000';
+    done.textContent = '165';
+    aov.textContent = 'Rp484.000';
+  } else if (period === 'year') {
+    status.innerHTML = '<svg width="13" height="13"><use href="#i-check"/></svg> 1 Jan 2026 – 31 Des 2026';
+    omzet.textContent = 'Rp412.500.000';
+    done.textContent = '842';
+    aov.textContent = 'Rp489.000';
+  } else {
+    status.innerHTML = '<svg width="13" height="13"><use href="#i-check"/></svg> 1 Nov 2026 – 30 Nov 2026';
+    omzet.textContent = 'Rp42.650.000';
+    done.textContent = '86';
+    aov.textContent = 'Rp495.900';
+  }
+}
+</script>
+</body>
+</html>

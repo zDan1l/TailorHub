@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manajemen Tim &amp; Staf — TailorHub</title>
+<meta name="description" content="Kelola daftar staf penjahit, kasir, hak akses modul, dan undang anggota baru.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* Summary Cards */
+.team-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.team-kpi{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-m);padding:18px;transition:transform .3s var(--ease),border-color .3s;}
+.team-kpi:hover{transform:translateY(-4px);border-color:var(--clay-300);}
+.team-kpi small{display:block;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-45);}
+.team-kpi b{font-size:1.5rem;font-weight:800;display:block;line-height:1.2;margin:6px 0;letter-spacing:-.03em;}
+
+/* Filter Bar */
+.filter-bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.filter-bar .select{max-width:180px;padding:9px 14px;font-size:.88rem;}
+
+/* Table Card */
+.table-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);box-shadow:var(--shadow-s);overflow:hidden;}
+.tw{overflow-x:auto;}
+.user-cell{display:flex;align-items:center;gap:12px;}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:var(--clay);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:800;flex:none;}
+
+/* Modal Overlay */
+.modal-overlay{position:fixed;inset:0;background:rgba(42,24,16,.5);z-index:99;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.modal-overlay.is-active{display:flex;}
+.modal-box{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);width:100%;max-width:520px;padding:28px;box-shadow:var(--shadow-l);animation:modalIn .25s var(--ease);}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--sand);}
+
+@media(max-width:860px){
+  .team-kpi-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:520px){
+  .team-kpi-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim" onclick="document.getElementById('app').classList.remove('nav-open')"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#C05424"/><path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/><circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/><circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i" href="../reports/index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i" href="../notifications/index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN AREA ===================== -->
+  <div class="main">
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu" onclick="document.getElementById('app').classList.toggle('nav-open')"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <form class="search" action="../search.html" method="GET">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" name="q" placeholder="Cari nama anggota, email staf…">
+      </form>
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <a href="../../account/profile.html" class="top-avatar">PM</a>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <b>Manajemen Tim</b>
+          </nav>
+          <h1>Manajemen Tim &amp; Staf</h1>
+          <p class="sub">Kelola daftar penjahit, kasir, hak akses modul, dan undang staf baru (FR-37, FR-38, FR-39).</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="activity-log.html" class="btn btn--ghost">
+            <svg width="17" height="17"><use href="#i-clock"/></svg>
+            <span>Log Aktivitas Tim</span>
+          </a>
+          <button class="btn btn--primary" onclick="document.getElementById('inviteModal').classList.add('is-active');">
+            <svg width="17" height="17"><use href="#i-plus"/></svg>
+            <span>Undang Anggota Baru</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <section class="team-kpi-grid">
+        <div class="team-kpi">
+          <small>Total Staf Terdaftar</small>
+          <b>4 / 5 Akun</b>
+          <div style="font-size:.78rem;color:var(--green);font-weight:600;">Paket Pro: Tersisa 1 slot</div>
+        </div>
+        <div class="team-kpi">
+          <small>Operator Penjahit</small>
+          <b>2 Penjahit</b>
+          <div style="font-size:.78rem;color:var(--ink-45);">Aktif di 12 pesanan</div>
+        </div>
+        <div class="team-kpi">
+          <small>Admin Kasir &amp; CS</small>
+          <b>1 Staf</b>
+          <div style="font-size:.78rem;color:var(--ink-45);">Input order &amp; tagihan</div>
+        </div>
+        <div class="team-kpi">
+          <small>Undangan Tertunda</small>
+          <b style="color:var(--amber);">1 Orang</b>
+          <div style="font-size:.78rem;color:var(--amber);">Menunggu aktivasi link</div>
+        </div>
+      </section>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <select class="select">
+          <option>Semua Role</option>
+          <option>Pemilik Usaha</option>
+          <option>Admin Kasir &amp; CS</option>
+          <option>Penjahit Senior</option>
+          <option>Tukang Potong Pola</option>
+        </select>
+        <select class="select">
+          <option>Semua Status</option>
+          <option>Aktif</option>
+          <option>Undangan Terkirim</option>
+          <option>Nonaktif</option>
+        </select>
+        <div class="input-group" style="max-width:280px;flex:1;">
+          <svg width="16" height="16"><use href="#i-search"/></svg>
+          <input class="input" type="text" placeholder="Cari staf..." style="padding:9px 14px 9px 38px;font-size:.88rem;">
+        </div>
+      </div>
+
+      <!-- Table Section -->
+      <section class="table-card">
+        <div class="tw">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nama Anggota</th>
+                <th>Role / Peran</th>
+                <th>Kontak</th>
+                <th>Izin Akses Produksi</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Member 1: Owner -->
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <span class="user-avatar">PM</span>
+                    <div>
+                      <b>Pak Mardi</b>
+                      <small style="display:block;color:var(--ink-45);font-size:.78rem;">mardi@jahitlestari.id</small>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="chip chip--clay">Pemilik (Owner)</span></td>
+                <td>0812-3456-7890</td>
+                <td><span style="color:var(--green);font-weight:700;">Akses Penuh (Semua)</span></td>
+                <td><span class="chip chip--paid">Aktif</span></td>
+                <td><span style="font-size:.82rem;color:var(--ink-45);">Akun Utama</span></td>
+              </tr>
+
+              <!-- Member 2: Admin Kasir -->
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <span class="user-avatar" style="background:var(--indigo);">AN</span>
+                    <div>
+                      <b>Angelica Novita (Admin Angel)</b>
+                      <small style="display:block;color:var(--ink-45);font-size:.78rem;">angel@jahitlestari.id</small>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="chip chip--soft">Admin Kasir &amp; CS</span></td>
+                <td>0813-7762-9901</td>
+                <td>Pesanan, Bayar, Customer</td>
+                <td><span class="chip chip--paid">Aktif</span></td>
+                <td><a href="member-detail.html" class="btn btn--ghost btn--sm">Detail &amp; Hak Akses</a></td>
+              </tr>
+
+              <!-- Member 3: Penjahit Senior -->
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <span class="user-avatar" style="background:#27ae60;">JS</span>
+                    <div>
+                      <b>Joko Susanto</b>
+                      <small style="display:block;color:var(--ink-45);font-size:.78rem;">joko.tailor@gmail.com</small>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="chip chip--soft">Penjahit Senior</span></td>
+                <td>0812-9988-1234</td>
+                <td>Tahap: Jahit, Finishing, QC</td>
+                <td><span class="chip chip--paid">Aktif</span></td>
+                <td><a href="member-detail.html" class="btn btn--ghost btn--sm">Detail &amp; Hak Akses</a></td>
+              </tr>
+
+              <!-- Member 4: Tukang Potong -->
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <span class="user-avatar" style="background:#8e44ad;">RP</span>
+                    <div>
+                      <b>Rian Pratama</b>
+                      <small style="display:block;color:var(--ink-45);font-size:.78rem;">rian.p@gmail.com</small>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="chip chip--soft">Tukang Potong Pola</span></td>
+                <td>0857-1122-3344</td>
+                <td>Tahap: Antrean &amp; Potong Pola</td>
+                <td><span class="chip chip--paid">Aktif</span></td>
+                <td><a href="member-detail.html" class="btn btn--ghost btn--sm">Detail &amp; Hak Akses</a></td>
+              </tr>
+
+              <!-- Member 5: Pending Invite -->
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <span class="user-avatar" style="background:var(--sand-dark);">DS</span>
+                    <div>
+                      <b>Dewi Sartika</b>
+                      <small style="display:block;color:var(--ink-45);font-size:.78rem;">dewi.s@gmail.com</small>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="chip chip--soft">Asisten Finishing &amp; QC</span></td>
+                <td>—</td>
+                <td>Tahap: Finishing &amp; QC</td>
+                <td><span class="chip chip--dp">Undangan Terkirim</span></td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button type="button" class="btn btn--ghost btn--sm" onclick="alert('Link undangan berhasil dikirim ulang ke dewi.s@gmail.com');">Kirim Ulang</button>
+                    <button type="button" class="btn btn--ghost btn--sm" style="color:var(--red);border-color:transparent;" onclick="confirm('Batalkan undangan ini?');">Batal</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Modal Dialog Undang Anggota Baru (FR-37) -->
+<div class="modal-overlay" id="inviteModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <h3 style="font-size:1.15rem;margin-bottom:2px;">Undang Anggota Staf Baru</h3>
+        <p style="font-size:.82rem;color:var(--ink-45);">Kirim tautan aktivasi akun ke email staf Anda</p>
+      </div>
+      <button type="button" class="btn btn--ghost btn--icon" onclick="document.getElementById('inviteModal').classList.remove('is-active');" aria-label="Tutup"><svg width="18" height="18"><use href="#i-x"/></svg></button>
+    </div>
+
+    <form onsubmit="alert('Undangan bergabung berhasil dikirim ke email staf!'); document.getElementById('inviteModal').classList.remove('is-active'); return false;">
+      <div class="field">
+        <label>Nama Lengkap Staf <span class="req">*</span></label>
+        <input class="input" type="text" placeholder="Contoh: Siti Rahma" required>
+      </div>
+
+      <div class="field">
+        <label>Alamat Email Staf <span class="req">*</span></label>
+        <input class="input" type="email" placeholder="nama@email.com" required>
+        <span class="help">Staf akan menerima email dengan tautan untuk membuat kata sandi sendiri.</span>
+      </div>
+
+      <div class="field">
+        <label>Role / Jabatan <span class="req">*</span></label>
+        <select class="select">
+          <option>Penjahit / Operator Produksi</option>
+          <option>Admin Kasir &amp; Customer Service</option>
+          <option>Spesialis Potong Pola</option>
+          <option>Quality Control &amp; Finishing</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Izin Akses Tahap Produksi yang Diizinkan</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;">
+          <label class="check"><input type="checkbox" checked><span>Potong Pola</span></label>
+          <label class="check"><input type="checkbox" checked><span>Proses Jahit</span></label>
+          <label class="check"><input type="checkbox" checked><span>Finishing &amp; Obras</span></label>
+          <label class="check"><input type="checkbox"><span>Quality Control</span></label>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px;">
+        <button type="button" class="btn btn--ghost" onclick="document.getElementById('inviteModal').classList.remove('is-active');">Batal</button>
+        <button type="submit" class="btn btn--primary">Kirim Undangan Aktivasi</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const tbody = document.querySelector(".table tbody");
+  const kpis = document.querySelectorAll(".team-kpi-grid .team-kpi b");
+
+  async function loadTeam() {
+    try {
+      const data = await TH.get("/api/team");
+      const items = data.data || [];
+      if (kpis[0]) kpis[0].textContent = `${items.length} / 5 Akun`;
+      if (kpis[1]) kpis[1].textContent = `${items.filter(u => u.role === "staff").length} Penjahit`;
+      if (kpis[2]) kpis[2].textContent = `${items.filter(u => u.role === "admin").length} Staf`;
+      if (kpis[3]) kpis[3].textContent = `${items.filter(u => u.status === "diundang").length} Orang`;
+
+      if (tbody && items.length) {
+        const roleMap = {
+          pemilik: ["chip--clay", "Pemilik (Owner)", "Akses Penuh (Semua)"],
+          owner: ["chip--clay", "Pemilik (Owner)", "Akses Penuh (Semua)"],
+          admin: ["chip--soft", "Admin Kasir & CS", "Pesanan, Bayar, Customer"],
+          staff: ["chip--soft", "Penjahit / Operator", "Tahap: Potong, Jahit, Finishing, QC"]
+        };
+        tbody.innerHTML = items.map(u => {
+          const isOwner = u.role === "pemilik" || u.role === "owner";
+          const [cls, rLabel, perm] = roleMap[u.role] || ["chip--soft", u.role, "Tahap Produksi"];
+          const ini = TH.initials(u.name);
+          const actionHtml = isOwner
+            ? `<span style="font-size:.82rem;color:var(--ink-45);">Akun Utama</span>`
+            : `<a href="member-detail.html?id=${u.id}" class="btn btn--ghost btn--sm">Detail &amp; Hak Akses</a>`;
+          const statusChip = u.status === "diundang" ? `<span class="chip chip--dp">Undangan Terkirim</span>` : `<span class="chip chip--paid">Aktif</span>`;
+          return `<tr>
+            <td>
+              <div class="user-cell">
+                <span class="user-avatar">${TH.esc(ini)}</span>
+                <div>
+                  <b>${TH.esc(u.name)}</b>
+                  <small style="display:block;color:var(--ink-45);font-size:.78rem;">${TH.esc(u.email)}</small>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip ${cls}">${rLabel}</span></td>
+            <td>—</td>
+            <td>${isOwner ? `<span style="color:var(--green);font-weight:700;">${perm}</span>` : perm}</td>
+            <td>${statusChip}</td>
+            <td>${actionHtml}</td>
+          </tr>`;
+        }).join("");
+      }
+    } catch (e) {
+      console.warn("Load team error:", e);
+    }
+  }
+
+  const inviteForm = document.querySelector("#inviteModal form");
+  if (inviteForm) {
+    inviteForm.removeAttribute("onsubmit");
+    inviteForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nameInput = inviteForm.querySelector('input[type="text"]');
+      const emailInput = inviteForm.querySelector('input[type="email"]');
+      const roleSelect = inviteForm.querySelector("select");
+      const rawRole = (roleSelect?.value || "").toLowerCase();
+      const role = rawRole.includes("admin") ? "admin" : "staff";
+      const submitBtn = inviteForm.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Mengirim…"; }
+      try {
+        await TH.post("/api/team", {
+          name: nameInput?.value.trim(),
+          email: emailInput?.value.trim(),
+          role
+        });
+        document.getElementById("inviteModal").classList.remove("is-active");
+        inviteForm.reset();
+        await loadTeam();
+      } catch (err) {
+        alert(err.message || "Gagal menambahkan anggota tim");
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Kirim Undangan Aktivasi"; }
+      }
+    });
+  }
+
+  loadTeam();
+});
+</script>
+</body>
+</html>

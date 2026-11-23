@@ -143,7 +143,7 @@
         </div>
       </div>
 
-      <form action="detail.html" method="GET" style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;">
+      <form id="formCreateOrder" action="detail.html" method="GET" style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;">
         <!-- KOLOM UTAMA -->
         <div style="display:flex;flex-direction:column;gap:20px;">
           
@@ -169,11 +169,14 @@
                 <label for="selectCust">Pilih Pelanggan Terdaftar <span class="req">*</span></label>
                 <select id="selectCust" class="select" required>
                   <option value="">-- Pilih dari database customer --</option>
-                  <option value="1" selected>Hendra Gunawan (0812-9876-5432) — VIP Member</option>
-                  <option value="2">Nurul Aisyah (0857-1122-3344) — 3 Pesanan</option>
-                  <option value="3">Bambang Wijaya (0813-4455-6677) — 1 Pesanan</option>
-                  <option value="4">Maya Safitri (0819-8877-6655) — 5 Pesanan</option>
-                  <option value="5">Denny Yanuar (0812-3344-9900) — Konveksi Seragam</option>
+                  <option value="1" selected>Hendra Wibowo (0812-9876-5432) — VIP Member</option>
+                  <option value="2">Budi Santoso (0813-2345-6789) — VIP Prioritas</option>
+                  <option value="3">Citra Dewi (0818-3456-7890) — 5 Pesanan</option>
+                  <option value="4">PT Maju Jaya / Denny Yanuar (0812-3344-9900) — Konveksi Seragam</option>
+                  <option value="5">Nurul Laila (0857-1122-3344) — 3 Pesanan</option>
+                  <option value="6">Sari Wulandari (0857-8899-0011) — 2 Pesanan</option>
+                  <option value="7">Rudi Darmawan (0812-5566-7788) — 2 Pesanan</option>
+                  <option value="8">Ibu Ratna (0813-9900-1122) — 6 Pesanan</option>
                 </select>
                 <span class="help">Pilih untuk memuat riwayat ukuran badan otomatis jika sudah pernah memesan sebelumnya.</span>
               </div>
@@ -184,16 +187,16 @@
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
                 <div class="field">
                   <label>Nama Lengkap Pelanggan <span class="req">*</span></label>
-                  <input type="text" class="input" placeholder="Contoh: Budi Santoso">
+                  <input type="text" id="newCustName" class="input" placeholder="Contoh: Budi Santoso">
                 </div>
                 <div class="field">
                   <label>Nomor WhatsApp / HP <span class="req">*</span></label>
-                  <input type="tel" class="input" placeholder="08xxxxxxxxxx">
+                  <input type="tel" id="newCustPhone" class="input" placeholder="08xxxxxxxxxx">
                 </div>
               </div>
               <div class="field" style="margin-bottom:0;">
                 <label>Alamat Pengantaran / Domisili</label>
-                <input type="text" class="input" placeholder="Jl. Anggrek No. 12, Kelurahan...">
+                <input type="text" id="newCustAddress" class="input" placeholder="Jl. Anggrek No. 12, Kelurahan...">
               </div>
             </div>
           </div>
@@ -320,8 +323,8 @@
               <select id="assignedStaff" class="select">
                 <option value="">-- Bebas (Staff Antrean) --</option>
                 <option value="budi" selected>Mas Budi (Spesialis Jas &amp; Formal)</option>
-                <option value="siti">Mbak Siti (Spesialis Kebaya &amp; Gaun)</option>
-                <option value="joko">Pak Joko (Spesialis Kemeja &amp; Celana)</option>
+                <option value="andi">Andi S. (AS)</option>
+                <option value="rina">Rina N. (RN)</option>
               </select>
             </div>
           </div>
@@ -383,6 +386,9 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 function toggleDpField(val) {
   var dp = document.getElementById('dpAmountField');
@@ -392,6 +398,67 @@ function toggleDpField(val) {
     dp.style.display = 'none';
   }
 }
+
+(async function () {
+  var selectCust = document.getElementById('selectCust');
+  var urlCustomerId = new URLSearchParams(location.search).get('customer_id');
+  try {
+    var res = await TH.get('/api/customers');
+    var list = (res && res.data) || [];
+    if (list.length && selectCust) {
+      selectCust.innerHTML = '<option value="">-- Pilih dari database customer --</option>' +
+        list.map(function (c) {
+          var sel = (urlCustomerId && String(c.id) === String(urlCustomerId)) ? ' selected' : '';
+          return '<option value="' + TH.esc(c.id) + '"' + sel + '>' + TH.esc(c.name) + ' (' + TH.esc(c.phone || '-') + ') — ' + TH.esc(c.order_count || 0) + ' Pesanan</option>';
+        }).join('');
+      if (!urlCustomerId && list[0]) selectCust.value = String(list[0].id);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  document.getElementById('formCreateOrder').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var custMode = (document.querySelector('input[name="cust_type"]:checked') || {}).value || 'existing';
+    var paySelect = document.getElementById('payStatus').value;
+    var payStatusLabel = paySelect === 'paid' ? 'Lunas' : paySelect === 'dp' ? 'DP' : 'Belum Bayar';
+    var priceVal = Number(document.getElementById('priceTotal').value) || 0;
+    var dpVal = Number(document.getElementById('dpNominal').value) || 0;
+    var initialPayment = paySelect === 'paid' ? priceVal : paySelect === 'dp' ? dpVal : 0;
+
+    var payload = {
+      type: document.getElementById('orderTitle').value.trim() || document.getElementById('category').value,
+      qty: Number(document.getElementById('itemQty').value) || 1,
+      detail: document.getElementById('fabric').value.trim(),
+      notes: document.getElementById('orderNotes').value.trim(),
+      entry_date: document.getElementById('orderDate').value,
+      deadline: document.getElementById('deadlineDate').value,
+      price: priceVal,
+      payment_status: payStatusLabel,
+      initial_payment: initialPayment,
+      payment_method: document.getElementById('payMethod').value
+    };
+
+    if (custMode === 'new') {
+      payload.customer_name = document.getElementById('newCustName').value.trim();
+      payload.customer_phone = document.getElementById('newCustPhone').value.trim();
+      payload.customer_address = document.getElementById('newCustAddress').value.trim();
+      if (!payload.customer_name) {
+        alert('Nama pelanggan baru wajib diisi.');
+        return;
+      }
+    } else {
+      payload.customer_id = Number(selectCust.value) || null;
+    }
+
+    try {
+      var created = await TH.post('/api/orders', payload);
+      location.href = '/app/orders/detail.html?id=' + encodeURIComponent(created.id);
+    } catch (err) {
+      alert('Gagal menyimpan pesanan: ' + err.message);
+    }
+  });
+})();
 </script>
 
 </body>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontak — TailorHub</title>
+<meta name="description" content="Hubungi tim TailorHub untuk pertanyaan, demo, atau dukungan. Kami siap membantu usaha jahit Anda.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/public.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.2"/><path d="m3.6 6.5 8.4 6 8.4-6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a11 11 0 0 0 5.6 5.6l1.9-1.9a1.4 1.4 0 0 1 1.4-.34 8 8 0 0 0 2.5.4 1.4 1.4 0 0 1 1.4 1.4V19a1.4 1.4 0 0 1-1.4 1.4A14 14 0 0 1 3.6 6.4 1.4 1.4 0 0 1 5 5h2.4a1.4 1.4 0 0 1 1.4 1.4 8 8 0 0 0 .4 2.5 1.4 1.4 0 0 1-.34 1.4Z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11.2A7 7 0 0 0 5 9.8C5 14.7 12 21 12 21Z"/><circle cx="12" cy="9.6" r="2.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 1 3.4 6.5L4 20l1.5-3.4A8 8 0 0 1 4 12Z"/></symbol>
+</defs></svg>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="TailorHub beranda">
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <a href="features.html">Fitur</a>
+      <a href="pricing.html">Harga</a>
+      <a href="about.html">Tentang</a>
+      <a href="help-center.html">Bantuan</a>
+      <a href="contact.html" class="is-on">Kontak</a>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn--ghost" href="portal/track.html">Lacak Pesanan</a>
+      <a class="btn btn--primary" href="auth/register.html">Coba Gratis</a>
+    </div>
+    <button class="burger" aria-label="Buka menu" aria-expanded="false"><svg width="26" height="26"><use href="#i-menu"/></svg></button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <div class="wrap">
+      <a href="features.html">Fitur</a>
+      <a href="pricing.html">Harga</a>
+      <a href="about.html">Tentang</a>
+      <a href="help-center.html">Bantuan</a>
+      <a href="contact.html">Kontak</a>
+      <a class="btn btn--ghost" href="portal/track.html">Lacak Pesanan</a>
+      <a class="btn btn--primary" href="auth/register.html">Coba Gratis</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Hubungi kami</span>
+      <h1 data-reveal>Ada pertanyaan? Kami siap membantu</h1>
+      <p class="lead" data-reveal>Kirim pesan untuk pertanyaan produk, permintaan demo, atau dukungan. Biasanya kami balas dalam 1×24 jam kerja.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="split-2 split-2--form">
+        <!-- Form -->
+        <div class="card" data-reveal style="padding:30px">
+          <h3 style="margin-bottom:6px">Kirim pesan</h3>
+          <p class="muted" style="font-size:.92rem;margin-bottom:20px">Isi formulir di bawah ini.</p>
+          <form id="contactForm" novalidate>
+            <div class="grid g-2" style="gap:0 16px">
+              <div class="field">
+                <label for="cf-nama">Nama <span class="req">*</span></label>
+                <input class="input" id="cf-nama" name="nama" type="text" placeholder="Nama lengkap" required>
+              </div>
+              <div class="field">
+                <label for="cf-email">Email <span class="req">*</span></label>
+                <input class="input" id="cf-email" name="email" type="email" placeholder="nama@email.com" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="cf-subjek">Subjek</label>
+              <select class="select" id="cf-subjek" name="subjek">
+                <option>Pertanyaan umum</option>
+                <option>Minta demo</option>
+                <option>Dukungan teknis</option>
+                <option>Kerja sama</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cf-pesan">Pesan <span class="req">*</span></label>
+              <textarea class="textarea" id="cf-pesan" name="pesan" placeholder="Tulis pesan Anda di sini…" required></textarea>
+            </div>
+            <label class="check" style="margin-bottom:18px"><input type="checkbox" required> Saya setuju data saya digunakan untuk membalas pesan ini.</label>
+            <button class="btn btn--primary btn--block" type="submit">Kirim Pesan <svg width="18" height="18"><use href="#i-arrow"/></svg></button>
+            <p id="cf-ok" class="alert alert--success" style="display:none;margin-top:16px"><svg width="20" height="20"><use href="#i-check"/></svg><span>Terima kasih! Pesan Anda sudah terkirim (demo).</span></p>
+          </form>
+        </div>
+
+        <!-- Info -->
+        <div data-reveal>
+          <div class="card" style="padding:26px 28px">
+            <div class="info-row">
+              <span class="icon-box"><svg width="22" height="22"><use href="#i-mail"/></svg></span>
+              <div><b>Email</b><span>halo@tailorhub.id</span></div>
+            </div>
+            <div class="info-row">
+              <span class="icon-box"><svg width="22" height="22"><use href="#i-chat"/></svg></span>
+              <div><b>WhatsApp</b><span>+62 812-0000-0000</span></div>
+            </div>
+            <div class="info-row">
+              <span class="icon-box"><svg width="22" height="22"><use href="#i-phone"/></svg></span>
+              <div><b>Telepon</b><span>(021) 000-0000 · Sen–Jum, 09.00–17.00</span></div>
+            </div>
+            <div class="info-row">
+              <span class="icon-box"><svg width="22" height="22"><use href="#i-map"/></svg></span>
+              <div><b>Alamat</b><span>Jakarta, Indonesia</span></div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:16px;background:var(--cream-200)">
+            <h4 style="margin-bottom:6px">Butuh jawaban cepat?</h4>
+            <p class="muted" style="font-size:.92rem;margin-bottom:14px">Cek pertanyaan yang sering diajukan di Pusat Bantuan.</p>
+            <a class="btn btn--ghost btn--sm" href="help-center.html">Buka Pusat Bantuan</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="TailorHub beranda">
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect width="40" height="40" rx="12" fill="#C05424"/>
+            <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+          </svg>
+          <span>Tailor<em>Hub</em></span>
+        </a>
+        <p>Sistem manajemen pesanan jahit &amp; konveksi dalam satu papan terpusat.</p>
+      </div>
+      <div class="foot-col"><h4>Produk</h4><ul>
+        <li><a href="features.html">Fitur</a></li>
+        <li><a href="pricing.html">Harga</a></li>
+        <li><a href="portal/track.html">Lacak Pesanan</a></li>
+      </ul></div>
+      <div class="foot-col"><h4>Perusahaan</h4><ul>
+        <li><a href="about.html">Tentang</a></li>
+        <li><a href="contact.html">Kontak</a></li>
+        <li><a href="help-center.html">Bantuan</a></li>
+      </ul></div>
+      <div class="foot-col"><h4>Legal</h4><ul>
+        <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+        <li><a href="privacy.html">Kebijakan Privasi</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-bar">
+      <span>© 2026 TailorHub. Seluruh hak cipta dilindungi.</span>
+      <span>Dibuat untuk usaha jahit &amp; konveksi Indonesia.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/public.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  if(!this.checkValidity()){this.reportValidity();return;}
+  document.getElementById('cf-ok').style.display='flex';
+  this.reset();
+});
+</script>
+</body>
+</html>

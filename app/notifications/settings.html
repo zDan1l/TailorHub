@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengaturan Notifikasi — TailorHub</title>
+<meta name="description" content="Kelola preferensi dan kanal penerimaan notifikasi operasional TailorHub.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Urutan impor CSS standar tim -->
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* ============================================================
+   STYLING PENGATURAN NOTIFIKASI — CLEAN, ELEGAN & PROFESIONAL
+   ============================================================ */
+
+/* Kartu Pengaturan Utama */
+.settings-section {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  box-shadow: var(--shadow-s);
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+
+.settings-section-head {
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--sand);
+}
+
+.settings-section-head h2 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+
+.settings-section-head p {
+  font-size: .88rem;
+  color: var(--ink-45);
+}
+
+/* Ringkasan Kanal Pengiriman (3 Kolom) */
+.channels-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.channel-card {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 20px;
+  box-shadow: var(--shadow-s);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.channel-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.channel-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--cream-200);
+  color: var(--clay);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.channel-info b {
+  display: block;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.channel-info span {
+  font-size: .82rem;
+  color: var(--ink-45);
+}
+
+.channel-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px dashed var(--sand);
+}
+
+/* Tabel / Matriks Preferensi */
+.pref-table-wrap {
+  overflow-x: auto;
+}
+
+.pref-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pref-table thead th {
+  text-align: left;
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  padding: 12px 16px;
+  background: var(--cream-200);
+  border-top: 1px solid var(--sand);
+  border-bottom: 1px solid var(--sand);
+}
+
+.pref-table thead th.col-center {
+  text-align: center;
+  width: 120px;
+}
+
+.pref-group-title {
+  padding: 18px 16px 8px;
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clay);
+  background: transparent;
+}
+
+.pref-row td {
+  padding: 16px;
+  border-bottom: 1px solid var(--sand);
+  vertical-align: middle;
+}
+
+.pref-row:last-child td {
+  border-bottom: none;
+}
+
+.pref-row td.col-center {
+  text-align: center;
+}
+
+.pref-event b {
+  display: block;
+  font-size: .93rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.pref-event span {
+  font-size: .82rem;
+  color: var(--ink-45);
+  line-height: 1.45;
+}
+
+/* Toggle Switch Modern & Aksesibel */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex: none;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--sand-dark);
+  transition: background-color .2s var(--ease);
+  border-radius: 999px;
+}
+
+.switch-slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #ffffff;
+  transition: transform .2s var(--ease);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+
+.switch input:checked + .switch-slider {
+  background-color: var(--clay);
+}
+
+.switch input:checked + .switch-slider::before {
+  transform: translateX(20px);
+}
+
+.switch input:focus-visible + .switch-slider {
+  box-shadow: 0 0 0 3px rgba(192, 84, 36, .2);
+}
+
+/* Form Waktu Hening */
+.time-range-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.time-range-group input[type="time"] {
+  font-family: inherit;
+  font-size: .9rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--sand);
+  border-radius: var(--r-s);
+  padding: 8px 14px;
+  outline: none;
+}
+
+.time-range-group input[type="time"]:focus {
+  border-color: var(--clay);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .channels-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .settings-section {
+    padding: 20px 16px;
+    border-radius: var(--r-m);
+  }
+  .pref-table thead th.col-center {
+    width: 80px;
+    font-size: .68rem;
+    padding: 10px 8px;
+  }
+  .pref-row td {
+    padding: 12px 8px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Set Ikon SVG Sprite Resmi -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ===================== SIDEBAR (reusable) ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i" href="../reports/index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i" href="../team/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <div class="main">
+    <!-- Topbar (reusable) -->
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <form class="search" action="../search.html" method="GET">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" name="q" placeholder="Cari pesanan, customer, kode…">
+      </form>
+      <div class="top-actions">
+        <a href="index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <span class="top-avatar">PM</span>
+      </div>
+    </header>
+
+    <!-- Konten Halaman Pengaturan Notifikasi -->
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <a href="index.html">Notifikasi</a>
+            <span>/</span>
+            <b>Pengaturan</b>
+          </nav>
+          <h1>Pengaturan Notifikasi</h1>
+          <p class="sub">Tentukan bagaimana dan melalui media apa tim menerima pembaruan sistem operasional.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <a href="index.html" class="btn btn--ghost btn--sm">
+            <svg width="16" height="16"><use href="#i-arrow-left"/></svg> Kembali ke Notifikasi
+          </a>
+          <button class="btn btn--primary btn--sm" id="btnSave">
+            <svg width="16" height="16"><use href="#i-check"/></svg> Simpan Perubahan
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. Ringkasan Status Kanal Penerima -->
+      <section class="channels-grid">
+        <!-- In-App -->
+        <div class="channel-card">
+          <div class="channel-top">
+            <div class="channel-icon">
+              <svg width="22" height="22"><use href="#i-bell"/></svg>
+            </div>
+            <div class="channel-info">
+              <b>Notifikasi In-App</b>
+              <span>Pusat notifikasi dan pop-up banner di dashboard</span>
+            </div>
+          </div>
+          <div class="channel-status">
+            <span class="chip chip--paid">Aktif</span>
+            <span style="font-size:.78rem;color:var(--ink-45)">Semua Perangkat</span>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="channel-card">
+          <div class="channel-top">
+            <div class="channel-icon">
+              <svg width="22" height="22"><use href="#i-mail"/></svg>
+            </div>
+            <div class="channel-info">
+              <b>Kanal Email</b>
+              <span>owner@jahitlestari.id</span>
+            </div>
+          </div>
+          <div class="channel-status">
+            <span class="chip chip--paid">Terhubung</span>
+            <a href="../../account/profile.html" style="font-size:.78rem;font-weight:700;color:var(--clay)">Ubah Email</a>
+          </div>
+        </div>
+
+        <!-- WhatsApp Gateway -->
+        <div class="channel-card">
+          <div class="channel-top">
+            <div class="channel-icon">
+              <svg width="22" height="22"><use href="#i-chat"/></svg>
+            </div>
+            <div class="channel-info">
+              <b>WhatsApp Gateway</b>
+              <span>+62 812-3456-7890</span>
+            </div>
+          </div>
+          <div class="channel-status">
+            <span class="chip chip--paid">Terhubung</span>
+            <a href="../settings/tenant.html" style="font-size:.78rem;font-weight:700;color:var(--clay)">Kelola Nomor</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Matriks Preferensi Notifikasi -->
+      <section class="settings-section">
+        <div class="settings-section-head">
+          <h2>Preferensi Pengiriman Notifikasi</h2>
+          <p>Aktifkan atau nonaktifkan saluran komunikasi untuk setiap peristiwa bisnis.</p>
+        </div>
+
+        <div class="pref-table-wrap">
+          <table class="pref-table">
+            <thead>
+              <tr>
+                <th>Peristiwa / Aktivitas</th>
+                <th class="col-center">In-App</th>
+                <th class="col-center">Email</th>
+                <th class="col-center">WhatsApp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Kategori: Pesanan & Produksi -->
+              <tr>
+                <td colspan="4" class="pref-group-title">Pesanan &amp; Alur Produksi</td>
+              </tr>
+              <tr class="pref-row">
+                <td class="pref-event">
+                  <b>Pesanan Baru Masuk</b>
+                  <span>Pemberitahuan saat customer atau admin membuat order jahitan baru</span>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr class="pref-row">
+                <td class="pref-event">
+                  <b>Perpindahan Tahap Produksi</b>
+                  <span>Pembaruan status saat bahan masuk potong, jahit, atau finishing</span>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox">
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr class="pref-row">
+                <td class="pref-event">
+                  <b>Pesanan Lolos QC &amp; Siap Diambil</b>
+                  <span>Pemberitahuan saat pakaian selesai diproduksi dan siap diserahkan</span>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Kategori: Deadline & Urgensi -->
+              <tr>
+                <td colspan="4" class="pref-group-title">Deadline &amp; Urgensi</td>
+              </tr>
+              <tr class="pref-row">
+                <td class="pref-event">
+                  <b>Peringatan Mendekati Deadline (H-3 dan H-1)</b>
+                  <span>Pengingat proaktif sebelum pesanan melewati target selesai</span>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr class="pref-row">
+                <td class="pref-event">
+                  <b>Peringatan Keterlambatan Produksi</b>
+                  <span>Alert saat pesanan belum tuntas padahal batas waktu telah lewat</span>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Kategori: Keuangan & Pembayaran -->
+              <tr>
+                <td colspan="4" class="pref-group-title">Keuangan &amp; Pembayaran</td>
+              </tr>
+              <tr class="pref-row">
+                <td class="pref-event">
+                  <b>Konfirmasi Pembayaran Uang Muka (DP)</b>
+                  <span>Pemberitahuan bukti transfer atau penerimaan kas uang muka pesanan</span>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox">
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+              </tr>
+              <tr class="pref-row">
+                <td class="pref-event">
+                  <b>Pelunasan Tagihan Pesanan</b>
+                  <span>Notifikasi saat sisa pembayaran order dilunasi pelanggan</span>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+                <td class="col-center">
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="switch-slider"></span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. Batas Jam Pengiriman (Quiet Hours) -->
+      <section class="settings-section">
+        <div class="settings-section-head">
+          <h2>Jam Operasional Pengiriman WhatsApp</h2>
+          <p>Tentukan batas waktu pengiriman pesan otomatis agar tidak mengganggu pelanggan di malam hari.</p>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div>
+            <b style="font-size:.95rem;color:var(--ink);display:block;margin-bottom:4px">Batasi Pengiriman di Luar Jam Kerja</b>
+            <span style="font-size:.85rem;color:var(--ink-45)">Pesan yang terpicu di luar jam ini akan diantrekan dan dikirim esok pagi mulai pukul 08:00.</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked id="toggleQuietHours">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <div class="time-range-group" id="quietHoursInputs">
+          <span style="font-size:.88rem;color:var(--ink-70);font-weight:600">Mulai Kirim:</span>
+          <input type="time" value="08:00">
+          <span style="font-size:.88rem;color:var(--ink-70);font-weight:600">Sampai Pukul:</span>
+          <input type="time" value="21:00">
+          <span style="font-size:.8rem;color:var(--ink-45)">WIB</span>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- Script App Shell + Simpan Pengaturan -->
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btnSave = document.getElementById('btnSave');
+  const toggleQuiet = document.getElementById('toggleQuietHours');
+  const quietInputs = document.getElementById('quietHoursInputs');
+
+  // Toggle Jam Operasional
+  if (toggleQuiet && quietInputs) {
+    toggleQuiet.addEventListener('change', function () {
+      quietInputs.style.opacity = this.checked ? '1' : '0.4';
+      quietInputs.querySelectorAll('input').forEach(i => i.disabled = !this.checked);
+    });
+  }
+
+  // Tombol Simpan Perubahan
+  if (btnSave) {
+    btnSave.addEventListener('click', function () {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.id = 'toast';
+      toast.innerHTML = `
+        <svg width="22" height="22"><use href="#i-check"/></svg>
+        <div><b>Berhasil Disimpan</b><small>Preferensi pengiriman notifikasi telah diperbarui.</small></div>
+        <button class="toast-x" aria-label="Tutup" onclick="this.parentElement.remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.transition = 'opacity .4s, transform .4s';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(16px)';
+        setTimeout(() => toast.remove(), 420);
+      }, 3000);
+    });
+  }
+});
+</script>
+</body>
+</html>

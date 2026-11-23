@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riwayat Pesanan Saya — Jahit Lestari · TailorHub</title>
+<meta name="description" content="Lihat daftar riwayat dan progres seluruh pesanan jahitan Anda di Jahit Lestari.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/portal.css">
+</head>
+<body class="portal-page">
+
+<!-- Inline SVG Sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+</defs></svg>
+
+<header class="portal-header">
+  <div class="portal-header-in">
+    <a href="landing.html" class="portal-brand" title="Beranda Jahit Lestari">
+      <span class="portal-brand-mark" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-scissors"/></svg>
+      </span>
+      <span class="portal-brand-text">
+        <b>Jahit Lestari</b>
+        <small>Akun Pelanggan</small>
+      </span>
+    </a>
+
+    <nav class="portal-nav" aria-label="Navigasi Akun Pelanggan">
+      <a href="track.html" class="portal-nav-link">
+        <svg width="15" height="15"><use href="#i-search"/></svg>
+        <span>Lacak</span>
+      </a>
+      <button type="button" id="logoutBtn" class="portal-nav-link" style="cursor:pointer">
+        <span>Keluar</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main class="portal-shell portal-shell--wide">
+  <div id="welcomeBanner" class="alert alert--success" role="status" style="margin-bottom:16px" hidden>
+    <svg width="20" height="20"><use href="#i-check"/></svg>
+    <div>
+      <b>Selamat datang di Portal Pelanggan Jahit Lestari!</b>
+      <span>Akun Anda telah aktif. Anda juga bisa melacak pesanan lain lewat kode nota.</span>
+    </div>
+  </div>
+
+  <section class="cust-banner" aria-label="Profil Pelanggan">
+    <div class="cust-profile">
+      <span class="cust-avatar" id="custAvatar">CD</span>
+      <div class="cust-profile-info">
+        <b id="custName">Citra Dewi</b>
+        <small id="custContact">0812-3456-7891 · citra.dewi@email.com</small>
+      </div>
+    </div>
+
+    <div class="cust-switcher">
+      <label for="custSwitcher">Akun Demo:</label>
+      <select id="custSwitcher" class="select" aria-label="Pilih akun pelanggan demo">
+        <option value="citra">Citra Dewi (3 pesanan)</option>
+        <option value="hendra">Hendra W. (2 pesanan)</option>
+        <option value="budi">Budi Santoso (1 pesanan)</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="cust-kpis" aria-label="Ringkasan Pesanan">
+    <div class="cust-kpi">
+      <small>Total Pesanan</small>
+      <b id="kpiTotal">0</b>
+    </div>
+    <div class="cust-kpi">
+      <small>Sedang Proses</small>
+      <b id="kpiActive" style="color:var(--clay)">0</b>
+    </div>
+    <div class="cust-kpi">
+      <small>Selesai / Siap</small>
+      <b id="kpiDone" style="color:var(--green)">0</b>
+    </div>
+  </section>
+
+  <section class="cust-toolbar" aria-label="Filter Riwayat Pesanan">
+    <div class="cust-tabs" id="custTabs" role="tablist" aria-label="Status Pesanan">
+      <button type="button" class="cust-tab is-on" role="tab" aria-selected="true" data-tab="all">Semua</button>
+      <button type="button" class="cust-tab" role="tab" aria-selected="false" data-tab="active">Sedang Proses</button>
+      <button type="button" class="cust-tab" role="tab" aria-selected="false" data-tab="done">Selesai</button>
+    </div>
+
+    <div class="input-group cust-search">
+      <svg width="17" height="17"><use href="#i-search"/></svg>
+      <input id="custSearchInput" class="input" type="search" placeholder="Cari kode atau busana..." aria-label="Cari pesanan">
+    </div>
+  </section>
+
+  <section id="orderList" class="cust-order-list" aria-live="polite"></section>
+
+  <section id="emptyState" class="portal-empty" hidden>
+    <div class="empty-ic" style="margin:0 auto 14px">
+      <svg width="28" height="28"><use href="#i-order"/></svg>
+    </div>
+    <h3 id="emptyTitle">Belum Ada Pesanan Tertaut</h3>
+    <p id="emptyDesc">Belum ada riwayat pesanan yang cocok pada tampilan ini. Gunakan kode pesanan pada nota cetak untuk melacak secara langsung.</p>
+    <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+      <a href="track.html" class="btn btn--primary">
+        <svg width="17" height="17"><use href="#i-search"/></svg>
+        <span>Lacak dengan Kode Nota</span>
+      </a>
+      <a id="waEmptyBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">
+        <svg width="17" height="17"><use href="#i-phone"/></svg>
+        <span>Hubungi WhatsApp CS</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="portal-footer">
+  <div class="portal-footer-in">
+    <span><b>Jahit Lestari</b> · Jl. Dharmawangsa No. 48, Surabaya · Senin–Sabtu 08.00–17.00 WIB</span>
+    <div class="portal-footer-links">
+      <a href="landing.html">Beranda</a>
+      <a href="track.html">Lacak Pesanan</a>
+      <a id="waFooterLink" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">WhatsApp CS</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/portal.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var portal = window.TailorPortal;
+  if (!portal) return;
+
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('welcome') === '1') {
+    document.getElementById('welcomeBanner').hidden = false;
+  }
+
+  var waEmpty = document.getElementById('waEmptyBtn');
+  var waFooter = document.getElementById('waFooterLink');
+  if (waEmpty) waEmpty.href = portal.buildWaUrl('');
+  if (waFooter) waFooter.href = portal.buildWaUrl('');
+
+  var switcher = document.getElementById('custSwitcher');
+  var tabsWrap = document.getElementById('custTabs');
+  var searchInput = document.getElementById('custSearchInput');
+  var orderListEl = document.getElementById('orderList');
+  var emptyEl = document.getElementById('emptyState');
+  var emptyTitle = document.getElementById('emptyTitle');
+  var emptyDesc = document.getElementById('emptyDesc');
+  var logoutBtn = document.getElementById('logoutBtn');
+
+  var currentCustomer = portal.getSessionCustomer();
+  var activeTab = 'all';
+  var searchQuery = '';
+
+  function syncSwitcherOptions() {
+    var existingCustom = switcher.querySelector('option[data-custom="1"]');
+    if (existingCustom) existingCustom.remove();
+
+    if (currentCustomer.key === 'registered' || currentCustomer.key === 'custom') {
+      var opt = document.createElement('option');
+      opt.value = currentCustomer.key;
+      opt.textContent = currentCustomer.name + ' (Akun Baru)';
+      opt.setAttribute('data-custom', '1');
+      switcher.insertBefore(opt, switcher.firstChild);
+      switcher.value = currentCustomer.key;
+    } else {
+      switcher.value = currentCustomer.key || 'citra';
+    }
+  }
+
+  function renderProfile() {
+    document.getElementById('custAvatar').textContent = currentCustomer.initials || 'PL';
+    document.getElementById('custName').textContent = currentCustomer.name;
+    var contactParts = [];
+    if (currentCustomer.phone && currentCustomer.phone !== '-') contactParts.push(currentCustomer.phone);
+    if (currentCustomer.email) contactParts.push(currentCustomer.email);
+    document.getElementById('custContact').textContent = contactParts.join(' · ') || 'Pelanggan Jahit Lestari';
+  }
+
+  function createOrderCard(order) {
+    var card = document.createElement('article');
+    card.className = 'cust-order-card';
+
+    var head = document.createElement('div');
+    head.className = 'cust-order-head';
+
+    var left = document.createElement('div');
+    var codeEl = document.createElement('span');
+    codeEl.className = 'cust-order-code';
+    codeEl.textContent = order.code;
+    var titleEl = document.createElement('h3');
+    titleEl.className = 'cust-order-title';
+    titleEl.textContent = order.title;
+    left.appendChild(codeEl);
+    left.appendChild(titleEl);
+
+    var chips = document.createElement('div');
+    chips.className = 'cust-order-chips';
+    chips.appendChild(portal.createChip(order.stageClass, order.stageLabel));
+    chips.appendChild(portal.createChip(order.payClass, order.payLabel));
+
+    head.appendChild(left);
+    head.appendChild(chips);
+
+    var pct = Math.round((order.step / portal.STAGES.length) * 100);
+    var track = document.createElement('div');
+    track.className = 'bar-track';
+    track.setAttribute('aria-hidden', 'true');
+    var fill = document.createElement('div');
+    fill.className = 'bar-fill';
+    fill.style.width = pct + '%';
+    track.appendChild(fill);
+
+    var meta = document.createElement('div');
+    meta.className = 'cust-order-meta';
+    var metaLeft = document.createElement('span');
+    metaLeft.textContent = 'Masuk: ' + order.orderDate + ' · ' + order.qty;
+    var metaRight = document.createElement('b');
+    metaRight.textContent = order.estimateLabel;
+    meta.appendChild(metaLeft);
+    meta.appendChild(metaRight);
+
+    var foot = document.createElement('div');
+    foot.className = 'cust-order-foot';
+    var updated = document.createElement('small');
+    updated.style.color = 'var(--ink-45)';
+    updated.textContent = 'Diperbarui: ' + order.lastUpdate;
+
+    var link = document.createElement('a');
+    link.className = 'btn btn--primary btn--sm';
+    link.href = 'track-result.html?code=' + encodeURIComponent(order.code) + '&from=account';
+    var linkTxt = document.createElement('span');
+    linkTxt.textContent = 'Lihat Progres Detail';
+    link.appendChild(linkTxt);
+
+    foot.appendChild(updated);
+    foot.appendChild(link);
+
+    card.appendChild(head);
+    card.appendChild(track);
+    card.appendChild(meta);
+    card.appendChild(foot);
+    return card;
+  }
+
+  function renderOrders() {
+    var allOrders = portal.getOrdersByCustomer(currentCustomer.name);
+    var activeCount = allOrders.filter(function (o) { return o.step < 6; }).length;
+    var doneCount = allOrders.filter(function (o) { return o.step >= 6; }).length;
+
+    document.getElementById('kpiTotal').textContent = String(allOrders.length);
+    document.getElementById('kpiActive').textContent = String(activeCount);
+    document.getElementById('kpiDone').textContent = String(doneCount);
+
+    var filtered = allOrders.filter(function (o) {
+      if (activeTab === 'active' && o.step >= 6) return false;
+      if (activeTab === 'done' && o.step < 6) return false;
+      if (searchQuery) {
+        var hay = (o.code + ' ' + o.title + ' ' + o.qty).toLowerCase();
+        if (hay.indexOf(searchQuery) === -1) return false;
+      }
+      return true;
+    });
+
+    orderListEl.textContent = '';
+
+    if (filtered.length === 0) {
+      orderListEl.hidden = true;
+      emptyEl.hidden = false;
+      if (allOrders.length === 0) {
+        emptyTitle.textContent = 'Belum Ada Pesanan Tertaut';
+        emptyDesc.textContent = 'Akun baru ini belum memiliki riwayat pesanan. Anda dapat langsung melacak pesanan menggunakan kode dari nota cetak.';
+      } else {
+        emptyTitle.textContent = 'Pesanan Tidak Ditemukan';
+        emptyDesc.textContent = 'Tidak ada pesanan yang cocok dengan filter atau kata kunci pencarian saat ini.';
+      }
+      return;
+    }
+
+    emptyEl.hidden = true;
+    orderListEl.hidden = false;
+    filtered.forEach(function (order) {
+      orderListEl.appendChild(createOrderCard(order));
+    });
+  }
+
+  switcher.addEventListener('change', function () {
+    var val = switcher.value;
+    if (val === 'citra' || val === 'hendra' || val === 'budi') {
+      currentCustomer = portal.loginDemoCustomer(val);
+      renderProfile();
+      renderOrders();
+    }
+  });
+
+  tabsWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.cust-tab');
+    if (!btn) return;
+    activeTab = btn.getAttribute('data-tab') || 'all';
+    tabsWrap.querySelectorAll('.cust-tab').forEach(function (t) {
+      var on = t === btn;
+      t.classList.toggle('is-on', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    renderOrders();
+  });
+
+  searchInput.addEventListener('input', function () {
+    searchQuery = searchInput.value.trim().toLowerCase();
+    renderOrders();
+  });
+
+  logoutBtn.addEventListener('click', function () {
+    portal.clearSessionCustomer();
+    window.location.href = 'customer-login.html';
+  });
+
+  syncSwitcherOptions();
+  renderProfile();
+  renderOrders();
+})();
+</script>
+</body>
+</html>

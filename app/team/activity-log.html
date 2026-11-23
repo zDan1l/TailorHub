@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log Aktivitas Tim — TailorHub</title>
+<meta name="description" content="Riwayat log audit seluruh aktivitas staf usaha jahit: pembaruan status pengerjaan, pencatatan pembayaran, dan pesanan (FR-40).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* Filter Bar */
+.filter-bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.filter-bar .select{max-width:180px;padding:9px 14px;font-size:.88rem;}
+
+/* Table Card */
+.table-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);box-shadow:var(--shadow-s);overflow:hidden;}
+.tw{overflow-x:auto;}
+.log-user{display:flex;align-items:center;gap:10px;}
+.log-avatar{width:30px;height:30px;border-radius:50%;background:var(--clay);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:800;flex:none;}
+
+/* Pagination */
+.pager{display:flex;gap:6px;align-items:center;justify-content:center;padding:18px;}
+.pager a{min-width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;border-radius:10px;font-size:.88rem;font-weight:700;color:var(--ink-70);border:1px solid var(--sand);background:var(--paper);transition:all .2s;cursor:pointer;}
+.pager a:hover{border-color:var(--clay);color:var(--clay);}
+.pager a.is-on{background:var(--clay);color:#fff;border-color:var(--clay);}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim" onclick="document.getElementById('app').classList.remove('nav-open')"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#C05424"/><path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/><circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/><circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i" href="../reports/index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i" href="../notifications/index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN AREA ===================== -->
+  <div class="main">
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu" onclick="document.getElementById('app').classList.toggle('nav-open')"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <form class="search" action="../search.html" method="GET">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" name="q" placeholder="Cari aktivitas staf, pesanan…">
+      </form>
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <a href="../../account/profile.html" class="top-avatar">PM</a>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <a href="index.html">Tim</a>
+            <span>/</span>
+            <b>Log Aktivitas Tim</b>
+          </nav>
+          <h1>Log Aktivitas Tim</h1>
+          <p class="sub">Riwayat audit seluruh tindakan staf: pembaruan produksi, pembayaran, dan pembuatan pesanan (FR-40).</p>
+        </div>
+        <a href="index.html" class="btn btn--ghost btn--sm">← Kembali ke Manajemen Tim</a>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <select class="select">
+          <option>Semua Anggota</option>
+          <option>Pak Mardi (Pemilik)</option>
+          <option>Admin Angel (Kasir)</option>
+          <option>Joko Susanto (Penjahit)</option>
+          <option>Rian Pratama (Potong)</option>
+        </select>
+        <select class="select">
+          <option>Semua Modul</option>
+          <option>Produksi Jahit</option>
+          <option>Pembayaran &amp; Kasir</option>
+          <option>Pesanan</option>
+          <option>Pengaturan Toko</option>
+        </select>
+        <select class="select">
+          <option>Rentang: 7 Hari Terakhir</option>
+          <option>Hari Ini</option>
+          <option>Bulan Ini</option>
+        </select>
+        <div class="input-group" style="max-width:260px;flex:1;">
+          <svg width="16" height="16"><use href="#i-search"/></svg>
+          <input class="input" type="text" placeholder="Cari kode pesanan / aktivitas..." style="padding:9px 14px 9px 38px;font-size:.88rem;">
+        </div>
+      </div>
+
+      <!-- Table Section -->
+      <section class="table-card">
+        <div class="tw">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Waktu &amp; Tanggal</th>
+                <th>Anggota Staf</th>
+                <th>Modul</th>
+                <th>Detail Aktivitas</th>
+                <th>Pesanan Terkait</th>
+                <th>Status Audit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:var(--ink-70);white-space:nowrap;">Hari ini, 14:23 WIB</td>
+                <td>
+                  <div class="log-user">
+                    <span class="log-avatar" style="background:var(--indigo);">AN</span>
+                    <b>Admin Angel</b>
+                  </div>
+                </td>
+                <td><span class="chip chip--soft">Pembayaran</span></td>
+                <td>Mencatat pembayaran DP Rp200.000 via Transfer Bank</td>
+                <td><b><a href="../payments/detail.html" style="color:var(--clay);">TH-2041</a></b> (Budi Santoso)</td>
+                <td><span class="chip chip--paid">Sukses</span></td>
+              </tr>
+
+              <tr>
+                <td style="color:var(--ink-70);white-space:nowrap;">Hari ini, 11:15 WIB</td>
+                <td>
+                  <div class="log-user">
+                    <span class="log-avatar" style="background:#27ae60;">JS</span>
+                    <b>Joko Susanto</b>
+                  </div>
+                </td>
+                <td><span class="chip chip--sew">Produksi</span></td>
+                <td>Memperbarui status pengerjaan dari 'Jahit' ke 'Finishing &amp; Obras'</td>
+                <td><b><a href="../orders/detail.html" style="color:var(--clay);">TH-2041</a></b> (Budi Santoso)</td>
+                <td><span class="chip chip--finish">Status Diubah</span></td>
+              </tr>
+
+              <tr>
+                <td style="color:var(--ink-70);white-space:nowrap;">Hari ini, 09:40 WIB</td>
+                <td>
+                  <div class="log-user">
+                    <span class="log-avatar" style="background:#8e44ad;">RP</span>
+                    <b>Rian Pratama</b>
+                  </div>
+                </td>
+                <td><span class="chip chip--cut">Produksi</span></td>
+                <td>Memotong pola bahan kain katun dan memindahkan ke meja jahit</td>
+                <td><b><a href="../orders/detail.html" style="color:var(--clay);">TH-2045</a></b> (PT Maju Jaya)</td>
+                <td><span class="chip chip--cut">Potong Pola</span></td>
+              </tr>
+
+              <tr>
+                <td style="color:var(--ink-70);white-space:nowrap;">Kemarin, 16:30 WIB</td>
+                <td>
+                  <div class="log-user">
+                    <span class="log-avatar" style="background:var(--indigo);">AN</span>
+                    <b>Admin Angel</b>
+                  </div>
+                </td>
+                <td><span class="chip chip--soft">Pesanan</span></td>
+                <td>Membuat pesanan baru 20 stel seragam kantor perusahaan</td>
+                <td><b><a href="../orders/detail.html" style="color:var(--clay);">TH-2045</a></b> (PT Maju Jaya)</td>
+                <td><span class="chip chip--queue">Pesanan Baru</span></td>
+              </tr>
+
+              <tr>
+                <td style="color:var(--ink-70);white-space:nowrap;">Kemarin, 14:00 WIB</td>
+                <td>
+                  <div class="log-user">
+                    <span class="log-avatar">PM</span>
+                    <b>Pak Mardi</b>
+                  </div>
+                </td>
+                <td><span class="chip chip--clay">Pengaturan</span></td>
+                <td>Memperbarui jam operasional toko dan kebijakan batas DP pesanan</td>
+                <td style="color:var(--ink-45);">Pengaturan Tenant</td>
+                <td><span class="chip chip--paid">Tersimpan</span></td>
+              </tr>
+
+              <tr>
+                <td style="color:var(--ink-70);white-space:nowrap;">21 Nov 2026, 15:45 WIB</td>
+                <td>
+                  <div class="log-user">
+                    <span class="log-avatar" style="background:#27ae60;">JS</span>
+                    <b>Joko Susanto</b>
+                  </div>
+                </td>
+                <td><span class="chip chip--sew">Produksi</span></td>
+                <td>Menyelesaikan jahitan dress batik dan lolos Quality Control (QC)</td>
+                <td><b><a href="../orders/detail.html" style="color:var(--clay);">TH-2040</a></b> (Citra Dewi)</td>
+                <td><span class="chip chip--qc">QC Lolos</span></td>
+              </tr>
+
+              <tr>
+                <td style="color:var(--ink-70);white-space:nowrap;">20 Nov 2026, 10:12 WIB</td>
+                <td>
+                  <div class="log-user">
+                    <span class="log-avatar" style="background:var(--indigo);">AN</span>
+                    <b>Admin Angel</b>
+                  </div>
+                </td>
+                <td><span class="chip chip--soft">Pembayaran</span></td>
+                <td>Menerbitkan faktur tagihan invoice pelunasan pesanan jahit kebaya</td>
+                <td><b><a href="../payments/detail.html" style="color:var(--clay);">TH-2038</a></b> (Nurul Laila)</td>
+                <td><span class="chip chip--dp">Invoice Terbit</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <a class="is-on">1</a>
+          <a>2</a>
+          <a>3</a>
+          <a>→</a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const data = await TH.get("/api/notifications");
+    const items = data.data || [];
+    const tbody = document.querySelector(".table tbody");
+    if (tbody && items.length) {
+      tbody.innerHTML = items.map(n => `
+        <tr>
+          <td style="color:var(--ink-70);white-space:nowrap;">${TH.esc(n.created_at || "Hari ini")}</td>
+          <td>
+            <div class="log-user">
+              <span class="log-avatar">TH</span>
+              <b>Sistem / Staf</b>
+            </div>
+          </td>
+          <td><span class="chip chip--soft">${TH.esc((n.type || "info").toUpperCase())}</span></td>
+          <td><b>${TH.esc(n.title)}</b> — ${TH.esc(n.body || "")}</td>
+          <td><a href="../orders/index.html" style="color:var(--clay);">Lihat Detail</a></td>
+          <td><span class="chip chip--paid">Tercatat</span></td>
+        </tr>`).join("");
+    }
+  } catch (e) {
+    console.warn("Load activity log error:", e);
+  }
+});
+</script>
+</body>
+</html>

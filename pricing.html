@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harga &amp; Paket — TailorHub</title>
+<meta name="description" content="Pilihan paket langganan TailorHub untuk penjahit perorangan, usaha, hingga konveksi. Coba gratis, tanpa kartu kredit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/public.css">
+</head>
+<body>
+
+<!-- ===== Ikon (inline agar aman di file:// — sumber: assets/partials/icons.svg) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</defs></svg>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="TailorHub beranda">
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <a href="features.html">Fitur</a>
+      <a href="pricing.html" class="is-on">Harga</a>
+      <a href="about.html">Tentang</a>
+      <a href="help-center.html">Bantuan</a>
+      <a href="contact.html">Kontak</a>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn--ghost" href="portal/track.html">Lacak Pesanan</a>
+      <a class="btn btn--primary" href="auth/register.html">Coba Gratis</a>
+    </div>
+    <button class="burger" aria-label="Buka menu" aria-expanded="false"><svg width="26" height="26"><use href="#i-menu"/></svg></button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <div class="wrap">
+      <a href="features.html">Fitur</a>
+      <a href="pricing.html">Harga</a>
+      <a href="about.html">Tentang</a>
+      <a href="help-center.html">Bantuan</a>
+      <a href="contact.html">Kontak</a>
+      <a class="btn btn--ghost" href="portal/track.html">Lacak Pesanan</a>
+      <a class="btn btn--primary" href="auth/register.html">Coba Gratis</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===================== HERO ===================== -->
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Harga transparan</span>
+      <h1 data-reveal>Satu sistem, tumbuh bersama usaha Anda</h1>
+      <p class="lead" data-reveal>Mulai gratis untuk penjahit perorangan. Naik paket saat tim dan pesanan bertambah — tanpa pindah sistem.</p>
+      <div class="bill-toggle" role="group" aria-label="Pilih siklus tagihan" data-reveal>
+        <button id="billMonthly" class="is-on" type="button">Bulanan</button>
+        <button id="billYearly" type="button">Tahunan <span class="bill-save">hemat 2 bulan</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== KARTU HARGA ===================== -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="price-grid">
+
+        <!-- Perorangan -->
+        <article class="price" data-reveal style="--i:0">
+          <h3>Perorangan</h3>
+          <p class="price-desc">Untuk penjahit solo yang ingin catatan rapi dan portal tracking.</p>
+          <div class="price-amt">
+            <b class="price-value" data-monthly="Gratis" data-yearly="Gratis">Gratis</b>
+          </div>
+          <p class="price-note price-period" data-monthly="Selamanya, 1 pengguna" data-yearly="Selamanya, 1 pengguna">Selamanya, 1 pengguna</p>
+          <ul>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Hingga 30 pesanan aktif</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Tracking produksi 7 tahap</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Portal customer (kode pesanan)</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Notifikasi in-app</li>
+          </ul>
+          <a class="btn btn--ghost" href="auth/register.html">Mulai gratis</a>
+        </article>
+
+        <!-- Usaha (unggulan) -->
+        <article class="price price--hero" data-reveal style="--i:1">
+          <span class="price-flag">Paling populer</span>
+          <h3>Usaha</h3>
+          <p class="price-desc">Untuk usaha jahit dengan beberapa staff dan pesanan harian.</p>
+          <div class="price-amt">
+            <b class="price-value" data-monthly="Rp99rb" data-yearly="Rp82rb">Rp99rb</b>
+            <span class="price-per">/bulan</span>
+          </div>
+          <p class="price-note price-period" data-monthly="Per tenant, pengguna tak terbatas" data-yearly="Ditagih Rp990rb/tahun">Per tenant, pengguna tak terbatas</p>
+          <ul>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Pesanan &amp; customer tak terbatas</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Multi-role (Pemilik/Admin/Staff)</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Pembayaran &amp; tagihan</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Laporan pemasukan &amp; pesanan</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Notifikasi WhatsApp otomatis</li>
+          </ul>
+          <a class="btn btn--light" href="auth/register.html">Coba gratis 14 hari</a>
+        </article>
+
+        <!-- Konveksi -->
+        <article class="price" data-reveal style="--i:2">
+          <h3>Konveksi</h3>
+          <p class="price-desc">Untuk konveksi UMKM–menengah dengan banyak tahap &amp; tim.</p>
+          <div class="price-amt">
+            <b class="price-value" data-monthly="Rp249rb" data-yearly="Rp207rb">Rp249rb</b>
+            <span class="price-per">/bulan</span>
+          </div>
+          <p class="price-note price-period" data-monthly="Per tenant, fitur lengkap" data-yearly="Ditagih Rp2.490rb/tahun">Per tenant, fitur lengkap</p>
+          <ul>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Semua fitur paket Usaha</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Papan kanban produksi lanjutan</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Laporan produktivitas tim</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Ekspor laporan PDF/CSV</li>
+            <li><svg width="18" height="18"><use href="#i-check"/></svg> Prioritas dukungan</li>
+          </ul>
+          <a class="btn btn--ghost" href="auth/register.html">Coba gratis 14 hari</a>
+        </article>
+
+      </div>
+      <p class="text-center muted" style="margin-top:26px;font-size:.9rem">Harga di atas adalah estimasi awal dan dapat berubah. Semua paket tanpa kartu kredit untuk memulai.</p>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ BILLING ===================== -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="section-head section-head--center" data-reveal>
+        <span class="eyebrow">Pertanyaan umum</span>
+        <h2>Seputar langganan</h2>
+      </div>
+      <div class="faq">
+        <details data-reveal><summary>Apakah benar-benar gratis untuk memulai? <span class="pm"></span></summary><div class="faq-body"><p>Ya. Paket Perorangan gratis selamanya, dan paket berbayar punya uji coba 14 hari tanpa kartu kredit.</p></div></details>
+        <details data-reveal><summary>Bisa ganti paket kapan saja? <span class="pm"></span></summary><div class="faq-body"><p>Bisa. Naik atau turun paket kapan pun dari menu Pengaturan → Langganan. Data Anda tetap aman.</p></div></details>
+        <details data-reveal><summary>Bagaimana cara pembayarannya? <span class="pm"></span></summary><div class="faq-body"><p>Pembayaran langganan dilakukan bulanan atau tahunan. Rincian metode pembayaran akan ditampilkan saat berlangganan.</p></div></details>
+        <details data-reveal><summary>Apakah data antar usaha tercampur? <span class="pm"></span></summary><div class="faq-body"><p>Tidak. TailorHub multi-tenant: setiap usaha punya lingkungan mandiri yang terisolasi penuh.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="cta-box" data-reveal="zoom">
+        <h2>Coba TailorHub hari ini</h2>
+        <p>Daftarkan usaha, atur profil, lalu input pesanan pertama — semuanya di bawah 10 menit.</p>
+        <div class="cta-actions">
+          <a class="btn btn--primary" href="auth/register.html">Coba Gratis 14 Hari <svg width="18" height="18"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn--outline-light" href="contact.html">Hubungi kami</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="TailorHub beranda">
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect width="40" height="40" rx="12" fill="#C05424"/>
+            <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+          </svg>
+          <span>Tailor<em>Hub</em></span>
+        </a>
+        <p>Sistem manajemen pesanan jahit &amp; konveksi dalam satu papan terpusat.</p>
+      </div>
+      <div class="foot-col"><h4>Produk</h4><ul>
+        <li><a href="features.html">Fitur</a></li>
+        <li><a href="pricing.html">Harga</a></li>
+        <li><a href="portal/track.html">Lacak Pesanan</a></li>
+      </ul></div>
+      <div class="foot-col"><h4>Perusahaan</h4><ul>
+        <li><a href="about.html">Tentang</a></li>
+        <li><a href="contact.html">Kontak</a></li>
+        <li><a href="help-center.html">Bantuan</a></li>
+      </ul></div>
+      <div class="foot-col"><h4>Legal</h4><ul>
+        <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+        <li><a href="privacy.html">Kebijakan Privasi</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-bar">
+      <span>© 2026 TailorHub. Seluruh hak cipta dilindungi.</span>
+      <span>Dibuat untuk usaha jahit &amp; konveksi Indonesia.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/public.js"></script>
+<script>
+/* Toggle siklus tagihan bulanan/tahunan */
+(function(){
+  var m=document.getElementById('billMonthly'), y=document.getElementById('billYearly');
+  function set(mode){
+    m.classList.toggle('is-on',mode==='monthly');
+    y.classList.toggle('is-on',mode==='yearly');
+    document.querySelectorAll('.price-value').forEach(function(el){el.textContent=el.getAttribute('data-'+mode);});
+    document.querySelectorAll('.price-period').forEach(function(el){el.textContent=el.getAttribute('data-'+mode);});
+    document.querySelectorAll('.price-per').forEach(function(el){el.style.display=/Gratis/i.test(el.previousElementSibling.textContent)?'none':'';});
+  }
+  m.addEventListener('click',function(){set('monthly');});
+  y.addEventListener('click',function(){set('yearly');});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lacak Pesanan — Jahit Lestari · TailorHub</title>
+<meta name="description" content="Cek progres jahitan Anda menggunakan kode pesanan pada nota atau pesan WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/portal.css">
+</head>
+<body class="portal-page">
+
+<!-- Inline SVG Sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+</defs></svg>
+
+<header class="portal-header">
+  <div class="portal-header-in">
+    <a href="landing.html" class="portal-brand" title="Beranda Portal Jahit Lestari">
+      <span class="portal-brand-mark" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-scissors"/></svg>
+      </span>
+      <span class="portal-brand-text">
+        <b>Jahit Lestari</b>
+        <small>Portal Pelanggan</small>
+      </span>
+    </a>
+
+    <nav class="portal-nav" aria-label="Navigasi Portal">
+      <a href="customer-login.html" class="portal-nav-link">
+        <svg width="16" height="16"><use href="#i-users"/></svg>
+        <span>Akun Pelanggan</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="portal-shell">
+  <div class="portal-back-row">
+    <a href="landing.html" class="portal-back-link">
+      <svg width="16" height="16" style="transform:rotate(180deg)"><use href="#i-arrow"/></svg>
+      <span>Beranda Jahit Lestari</span>
+    </a>
+  </div>
+
+  <section class="track-box" aria-labelledby="trackTitle">
+    <div class="track-box-head">
+      <h1 id="trackTitle">Lacak Status Jahitan Anda</h1>
+      <p>Masukkan kode pesanan yang tertera pada nota cetak atau pesan WhatsApp dari Jahit Lestari.</p>
+    </div>
+
+    <form id="trackForm" novalidate>
+      <div class="field">
+        <label for="orderCodeInput">Kode Pesanan <span class="req">*</span></label>
+        <div class="input-group">
+          <svg width="18" height="18"><use href="#i-search"/></svg>
+          <input
+            id="orderCodeInput"
+            name="code"
+            class="input track-input"
+            type="text"
+            placeholder="Contoh: TH-2041"
+            autocomplete="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            required
+            autofocus
+          >
+        </div>
+      </div>
+
+      <div id="trackError" class="alert alert--error track-error" role="alert" hidden>
+        <svg width="20" height="20"><use href="#i-warn"/></svg>
+        <div>
+          <b>Kode pesanan tidak ditemukan.</b>
+          <span id="trackErrorMsg">Periksa kembali huruf dan angka kode pada nota Anda, atau coba salah satu contoh di bawah.</span>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <button type="submit" class="btn btn--primary btn--lg btn--block">
+          <span>Cek Status Jahitan</span>
+          <svg width="18" height="18"><use href="#i-arrow"/></svg>
+        </button>
+      </div>
+    </form>
+
+    <div class="track-samples">
+      <span class="track-samples-label">Coba cepat contoh kode pesanan:</span>
+      <div class="sample-chips" id="sampleChips">
+        <button type="button" class="sample-chip" data-code="TH-2041">TH-2041 · Penjahitan (H-1)</button>
+        <button type="button" class="sample-chip" data-code="TH-2035">TH-2035 · Finishing (Lunas)</button>
+        <button type="button" class="sample-chip" data-code="TH-2030">TH-2030 · Siap Diambil</button>
+        <button type="button" class="sample-chip" data-code="TH-2045">TH-2045 · Antrean</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="track-help" aria-label="Panduan Kode Nota">
+    <span class="portal-info-ic portal-info-ic--indigo" aria-hidden="true">
+      <svg width="20" height="20"><use href="#i-order"/></svg>
+    </span>
+    <div class="track-help-body">
+      <b>Di mana letak kode pesanan saya?</b>
+      <p>Kode pesanan berformat <b>TH-XXXX</b> tercantum di bagian atas nota kertas saat Anda menyerahkan kain, atau di pesan konfirmasi WhatsApp dari admin kami.</p>
+      <a id="waTrackHelp" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">
+        <svg width="16" height="16"><use href="#i-phone"/></svg>
+        <span>Tanya WhatsApp CS</span>
+      </a>
+    </div>
+  </section>
+
+  <p class="portal-subtle-link">
+    Punya beberapa pesanan sekaligus? <a href="customer-login.html">Masuk ke Akun Pelanggan</a>
+  </p>
+</main>
+
+<footer class="portal-footer">
+  <div class="portal-footer-in">
+    <span><b>Jahit Lestari</b> · Jl. Dharmawangsa No. 48, Surabaya · Senin–Sabtu 08.00–17.00 WIB</span>
+    <div class="portal-footer-links">
+      <a href="landing.html">Beranda</a>
+      <a id="waFooterLink" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">WhatsApp CS</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/portal.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var portal = window.TailorPortal;
+  if (!portal) return;
+
+  var form = document.getElementById('trackForm');
+  var input = document.getElementById('orderCodeInput');
+  var errBox = document.getElementById('trackError');
+  var errMsg = document.getElementById('trackErrorMsg');
+  var sampleWrap = document.getElementById('sampleChips');
+
+  var waHelp = document.getElementById('waTrackHelp');
+  var waFooter = document.getElementById('waFooterLink');
+  if (waHelp) waHelp.href = portal.buildWaUrl('');
+  if (waFooter) waFooter.href = portal.buildWaUrl('');
+
+  function showError(rawCode) {
+    var clean = portal.normalizeCode(rawCode);
+    if (!clean) {
+      errMsg.textContent = 'Masukkan kode pesanan terlebih dahulu (contoh: TH-2041).';
+    } else {
+      errMsg.textContent = 'Pesanan berkode "' + clean + '" belum ditemukan. Periksa ulang nota atau pilih contoh kode di bawah.';
+    }
+    errBox.hidden = false;
+    input.classList.add('input--err');
+    input.focus();
+  }
+
+  function clearError() {
+    errBox.hidden = true;
+    input.classList.remove('input--err');
+  }
+
+  async function goToResult(rawCode) {
+    var slug = new URLSearchParams(window.location.search).get('slug') || 'jahit-lestari';
+    var order = await portal.fetchOrderFromApi(rawCode, slug);
+    if (!order) {
+      showError(rawCode);
+      return;
+    }
+    window.location.href = 'track-result.html?slug=' + encodeURIComponent(slug) + '&code=' + encodeURIComponent(order.code) + '&from=track';
+  }
+
+  // Tangani redirect error dari track-result.html jika ada (?error=notfound&code=...)
+  var params = new URLSearchParams(window.location.search);
+  var qCode = params.get('code');
+  var qErr = params.get('error');
+  if (qCode) {
+    input.value = portal.normalizeCode(qCode);
+  }
+  if (qErr === 'notfound') {
+    showError(qCode || '');
+  }
+
+  input.addEventListener('input', clearError);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    goToResult(input.value);
+  });
+
+  if (sampleWrap) {
+    sampleWrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('.sample-chip');
+      if (!btn) return;
+      var code = btn.getAttribute('data-code') || '';
+      input.value = code;
+      clearError();
+      goToResult(code);
+    });
+  }
+})();
+</script>
+</body>
+</html>

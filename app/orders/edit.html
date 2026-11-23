@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edit Pesanan ORD-2026-0089 — TailorHub</title>
+<title>Edit Pesanan TH-2033 — TailorHub</title>
 <meta name="description" content="Perbarui rincian pesanan, penyesuaian deadline jahitan, dan catatan instruksi pengerjaan.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,11 +123,11 @@
             <span class="sep">/</span>
             <a href="index.html">Pesanan</a>
             <span class="sep">/</span>
-            <a href="detail.html">ORD-2026-0089</a>
+            <a href="detail.html">TH-2033</a>
             <span class="sep">/</span>
             <b>Edit</b>
           </nav>
-          <h1>Edit Pesanan ORD-2026-0089</h1>
+          <h1>Edit Pesanan TH-2033</h1>
           <p class="sub">Perbarui informasi spesifikasi pakaian, penyesuaian tenggat waktu, atau biaya tambahan (FR-07).</p>
         </div>
         <div style="display:flex;gap:10px;">
@@ -148,10 +148,10 @@
               <a href="../customers/detail.html" style="font-size:.82rem;font-weight:700;color:var(--clay);">Lihat Profil Customer →</a>
             </div>
             <div style="display:flex;align-items:center;gap:14px;background:var(--cream-200);padding:14px;border-radius:var(--r-m);">
-              <span class="avatar avatar--lg">HG</span>
+              <span class="avatar avatar--lg">HW</span>
               <div>
-                <b style="font-size:1.05rem;color:var(--ink);">Hendra Gunawan</b>
-                <div style="font-size:.84rem;color:var(--ink-45);">WhatsApp: 0812-9876-5432 · Email: hendra.gunawan@email.com</div>
+                <b style="font-size:1.05rem;color:var(--ink);">Hendra Wibowo</b>
+                <div style="font-size:.84rem;color:var(--ink-45);">WhatsApp: 0812-9876-5432 · Email: hendra.wibowo@email.com</div>
                 <div style="font-size:.8rem;color:var(--ink-70);margin-top:2px;">Jl. Kemang Raya No. 45, Jakarta Selatan</div>
               </div>
             </div>
@@ -163,7 +163,7 @@
             <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;">
               <div class="field">
                 <label>Judul Pesanan <span class="req">*</span></label>
-                <input type="text" class="input" value="Jas Formal Pria Full Set" required>
+                <input type="text" class="input" value="Jas Formal ×1" required>
               </div>
               <div class="field">
                 <label>Kategori</label>
@@ -212,19 +212,19 @@
             <h3 style="margin-bottom:16px;">Jadwal &amp; Staf</h3>
             <div class="field">
               <label>Tanggal Masuk</label>
-              <input type="date" class="input" value="2026-11-20" readonly style="background:var(--cream-200);">
+              <input type="date" class="input" value="2026-11-10" readonly style="background:var(--cream-200);">
             </div>
             <div class="field">
               <label>Target Deadline Selesai <span class="req">*</span></label>
-              <input type="date" class="input" value="2026-11-24" required>
-              <span class="help" style="color:var(--clay);font-weight:700;">H-2 Menjelang Deadline!</span>
+              <input type="date" class="input" value="2026-11-21" required>
+              <span class="help" style="color:var(--red);font-weight:700;">Lewat target batas (-1 hari)!</span>
             </div>
             <div class="field">
               <label>Penjahit Ditugaskan</label>
               <select class="select">
-                <option selected>Mas Budi (Spesialis Jas &amp; Formal)</option>
-                <option>Mbak Siti</option>
-                <option>Pak Joko</option>
+                <option selected>Mas Budi (MB - Spesialis Jas)</option>
+                <option>Andi S. (AS)</option>
+                <option>Rina N. (RN)</option>
               </select>
             </div>
             <div class="field" style="margin-bottom:0;">
@@ -232,8 +232,8 @@
               <select class="select">
                 <option>Antrean</option>
                 <option>Pemotongan</option>
-                <option selected>Penjahitan</option>
-                <option>Finishing</option>
+                <option>Penjahitan</option>
+                <option selected>Finishing</option>
                 <option>Quality Control</option>
                 <option>Selesai</option>
                 <option>Diambil</option>
@@ -246,12 +246,12 @@
             <h3 style="margin-bottom:16px;">Biaya &amp; Tagihan</h3>
             <div class="field">
               <label>Total Biaya (Rp)</label>
-              <input type="number" class="input" value="1650000" style="font-weight:800;font-size:1.1rem;">
+              <input type="number" class="input" value="2500000" style="font-weight:800;font-size:1.1rem;">
             </div>
             <div class="field">
               <label>DP Terbayar (Rp)</label>
-              <input type="number" class="input" value="800000" readonly style="background:var(--cream-200);">
-              <span class="help" style="color:var(--pay-unpaid);font-weight:700;">Sisa Tagihan: Rp 850.000</span>
+              <input type="number" class="input" value="1250000" readonly style="background:var(--cream-200);">
+              <span class="help" style="color:var(--pay-unpaid);font-weight:700;">Sisa Tagihan: Rp 1.250.000</span>
             </div>
             <div class="field" style="margin-bottom:0;">
               <label>Status Pembayaran</label>
@@ -264,7 +264,7 @@
 
             <hr style="border:0;border-top:1px solid var(--sand);margin:18px 0;">
             <button type="submit" class="btn btn--primary btn--block">Simpan Perubahan</button>
-            <a href="detail.html" class="btn btn--ghost btn--block" style="text-align:center;margin-top:8px;">Batal</a>
+            <a href="detail.html" id="btnCancelEdit" class="btn btn--ghost btn--block" style="text-align:center;margin-top:8px;">Batal</a>
           </div>
         </div>
       </form>
@@ -272,5 +272,86 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(async function () {
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id') || params.get('code') || 'TH-2033';
+  var form = document.querySelector('form');
+  var currentOrderId = id;
+
+  var inputs = form.querySelectorAll('input, select, textarea');
+  // Mapping elemen form di edit.html:
+  // inputs[0] = judul pesanan, inputs[2] = bahan kain, inputs[3] = qty
+  // textarea = notes, date inputs: entry_date & deadline, selects: status produksi & status bayar, number: price
+  var titleInput = form.querySelector('input[type="text"]');
+  var fabricInput = form.querySelectorAll('input[type="text"]')[1];
+  var qtyInput = form.querySelector('input[min="1"]');
+  var notesArea = form.querySelector('textarea');
+  var dateInputs = form.querySelectorAll('input[type="date"]');
+  var selects = form.querySelectorAll('select');
+  var priceInput = form.querySelector('input[value="2500000"]');
+  var dpInput = form.querySelector('input[value="1250000"]');
+
+  try {
+    var d = await TH.get('/api/orders/' + encodeURIComponent(id));
+    if (d && d.order) {
+      var o = d.order;
+      currentOrderId = o.id;
+      document.title = 'Edit Pesanan ' + o.code + ' — TailorHub';
+      var h1 = document.querySelector('.page-head h1');
+      if (h1) h1.textContent = 'Edit Pesanan ' + o.code;
+      if (titleInput) titleInput.value = o.type || '';
+      if (fabricInput) fabricInput.value = o.detail || '';
+      if (qtyInput) qtyInput.value = o.qty || 1;
+      if (notesArea) notesArea.value = o.notes || o.detail || '';
+      if (dateInputs[0] && o.entry_date) dateInputs[0].value = o.entry_date;
+      if (dateInputs[1] && o.deadline) dateInputs[1].value = o.deadline;
+      if (priceInput) priceInput.value = o.price || 0;
+      if (dpInput) dpInput.value = d.paid || 0;
+      if (selects[2]) {
+        var stVal = o.production_status === 'QC' ? 'Quality Control' : o.production_status;
+        Array.from(selects[2].options).forEach(function (opt) {
+          if (opt.text === stVal || opt.text === o.production_status) opt.selected = true;
+        });
+      }
+      if (selects[3]) {
+        var pMap = { 'Belum Bayar': 'unpaid', 'DP': 'dp', 'Lunas': 'paid' };
+        if (pMap[o.payment_status]) selects[3].value = pMap[o.payment_status];
+      }
+      var cancelBtn = document.getElementById('btnCancelEdit');
+      if (cancelBtn) cancelBtn.href = 'detail.html?id=' + encodeURIComponent(o.id);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var rawStatus = selects[2] ? selects[2].options[selects[2].selectedIndex].text : 'Antrean';
+    if (rawStatus === 'Quality Control') rawStatus = 'QC';
+    var payMap = { unpaid: 'Belum Bayar', dp: 'DP', paid: 'Lunas' };
+    var payStatus = selects[3] ? (payMap[selects[3].value] || 'DP') : 'DP';
+
+    try {
+      await TH.put('/api/orders/' + encodeURIComponent(currentOrderId), {
+        type: titleInput ? titleInput.value.trim() : 'Pesanan',
+        detail: fabricInput ? fabricInput.value.trim() : null,
+        qty: qtyInput ? Number(qtyInput.value) || 1 : 1,
+        notes: notesArea ? notesArea.value.trim() : null,
+        deadline: dateInputs[1] ? dateInputs[1].value : null,
+        price: priceInput ? Number(priceInput.value) || 0 : 0,
+        production_status: rawStatus,
+        payment_status: payStatus
+      });
+      location.href = '/app/orders/detail.html?id=' + encodeURIComponent(currentOrderId);
+    } catch (err) {
+      alert('Gagal menyimpan perubahan: ' + err.message);
+    }
+  });
+})();
+</script>
 </body>
 </html>

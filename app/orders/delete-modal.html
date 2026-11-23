@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hapus Pesanan ORD-2026-0089 — TailorHub</title>
+<title>Hapus Pesanan TH-2033 — TailorHub</title>
 <meta name="description" content="Konfirmasi penghapusan pesanan jahit TailorHub.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="../../assets/css/tokens.css">
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
-<link rel="stylesheet" href="../../assets/css/app.css">
 </head>
 <body style="background:rgba(42,24,16,.65);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;">
 
@@ -19,7 +18,7 @@
 <div class="modal" style="max-width:480px;width:100%;background:var(--paper);border:1px solid var(--sand);box-shadow:var(--shadow-l);">
   <div class="modal-head" style="padding:24px 24px 14px;border-bottom:1px solid var(--sand);">
     <div style="display:flex;align-items:center;gap:12px;">
-      <div style="width:42px;height:42px;border-radius:12px;background:#FDE8E6;color:var(--red);display:inline-flex;align-items:center;justify-content:center;flex:none;">
+      <div style="width:42px;height:42px;border-radius:12px;background:var(--red-100);color:var(--red);display:inline-flex;align-items:center;justify-content:center;flex:none;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
       </div>
       <div>
@@ -37,13 +36,13 @@
     <!-- Rincian Pesanan Target -->
     <div style="background:var(--cream-200);border:1px solid var(--sand);border-radius:var(--r-m);padding:14px;margin-bottom:16px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-        <b style="color:var(--ink);font-size:.95rem;">ORD-2026-0089</b>
-        <span class="chip chip--sew" style="font-size:.65rem;">Penjahitan</span>
+        <b style="color:var(--ink);font-size:.95rem;">TH-2033</b>
+        <span class="chip chip--finish" style="font-size:.65rem;">Finishing</span>
       </div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--ink-70);">Jas Formal Pria Full Set (1 Stel)</div>
-      <div style="font-size:.8rem;color:var(--ink-45);margin-top:2px;">Pemesan: Hendra Gunawan (0812-9876-5432)</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--ink-70);">Jas Formal ×1</div>
+      <div style="font-size:.8rem;color:var(--ink-45);margin-top:2px;">Pemesan: Hendra Wibowo (0812-9876-5432)</div>
       <div style="font-size:.8rem;color:var(--red);font-weight:700;margin-top:6px;">
-        Catatan: Pesanan memiliki pembayaran tercatat (DP Rp 800.000).
+        Catatan: Pesanan memiliki pembayaran tercatat (DP Rp 1.250.000).
       </div>
     </div>
 
@@ -54,13 +53,59 @@
   </div>
 
   <div class="modal-foot" style="padding:16px 24px;display:flex;justify-content:flex-end;gap:12px;background:var(--cream);border-top:1px solid var(--sand);">
-    <a href="detail.html" class="btn btn--ghost btn--sm">Batal</a>
-    <button type="button" class="btn btn--danger btn--sm" onclick="alert('Pesanan ORD-2026-0089 telah berhasil dihapus.');location.href='index.html';">
+    <a href="detail.html" id="btnCancelDelete" class="btn btn--ghost btn--sm">Batal</a>
+    <button type="button" id="btnConfirmDelete" class="btn btn--danger btn--sm">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
       <span>Hapus Pesanan Permanen</span>
     </button>
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script>
+(async function () {
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id') || params.get('code') || 'TH-2033';
+  var targetId = id;
+  var targetBox = document.querySelector('.modal-body > div');
+
+  try {
+    var d = await TH.get('/api/orders/' + encodeURIComponent(id));
+    if (d && d.order) {
+      var o = d.order;
+      targetId = o.id;
+      document.title = 'Hapus Pesanan ' + o.code + ' — TailorHub';
+      document.getElementById('btnCancelDelete').href = 'detail.html?id=' + encodeURIComponent(o.id);
+      if (targetBox) {
+        targetBox.innerHTML =
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
+            '<b style="color:var(--ink);font-size:.95rem;">' + TH.esc(o.code) + '</b>' +
+            '<span class="chip ' + TH.statusChip(o.production_status) + '" style="font-size:.65rem;">' + TH.esc(o.production_status) + '</span>' +
+          '</div>' +
+          '<div style="font-size:.85rem;font-weight:700;color:var(--ink-70);">' + TH.esc(o.type) + ' ×' + TH.esc(o.qty) + '</div>' +
+          '<div style="font-size:.8rem;color:var(--ink-45);margin-top:2px;">Pemesan: ' + TH.esc(o.customer || '-') + '</div>' +
+          '<div style="font-size:.8rem;color:var(--red);font-weight:700;margin-top:6px;">Total Nilai: ' + TH.rupiah(o.price) + ' (Terbayar: ' + TH.rupiah(d.paid) + ')</div>';
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  document.getElementById('btnConfirmDelete').addEventListener('click', async function () {
+    var cb = document.getElementById('confirmDelete');
+    if (cb && !cb.checked) {
+      alert('Centang kotak konfirmasi penghapusan terlebih dahulu.');
+      return;
+    }
+    try {
+      await TH.del('/api/orders/' + encodeURIComponent(targetId));
+      location.href = '/app/orders/index.html';
+    } catch (err) {
+      alert('Gagal menghapus pesanan: ' + err.message);
+    }
+  });
+})();
+</script>
 </body>
 </html>

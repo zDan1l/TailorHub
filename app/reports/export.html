@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pratinjau & Ekspor Laporan — TailorHub</title>
+<meta name="description" content="Pilih format dan pratinjau dokumen laporan bisnis jahit TailorHub sebelum diunduh dalam format PDF atau CSV.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- 4 Impor CSS standar arsitektur tim -->
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* ============================================================
+   STYLING KHUSUS EKSPOR & PRATINJAU — CLEAN SAAS ENTERPRISE
+   ============================================================ */
+
+/* Sub-Navigasi Antar Halaman Laporan (SaaS Standard) */
+.report-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.report-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .2s;
+}
+
+.report-nav-item:hover {
+  color: var(--clay);
+  background: rgba(192, 84, 36, .04);
+}
+
+.report-nav-item.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+  background: rgba(192, 84, 36, .06);
+  font-weight: 800;
+}
+
+.export-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Opsi Format Box */
+.format-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 8px 0 20px;
+}
+
+.format-card {
+  border: 1.5px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 14px;
+  cursor: pointer;
+  background: var(--paper);
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.format-card:hover {
+  border-color: var(--clay-300);
+}
+
+.format-card.is-selected {
+  border-color: var(--clay);
+  background: rgba(192, 84, 36, .05);
+}
+
+.format-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: .8rem;
+  flex: none;
+  transition: all .2s;
+}
+
+.format-card.is-selected .format-icon {
+  background: var(--clay);
+  color: #fff;
+}
+
+/* Lembar Simulasi Cetak A4 (Paper Preview) */
+.sheet-wrapper {
+  background: #f1ede6;
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 32px 24px;
+  display: flex;
+  justify-content: center;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.03);
+}
+
+.sheet-a4 {
+  background: #ffffff;
+  width: 100%;
+  max-width: 680px;
+  border-radius: 4px;
+  box-shadow: 0 4px 18px rgba(42, 36, 32, .12);
+  padding: 40px;
+  color: #1a1715;
+  font-size: .84rem;
+  line-height: 1.5;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #2a2420;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.sheet-brand {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.sheet-brand span {
+  color: #c05424;
+}
+
+.sheet-meta {
+  text-align: right;
+  font-size: .78rem;
+  color: #666;
+}
+
+.sheet-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 0 0 6px;
+  color: #2a2420;
+}
+
+.sheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: .8rem;
+}
+
+.sheet-table th {
+  background: #f8f6f3;
+  text-align: left;
+  padding: 8px 10px;
+  font-weight: 800;
+  border-bottom: 1.5px solid #2a2420;
+}
+
+.sheet-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e5dfd8;
+}
+
+.sheet-signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 10px;
+}
+
+.signature-box {
+  text-align: center;
+  width: 180px;
+}
+
+.signature-line {
+  border-bottom: 1px solid #2a2420;
+  height: 50px;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 1024px) {
+  .export-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .sheet-a4, .sheet-a4 * {
+    visibility: visible;
+  }
+  .sheet-a4 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+    padding: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- SVG Sprite Standar -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i" href="../notifications/index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i" href="../team/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <div class="main">
+    <!-- Topbar -->
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <form class="search" action="../search.html" method="GET">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" name="q" placeholder="Cari pesanan, customer, kode…">
+      </form>
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <span class="top-avatar">PM</span>
+      </div>
+    </header>
+
+    <!-- Konten Halaman Ekspor & Pratinjau -->
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <a href="index.html">Laporan</a>
+            <span>/</span>
+            <b>Ekspor</b>
+          </nav>
+          <h1>Pratinjau & Ekspor Dokumen</h1>
+          <p class="sub">Sesuaikan jenis laporan, rentang waktu, dan format dokumen resmi sebelum diunduh.</p>
+        </div>
+        <div>
+          <a href="index.html" class="btn btn--outline">← Kembali ke Pusat Laporan</a>
+        </div>
+      </div>
+
+      <!-- Sub-Navigasi Antar Laporan (Unified Tab Bar) -->
+      <nav class="report-nav">
+        <a href="index.html" class="report-nav-item">Ringkasan Utama</a>
+        <a href="orders.html" class="report-nav-item">Laporan Pesanan</a>
+        <a href="income.html" class="report-nav-item">Laporan Pemasukan</a>
+        <a href="customers.html" class="report-nav-item">Laporan Pelanggan</a>
+        <a href="productivity.html" class="report-nav-item">Produktivitas Staff</a>
+        <a href="export.html" class="report-nav-item is-active">Pratinjau & Ekspor</a>
+      </nav>
+
+      <div class="export-layout">
+        <!-- Kolom Kiri: Form Pengaturan Ekspor (.card resmi) -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Parameter Ekspor</h3>
+              <p class="sub" style="margin:2px 0 0">Kustomisasi berkas dokumen</p>
+            </div>
+          </div>
+
+          <!-- 1. Jenis Laporan -->
+          <div style="margin-top:16px;margin-bottom:18px">
+            <label style="display:block;font-size:.82rem;font-weight:700;color:var(--ink-70);margin-bottom:6px">Jenis Dokumen Laporan</label>
+            <select id="reportTypeSelect" class="filter-select" style="width:100%" onchange="updatePreview()">
+              <option value="orders" selected>Rekapitulasi Pesanan & Produksi</option>
+              <option value="income">Laporan Pemasukan & Arus Kas</option>
+              <option value="customers">Daftar Pelanggan & Loyalitas</option>
+              <option value="productivity">Laporan Produktivitas Staff</option>
+            </select>
+          </div>
+
+          <!-- 2. Periode Waktu -->
+          <div style="margin-bottom:18px">
+            <label style="display:block;font-size:.82rem;font-weight:700;color:var(--ink-70);margin-bottom:6px">Periode Pelaporan</label>
+            <select id="reportPeriodSelect" class="filter-select" style="width:100%" onchange="updatePreview()">
+              <option value="month" selected>Bulan Berjalan (November 2026)</option>
+              <option value="last_month">Bulan Lalu (Oktober 2026)</option>
+              <option value="q4">Kuartal IV 2026</option>
+              <option value="year">Tahun 2026 Penuh</option>
+            </select>
+          </div>
+
+          <!-- 3. Format Berkas -->
+          <div style="margin-bottom:18px">
+            <label style="display:block;font-size:.82rem;font-weight:700;color:var(--ink-70);margin-bottom:6px">Format Berkas Unduhan</label>
+            <div class="format-grid">
+              <div class="format-card is-selected" id="fmtPdf" onclick="selectFormat('pdf')">
+                <span class="format-icon">PDF</span>
+                <div>
+                  <b style="display:block;font-size:.85rem">PDF Resmi</b>
+                  <small style="color:var(--ink-45)">Siap Cetak A4</small>
+                </div>
+              </div>
+              <div class="format-card" id="fmtCsv" onclick="selectFormat('csv')">
+                <span class="format-icon">CSV</span>
+                <div>
+                  <b style="display:block;font-size:.85rem">Tabel CSV</b>
+                  <small style="color:var(--ink-45)">Excel / Sheets</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Opsi Tambahan -->
+          <div style="margin-bottom:24px">
+            <label style="display:block;font-size:.82rem;font-weight:700;color:var(--ink-70);margin-bottom:8px">Opsi Dokumen</label>
+            <label style="display:flex;align-items:center;gap:10px;font-size:.84rem;margin-bottom:8px;cursor:pointer">
+              <input type="checkbox" id="optHeader" checked onchange="updatePreview()">
+              <span>Sertakan Kop Usaha & Logo Resmi</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;font-size:.84rem;margin-bottom:8px;cursor:pointer">
+              <input type="checkbox" id="optSig" checked onchange="updatePreview()">
+              <span>Sertakan Kolom Pengesahan Tanda Tangan</span>
+            </label>
+          </div>
+
+          <!-- Tombol Aksi -->
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <button class="btn btn--primary" id="btnDownload" style="width:100%;justify-content:center;padding:12px" onclick="triggerDownload()">
+              <svg width="17" height="17"><use href="#i-download"/></svg>
+              Unduh Berkas Sekarang
+            </button>
+            <button class="btn btn--outline" style="width:100%;justify-content:center;padding:10px" onclick="window.print()">
+              Cetak Dokumen (Print)
+            </button>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Live Document Sheet Preview -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">Pratinjau Lembar Dokumen</h3>
+            <span class="chip chip--neutral" style="font-size:.74rem">Skala Pratinjau 100% (Simulasi Cetak)</span>
+          </div>
+
+          <div class="sheet-wrapper">
+            <div class="sheet-a4" id="sheetDoc">
+              <!-- Kop Surat -->
+              <div class="sheet-header" id="docHeader">
+                <div>
+                  <div class="sheet-brand">Tailor<span>Hub</span> · JAHIT LESTARI</div>
+                  <div style="font-size:.78rem;color:#555;margin-top:2px">Jalan Veteran No. 42, Telp: (021) 555-0192 · Email: kontak@lestari.com</div>
+                </div>
+                <div class="sheet-meta">
+                  <div>No. Dokumen: <b>DOC-2026/RPT/1101</b></div>
+                  <div>Tanggal Cetak: <b>23 November 2026</b></div>
+                </div>
+              </div>
+
+              <!-- Judul Laporan -->
+              <div style="text-align:center;margin-bottom:20px">
+                <h2 class="sheet-title" id="previewTitle">REKAPITULASI LAPORAN PESANAN & PRODUKSI</h2>
+                <div style="font-size:.8rem;color:#555" id="previewPeriod">Periode: 1 November 2026 – 30 November 2026</div>
+              </div>
+
+              <!-- Ringkasan Eksekutif -->
+              <div style="background:#faf8f5;border:1px solid #e8e2d9;border-radius:4px;padding:12px 16px;margin-bottom:20px;display:flex;justify-content:space-between;text-align:center">
+                <div>
+                  <small style="font-size:.68rem;text-transform:uppercase;color:#777;font-weight:700" id="lblVol">Total Volume</small>
+                  <div style="font-weight:800;font-size:1.05rem;margin-top:2px" id="sumVol">128 Pesanan</div>
+                </div>
+                <div>
+                  <small style="font-size:.68rem;text-transform:uppercase;color:#777;font-weight:700" id="lblDone">Status Penyelesaian</small>
+                  <div style="font-weight:800;font-size:1.05rem;color:#1e7e34;margin-top:2px" id="sumDone">86 Selesai</div>
+                </div>
+                <div>
+                  <small style="font-size:.68rem;text-transform:uppercase;color:#777;font-weight:700" id="lblRate">Ketepatan Waktu</small>
+                  <div style="font-weight:800;font-size:1.05rem;color:#c05424;margin-top:2px" id="sumRate">96,5%</div>
+                </div>
+              </div>
+
+              <!-- Tabel Sampel Cuplikan (Dinamis Sesuai Jenis Laporan) -->
+              <div id="tablePreviewContainer">
+                <table class="sheet-table" id="previewTable">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Kode</th>
+                      <th>Nama Pelanggan</th>
+                      <th>Deskripsi Busana</th>
+                      <th>Nominal</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td><b>TH-2035</b></td>
+                      <td>PT Surya Perkasa</td>
+                      <td>Seragam PDL Korporat (50 pcs)</td>
+                      <td>Rp12.500.000</td>
+                      <td>Selesai</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td><b>TH-2028</b></td>
+                      <td>Ibu Rina Sasmita</td>
+                      <td>Kebaya Pengantin Full Payet</td>
+                      <td>Rp4.800.000</td>
+                      <td>Proses Jahit</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td><b>TH-2040</b></td>
+                      <td>Bpk. Hendra Gunawan</td>
+                      <td>Jas Formal Wol Premium (2 set)</td>
+                      <td>Rp3.900.000</td>
+                      <td>Selesai</td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td><b>TH-2041</b></td>
+                      <td>Dinas Perhubungan</td>
+                      <td>Kemeja Batik Katun (20 pcs)</td>
+                      <td>Rp3.400.000</td>
+                      <td>Pola & Potong</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Catatan Kaki Dokumen -->
+              <p style="font-size:.75rem;color:#777;margin-top:16px">
+                * Dokumen ini dibuat otomatis melalui sistem manajemen operasional TailorHub. Sah tanpa cap basah jika telah diverifikasi secara digital.
+              </p>
+
+              <!-- Kolom Pengesahan Tanda Tangan -->
+              <div class="sheet-signatures" id="docSig">
+                <div class="signature-box">
+                  <div style="font-size:.78rem">Diverifikasi Admin:</div>
+                  <div class="signature-line"></div>
+                  <div style="font-weight:700;font-size:.82rem">Staff Operasional</div>
+                </div>
+                <div class="signature-box">
+                  <div style="font-size:.78rem">Disahkan Pemilik:</div>
+                  <div class="signature-line"></div>
+                  <div style="font-weight:700;font-size:.82rem">Pak Mardi (Pemilik)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Toast Notifikasi Unduhan -->
+<div class="toast" id="toast" style="display:none;position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--ink-900);color:#fff;border-radius:var(--r-m);padding:14px 20px;box-shadow:var(--shadow-l);align-items:center;gap:12px">
+  <svg width="20" height="20" style="color:var(--green)"><use href="#i-check"/></svg>
+  <span id="toastMsg">Berkas berhasil diunduh!</span>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+var activeFormat = 'pdf';
+var liveExportData = { orders: null, income: null, customers: null };
+
+/* Cek Query Parameter (e.g. export.html?type=income) */
+(async function() {
+  var params = new URLSearchParams(window.location.search);
+  var type = params.get('type');
+  if (type) {
+    var select = document.getElementById('reportTypeSelect');
+    if (select) {
+      select.value = type;
+    }
+  }
+  try {
+    var res = await Promise.all([
+      TH.get('/api/reports/orders'),
+      TH.get('/api/reports/income'),
+      TH.get('/api/customers')
+    ]);
+    liveExportData.orders = res[0];
+    liveExportData.income = res[1];
+    liveExportData.customers = res[2];
+  } catch (e) {}
+  updatePreview();
+})();
+
+function selectFormat(fmt) {
+  activeFormat = fmt;
+  document.getElementById('fmtPdf').classList.toggle('is-selected', fmt === 'pdf');
+  document.getElementById('fmtCsv').classList.toggle('is-selected', fmt === 'csv');
+}
+
+function updatePreview() {
+  var type = document.getElementById('reportTypeSelect').value;
+  var period = document.getElementById('reportPeriodSelect').value;
+  var title = document.getElementById('previewTitle');
+  var periodText = document.getElementById('previewPeriod');
+  var header = document.getElementById('docHeader');
+  var sig = document.getElementById('docSig');
+  var container = document.getElementById('tablePreviewContainer');
+
+  header.style.display = document.getElementById('optHeader').checked ? 'flex' : 'none';
+  sig.style.display = document.getElementById('optSig').checked ? 'flex' : 'none';
+
+  /* Update Periode Text */
+  if (period === 'last_month') {
+    periodText.textContent = 'Periode: 1 Oktober 2026 – 31 Oktober 2026';
+  } else if (period === 'q4') {
+    periodText.textContent = 'Periode: Kuartal IV (1 Okt 2026 – 31 Des 2026)';
+  } else if (period === 'year') {
+    periodText.textContent = 'Periode: Tahun Penuh 2026';
+  } else {
+    periodText.textContent = 'Periode: 1 November 2026 – 30 November 2026';
+  }
+
+  /* Update Data Sesuai Jenis Laporan */
+  if (type === 'income') {
+    title.textContent = 'REKAPITULASI LAPORAN PEMASUKAN & ARUS KAS';
+    document.getElementById('lblVol').textContent = 'Total Pemasukan';
+    document.getElementById('sumVol').textContent = 'Rp42.650.000';
+    document.getElementById('lblDone').textContent = 'Pelunasan Masuk';
+    document.getElementById('sumDone').textContent = 'Rp25.850.000';
+    document.getElementById('lblRate').textContent = 'Uang Muka (DP)';
+    document.getElementById('sumRate').textContent = 'Rp16.800.000';
+
+    container.innerHTML = '<table class="sheet-table">' +
+      '<thead><tr><th>No</th><th>Invoice</th><th>Pelanggan</th><th>Jenis Bayar</th><th>Metode</th><th>Nominal</th></tr></thead>' +
+      '<tbody>' +
+      '<tr><td>1</td><td><b>INV-2026-1188</b></td><td>PT Surya Perkasa</td><td>Pelunasan 100%</td><td>Transfer BCA</td><td>Rp12.500.000</td></tr>' +
+      '<tr><td>2</td><td><b>INV-2026-1187</b></td><td>Ibu Rina Sasmita</td><td>Uang Muka DP 50%</td><td>QRIS Mandiri</td><td>Rp2.400.000</td></tr>' +
+      '<tr><td>3</td><td><b>INV-2026-1186</b></td><td>Bpk. Hendra Gunawan</td><td>Pelunasan 100%</td><td>Transfer BCA</td><td>Rp3.900.000</td></tr>' +
+      '<tr><td>4</td><td><b>INV-2026-1185</b></td><td>Dinas Perhubungan</td><td>Uang Muka DP 40%</td><td>Transfer Jatim</td><td>Rp1.360.000</td></tr>' +
+      '</tbody></table>';
+
+  } else if (type === 'customers') {
+    title.textContent = 'DAFTAR ANALISIS PELANGGAN & TINGKAT LOYALITAS';
+    document.getElementById('lblVol').textContent = 'Total Pelanggan';
+    document.getElementById('sumVol').textContent = '142 Akun';
+    document.getElementById('lblDone').textContent = 'Pelanggan Baru';
+    document.getElementById('sumDone').textContent = '+18 Akun';
+    document.getElementById('lblRate').textContent = 'Rasio Repeat Order';
+    document.getElementById('sumRate').textContent = '68,4%';
+
+    container.innerHTML = '<table class="sheet-table">' +
+      '<thead><tr><th>Rank</th><th>Nama Pelanggan</th><th>Segmen Profil</th><th>Pesanan</th><th>Total Belanja</th><th>Loyalitas</th></tr></thead>' +
+      '<tbody>' +
+      '<tr><td>1</td><td><b>PT Surya Perkasa</b></td><td>Korporat / B2B</td><td>12 Pesanan</td><td>Rp48.500.000</td><td>Platinum</td></tr>' +
+      '<tr><td>2</td><td><b>Ibu Rina Sasmita</b></td><td>VIP Perorangan</td><td>8 Pesanan</td><td>Rp24.200.000</td><td>Gold VIP</td></tr>' +
+      '<tr><td>3</td><td><b>Dinas Perhubungan</b></td><td>Instansi Pemerintah</td><td>5 Pesanan</td><td>Rp18.900.000</td><td>Gold VIP</td></tr>' +
+      '<tr><td>4</td><td><b>Bpk. Hendra Gunawan</b></td><td>Jas & Formal</td><td>6 Pesanan</td><td>Rp14.350.000</td><td>Silver</td></tr>' +
+      '</tbody></table>';
+
+  } else if (type === 'productivity') {
+    title.textContent = 'EVALUASI PRODUKTIVITAS STAFF & PENJAHIT BENGKEL';
+    document.getElementById('lblVol').textContent = 'Total Penjahit';
+    document.getElementById('sumVol').textContent = '4 Orang';
+    document.getElementById('lblDone').textContent = 'Rata Output';
+    document.getElementById('sumDone').textContent = '21,5 Pcs / org';
+    document.getElementById('lblRate').textContent = 'Ketepatan Tenggat';
+    document.getElementById('sumRate').textContent = '96,5%';
+
+    container.innerHTML = '<table class="sheet-table">' +
+      '<thead><tr><th>No</th><th>Nama Staff</th><th>Posisi & Spesialisasi</th><th>Output Selesai</th><th>Rata Durasi</th><th>Tepat Waktu</th></tr></thead>' +
+      '<tbody>' +
+      '<tr><td>1</td><td><b>Pak Mardi</b></td><td>Master Cutter (Pola & Ukur)</td><td>28 Pcs</td><td>2,8 Hari</td><td>100%</td></tr>' +
+      '<tr><td>2</td><td><b>Mas Joko</b></td><td>Penjahit Senior Jas Formal</td><td>32 Pcs</td><td>2,2 Hari</td><td>94%</td></tr>' +
+      '<tr><td>3</td><td><b>Mbak Siti</b></td><td>Penjahit Seragam & Kemeja</td><td>45 Pcs</td><td>1,8 Hari</td><td>98%</td></tr>' +
+      '<tr><td>4</td><td><b>Mbak Anisa</b></td><td>Finishing, Payet & QC</td><td>86 Pcs (QC)</td><td>0,5 Hari</td><td>95,3%</td></tr>' +
+      '</tbody></table>';
+
+  } else {
+    title.textContent = 'REKAPITULASI LAPORAN PESANAN & PRODUKSI';
+    document.getElementById('lblVol').textContent = 'Total Volume';
+    document.getElementById('sumVol').textContent = '128 Pesanan';
+    document.getElementById('lblDone').textContent = 'Status Penyelesaian';
+    document.getElementById('sumDone').textContent = '86 Selesai';
+    document.getElementById('lblRate').textContent = 'Ketepatan Waktu';
+    document.getElementById('sumRate').textContent = '96,5%';
+
+    container.innerHTML = '<table class="sheet-table">' +
+      '<thead><tr><th>No</th><th>Kode</th><th>Nama Pelanggan</th><th>Deskripsi Busana</th><th>Nominal</th><th>Status</th></tr></thead>' +
+      '<tbody>' +
+      '<tr><td>1</td><td><b>TH-2035</b></td><td>PT Surya Perkasa</td><td>Seragam PDL Korporat (50 pcs)</td><td>Rp12.500.000</td><td>Selesai</td></tr>' +
+      '<tr><td>2</td><td><b>TH-2028</b></td><td>Ibu Rina Sasmita</td><td>Kebaya Pengantin Full Payet</td><td>Rp4.800.000</td><td>Proses Jahit</td></tr>' +
+      '<tr><td>3</td><td><b>TH-2040</b></td><td>Bpk. Hendra Gunawan</td><td>Jas Formal Wol Premium (2 set)</td><td>Rp3.900.000</td><td>Selesai</td></tr>' +
+      '<tr><td>4</td><td><b>TH-2041</b></td><td>Dinas Perhubungan</td><td>Kemeja Batik Katun (20 pcs)</td><td>Rp3.400.000</td><td>Pola & Potong</td></tr>' +
+      '</tbody></table>';
+  }
+}
+
+function triggerDownload() {
+  var type = document.getElementById('reportTypeSelect').value;
+  var ext = activeFormat === 'pdf' ? '.pdf' : '.csv';
+  var fileName = 'TailorHub-Laporan-' + type + '-Nov2026' + ext;
+
+  if (activeFormat === 'csv') {
+    var rows = [];
+    if (type === 'income' && liveExportData.income && liveExportData.income.payments) {
+      rows.push(['ID', 'Kode Pesanan', 'Pelanggan', 'Jenis', 'Metode', 'Nominal', 'Tanggal']);
+      liveExportData.income.payments.forEach(function (p) {
+        rows.push([p.id, p.code, p.customer || '-', p.type, p.method || '-', p.amount, p.paid_at || p.created_at || '-']);
+      });
+    } else if (type === 'customers' && liveExportData.customers && liveExportData.customers.data) {
+      rows.push(['ID', 'Nama', 'Telepon', 'Email', 'Alamat', 'Jumlah Pesanan', 'Total Belanja']);
+      liveExportData.customers.data.forEach(function (c) {
+        rows.push([c.id, c.name, c.phone || '-', c.email || '-', c.address || '-', c.order_count || 0, c.total_value || 0]);
+      });
+    } else if (liveExportData.orders && liveExportData.orders.orders) {
+      rows.push(['Kode', 'Pelanggan', 'Jenis', 'Qty', 'Status Produksi', 'Status Bayar', 'Total Harga', 'Deadline']);
+      liveExportData.orders.orders.forEach(function (o) {
+        rows.push([o.code, o.customer || '-', o.type, o.qty, o.production_status, o.payment_status, o.price, o.deadline || '-']);
+      });
+    }
+    if (rows.length) {
+      var csvContent = rows.map(function (r) {
+        return r.map(function (cell) { return '"' + String(cell == null ? '' : cell).replace(/"/g, '""') + '"'; }).join(',');
+      }).join('\n');
+      var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+  }
+
+  var toast = document.getElementById('toast');
+  var toastMsg = document.getElementById('toastMsg');
+  toastMsg.textContent = 'Dokumen ' + fileName + ' berhasil disiapkan dan diunduh!';
+  toast.style.display = 'flex';
+
+  setTimeout(function() {
+    toast.style.display = 'none';
+  }, 3500);
+}
+</script>
+</body>
+</html>
