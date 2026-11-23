@@ -136,7 +136,7 @@ tailorhub/
 | `index.html`, `pricing/features/about/contact/help-center/terms/privacy`, `404`, `maintenance` | Dev 1 | Publik & Sistem |
 | `auth/`, `account/` | Dev 2 | Autentikasi & Akun |
 | `app/dashboard.html`, `app/search.html`, `app/reports/`, `app/notifications/` | Dev 3 | Dashboard & Laporan |
-| `app/orders/`, `app/customers/` | Dev 4 (Zelvia) | Pesanan & Customer |
+| `app/orders/`, `app/customers/` | Dev 4 | Pesanan & Customer |
 | `app/production/`, `app/staff/`, `portal/` | Dev 5 | Produksi & Portal |
 | `app/payments/`, `app/team/`, `app/settings/` | Dev 6 | Keuangan & Administrasi |
 | `assets/` | **Bersama** (Dev 3 inisiasi) | Aset & partial |
