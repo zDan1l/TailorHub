@@ -151,13 +151,13 @@
       deadlineClass: 'chip--clay',
       payLabel: 'DP',
       payClass: 'chip--dp',
-      orderDate: '18 Nov 2026',
-      lastUpdate: '23 Nov 2026 · 13:15 WIB',
+      orderDate: '20 Nov 2026',
+      lastUpdate: '22 Nov 2026 · 08:30 WIB',
       customerNote: 'Bagian badan utama sudah dijahit, saat ini masuk pemasangan lengan dan kerah.',
       stepTimes: {
-        1: '18 Nov 2026 · 09:30',
-        2: '20 Nov 2026 · 11:15',
-        3: '23 Nov 2026 · 13:15'
+        1: '20 Nov 2026 · 09:15',
+        2: '21 Nov 2026 · 13:40',
+        3: '22 Nov 2026 · 08:30'
       }
     },
     'TH-2038': {
