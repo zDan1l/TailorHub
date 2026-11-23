@@ -204,16 +204,8 @@
           </section>
         </div>
 
-        <!-- Kolom Kanan: Checklist Meja Kerja & Aksi Selesai Tahap -->
+        <!-- Kolom Kanan: Aksi Selesai Tahap -->
         <div class="task-detail-col">
-          <section class="card">
-            <div class="card-head">
-              <h2>Checklist Meja Kerja</h2>
-              <span class="chip chip--soft" id="checkProgressChip"><span class="d"></span>0/3 selesai</span>
-            </div>
-            <div class="work-checklist" id="workChecklist"></div>
-          </section>
-
           <section class="staff-action-bar" aria-label="Aksi penyelesaian tahap">
             <div>
               <h2 style="margin:0 0 4px;font-size:1rem;">Aksi Penyelesaian Tahap</h2>
@@ -644,38 +636,6 @@
   });
 
   document.getElementById('designerNote').textContent = order.designerNote;
-
-  /* Checklist meja kerja interaktif */
-  var checklistEl = document.getElementById('workChecklist');
-  var progressChip = document.getElementById('checkProgressChip');
-
-  function updateCheckCount() {
-    var total = order.checklist.length;
-    var done = checklistEl.querySelectorAll('input:checked').length;
-    setChip(progressChip, done === total ? 'chip--done' : 'chip--soft', done + '/' + total + ' selesai');
-  }
-
-  order.checklist.forEach(function (labelText, idx) {
-    var label = document.createElement('label');
-    label.className = 'work-check-item';
-    var cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.id = 'chk-' + idx;
-    if (order.status === 'done') {
-      cb.checked = true;
-      label.classList.add('is-checked');
-    }
-    cb.addEventListener('change', function () {
-      label.classList.toggle('is-checked', cb.checked);
-      updateCheckCount();
-    });
-    var span = document.createElement('span');
-    span.textContent = labelText;
-    label.appendChild(cb);
-    label.appendChild(span);
-    checklistEl.appendChild(label);
-  });
-  updateCheckCount();
 
   /* Quick note chips */
   var noteArea = document.getElementById('progressNote');
