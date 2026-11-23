@@ -1,44 +1,69 @@
 /* ============================================================
    TAILORHUB — DESIGN TOKENS
-   Sumber kebenaran tunggal untuk warna, radius, bayangan.
-   Diambil dari style-guide.html / index.html — JANGAN ubah
-   nilainya tanpa kesepakatan tim (berdampak ke semua halaman).
+   Sumber kebenaran tunggal untuk seluruh halaman aplikasi.
+   Salin blok ini apa adanya dari style-guide.html.
    ============================================================ */
-:root{
-  /* --- Brand (Clay / Terracotta) --- */
-  --clay:#C05424; --clay-700:#9E4218; --clay-500:#D2703E;
-  --clay-300:#E89A72; --clay-100:#F9DFCF;
+:root {
+  /* --- Warna utama (Clay / Terracotta) --- */
+  --clay: #C05424;
+  --clay-700: #9E4218;
+  --clay-500: #D2703E;
+  --clay-300: #E89A72;
+  --clay-100: #F9DFCF;
 
   /* --- Netral hangat (latar) --- */
-  --cream:#FFF8EF; --cream-200:#FDEFDF; --paper:#FFFDFA;
+  --cream: #FFF8EF;
+  --cream-200: #FDEFDF;
+  --paper: #FFFDFA;
 
   /* --- Teks (Ink) --- */
-  --ink:#3C2418; --ink-900:#2A1810; --ink-70:#6B4A3A; --ink-45:#8E7266;
+  --ink: #3C2418;
+  --ink-900: #2A1810;
+  --ink-70: #6B4A3A;
+  --ink-45: #8E7266;
 
   /* --- Aksen sekunder (Indigo) --- */
-  --indigo:#495ECD; --indigo-300:#8E9BE4; --indigo-100:#E2E6FA;
+  --indigo: #495ECD;
+  --indigo-300: #8E9BE4;
+  --indigo-100: #E2E6FA;
 
   /* --- Garis & border (Sand) --- */
-  --sand:#EADBC8; --sand-dark:#D8C4AC;
+  --sand: #EADBC8;
+  --sand-dark: #D8C4AC;
 
-  /* --- Semantik dasar --- */
-  --green:#2F8F5B; --green-100:#DDF0E5;
-  --amber:#D98A14; --amber-100:#FBEBCF;
-  --red:#C0392B; --red-100:#F7DEDA;
+  /* --- Semantik --- */
+  --green: #2F8F5B;
+  --green-100: #DDF0E5;
+  --amber: #D98A14;
+  --amber-100: #FBEBCF;
+  --red: #C0392B;
+  --red-100: #F7DEDA;
 
   /* --- Status SOLID (latar pekat + teks putih), diselaraskan clay --- */
-  --s-queue:#7A6155; --s-cut:#495ECD; --s-sew:#C05424; --s-finish:#9A6209;
-  --s-qc:#3C4FA6; --s-done:#2F8F5B; --s-taken:#20683F;
-  --pay-unpaid:#C0392B; --pay-dp:#9A6209; --pay-paid:#2F8F5B; --warn:#B06E12;
+  --s-queue: #7A6155;
+  --s-cut: #495ECD;
+  --s-sew: #C05424;
+  --s-finish: #9A6209;
+  --s-qc: #3C4FA6;
+  --s-done: #2F8F5B;
+  --s-taken: #20683F;
+
+  --pay-unpaid: #C0392B;
+  --pay-dp: #9A6209;
+  --pay-paid: #2F8F5B;
+  --warn: #B06E12;
 
   /* --- Radius --- */
-  --r-s:12px; --r-m:18px; --r-l:26px; --r-xl:36px;
+  --r-s: 12px;
+  --r-m: 18px;
+  --r-l: 26px;
+  --r-xl: 36px;
 
   /* --- Bayangan --- */
-  --shadow-s:0 2px 6px rgba(60,36,24,.06);
-  --shadow-m:0 12px 32px rgba(60,36,24,.10);
-  --shadow-l:0 26px 64px rgba(60,36,24,.16);
+  --shadow-s: 0 2px 6px rgba(60, 36, 24, .06);
+  --shadow-m: 0 12px 32px rgba(60, 36, 24, .10);
+  --shadow-l: 0 26px 64px rgba(60, 36, 24, .16);
 
   /* --- Easing --- */
-  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease: cubic-bezier(.22, .61, .36, 1);
 }
