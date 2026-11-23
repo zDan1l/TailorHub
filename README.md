@@ -25,6 +25,14 @@ untuk usaha jahit & konveksi. Proyek ini **HTML/CSS statis** (belum ada backend)
 
 ## 👥 Pembagian 6 Developer
 
+| Bagian | Dev | Fokus Area | Folder utama |
+|--------|-----|-----------|--------------|
+| 1 | **Dev 1 (Danil)** | Situs Publik, Marketing & Sistem | `index.html`, `pricing/features/about/...`, `404`, `maintenance` |
+| 2 | **Dev 2 (Angel)** | Autentikasi & Akun Pengguna | `auth/`, `account/` |
+| 3 | **Dev 3** | Dashboard, Laporan & Notifikasi | `app/dashboard.html`, `app/reports/`, `app/notifications/` |
+| 4 | **Dev 4 (Zelvia)** | Manajemen Pesanan & Customer | `app/orders/`, `app/customers/` |
+| 5 | **Dev 5** | Produksi, Tugas Staff & Portal Customer | `app/production/`, `app/staff/`, `portal/` |
+| 6 | **Dev 6** | Pembayaran, Tim & Pengaturan Tenant | `app/payments/`, `app/team/`, `app/settings/` |
 | Bagian | Dev                     | Fokus Area                              | Folder utama                                                             |
 | ------ | ----------------------- | --------------------------------------- | ------------------------------------------------------------------------ |
 | 1      | **Dev 1 (Danil)** | Situs Publik, Marketing & Sistem        | `index.html`, `pricing/features/about/...`, `404`, `maintenance` |
