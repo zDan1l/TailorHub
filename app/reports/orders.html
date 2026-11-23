@@ -197,10 +197,10 @@
     <!-- Topbar -->
     <header class="top">
       <button class="burger" id="burger" aria-label="Buka menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
-      <div class="search">
+      <form class="search" action="../search.html" method="GET">
         <svg width="18" height="18"><use href="#i-search"/></svg>
-        <input type="search" placeholder="Cari pesanan, customer, kode…" onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location.href='../search.html?q='+encodeURIComponent(this.value.trim())}">
-      </div>
+        <input type="search" name="q" placeholder="Cari pesanan, customer, kode…">
+      </form>
       <div class="top-actions">
         <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
         <span class="top-avatar">PM</span>
