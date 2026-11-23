@@ -186,6 +186,88 @@
   cursor: pointer;
 }
 
+.select:hover:not(:disabled) {
+  border-color: var(--clay-300);
+}
+
+/* Progressive enhancement: Customizable Select API (Chrome/Edge 135+, Safari 27+) */
+@supports (appearance: base-select) {
+  .select,
+  .select::picker(select) {
+    appearance: base-select;
+  }
+
+  .select {
+    background-image: none;
+    padding-right: 14px;
+    align-items: center;
+  }
+
+  .select::picker-icon {
+    color: var(--ink-45);
+    transition: transform .22s var(--ease), color .2s;
+  }
+
+  .select:open::picker-icon {
+    transform: rotate(180deg);
+    color: var(--clay);
+  }
+
+  .select::picker(select) {
+    margin-top: 6px;
+    padding: 6px;
+    background: var(--paper);
+    border: 1.5px solid var(--sand);
+    border-radius: var(--r-s);
+    box-shadow: var(--shadow-m);
+    opacity: 0;
+    transform: translateY(-4px) scale(.98);
+    transition:
+      opacity .2s var(--ease),
+      transform .2s var(--ease),
+      display .2s allow-discrete,
+      overlay .2s allow-discrete;
+  }
+
+  .select:open::picker(select) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  @starting-style {
+    .select:open::picker(select) {
+      opacity: 0;
+      transform: translateY(-4px) scale(.98);
+    }
+  }
+
+  .select option {
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+
+  .select option:hover,
+  .select option:focus-visible {
+    background: var(--cream-200);
+    color: var(--clay-700);
+  }
+
+  .select option:checked {
+    background: var(--clay-100);
+    color: var(--clay-700);
+    font-weight: 700;
+  }
+
+  .select option::checkmark {
+    color: var(--clay);
+  }
+}
+
 .input--err {
   border-color: var(--red);
 }
