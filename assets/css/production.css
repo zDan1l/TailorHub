@@ -1,0 +1,972 @@
+/* ============================================================
+   TAILORHUB — PRODUCTION MODULE STYLES
+   Khusus halaman app/production/* (Kanban 7 tahap, List View,
+   Detail Timeline, Update Status, dan Pantau Deadline).
+   Semua warna/radius/bayangan memakai token dari tokens.css.
+   ============================================================ */
+
+/* ----- Sub-navigasi & View Switch ----- */
+.prod-subnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.prod-subnav .tabs {
+  flex: 1;
+  min-width: 240px;
+}
+
+.view-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: 999px;
+  box-shadow: var(--shadow-s);
+}
+
+.view-switch a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: .83rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  transition: background .2s, color .2s;
+}
+
+.view-switch a:hover {
+  color: var(--clay);
+}
+
+.view-switch a.is-on {
+  background: var(--clay);
+  color: #fff;
+}
+
+/* ----- Toolbar Filter Produksi ----- */
+.prod-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.5fr) repeat(2, minmax(155px, .85fr)) auto;
+  gap: 12px;
+  align-items: center;
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-s);
+}
+
+.prod-toolbar--4 {
+  grid-template-columns: minmax(200px, 1.4fr) repeat(3, minmax(145px, .8fr)) auto;
+}
+
+.prod-toolbar .field {
+  margin-bottom: 0;
+}
+
+.prod-toolbar .input,
+.prod-toolbar .select {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: .88rem;
+}
+
+.prod-count-info {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ----- Summary KPI Cards ----- */
+.prod-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.prod-kpi {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 18px;
+  box-shadow: var(--shadow-s);
+  transition: transform .3s var(--ease), box-shadow .3s, border-color .3s;
+}
+
+.prod-kpi:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-m);
+  border-color: var(--clay-300);
+}
+
+.prod-kpi-ic {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-s);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.prod-kpi small {
+  display: block;
+  font-size: .71rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.prod-kpi b {
+  display: block;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.035em;
+  margin: 5px 0 7px;
+  color: var(--ink);
+}
+
+.prod-kpi-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .78rem;
+  color: var(--ink-45);
+}
+
+/* ============================================================
+   PAPAN KANBAN 7 TAHAP (selaras dashboard.html & style-guide)
+   ============================================================ */
+.kanban-wrap {
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin: 0 -4px;
+}
+
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(254px, 1fr));
+  gap: 14px;
+  padding: 2px 4px;
+  align-items: start;
+}
+
+.kcol {
+  background: var(--cream-200);
+  border: 1.5px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 12px;
+  min-height: 280px;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+}
+
+.kcol.is-over {
+  border-color: var(--clay);
+  border-style: dashed;
+  background: var(--clay-100);
+  box-shadow: var(--shadow-m);
+}
+
+.kcol-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 12px;
+}
+
+.kcol-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.kcol-head h4 {
+  font-size: .86rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.kcol-head .kcount {
+  margin-left: auto;
+  font-size: .72rem;
+  font-weight: 800;
+  color: var(--ink-70);
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  padding: 2px 9px;
+  border-radius: 999px;
+}
+
+.kcol-empty {
+  border: 1.5px dashed var(--sand-dark);
+  border-radius: var(--r-m);
+  padding: 22px 14px;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--ink-45);
+  background: rgba(255, 253, 250, .55);
+}
+
+/* ---- Kartu Kanban (Satu warna seragam, aksen kiri --acc) ---- */
+.kcard {
+  --acc: var(--s-queue);
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 14px 15px 12px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-s);
+  cursor: grab;
+  overflow: hidden;
+  transition: transform .3s var(--ease), box-shadow .3s, border-color .3s, opacity .2s;
+}
+
+.kcard:last-of-type {
+  margin-bottom: 0;
+}
+
+.kcard::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: var(--acc);
+}
+
+.kcard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-m);
+  border-color: var(--acc);
+}
+
+.kcard:active {
+  cursor: grabbing;
+}
+
+.kcard.is-dragging {
+  opacity: .45;
+  transform: scale(.98);
+}
+
+.kcard[hidden] {
+  display: none;
+}
+
+.kc-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.kc-code {
+  font-weight: 800;
+  font-size: .92rem;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+
+.kc-code:hover {
+  color: var(--clay);
+  text-decoration: underline;
+}
+
+.kc-type {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--acc);
+  background: var(--cream-200);
+  border: 1px solid var(--sand);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: auto;
+}
+
+.kc-title {
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+  letter-spacing: -.01em;
+}
+
+.kc-cust {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .78rem;
+  color: var(--ink-45);
+  margin-bottom: 12px;
+}
+
+.kc-cust .mini {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--sand);
+  color: var(--ink-70);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .64rem;
+  font-weight: 800;
+  flex: none;
+}
+
+/* Progres bertahap: 7 segmen */
+.kc-steps {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 7px;
+}
+
+.kc-steps i {
+  flex: 1;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--sand);
+}
+
+.kc-steps i.on {
+  background: var(--acc);
+}
+
+.kc-stepslabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  margin-bottom: 11px;
+}
+
+.kc-stepslabel .pct {
+  color: var(--acc);
+}
+
+.kc-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--sand);
+}
+
+.kc-dead {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .73rem;
+  font-weight: 800;
+  color: var(--ink-70);
+}
+
+.kc-dead svg {
+  color: var(--ink-45);
+}
+
+.kc-dead.is-soon {
+  color: var(--warn);
+}
+
+.kc-dead.is-soon svg {
+  color: var(--warn);
+}
+
+.kc-dead.is-late {
+  color: var(--red);
+}
+
+.kc-dead.is-late svg {
+  color: var(--red);
+}
+
+.kc-assignee {
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--clay);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .68rem;
+  font-weight: 800;
+  border: 2px solid var(--paper);
+  box-shadow: var(--shadow-s);
+}
+
+.kc-assignee.indigo {
+  background: var(--indigo);
+}
+
+.kc-assignee.green {
+  background: var(--s-done);
+}
+
+/* Aksi cepat kartu (ramah mobile / touch) */
+.kc-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px dashed var(--sand);
+}
+
+.kc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: .73rem;
+  font-weight: 700;
+  border: 1px solid var(--sand);
+  background: var(--cream);
+  color: var(--ink-70);
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+
+.kc-btn:hover {
+  border-color: var(--clay);
+  color: var(--clay);
+  background: var(--paper);
+}
+
+.kc-btn--next {
+  margin-left: auto;
+  background: var(--clay-100);
+  border-color: var(--clay-300);
+  color: var(--clay-700);
+}
+
+.kc-btn--next:hover {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: #fff;
+}
+
+.kc-btn--next:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   LIST VIEW & TABEL PRODUKSI
+   ============================================================ */
+.tw {
+  overflow-x: auto;
+}
+
+.table-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+  background: var(--cream-200);
+  border-top: 1px solid var(--sand);
+  font-size: .83rem;
+  color: var(--ink-70);
+}
+
+.cust-cell,
+.staff-cell {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+}
+
+.cust-cell .mini {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--clay-100);
+  color: var(--clay-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .72rem;
+  font-weight: 800;
+  flex: none;
+}
+
+.row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.row-late {
+  background: var(--red-100);
+}
+
+.row-late:hover {
+  background: var(--red-100) !important;
+}
+
+/* ============================================================
+   LAYOUT 2 KOLOM: DETAIL & UPDATE STATUS
+   ============================================================ */
+.prod-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.prod-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 14px 16px;
+}
+
+.spec-item small {
+  display: block;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  margin-bottom: 2px;
+}
+
+.spec-item b {
+  font-size: .9rem;
+  color: var(--ink);
+}
+
+/* ----- Timeline Produksi Vertikal (7 Tahap) ----- */
+.prod-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.pt-item {
+  display: flex;
+  gap: 14px;
+}
+
+.pt-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+}
+
+.pt-node {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  font-weight: 800;
+  background: var(--sand);
+  color: var(--ink-70);
+  flex: none;
+}
+
+.pt-line {
+  width: 2px;
+  flex: 1;
+  min-height: 28px;
+  background: var(--sand);
+  margin: 4px 0;
+}
+
+.pt-item:last-child .pt-line {
+  display: none;
+}
+
+.pt-body {
+  padding-bottom: 20px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pt-item:last-child .pt-body {
+  padding-bottom: 0;
+}
+
+.pt-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: .94rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.pt-meta {
+  font-size: .78rem;
+  color: var(--ink-45);
+  margin-top: 2px;
+}
+
+.pt-note {
+  margin-top: 7px;
+  padding: 9px 12px;
+  border-radius: var(--r-s);
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  font-size: .84rem;
+  color: var(--ink-70);
+}
+
+.pt-item.is-done .pt-node {
+  background: var(--s-done);
+  color: #fff;
+}
+
+.pt-item.is-done .pt-line {
+  background: var(--s-done);
+}
+
+.pt-item.is-active .pt-node {
+  background: var(--clay);
+  color: #fff;
+  box-shadow: 0 0 0 5px var(--clay-100);
+}
+
+.pt-item.is-active .pt-title {
+  color: var(--clay);
+}
+
+.pt-item.is-active .pt-meta {
+  color: var(--clay-700);
+  font-weight: 700;
+}
+
+.pt-item.is-pending {
+  opacity: .58;
+}
+
+/* ----- Catatan Internal Produksi ----- */
+.note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.note-item {
+  padding: 12px 14px;
+  border-radius: var(--r-s);
+  background: var(--cream);
+  border: 1px solid var(--sand);
+}
+
+.note-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: .78rem;
+  color: var(--ink-45);
+}
+
+.note-head b {
+  color: var(--ink);
+  font-size: .84rem;
+}
+
+.note-item p {
+  font-size: .86rem;
+  color: var(--ink-70);
+}
+
+/* ============================================================
+   UPDATE STATUS: STAGE PICKER & WHATSAPP PREVIEW
+   ============================================================ */
+.stage-picker {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.stage-opt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  border: 1.6px solid var(--sand);
+  border-radius: var(--r-s);
+  background: var(--paper);
+  cursor: pointer;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+}
+
+.stage-opt:hover {
+  border-color: var(--clay-300);
+  background: var(--cream);
+}
+
+.stage-opt input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage-opt.is-selected {
+  border-color: var(--clay);
+  background: var(--clay-100);
+  box-shadow: 0 0 0 3px rgba(192, 84, 36, .12);
+}
+
+.stage-opt-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.stage-opt-txt b {
+  display: block;
+  font-size: .86rem;
+  color: var(--ink);
+}
+
+.stage-opt-txt small {
+  font-size: .74rem;
+  color: var(--ink-45);
+}
+
+.quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.quick-chip {
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--sand);
+  background: var(--cream-200);
+  color: var(--ink-70);
+  font-size: .76rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+
+.quick-chip:hover {
+  border-color: var(--clay);
+  color: var(--clay);
+  background: var(--paper);
+}
+
+.wa-preview {
+  background: var(--green-100);
+  border: 1px solid var(--green);
+  border-radius: var(--r-m);
+  padding: 15px 16px;
+}
+
+.wa-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: .74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--s-taken);
+  margin-bottom: 8px;
+}
+
+.wa-bubble {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-s);
+  padding: 12px 14px;
+  font-size: .85rem;
+  line-height: 1.55;
+  color: var(--ink);
+  white-space: pre-line;
+}
+
+/* ============================================================
+   DEADLINE ALERTS: FILTER PILLS
+   ============================================================ */
+.alert-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.alert-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  border: 1.5px solid var(--sand);
+  background: var(--paper);
+  color: var(--ink-70);
+  font-size: .84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.alert-pill:hover {
+  border-color: var(--clay);
+  color: var(--clay);
+}
+
+.alert-pill.is-on {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: #fff;
+}
+
+/* ============================================================
+   TOAST FIXED SOLID
+   ============================================================ */
+.prod-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--s-done);
+  color: #fff;
+  border-radius: var(--r-m);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-l);
+  max-width: 360px;
+  animation: prodToastIn .35s var(--ease);
+}
+
+.prod-toast svg {
+  flex: none;
+}
+
+.prod-toast b {
+  display: block;
+  font-weight: 800;
+  font-size: .9rem;
+}
+
+.prod-toast small {
+  display: block;
+  color: rgba(255, 255, 255, .85);
+  font-size: .78rem;
+}
+
+.prod-toast .toast-x {
+  margin-left: 6px;
+  background: rgba(255, 255, 255, .2);
+  border: 0;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+@keyframes prodToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+@media (max-width: 1100px) {
+  .prod-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .prod-toolbar,
+  .prod-toolbar--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .prod-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .prod-summary {
+    grid-template-columns: 1fr;
+  }
+  .prod-toolbar,
+  .prod-toolbar--4 {
+    grid-template-columns: 1fr;
+  }
+  .spec-grid,
+  .stage-picker {
+    grid-template-columns: 1fr;
+  }
+  .prod-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
+}

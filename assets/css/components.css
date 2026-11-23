@@ -153,11 +153,11 @@
   font-family: inherit;
   font-size: .94rem;
   color: var(--ink);
-  background: var(--paper);
+  background-color: var(--paper);
   border: 1.6px solid var(--sand);
   border-radius: var(--r-s);
   padding: 12px 14px;
-  transition: border-color .2s, box-shadow .2s, background .2s;
+  transition: border-color .2s, box-shadow .2s, background-color .2s;
 }
 
 .input::placeholder, .textarea::placeholder {
@@ -168,7 +168,7 @@
   outline: none;
   border-color: var(--clay);
   box-shadow: 0 0 0 4px rgba(192, 84, 36, .12);
-  background: #fff;
+  background-color: #fff;
 }
 
 .textarea {
@@ -186,6 +186,14 @@
   cursor: pointer;
 }
 
+.select:hover:not(:disabled) {
+  border-color: var(--clay-300);
+}
+
+.select:open {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23C05424' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 15 6-6 6 6'/%3E%3C/svg%3E");
+}
+
 .input--err {
   border-color: var(--red);
 }
@@ -195,7 +203,7 @@
 }
 
 .input:disabled, .select:disabled, .textarea:disabled {
-  background: var(--cream-200);
+  background-color: var(--cream-200);
   color: var(--ink-45);
   cursor: not-allowed;
 }
