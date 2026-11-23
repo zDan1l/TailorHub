@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Pesanan — TailorHub</title>
+<meta name="description" content="Laporan rekapitulasi pesanan, distribusi status produksi, dan evaluasi ketepatan waktu pengerjaan di TailorHub.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- 4 Impor CSS standar arsitektur tim -->
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* ============================================================
+   STYLING KHUSUS LAPORAN PESANAN — CLEAN SAAS ENTERPRISE
+   ============================================================ */
+
+/* Alur Tahapan Produksi (Funnel Grid) */
+.stage-pipeline {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stage-card {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 16px 14px;
+  box-shadow: var(--shadow-s);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform .2s, border-color .2s;
+}
+
+.stage-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--clay-300);
+}
+
+.stage-card::after {
+  content: "→";
+  position: absolute;
+  right: -9px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--sand-dark);
+  font-weight: 800;
+  font-size: .9rem;
+  z-index: 2;
+}
+
+.stage-card:last-child::after {
+  display: none;
+}
+
+.stage-name {
+  font-size: .74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--ink-45);
+  margin-bottom: 6px;
+}
+
+.stage-count {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.stage-pct {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  margin-top: 4px;
+}
+
+/* Tab filter tabel */
+.tab-row {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--clay);
+}
+
+.tab-btn.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+}
+
+/* Responsiveness */
+@media (max-width: 980px) {
+  .stage-pipeline {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stage-card::after {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .stage-pipeline {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- SVG Sprite Standar -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8Z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i" href="../notifications/index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i" href="../team/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <div class="main">
+    <!-- Topbar -->
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <div class="search">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" placeholder="Cari pesanan, customer, kode…" onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location.href='../search.html?q='+encodeURIComponent(this.value.trim())}">
+      </div>
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <span class="top-avatar">PM</span>
+      </div>
+    </header>
+
+    <!-- Konten Halaman Laporan Pesanan -->
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <a href="index.html">Laporan</a>
+            <span>/</span>
+            <b>Pesanan</b>
+          </nav>
+          <h1>Laporan Volume & Status Pesanan</h1>
+          <p class="sub">Rekapitulasi pesanan masuk, pemantauan tahapan pengerjaan, dan evaluasi ketepatan tenggat waktu pengerjaan.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <a href="export.html?type=orders" class="btn btn--outline">
+            <svg width="16" height="16"><use href="#i-download"/></svg>
+            Ekspor Laporan
+          </a>
+          <a href="index.html" class="btn btn--outline">
+            ← Kembali ke Pusat Laporan
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI Grid Pesanan -->
+      <section class="kpis">
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--clay)"><svg width="21" height="21"><use href="#i-order"/></svg></span>
+          <small>Total Pesanan Masuk</small>
+          <b>128</b>
+          <div class="kpi-foot"><span class="delta delta--up">+12%</span> periode November 2026</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--indigo)"><svg width="21" height="21"><use href="#i-scissors"/></svg></span>
+          <small>Sedang Dikerjakan</small>
+          <b>35</b>
+          <div class="kpi-foot">14 Pola · 16 Jahit · 5 QC</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--s-done)"><svg width="21" height="21"><use href="#i-check"/></svg></span>
+          <small>Selesai & Diambil</small>
+          <b>86</b>
+          <div class="kpi-foot"><span class="delta delta--up">96,5%</span> tepat waktu</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--red)"><svg width="21" height="21"><use href="#i-clock"/></svg></span>
+          <small>Lewat Deadline</small>
+          <b>7</b>
+          <div class="kpi-foot" style="color:var(--red);font-weight:700">Perlu prioritas pengerjaan</div>
+        </div>
+      </section>
+
+      <!-- Pipeline Alur Produksi -->
+      <div style="margin: 24px 0 12px">
+        <h3 style="font-size: 1.05rem; font-weight:800; color:var(--ink)">Distribusi Status Produksi Aktif</h3>
+        <p class="sub" style="margin:2px 0 0">Visualisasi beban kerja pada masing-masing tahapan pengerjaan saat ini</p>
+      </div>
+
+      <div class="stage-pipeline">
+        <div class="stage-card">
+          <span class="stage-name">1. Antrean Baru</span>
+          <span class="stage-count">12</span>
+          <span class="stage-pct">9,4% dari total</span>
+        </div>
+        <div class="stage-card">
+          <span class="stage-name">2. Pola & Potong</span>
+          <span class="stage-count">14</span>
+          <span class="stage-pct">10,9% dari total</span>
+        </div>
+        <div class="stage-card">
+          <span class="stage-name">3. Proses Jahit</span>
+          <span class="stage-count">16</span>
+          <span class="stage-pct">12,5% dari total</span>
+        </div>
+        <div class="stage-card">
+          <span class="stage-name">4. Finishing/Bordir</span>
+          <span class="stage-count">8</span>
+          <span class="stage-pct">6,2% dari total</span>
+        </div>
+        <div class="stage-card">
+          <span class="stage-name">5. Quality Control</span>
+          <span class="stage-count">5</span>
+          <span class="stage-pct">3,9% dari total</span>
+        </div>
+        <div class="stage-card" style="background:rgba(30,126,52,.05);border-color:var(--s-done)">
+          <span class="stage-name" style="color:var(--green)">6. Selesai</span>
+          <span class="stage-count" style="color:var(--green)">86</span>
+          <span class="stage-pct" style="color:var(--green)">67,1% selesai</span>
+        </div>
+      </div>
+
+      <!-- Dua Kolom Analisis: Volume Mingguan & Lead Time -->
+      <section class="panels" style="margin-top:24px">
+        <!-- Panel Kiri: Grafik Volume Mingguan (Masuk vs Selesai) -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Tren Volume Pesanan Masuk vs Selesai</h3>
+              <p class="sub" style="margin:2px 0 0">Komparasi 4 minggu bulan November 2026</p>
+            </div>
+            <div style="display:flex;gap:12px;font-size:.78rem;font-weight:700">
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--clay);border-radius:2px"></span> Masuk</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--s-done);border-radius:2px"></span> Selesai</span>
+            </div>
+          </div>
+
+          <div style="position:relative;margin-top:16px">
+            <svg viewBox="0 0 600 210" style="width:100%;height:auto;overflow:visible">
+              <line x1="30" y1="30" x2="580" y2="30" stroke="var(--sand)" stroke-dasharray="3 3"/>
+              <text x="5" y="34" font-size="10" fill="var(--ink-45)" font-weight="600">40</text>
+
+              <line x1="30" y1="80" x2="580" y2="80" stroke="var(--sand)" stroke-dasharray="3 3"/>
+              <text x="5" y="84" font-size="10" fill="var(--ink-45)" font-weight="600">30</text>
+
+              <line x1="30" y1="130" x2="580" y2="130" stroke="var(--sand)" stroke-dasharray="3 3"/>
+              <text x="5" y="134" font-size="10" fill="var(--ink-45)" font-weight="600">20</text>
+
+              <line x1="30" y1="180" x2="580" y2="180" stroke="var(--sand)"/>
+              <text x="12" y="184" font-size="10" fill="var(--ink-45)" font-weight="600">0</text>
+
+              <!-- M1: Masuk 28 (h=105, y=75), Selesai 20 (h=75, y=105) -->
+              <rect x="70" y="75" width="30" height="105" rx="4" fill="var(--clay)"/>
+              <rect x="105" y="105" width="30" height="75" rx="4" fill="var(--s-done)"/>
+              <text x="102" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 1</text>
+              <text x="85" y="68" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">28</text>
+              <text x="120" y="98" font-size="10" fill="var(--green)" font-weight="700" text-anchor="middle">20</text>
+
+              <!-- M2: Masuk 34 (h=128, y=52), Selesai 22 (h=82, y=98) -->
+              <rect x="200" y="52" width="30" height="128" rx="4" fill="var(--clay)"/>
+              <rect x="235" y="98" width="30" height="82" rx="4" fill="var(--s-done)"/>
+              <text x="232" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 2</text>
+              <text x="215" y="45" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">34</text>
+              <text x="250" y="91" font-size="10" fill="var(--green)" font-weight="700" text-anchor="middle">22</text>
+
+              <!-- M3: Masuk 36 (h=135, y=45), Selesai 24 (h=90, y=90) -->
+              <rect x="330" y="45" width="30" height="135" rx="4" fill="var(--clay)"/>
+              <rect x="365" y="90" width="30" height="90" rx="4" fill="var(--s-done)"/>
+              <text x="362" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 3</text>
+              <text x="345" y="38" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">36</text>
+              <text x="380" y="83" font-size="10" fill="var(--green)" font-weight="700" text-anchor="middle">24</text>
+
+              <!-- M4: Masuk 30 (h=112, y=68), Selesai 20 (h=75, y=105) -->
+              <rect x="460" y="68" width="30" height="112" rx="4" fill="var(--clay)"/>
+              <rect x="495" y="105" width="30" height="75" rx="4" fill="var(--s-done)"/>
+              <text x="492" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 4</text>
+              <text x="475" y="61" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">30</text>
+              <text x="510" y="98" font-size="10" fill="var(--green)" font-weight="700" text-anchor="middle">20</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Panel Kanan: Evaluasi Waktu Pengerjaan (Lead Time) -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Rata-rata Waktu per Tahap (Lead Time)</h3>
+              <p class="sub" style="margin:2px 0 0">Tolok ukur kecepatan pengerjaan satu pesanan busana</p>
+            </div>
+            <span class="chip chip--neutral" style="font-size:.74rem">Target: ≤ 8 Hari</span>
+          </div>
+
+          <div style="margin-top:16px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+              <span style="font-weight:700">Pola & Pengukuran Badan</span>
+              <span style="font-weight:800;color:var(--ink-70)">1,0 Hari</span>
+            </div>
+            <div style="height:7px;background:var(--sand);border-radius:99px;margin-bottom:14px;overflow:hidden">
+              <div style="width:14%;height:100%;background:var(--clay);border-radius:99px"></div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+              <span style="font-weight:700">Pemotongan Kain & Bahan</span>
+              <span style="font-weight:800;color:var(--ink-70)">1,5 Hari</span>
+            </div>
+            <div style="height:7px;background:var(--sand);border-radius:99px;margin-bottom:14px;overflow:hidden">
+              <div style="width:21%;height:100%;background:var(--indigo);border-radius:99px"></div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+              <span style="font-weight:700">Penjahitan Utama (Assembly)</span>
+              <span style="font-weight:800;color:var(--ink-70)">3,2 Hari</span>
+            </div>
+            <div style="height:7px;background:var(--sand);border-radius:99px;margin-bottom:14px;overflow:hidden">
+              <div style="width:45%;height:100%;background:var(--amber);border-radius:99px"></div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+              <span style="font-weight:700">Finishing, Payet & Fitting</span>
+              <span style="font-weight:800;color:var(--ink-70)">1,0 Hari</span>
+            </div>
+            <div style="height:7px;background:var(--sand);border-radius:99px;margin-bottom:14px;overflow:hidden">
+              <div style="width:14%;height:100%;background:var(--teal);border-radius:99px"></div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+              <span style="font-weight:700">Quality Control (QC) & Packing</span>
+              <span style="font-weight:800;color:var(--ink-70)">0,5 Hari</span>
+            </div>
+            <div style="height:7px;background:var(--sand);border-radius:99px;overflow:hidden">
+              <div style="width:7%;height:100%;background:var(--green);border-radius:99px"></div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;padding:12px 14px;background:var(--bg);border-radius:var(--r-m);display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:.82rem;font-weight:700;color:var(--ink)">Rata-rata Durasi Total:</span>
+            <span style="font-size:1.05rem;font-weight:800;color:var(--clay)">7,2 Hari Kerja</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel Tabel Rekapitulasi Pesanan -->
+      <section class="panel" style="margin-top:24px">
+        <div class="panel-head" style="flex-wrap:wrap;gap:12px">
+          <div>
+            <h3>Tabel Rincian Riwayat Pesanan</h3>
+            <p class="sub" style="margin:2px 0 0">Data pencatatan seluruh pesanan aktif dan terselesaikan</p>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <input type="text" id="orderSearch" placeholder="Cari kode/pelanggan..." style="padding:8px 12px;border:1px solid var(--sand);border-radius:var(--r-m);font-size:.84rem;outline:none" onkeyup="filterOrderTable()">
+          </div>
+        </div>
+
+        <!-- Filter Tab -->
+        <div class="tab-row">
+          <button class="tab-btn is-active" onclick="filterTab(this, 'all')">Semua Pesanan (128)</button>
+          <button class="tab-btn" onclick="filterTab(this, 'active')">Sedang Proses (35)</button>
+          <button class="tab-btn" onclick="filterTab(this, 'done')">Selesai (86)</button>
+          <button class="tab-btn" onclick="filterTab(this, 'urgent')">Lewat Deadline (7)</button>
+        </div>
+
+        <div style="overflow-x:auto">
+          <table class="table" id="ordersTable">
+            <thead>
+              <tr>
+                <th>No. Pesanan</th>
+                <th>Tgl Masuk</th>
+                <th>Pelanggan</th>
+                <th>Pakaian / Item</th>
+                <th>Tahap Produksi</th>
+                <th>Penjahit PIC</th>
+                <th>Tenggat Waktu</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1: Urgent overdue -->
+              <tr data-type="urgent active">
+                <td><b>TH-2033</b></td>
+                <td>12 Nov 2026</td>
+                <td>Bpk. Hendra Wijaya</td>
+                <td>Jas Wol Hitam Full Furing (1 pcs)</td>
+                <td><span class="chip chip--warn">Proses Jahit</span></td>
+                <td>Mas Joko</td>
+                <td><b style="color:var(--red)">Kemarin (-1 hari)</b></td>
+                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+              </tr>
+
+              <!-- Row 2: Urgent due tomorrow -->
+              <tr data-type="urgent active">
+                <td><b>TH-2041</b></td>
+                <td>16 Nov 2026</td>
+                <td>Bpk. Budi Santoso</td>
+                <td>Kemeja Batik Katun Primis (3 pcs)</td>
+                <td><span class="chip chip--info">Pola & Potong</span></td>
+                <td>Pak Mardi</td>
+                <td><b style="color:var(--amber)">Besok (24 Nov)</b></td>
+                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+              </tr>
+
+              <!-- Row 3: Active in production -->
+              <tr data-type="active">
+                <td><b>TH-2045</b></td>
+                <td>18 Nov 2026</td>
+                <td>PT Cipta Kreasi Mandiri</td>
+                <td>Seragam PDL Kantor (20 pcs)</td>
+                <td><span class="chip chip--neutral">Antrean Masuk</span></td>
+                <td>Mbak Siti</td>
+                <td>28 Nov 2026</td>
+                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+              </tr>
+
+              <!-- Row 4: Active in QC -->
+              <tr data-type="active">
+                <td><b>TH-2030</b></td>
+                <td>10 Nov 2026</td>
+                <td>Ibu Rina Anggraini</td>
+                <td>Gamis Brokat Pesta (1 pcs)</td>
+                <td><span class="chip chip--info">Quality Control</span></td>
+                <td>Mbak Anisa</td>
+                <td>25 Nov 2026</td>
+                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+              </tr>
+
+              <!-- Row 5: Done -->
+              <tr data-type="done">
+                <td><b>TH-2022</b></td>
+                <td>08 Nov 2026</td>
+                <td>Bpk. Farhan Hakim</td>
+                <td>Celana Chino Slimfit (2 pcs)</td>
+                <td><span class="chip chip--success">Selesai Diambil</span></td>
+                <td>Mas Joko</td>
+                <td>19 Nov 2026</td>
+                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+              </tr>
+
+              <!-- Row 6: Done -->
+              <tr data-type="done">
+                <td><b>TH-2021</b></td>
+                <td>06 Nov 2026</td>
+                <td>Ibu Dewi Lestari</td>
+                <td>Kebaya Modern Kartini (1 pcs)</td>
+                <td><span class="chip chip--success">Selesai Diambil</span></td>
+                <td>Pak Mardi</td>
+                <td>18 Nov 2026</td>
+                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+              </tr>
+
+              <!-- Row 7: Done -->
+              <tr data-type="done">
+                <td><b>TH-2019</b></td>
+                <td>04 Nov 2026</td>
+                <td>Bpk. Gunawan Wibowo</td>
+                <td>Setelan Safari Paspampres (1 set)</td>
+                <td><span class="chip chip--success">Selesai Diambil</span></td>
+                <td>Mas Joko</td>
+                <td>15 Nov 2026</td>
+                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;font-size:.84rem;color:var(--ink-70)">
+          <span>Menampilkan <b>1–7</b> dari <b>128</b> pesanan</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem" disabled>Sebelumnya</button>
+            <button class="btn btn--primary" style="padding:6px 12px;font-size:.82rem">1</button>
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem">2</button>
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem">3</button>
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem">Berikutnya</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="../../assets/js/app.js"></script>
+<script>
+function filterTab(btn, type) {
+  var tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(function(t) { t.classList.remove('is-active'); });
+  btn.classList.add('is-active');
+
+  var rows = document.querySelectorAll('#ordersTable tbody tr');
+  rows.forEach(function(row) {
+    var rowType = row.getAttribute('data-type') || '';
+    if (type === 'all') {
+      row.style.display = '';
+    } else if (rowType.indexOf(type) !== -1) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+
+function filterOrderTable() {
+  var input = document.getElementById('orderSearch').value.toLowerCase();
+  var rows = document.querySelectorAll('#ordersTable tbody tr');
+  rows.forEach(function(row) {
+    var text = row.innerText.toLowerCase();
+    if (text.indexOf(input) !== -1) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

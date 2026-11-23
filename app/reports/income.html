@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Pemasukan — TailorHub</title>
+<meta name="description" content="Laporan arus kas pemasukan, rekapitulasi uang muka DP, pelunasan pesanan, dan analisa tren keuangan usaha jahit di TailorHub.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- 4 Impor CSS standar arsitektur tim -->
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* ============================================================
+   STYLING KHUSUS LAPORAN PEMASUKAN — CLEAN SAAS ENTERPRISE
+   ============================================================ */
+
+/* Tab filter transaksi */
+.tab-row {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--clay);
+}
+
+.tab-btn.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+}
+
+/* Pay Method Item */
+.pay-item {
+  margin-bottom: 16px;
+}
+
+.pay-item:last-child {
+  margin-bottom: 0;
+}
+
+.pay-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: .86rem;
+  margin-bottom: 6px;
+}
+
+.pay-name {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.pay-val {
+  font-weight: 800;
+  color: var(--ink-70);
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--sand);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+}
+</style>
+</head>
+<body>
+
+<!-- SVG Sprite Standar -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i" href="../notifications/index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i" href="../team/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <div class="main">
+    <!-- Topbar -->
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <div class="search">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" placeholder="Cari pesanan, customer, invoice…" onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location.href='../search.html?q='+encodeURIComponent(this.value.trim())}">
+      </div>
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <span class="top-avatar">PM</span>
+      </div>
+    </header>
+
+    <!-- Konten Halaman Laporan Pemasukan -->
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <a href="index.html">Laporan</a>
+            <span>/</span>
+            <b>Pemasukan</b>
+          </nav>
+          <h1>Laporan Pemasukan & Arus Kas</h1>
+          <p class="sub">Pencatatan riil pendapatan kas usaha jahit, uang muka (DP), pelunasan faktur, dan analisa pertumbuhan omzet.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <a href="export.html?type=income" class="btn btn--outline">
+            <svg width="16" height="16"><use href="#i-download"/></svg>
+            Ekspor Pembukuan
+          </a>
+          <a href="index.html" class="btn btn--outline">
+            ← Kembali ke Pusat Laporan
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI Grid Pemasukan -->
+      <section class="kpis">
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--indigo)"><svg width="21" height="21"><use href="#i-pay"/></svg></span>
+          <small>Total Pemasukan Kas</small>
+          <b>Rp42.650.000</b>
+          <div class="kpi-foot"><span class="delta delta--up">+14,2%</span> vs bulan lalu</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--clay)"><svg width="21" height="21"><use href="#i-order"/></svg></span>
+          <small>Uang Muka (DP)</small>
+          <b>Rp16.800.000</b>
+          <div class="kpi-foot">39,4% dari total omzet</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--s-done)"><svg width="21" height="21"><use href="#i-check"/></svg></span>
+          <small>Pelunasan Faktur</small>
+          <b>Rp25.850.000</b>
+          <div class="kpi-foot">60,6% dari total omzet</div>
+        </div>
+
+        <div class="kpi">
+          <span class="kpi-ic" style="background:var(--amber)"><svg width="21" height="21"><use href="#i-clock"/></svg></span>
+          <small>Piutang Berjalan</small>
+          <b>Rp3.250.000</b>
+          <div class="kpi-foot" style="color:var(--amber);font-weight:700">4 pesanan belum lunas</div>
+        </div>
+      </section>
+
+      <!-- Analisis Grafis: Tren Harian & Metode Pembayaran -->
+      <section class="panels" style="margin-top:24px">
+        <!-- Panel Kiri: Grafik Tren Pemasukan Mingguan (65%) -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Grafik Pertumbuhan Kas Masuk</h3>
+              <p class="sub" style="margin:2px 0 0">Pencatatan realisasi dana masuk per minggu periode November 2026</p>
+            </div>
+            <span class="chip chip--neutral" style="font-size:.76rem">Rata-rata: Rp10,6jt / Mgg</span>
+          </div>
+
+          <div style="position:relative;margin-top:16px">
+            <!-- Tooltip chart dinamis -->
+            <div id="chartTip" style="position:absolute;display:none;background:var(--ink-900);color:#fff;padding:6px 10px;border-radius:6px;font-size:.75rem;pointer-events:none;transform:translate(-50%,-120%);white-space:nowrap;z-index:10;box-shadow:var(--shadow-m)">
+              <div id="chartTipLabel" style="color:var(--sand-dark)"></div>
+              <b id="chartTipVal" style="font-size:.88rem"></b>
+            </div>
+
+            <svg id="incomeChart" viewBox="0 0 600 210" style="width:100%;height:auto;overflow:visible">
+              <line x1="30" y1="30" x2="580" y2="30" stroke="var(--sand)" stroke-dasharray="3 3"/>
+              <text x="5" y="34" font-size="10" fill="var(--ink-45)" font-weight="600">15jt</text>
+
+              <line x1="30" y1="80" x2="580" y2="80" stroke="var(--sand)" stroke-dasharray="3 3"/>
+              <text x="5" y="84" font-size="10" fill="var(--ink-45)" font-weight="600">10jt</text>
+
+              <line x1="30" y1="130" x2="580" y2="130" stroke="var(--sand)" stroke-dasharray="3 3"/>
+              <text x="5" y="134" font-size="10" fill="var(--ink-45)" font-weight="600">5jt</text>
+
+              <line x1="30" y1="180" x2="580" y2="180" stroke="var(--sand)"/>
+              <text x="12" y="184" font-size="10" fill="var(--ink-45)" font-weight="600">0</text>
+
+              <!-- M1: 9.2jt (y=88, h=92) -->
+              <rect class="bar" x="70" y="88" width="56" height="92" rx="6" fill="var(--indigo)" data-label="Minggu 1 (1-7 Nov)" data-val="Rp9.200.000" style="cursor:pointer;transition:opacity .2s"/>
+              <text x="98" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 1</text>
+              <text x="98" y="82" font-size="10" fill="var(--indigo)" font-weight="700" text-anchor="middle">9,2jt</text>
+
+              <!-- M2: 10.85jt (y=72, h=108) -->
+              <rect class="bar" x="210" y="72" width="56" height="108" rx="6" fill="var(--indigo)" data-label="Minggu 2 (8-14 Nov)" data-val="Rp10.850.000" style="cursor:pointer;transition:opacity .2s"/>
+              <text x="238" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 2</text>
+              <text x="238" y="66" font-size="10" fill="var(--indigo)" font-weight="700" text-anchor="middle">10,8jt</text>
+
+              <!-- M3: 11.4jt (y=66, h=114) -->
+              <rect class="bar" x="350" y="66" width="56" height="114" rx="6" fill="var(--indigo)" data-label="Minggu 3 (15-21 Nov)" data-val="Rp11.400.000" style="cursor:pointer;transition:opacity .2s"/>
+              <text x="378" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 3</text>
+              <text x="378" y="60" font-size="10" fill="var(--indigo)" font-weight="700" text-anchor="middle">11,4jt</text>
+
+              <!-- M4: 11.2jt (y=68, h=112) -->
+              <rect class="bar" x="490" y="68" width="56" height="112" rx="6" fill="var(--clay)" data-label="Minggu 4 (22-28 Nov)" data-val="Rp11.200.000" style="cursor:pointer;transition:opacity .2s"/>
+              <text x="518" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 4</text>
+              <text x="518" y="62" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">11,2jt</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Panel Kanan: Komposisi Metode Pembayaran (35%) -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Kanal Pembayaran</h3>
+              <p class="sub" style="margin:2px 0 0">Pilihan pembayaran dari pelanggan</p>
+            </div>
+            <a href="../payments/index.html" class="link-more">Kasir</a>
+          </div>
+
+          <div style="margin-top:16px">
+            <div class="pay-item">
+              <div class="pay-head">
+                <span class="pay-name">Transfer Bank (BCA & Mandiri)</span>
+                <span class="pay-val">Rp28.500.000 (66,8%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:66.8%;background:var(--indigo)"></div>
+              </div>
+            </div>
+
+            <div class="pay-item">
+              <div class="pay-head">
+                <span class="pay-name">QRIS / Dompet Digital</span>
+                <span class="pay-val">Rp9.850.000 (23,1%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:23.1%;background:var(--clay)"></div>
+              </div>
+            </div>
+
+            <div class="pay-item">
+              <div class="pay-head">
+                <span class="pay-name">Tunai / Cash di Bengkel</span>
+                <span class="pay-val">Rp4.300.000 (10,1%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:10.1%;background:var(--teal)"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:24px;padding:14px;background:var(--bg);border-radius:var(--r-m);font-size:.82rem;line-height:1.5;color:var(--ink-70)">
+            <b>Info Rekonsiliasi:</b> Pembayaran digital (Transfer + QRIS) mencapai <b>89,9%</b> dari seluruh transaksi, mempercepat pencatatan dan meminimalkan selisih kas.
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel Tabel Rekap Transaksi Pembayaran -->
+      <section class="panel" style="margin-top:24px">
+        <div class="panel-head" style="flex-wrap:wrap;gap:12px">
+          <div>
+            <h3>Daftar Transaksi Kas Masuk</h3>
+            <p class="sub" style="margin:2px 0 0">Pencatatan rincian invoice, uang muka DP, dan pelunasan nota</p>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <input type="text" id="paySearch" placeholder="Cari invoice/pelanggan..." style="padding:8px 12px;border:1px solid var(--sand);border-radius:var(--r-m);font-size:.84rem;outline:none" onkeyup="filterPayTable()">
+          </div>
+        </div>
+
+        <!-- Filter Tab -->
+        <div class="tab-row">
+          <button class="tab-btn is-active" onclick="filterPayTab(this, 'all')">Semua Transaksi (78)</button>
+          <button class="tab-btn" onclick="filterPayTab(this, 'dp')">Uang Muka / DP (32)</button>
+          <button class="tab-btn" onclick="filterPayTab(this, 'lunas')">Pelunasan (46)</button>
+          <button class="tab-btn" onclick="filterPayTab(this, 'pending')">Piutang Tertunda (4)</button>
+        </div>
+
+        <div style="overflow-x:auto">
+          <table class="table" id="paymentsTable">
+            <thead>
+              <tr>
+                <th>No. Referensi / Invoice</th>
+                <th>Tgl & Jam</th>
+                <th>Pelanggan</th>
+                <th>Pesanan</th>
+                <th>Jenis Pembayaran</th>
+                <th>Metode</th>
+                <th>Nominal</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1: Pelunasan -->
+              <tr data-type="lunas">
+                <td><b>INV-2026-1188</b></td>
+                <td>22 Nov 2026, 14:20</td>
+                <td>PT Surya Perkasa</td>
+                <td>TH-2035 (Seragam PDL)</td>
+                <td><span class="chip chip--success">Pelunasan 100%</span></td>
+                <td>Transfer BCA</td>
+                <td><b style="color:var(--green)">Rp12.500.000</b></td>
+                <td><span class="chip chip--success">Diterima</span></td>
+              </tr>
+
+              <!-- Row 2: DP -->
+              <tr data-type="dp">
+                <td><b>INV-2026-1187</b></td>
+                <td>21 Nov 2026, 16:45</td>
+                <td>Ibu Rina Sasmita</td>
+                <td>TH-2028 (Kebaya Pengantin)</td>
+                <td><span class="chip chip--warn">Uang Muka 50%</span></td>
+                <td>QRIS Mandiri</td>
+                <td><b style="color:var(--ink)">Rp2.400.000</b></td>
+                <td><span class="chip chip--success">Diterima</span></td>
+              </tr>
+
+              <!-- Row 3: Pelunasan -->
+              <tr data-type="lunas">
+                <td><b>INV-2026-1186</b></td>
+                <td>20 Nov 2026, 11:30</td>
+                <td>Bpk. Hendra Gunawan</td>
+                <td>TH-2040 (Jas Formal Wol)</td>
+                <td><span class="chip chip--success">Pelunasan 100%</span></td>
+                <td>Transfer BCA</td>
+                <td><b style="color:var(--green)">Rp3.900.000</b></td>
+                <td><span class="chip chip--success">Diterima</span></td>
+              </tr>
+
+              <!-- Row 4: DP -->
+              <tr data-type="dp">
+                <td><b>INV-2026-1185</b></td>
+                <td>19 Nov 2026, 09:15</td>
+                <td>Dinas Perhubungan</td>
+                <td>TH-2041 (Kemeja Batik)</td>
+                <td><span class="chip chip--warn">Uang Muka 40%</span></td>
+                <td>Transfer Bank Jatim</td>
+                <td><b style="color:var(--ink)">Rp1.360.000</b></td>
+                <td><span class="chip chip--success">Diterima</span></td>
+              </tr>
+
+              <!-- Row 5: Lunas Cash -->
+              <tr data-type="lunas">
+                <td><b>INV-2026-1184</b></td>
+                <td>18 Nov 2026, 17:05</td>
+                <td>Ibu Kartika Sari</td>
+                <td>TH-2024 (Gaun Sutra Satin)</td>
+                <td><span class="chip chip--success">Pelunasan</span></td>
+                <td>Tunai di Kasir</td>
+                <td><b style="color:var(--green)">Rp1.375.000</b></td>
+                <td><span class="chip chip--success">Diterima</span></td>
+              </tr>
+
+              <!-- Row 6: Pending Piutang -->
+              <tr data-type="pending">
+                <td><b>INV-2026-1183</b></td>
+                <td>17 Nov 2026, 13:00</td>
+                <td>Bpk. Budi Santoso</td>
+                <td>TH-2041 (Kemeja Custom)</td>
+                <td><span class="chip chip--warn">Sisa Pelunasan</span></td>
+                <td>Menunggu Pengambilan</td>
+                <td><b style="color:var(--amber)">Rp850.000</b></td>
+                <td><span class="chip chip--neutral">Tertunda</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;font-size:.84rem;color:var(--ink-70)">
+          <span>Menampilkan <b>1–6</b> dari <b>78</b> transaksi</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem" disabled>Sebelumnya</button>
+            <button class="btn btn--primary" style="padding:6px 12px;font-size:.82rem">1</button>
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem">2</button>
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem">Berikutnya</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="../../assets/js/app.js"></script>
+<script>
+function filterPayTab(btn, type) {
+  var tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(function(t) { t.classList.remove('is-active'); });
+  btn.classList.add('is-active');
+
+  var rows = document.querySelectorAll('#paymentsTable tbody tr');
+  rows.forEach(function(row) {
+    var rowType = row.getAttribute('data-type') || '';
+    if (type === 'all') {
+      row.style.display = '';
+    } else if (rowType.indexOf(type) !== -1) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+
+function filterPayTable() {
+  var input = document.getElementById('paySearch').value.toLowerCase();
+  var rows = document.querySelectorAll('#paymentsTable tbody tr');
+  rows.forEach(function(row) {
+    var text = row.innerText.toLowerCase();
+    if (text.indexOf(input) !== -1) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>
