@@ -426,6 +426,23 @@
 
 .chip--clay { background: var(--clay); }
 .chip--danger { background: var(--red); }
+.chip--info {
+  background: rgba(73, 94, 205, .15);
+  color: var(--indigo);
+}
+.chip--warn {
+  background: rgba(217, 119, 6, .15);
+  color: #b45309;
+}
+.chip--success {
+  background: rgba(47, 143, 91, .15);
+  color: #1e7e34;
+}
+.chip--neutral {
+  background: var(--sand);
+  color: var(--ink-70);
+  border: 1px solid var(--sand-dark);
+}
 .chip--soft {
   background: var(--cream-200);
   color: var(--ink-70);
@@ -576,12 +593,13 @@
 /* ----- Alert & Toast ----- */
 .alert {
   display: flex;
-  gap: 13px;
+  gap: 14px;
   align-items: center;
-  padding: 15px 18px;
+  padding: 16px 20px;
   border-radius: var(--r-m);
-  font-size: .9rem;
+  font-size: .92rem;
   color: #fff;
+  margin-bottom: 26px;
 }
 
 .alert svg { flex: none; }
@@ -1051,6 +1069,11 @@
   align-items: center;
   justify-content: center;
   color: #fff;
+}
+
+.ai-ic svg {
+  color: #fff;
+  stroke: #fff;
 }
 
 .alert-item b {

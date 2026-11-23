@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pusat Notifikasi — TailorHub</title>
+<meta name="description" content="Pusat notifikasi in-app TailorHub: pembaruan status pesanan, pembayaran, dan peringatan deadline.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Urutan impor CSS standar tim -->
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* ============================================================
+   STYLING NOTIFIKASI — CLEAN, MINIMALIS & PROFESIONAL SAAS
+   ============================================================ */
+
+/* Penanda Periode Waktu */
+.time-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 32px 0 16px;
+}
+
+.time-divider:first-of-type {
+  margin-top: 10px;
+}
+
+.time-divider h3 {
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-divider .line {
+  flex: 1;
+  height: 1px;
+  background: var(--sand);
+}
+
+/* Kartu Notifikasi Individual */
+.notif-card {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  box-shadow: var(--shadow-s);
+  padding: 22px 26px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  transition: transform .25s var(--ease), box-shadow .25s, border-color .25s;
+}
+
+.notif-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-m);
+  border-color: var(--clay-300);
+}
+
+/* Aksen Belum Dibaca */
+.notif-card.is-unread {
+  background: #ffffff;
+  border-left: 5px solid var(--clay);
+}
+
+.notif-card.is-unread.urg-danger {
+  border-left-color: var(--red);
+}
+
+.notif-card.is-unread.urg-warn {
+  border-left-color: var(--warn);
+}
+
+/* Kotak Ikon */
+.notif-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* Konten Kartu */
+.notif-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Header Kartu */
+.notif-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.notif-category {
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.notif-category--danger { color: var(--red); }
+.notif-category--warn { color: var(--warn); }
+.notif-category--order { color: var(--clay); }
+.notif-category--done { color: var(--green); }
+.notif-category--prod { color: var(--indigo); }
+.notif-category--pay { color: var(--amber); }
+
+.notif-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .78rem;
+  color: var(--ink-45);
+  font-weight: 600;
+}
+
+.badge-new {
+  background: var(--clay);
+  color: #fff;
+  font-size: .66rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: .03em;
+}
+
+.badge-new.red {
+  background: var(--red);
+}
+
+/* Judul & Teks */
+.notif-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+
+.notif-message {
+  font-size: .91rem;
+  color: var(--ink-70);
+  line-height: 1.58;
+  margin-bottom: 14px;
+}
+
+.notif-message b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Footer Kartu */
+.notif-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--sand);
+  flex-wrap: wrap;
+}
+
+.notif-footer-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Responsive Mobile */
+@media (max-width: 680px) {
+  .notif-card {
+    padding: 18px 16px;
+    gap: 14px;
+    border-radius: var(--r-m);
+    flex-direction: column;
+  }
+  .notif-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+  .notif-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .notif-footer .btn {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Set ikon SVG Sprite Resmi -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ===================== SIDEBAR (reusable) ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i" href="../reports/index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge" id="sideBadge">3</span></a>
+      <a class="nav-i" href="../team/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <div class="main">
+    <!-- Topbar (reusable) -->
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <form class="search" action="../search.html" method="GET">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" name="q" placeholder="Cari pesanan, customer, kode…">
+      </form>
+      <div class="top-actions">
+        <a href="index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot" id="topDot"></span></a>
+        <span class="top-avatar">PM</span>
+      </div>
+    </header>
+
+    <!-- Konten Halaman Notifikasi -->
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <b>Notifikasi</b>
+          </nav>
+          <h1>Pusat Notifikasi</h1>
+          <p class="sub">Log pembaruan status pesanan, pembayaran, dan peringatan batas waktu produksi.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn--ghost btn--sm" id="btnMarkAllRead">
+            <svg width="16" height="16"><use href="#i-check"/></svg> Tandai Semua Dibaca
+          </button>
+          <a href="settings.html" class="btn btn--primary btn--sm">
+            <svg width="16" height="16"><use href="#i-gear"/></svg> Pengaturan Kanal
+          </a>
+        </div>
+      </div>
+
+      <!-- Filter Bar / Tabs Minimalis -->
+      <div class="tabs" id="notifTabs" style="margin-bottom:24px;">
+        <a href="#all" class="tab-link is-on" data-filter="all">Semua <span class="chip chip--soft" style="font-size:.7rem;padding:2px 8px;margin-left:6px" id="tabCountAll">7</span></a>
+        <a href="#unread" class="tab-link" data-filter="unread">Belum Dibaca <span class="chip chip--clay" style="font-size:.7rem;padding:2px 8px;margin-left:6px" id="tabUnreadCount">3</span></a>
+        <a href="#deadline" class="tab-link" data-filter="deadline">Deadline &amp; Urgensi <span class="chip chip--soft" style="font-size:.7rem;padding:2px 8px;margin-left:6px" id="tabCountDeadline">2</span></a>
+        <a href="#production" class="tab-link" data-filter="production">Produksi <span class="chip chip--soft" style="font-size:.7rem;padding:2px 8px;margin-left:6px" id="tabCountProd">3</span></a>
+        <a href="#payment" class="tab-link" data-filter="payment">Pembayaran <span class="chip chip--soft" style="font-size:.7rem;padding:2px 8px;margin-left:6px" id="tabCountPay">2</span></a>
+      </div>
+
+      <!-- Container Notifikasi -->
+      <div id="notifContainer">
+
+        <!-- ==================== GRUP: HARI INI ==================== -->
+        <div class="time-group" data-group="today">
+          <div class="time-divider">
+            <h3>Hari Ini <span class="chip chip--clay" style="font-size:.68rem;padding:2px 8px">3 Baru</span></h3>
+            <div class="line"></div>
+          </div>
+
+          <!-- 1. Deadline Terlewat -->
+          <article class="notif-card is-unread urg-danger" data-type="deadline" id="notif-1">
+            <div class="notif-icon-box" style="background:var(--red)">
+              <svg width="22" height="22"><use href="#i-warn"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-header">
+                <span class="notif-category notif-category--danger">Peringatan Keterlambatan</span>
+                <div class="notif-header-right">
+                  <span class="badge-new red">Baru</span>
+                  <span>10 menit yang lalu</span>
+                </div>
+              </div>
+              <h2 class="notif-title">Pesanan TH-2033 Melewati Batas Waktu Deadline</h2>
+              <p class="notif-message">
+                Pesanan <b>Jas Formal</b> atas nama customer <b>Hendra W.</b> telah melewati estimasi selesai sejak kemarin (-1 hari). Diperlukan verifikasi QC sebelum penyerahan.
+              </p>
+              <div class="notif-footer">
+                <div class="notif-footer-chips">
+                  <span class="chip chip--danger">Lewat Deadline</span>
+                  <span class="chip chip--soft">Jas · 1 pcs</span>
+                </div>
+                <a href="../orders/detail.html" class="btn btn--ghost btn--sm">
+                  Buka Pesanan <svg width="14" height="14"><use href="#i-arrow"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Pesanan Baru Masuk -->
+          <article class="notif-card is-unread" data-type="production" id="notif-2">
+            <div class="notif-icon-box" style="background:var(--clay)">
+              <svg width="22" height="22"><use href="#i-order"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-header">
+                <span class="notif-category notif-category--order">Pesanan Masuk</span>
+                <div class="notif-header-right">
+                  <span class="badge-new">Baru</span>
+                  <span>25 menit yang lalu</span>
+                </div>
+              </div>
+              <h2 class="notif-title">Pesanan Baru Diterima: TH-2045 (Seragam Kantor ×20)</h2>
+              <p class="notif-message">
+                Pesanan dari <b>PT Maju Jaya</b> telah masuk ke antrean awal. Total nilai pesanan <b>Rp8.000.000</b>. Jadwal pemotongan kain dapat segera diatur.
+              </p>
+              <div class="notif-footer">
+                <div class="notif-footer-chips">
+                  <span class="chip chip--queue">Antrean</span>
+                  <span class="chip chip--unpaid">Belum Bayar</span>
+                </div>
+                <a href="../orders/detail.html" class="btn btn--ghost btn--sm">
+                  Lihat Rincian <svg width="14" height="14"><use href="#i-arrow"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Jatuh Tempo Besok -->
+          <article class="notif-card is-unread urg-warn" data-type="deadline" id="notif-3">
+            <div class="notif-icon-box" style="background:var(--warn)">
+              <svg width="22" height="22"><use href="#i-clock"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-header">
+                <span class="notif-category notif-category--warn">Jatuh Tempo</span>
+                <div class="notif-header-right">
+                  <span class="badge-new" style="background:var(--warn)">Baru</span>
+                  <span>1 jam yang lalu</span>
+                </div>
+              </div>
+              <h2 class="notif-title">Pesanan TH-2041 Jatuh Tempo Besok</h2>
+              <p class="notif-message">
+                Pengerjaan <b>Kemeja Formal ×3</b> untuk customer <b>Budi Santoso</b> dijadwalkan selesai pada <b>24 November</b>. Progres saat ini berada pada tahap penjahitan.
+              </p>
+              <div class="notif-footer">
+                <div class="notif-footer-chips">
+                  <span class="chip chip--clay">Mendekati Deadline</span>
+                  <span class="chip chip--sew">Penjahitan</span>
+                </div>
+                <a href="../orders/detail.html" class="btn btn--ghost btn--sm">
+                  Cek Progres <svg width="14" height="14"><use href="#i-arrow"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Pembayaran Lunas -->
+          <article class="notif-card" data-type="payment" id="notif-4">
+            <div class="notif-icon-box" style="background:var(--s-done)">
+              <svg width="22" height="22"><use href="#i-pay"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-header">
+                <span class="notif-category notif-category--done">Pembayaran</span>
+                <div class="notif-header-right">
+                  <span>3 jam yang lalu</span>
+                </div>
+              </div>
+              <h2 class="notif-title">Pelunasan Tagihan Diterima: TH-2040 (Rp1.200.000)</h2>
+              <p class="notif-message">
+                Customer <b>Citra Dewi</b> telah melunasi sisa pembayaran pesanan <b>Jas Formal</b> melalui transfer bank BCA. Kuitansi lunas telah diterbitkan pada sistem.
+              </p>
+              <div class="notif-footer">
+                <div class="notif-footer-chips">
+                  <span class="chip chip--paid">Lunas</span>
+                  <span class="chip chip--soft">Transfer BCA</span>
+                </div>
+                <a href="../orders/detail.html" class="btn btn--ghost btn--sm">
+                  Lihat Kuitansi <svg width="14" height="14"><use href="#i-arrow"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- ==================== GRUP: KEMARIN ==================== -->
+        <div class="time-group" data-group="yesterday">
+          <div class="time-divider">
+            <h3>Kemarin</h3>
+            <div class="line"></div>
+          </div>
+
+          <!-- 5. QC Lolos -->
+          <article class="notif-card" data-type="production" id="notif-5">
+            <div class="notif-icon-box" style="background:var(--s-taken)">
+              <svg width="22" height="22"><use href="#i-check"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-header">
+                <span class="notif-category notif-category--done">Produksi Selesai</span>
+                <div class="notif-header-right">
+                  <span>Kemarin, 17:20</span>
+                </div>
+              </div>
+              <h2 class="notif-title">Pesanan TH-2030 Lolos Uji Kualitas (QC)</h2>
+              <p class="notif-message">
+                Pengerjaan <b>Kemeja Batik ×2</b> milik customer <b>Hendra W.</b> telah lulus inspeksi QC dan siap diambil. Notifikasi pengambilan telah diteruskan ke nomor pelanggan.
+              </p>
+              <div class="notif-footer">
+                <div class="notif-footer-chips">
+                  <span class="chip chip--done">Selesai QC</span>
+                  <span class="chip chip--soft">Siap Diambil</span>
+                </div>
+                <a href="../orders/detail.html" class="btn btn--ghost btn--sm">
+                  Rincian Pengambilan <svg width="14" height="14"><use href="#i-arrow"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. Perpindahan Tahap -->
+          <article class="notif-card" data-type="production" id="notif-6">
+            <div class="notif-icon-box" style="background:var(--indigo)">
+              <svg width="22" height="22"><use href="#i-scissors"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-header">
+                <span class="notif-category notif-category--prod">Progres Produksi</span>
+                <div class="notif-header-right">
+                  <span>Kemarin, 14:10</span>
+                </div>
+              </div>
+              <h2 class="notif-title">Tahap Pemotongan Selesai: TH-2037</h2>
+              <p class="notif-message">
+                Bahan kain pesanan <b>Kemeja Batik ×6</b> atas nama <b>Sari Wulandari</b> telah selesai dipotong dan dipindahkan ke stasiun penjahitan.
+              </p>
+              <div class="notif-footer">
+                <div class="notif-footer-chips">
+                  <span class="chip chip--cut">Potong Selesai</span>
+                  <span class="chip chip--sew">Penjahitan</span>
+                </div>
+                <a href="../production/board.html" class="btn btn--ghost btn--sm">
+                  Papan Produksi <svg width="14" height="14"><use href="#i-arrow"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- ==================== GRUP: SEBELUMNYA ==================== -->
+        <div class="time-group" data-group="earlier">
+          <div class="time-divider">
+            <h3>Minggu Ini</h3>
+            <div class="line"></div>
+          </div>
+
+          <!-- 7. Konfirmasi DP -->
+          <article class="notif-card" data-type="payment" id="notif-7">
+            <div class="notif-icon-box" style="background:var(--amber)">
+              <svg width="22" height="22"><use href="#i-pay"/></svg>
+            </div>
+            <div class="notif-body">
+              <div class="notif-header">
+                <span class="notif-category notif-category--pay">Uang Muka (DP)</span>
+                <div class="notif-header-right">
+                  <span>22 Nov 2026, 10:30</span>
+                </div>
+              </div>
+              <h2 class="notif-title">Uang Muka Diterima: TH-2038 (Rp425.000)</h2>
+              <p class="notif-message">
+                Pembayaran DP 50% untuk pesanan <b>Gamis Pesta</b> customer <b>Nurul Laila</b> berhasil diverifikasi. Pembuatan pola kain telah dimulai.
+              </p>
+              <div class="notif-footer">
+                <div class="notif-footer-chips">
+                  <span class="chip chip--dp">DP 50%</span>
+                  <span class="chip chip--soft">Sisa Rp425.000</span>
+                </div>
+                <a href="../orders/detail.html" class="btn btn--ghost btn--sm">
+                  Lihat Pesanan <svg width="14" height="14"><use href="#i-arrow"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- State Kosong Bersih -->
+        <div id="notifEmpty" class="card" style="display:none;text-align:center;padding:52px 24px;border:1px dashed var(--sand);border-radius:var(--r-l);margin:20px 0;">
+          <div style="width:52px;height:52px;border-radius:14px;background:var(--clay-100);color:var(--clay);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;">
+            <svg width="24" height="24"><use href="#i-check"/></svg>
+          </div>
+          <h3 style="font-size:1.08rem;font-weight:800;color:var(--ink);margin-bottom:6px;">Tidak ada notifikasi</h3>
+          <p style="font-size:.9rem;color:var(--ink-45);max-width:40ch;margin:0 auto;" id="notifEmptyText">Semua notifikasi pada kategori ini telah selesai ditinjau.</p>
+        </div>
+
+      </div>
+
+      <!-- Pagination Minimalis -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:32px;flex-wrap:wrap;gap:14px">
+        <span id="notifCountText" style="font-size:.86rem;color:var(--ink-45)">Menampilkan 7 notifikasi (Semua)</span>
+        <div class="pager" id="notifPager">
+          <a href="#" class="is-off">«</a>
+          <a href="#" class="is-on">1</a>
+          <a href="#">»</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Script App Shell + Logika Filter Tab & Tandai Dibaca Dinamis -->
+<script src="../../assets/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const tabs = document.querySelectorAll('#notifTabs .tab-link');
+  const cards = document.querySelectorAll('.notif-card');
+  const timeGroups = document.querySelectorAll('.time-group');
+  const btnMarkAll = document.getElementById('btnMarkAllRead');
+  const badgesNew = document.querySelectorAll('.badge-new');
+  const sideBadge = document.getElementById('sideBadge');
+  const topDot = document.getElementById('topDot');
+  const tabUnreadCount = document.getElementById('tabUnreadCount');
+  const notifCountText = document.getElementById('notifCountText');
+  const notifEmpty = document.getElementById('notifEmpty');
+  const notifEmptyText = document.getElementById('notifEmptyText');
+  const notifPager = document.getElementById('notifPager');
+
+  let currentFilter = 'all';
+
+  function applyFilter(filter) {
+    currentFilter = filter;
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      let isShow = false;
+      if (filter === 'all') {
+        isShow = true;
+      } else if (filter === 'unread') {
+        isShow = card.classList.contains('is-unread');
+      } else {
+        isShow = card.getAttribute('data-type') === filter;
+      }
+
+      card.style.display = isShow ? 'flex' : 'none';
+      if (isShow) visibleCount++;
+    });
+
+    timeGroups.forEach(group => {
+      const visibleInGroup = group.querySelectorAll('.notif-card:not([style*="display: none"])');
+      group.style.display = visibleInGroup.length > 0 ? 'block' : 'none';
+    });
+
+    const filterLabels = {
+      'all': 'notifikasi (Semua)',
+      'unread': 'notifikasi belum dibaca',
+      'deadline': 'notifikasi deadline & urgensi',
+      'production': 'notifikasi produksi',
+      'payment': 'notifikasi pembayaran'
+    };
+
+    if (visibleCount === 0) {
+      notifCountText.textContent = 'Menampilkan 0 notifikasi';
+      notifEmpty.style.display = 'block';
+      if (filter === 'unread') {
+        notifEmptyText.textContent = 'Tidak ada notifikasi baru yang belum dibaca.';
+      } else {
+        notifEmptyText.textContent = 'Belum ada notifikasi pada kategori ini.';
+      }
+      if (notifPager) notifPager.style.display = 'none';
+    } else {
+      notifCountText.textContent = `Menampilkan ${visibleCount} ${filterLabels[filter] || 'notifikasi'}`;
+      notifEmpty.style.display = 'none';
+      if (notifPager) notifPager.style.display = 'flex';
+    }
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function (e) {
+      e.preventDefault();
+      tabs.forEach(t => t.classList.remove('is-on'));
+      this.classList.add('is-on');
+
+      const filter = this.getAttribute('data-filter');
+      applyFilter(filter);
+    });
+  });
+
+  if (btnMarkAll) {
+    btnMarkAll.addEventListener('click', function () {
+      cards.forEach(card => {
+        card.classList.remove('is-unread', 'urg-danger', 'urg-warn');
+      });
+      badgesNew.forEach(badge => {
+        badge.style.display = 'none';
+      });
+      if (sideBadge) sideBadge.style.display = 'none';
+      if (topDot) topDot.style.display = 'none';
+      if (tabUnreadCount) tabUnreadCount.textContent = '0';
+
+      applyFilter(currentFilter);
+
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.id = 'toast';
+      toast.innerHTML = `
+        <svg width="22" height="22"><use href="#i-check"/></svg>
+        <div><b>Berhasil</b><small>Semua notifikasi telah ditandai sebagai dibaca.</small></div>
+        <button class="toast-x" aria-label="Tutup" onclick="this.parentElement.remove()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.transition = 'opacity .4s, transform .4s';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(16px)';
+        setTimeout(() => toast.remove(), 420);
+      }, 3000);
+    });
+  }
+});
+</script>
+</body>
+</html>

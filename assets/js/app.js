@@ -59,4 +59,28 @@
       });
     });
   }
+
+  /* ---- Global Topbar Search Handler (Enter ke search.html) ---- */
+  var topSearchInputs = document.querySelectorAll('header.top .search input');
+  topSearchInputs.forEach(function (input) {
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        var query = input.value.trim();
+        if (query) {
+          var path = window.location.pathname.replace(/\\/g, '/');
+          var isSubfolder = path.indexOf('/app/reports/') !== -1 ||
+                            path.indexOf('/app/notifications/') !== -1 ||
+                            path.indexOf('/app/orders/') !== -1 ||
+                            path.indexOf('/app/customers/') !== -1 ||
+                            path.indexOf('/app/production/') !== -1 ||
+                            path.indexOf('/app/payments/') !== -1 ||
+                            path.indexOf('/app/team/') !== -1 ||
+                            path.indexOf('/app/settings/') !== -1 ||
+                            path.indexOf('/account/') !== -1;
+          var target = isSubfolder ? '../search.html' : 'search.html';
+          window.location.href = target + '?q=' + encodeURIComponent(query);
+        }
+      }
+    });
+  });
 })();
