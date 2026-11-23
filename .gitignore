@@ -1,2 +1,15 @@
 .code-review-graph
 college/
+
+# Node / tooling
+node_modules/
+npm-debug.log*
+
+# Cloudflare Wrangler / Pages
+.wrangler/
+.dev.vars
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
