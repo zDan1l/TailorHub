@@ -244,7 +244,7 @@
 
     var link = document.createElement('a');
     link.className = 'btn btn--primary btn--sm';
-    link.href = 'track-result.html?code=' + encodeURIComponent(order.code);
+    link.href = 'track-result.html?code=' + encodeURIComponent(order.code) + '&from=account';
     var linkTxt = document.createElement('span');
     linkTxt.textContent = 'Lihat Progres Detail';
     link.appendChild(linkTxt);

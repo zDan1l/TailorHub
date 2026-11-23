@@ -181,7 +181,7 @@
       showError(rawCode);
       return;
     }
-    window.location.href = 'track-result.html?code=' + encodeURIComponent(order.code);
+    window.location.href = 'track-result.html?code=' + encodeURIComponent(order.code) + '&from=track';
   }
 
   // Tangani redirect error dari track-result.html jika ada (?error=notfound&code=...)

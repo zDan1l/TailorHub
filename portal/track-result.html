@@ -50,9 +50,9 @@
 
 <main class="portal-shell">
   <div class="portal-back-row">
-    <a href="track.html" class="portal-back-link">
+    <a id="backLink" href="track.html" class="portal-back-link">
       <svg width="16" height="16" style="transform:rotate(180deg)"><use href="#i-arrow"/></svg>
-      <span>Cari Kode Pesanan Lain</span>
+      <span>Kembali</span>
     </a>
     <a href="landing.html" class="portal-back-link" style="color:var(--ink-70)">Beranda Toko</a>
   </div>
@@ -195,6 +195,19 @@
   }
 
   var params = new URLSearchParams(window.location.search);
+  var fromParam = String(params.get('from') || '').trim().toLowerCase();
+  var backLink = document.getElementById('backLink');
+  if (backLink) {
+    var ref = String(document.referrer || '').toLowerCase();
+    if (fromParam === 'account' || (!fromParam && ref.indexOf('customer-account.html') !== -1)) {
+      backLink.href = 'customer-account.html';
+    } else if (fromParam === 'landing' || (!fromParam && ref.indexOf('landing.html') !== -1)) {
+      backLink.href = 'landing.html';
+    } else {
+      backLink.href = 'track.html';
+    }
+  }
+
   var rawCode = params.get('code');
   var hasQueryCode = rawCode !== null && String(rawCode).trim() !== '';
   var lookupCode = hasQueryCode ? rawCode : 'TH-2041';
