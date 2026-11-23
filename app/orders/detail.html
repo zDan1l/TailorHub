@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Detail Pesanan ORD-2026-0089 — TailorHub</title>
+<title>Detail Pesanan TH-2033 — TailorHub</title>
 <meta name="description" content="Informasi lengkap pesanan jahitan, timeline produksi, rincian pembayaran, kode QR tracking mandiri.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -129,14 +129,14 @@
             <span class="sep">/</span>
             <a href="index.html">Pesanan</a>
             <span class="sep">/</span>
-            <b>ORD-2026-0089</b>
+            <b>TH-2033</b>
           </nav>
           <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
-            <h1>ORD-2026-0089</h1>
-            <span class="chip chip--sew"><span class="d"></span> Tahap: Penjahitan</span>
-            <span class="chip chip--dp"><span class="d"></span> DP Rp 800.000</span>
+            <h1>TH-2033</h1>
+            <span class="chip chip--finish"><span class="d"></span> Tahap: Finishing</span>
+            <span class="chip chip--dp"><span class="d"></span> DP Rp 1.250.000</span>
           </div>
-          <p class="sub">Dibuat pada 20 November 2026 · Target Selesai: <b>24 November 2026 (H-2)</b></p>
+          <p class="sub">Dibuat pada 10 November 2026 · Target Selesai: <b style="color:var(--red);">21 November 2026 (Lewat Batas -1 Hari)</b></p>
         </div>
 
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
@@ -155,11 +155,11 @@
         </div>
       </div>
 
-      <!-- Alert Mendekati Deadline -->
-      <div class="alert alert--warn" style="margin-bottom:20px;">
-        <svg width="22" height="22"><use href="#i-clock"/></svg>
+      <!-- Alert Mendekati / Lewat Deadline -->
+      <div class="alert alert--warn" style="margin-bottom:20px;border-color:var(--red);background:rgba(192,57,43,.08);color:var(--red);">
+        <svg width="22" height="22" style="color:var(--red);"><use href="#i-clock"/></svg>
         <div>
-          <b>Perhatian Deadline:</b> Pesanan ini jatuh tempo dalam <b>2 hari</b> lagi (24 Nov 2026). Pastikan fitting akhir atau finishing dilakukan tepat waktu.
+          <b>Perhatian Batas Waktu:</b> Pesanan ini telah melewati target deadline pada <b>21 Nov 2026 (-1 hari)</b>. Segera selesaikan tahap Finishing dan lakukan QC untuk penyerahan pakaian kepada pelanggan.
         </div>
       </div>
 
@@ -175,6 +175,7 @@
               <a href="#tabDetail" class="is-on" onclick="switchTab(event, 'tabDetail')">Rincian Item &amp; Fitting</a>
               <a href="#tabTimeline" onclick="switchTab(event, 'tabTimeline')">Timeline Produksi (7 Tahap)</a>
               <a href="#tabPayment" onclick="switchTab(event, 'tabPayment')">Riwayat Tagihan</a>
+              <a href="#tabHistory" onclick="switchTab(event, 'tabHistory')">Riwayat Aktivitas</a>
             </div>
 
             <div style="padding:24px;">
@@ -258,7 +259,7 @@
                     </div>
                     <div>
                       <b style="color:var(--ink);">1. Masuk Antrean &amp; Fitting Ukuran</b>
-                      <div style="font-size:.78rem;color:var(--ink-45);">20 Nov 2026, 10:15 WIB · Oleh Pak Mardi</div>
+                      <div style="font-size:.78rem;color:var(--ink-45);">10 Nov 2026, 10:15 WIB · Oleh Pak Mardi</div>
                       <p style="font-size:.85rem;color:var(--ink-70);margin-top:4px;">Kain diperiksa, ukuran badan diverifikasi lengkap.</p>
                     </div>
                   </div>
@@ -271,33 +272,34 @@
                     </div>
                     <div>
                       <b style="color:var(--ink);">2. Pemotongan Pola Kain (Cutting)</b>
-                      <div style="font-size:.78rem;color:var(--ink-45);">21 Nov 2026, 14:30 WIB · Oleh Mas Budi</div>
+                      <div style="font-size:.78rem;color:var(--ink-45);">13 Nov 2026, 14:30 WIB · Oleh Mas Budi</div>
                       <p style="font-size:.85rem;color:var(--ink-70);margin-top:4px;">Pola badan dan celana telah selesai dipotong rapi.</p>
                     </div>
                   </div>
 
-                  <!-- Step 3: Aktif Sedang Berjalan -->
+                  <!-- Step 3: Selesai -->
+                  <div style="display:flex;gap:14px;">
+                    <div style="display:flex;flex-direction:column;align-items:center;">
+                      <span style="width:32px;height:32px;border-radius:50%;background:var(--s-done);color:#fff;display:inline-flex;align-items:center;justify-content:center;"><svg width="16" height="16"><use href="#i-check"/></svg></span>
+                      <span style="width:2px;height:40px;background:var(--s-done);"></span>
+                    </div>
+                    <div>
+                      <b style="color:var(--ink);">3. Penjahitan Konstruksi Jas</b>
+                      <div style="font-size:.78rem;color:var(--ink-45);">17 Nov 2026, 16:00 WIB · Mas Budi</div>
+                      <p style="font-size:.85rem;color:var(--ink-70);margin-top:4px;">Pemasangan kanvas dada dan jahitan furing bagian dalam selesai.</p>
+                    </div>
+                  </div>
+
+                  <!-- Step 4: Aktif Sedang Berjalan -->
                   <div style="display:flex;gap:14px;">
                     <div style="display:flex;flex-direction:column;align-items:center;">
                       <span style="width:32px;height:32px;border-radius:50%;background:var(--clay);color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px var(--clay-100);"><svg width="16" height="16"><use href="#i-scissors"/></svg></span>
                       <span style="width:2px;height:40px;background:var(--sand-dark);"></span>
                     </div>
                     <div>
-                      <b style="color:var(--clay);">3. Penjahitan Konstruksi Jas (Sedang Berjalan)</b>
+                      <b style="color:var(--clay);">4. Finishing &amp; Pemasangan Kancing (Sedang Berjalan)</b>
                       <div style="font-size:.78rem;color:var(--clay);font-weight:700;">Update: 22 Nov 2026, 09:00 WIB · Mas Budi</div>
-                      <p style="font-size:.85rem;color:var(--ink-70);margin-top:4px;">Pemasangan kanvas dada dan jahitan furing bagian dalam sedang diproses.</p>
-                    </div>
-                  </div>
-
-                  <!-- Step 4: Menunggu -->
-                  <div style="display:flex;gap:14px;opacity:.55;">
-                    <div style="display:flex;flex-direction:column;align-items:center;">
-                      <span style="width:32px;height:32px;border-radius:50%;background:var(--sand);color:var(--ink-70);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;">4</span>
-                      <span style="width:2px;height:40px;background:var(--sand);"></span>
-                    </div>
-                    <div>
-                      <b>4. Finishing &amp; Pemasangan Kancing</b>
-                      <div style="font-size:.78rem;color:var(--ink-45);">Estimasi: 23 Nov 2026</div>
+                      <p style="font-size:.85rem;color:var(--ink-70);margin-top:4px;">Pengerjaan lubang kancing tangan, pasang furing celana, dan setrika uap akhir.</p>
                     </div>
                   </div>
 
@@ -309,18 +311,30 @@
                     </div>
                     <div>
                       <b>5. Quality Control (QC &amp; Pressing)</b>
-                      <div style="font-size:.78rem;color:var(--ink-45);">Estimasi: 24 Nov 2026</div>
+                      <div style="font-size:.78rem;color:var(--ink-45);">Estimasi: 23 Nov 2026 · Andi S.</div>
                     </div>
                   </div>
 
-                  <!-- Step 6 & 7 -->
+                  <!-- Step 6: Selesai -->
                   <div style="display:flex;gap:14px;opacity:.55;">
                     <div style="display:flex;flex-direction:column;align-items:center;">
                       <span style="width:32px;height:32px;border-radius:50%;background:var(--sand);color:var(--ink-70);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;">6</span>
+                      <span style="width:2px;height:40px;background:var(--sand);"></span>
                     </div>
                     <div>
-                      <b>6. Selesai &amp; Siap Diambil Pelanggan</b>
-                      <div style="font-size:.78rem;color:var(--ink-45);">Target: 24 Nov 2026</div>
+                      <b>6. Selesai — Siap Diambil</b>
+                      <div style="font-size:.78rem;color:var(--ink-45);">Target: 23 Nov 2026</div>
+                    </div>
+                  </div>
+
+                  <!-- Step 7: Diambil -->
+                  <div style="display:flex;gap:14px;opacity:.55;">
+                    <div style="display:flex;flex-direction:column;align-items:center;">
+                      <span style="width:32px;height:32px;border-radius:50%;background:var(--sand);color:var(--ink-70);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;">7</span>
+                    </div>
+                    <div>
+                      <b>7. Diambil — Pesanan Telah Diterima Pelanggan</b>
+                      <div style="font-size:.78rem;color:var(--ink-45);">Estimasi: 24 Nov 2026</div>
                     </div>
                   </div>
                 </div>
@@ -332,11 +346,11 @@
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
                   <div style="background:var(--cream-200);padding:14px;border-radius:var(--r-m);">
                     <small style="color:var(--ink-45);font-size:.75rem;text-transform:uppercase;font-weight:700;">Total Biaya Jahit</small>
-                    <b style="font-size:1.3rem;display:block;color:var(--ink);margin-top:4px;">Rp 1.650.000</b>
+                    <b style="font-size:1.3rem;display:block;color:var(--ink);margin-top:4px;">Rp 2.500.000</b>
                   </div>
-                  <div style="background:#FDE8E6;padding:14px;border-radius:var(--r-m);">
+                  <div style="background:var(--red-100);padding:14px;border-radius:var(--r-m);">
                     <small style="color:var(--red);font-size:.75rem;text-transform:uppercase;font-weight:700;">Sisa Pelunasan Wajib</small>
-                    <b style="font-size:1.3rem;display:block;color:var(--red);margin-top:4px;">Rp 850.000</b>
+                    <b style="font-size:1.3rem;display:block;color:var(--red);margin-top:4px;">Rp 1.250.000</b>
                   </div>
                 </div>
 
@@ -353,17 +367,17 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>20 Nov 2026</td>
+                        <td>10 Nov 2026</td>
                         <td>Uang Muka (DP 50% Awal Masuk)</td>
                         <td>Transfer Bank BCA</td>
-                        <td class="num"><b>Rp 800.000</b></td>
+                        <td class="num"><b>Rp 1.250.000</b></td>
                         <td><span class="chip chip--paid"><span class="d"></span> Diterima</span></td>
                       </tr>
                       <tr>
                         <td><em>Menunggu Pengerjaan Selesai</em></td>
                         <td>Pelunasan Saat Pengambilan Jas</td>
                         <td>Kasir / QRIS</td>
-                        <td class="num" style="color:var(--red);"><b>Rp 850.000</b></td>
+                        <td class="num" style="color:var(--red);"><b>Rp 1.250.000</b></td>
                         <td><span class="chip chip--unpaid"><span class="d"></span> Menunggu</span></td>
                       </tr>
                     </tbody>
@@ -374,6 +388,48 @@
                   <a href="../payments/record.html" class="btn btn--primary btn--sm">
                     <svg width="15" height="15"><use href="#i-pay"/></svg> Catat Pelunasan Pembayaran
                   </a>
+                </div>
+              </div>
+              <!-- TAB 4: RIWAYAT AKTIVITAS -->
+              <div id="tabHistory" style="display:none;">
+                <h3 style="margin-bottom:14px;">Log Aktivitas Pesanan (FR-13)</h3>
+                <div class="table-wrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Waktu</th>
+                        <th>Pelaku</th>
+                        <th>Aktivitas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span style="font-size:.8rem;color:var(--ink-45);">22 Nov 2026, 09:00</span></td>
+                        <td><b>Mas Budi</b></td>
+                        <td>Memperbarui status produksi ke <span class="chip chip--finish" style="font-size:.65rem;"><span class="d"></span> Finishing</span></td>
+                      </tr>
+                      <tr>
+                        <td><span style="font-size:.8rem;color:var(--ink-45);">17 Nov 2026, 16:00</span></td>
+                        <td><b>Mas Budi</b></td>
+                        <td>Memperbarui status produksi ke <span class="chip chip--sew" style="font-size:.65rem;"><span class="d"></span> Penjahitan</span></td>
+                      </tr>
+                      <tr>
+                        <td><span style="font-size:.8rem;color:var(--ink-45);">13 Nov 2026, 14:30</span></td>
+                        <td><b>Mas Budi</b></td>
+                        <td>Memperbarui status produksi ke <span class="chip chip--cut" style="font-size:.65rem;"><span class="d"></span> Pemotongan</span></td>
+                      </tr>
+                      <tr>
+                        <td><span style="font-size:.8rem;color:var(--ink-45);">10 Nov 2026, 10:30</span></td>
+                        <td><b>Pak Mardi</b></td>
+                        <td>Mencatat pembayaran DP Rp 1.250.000 via Transfer BCA</td>
+                      </tr>
+                      <tr>
+                        <td><span style="font-size:.8rem;color:var(--ink-45);">10 Nov 2026, 10:15</span></td>
+                        <td><b>Pak Mardi</b></td>
+                        <td>Membuat pesanan baru TH-2033 untuk Hendra Wibowo</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -388,22 +444,22 @@
           <div class="card">
             <h3 style="margin-bottom:14px;">Data Pelanggan</h3>
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-              <span class="avatar avatar--lg">HG</span>
+              <span class="avatar avatar--lg">HW</span>
               <div>
-                <a href="../customers/detail.html" style="font-weight:800;color:var(--ink);font-size:1.05rem;">Hendra Gunawan</a>
+                <a href="../customers/detail.html" style="font-weight:800;color:var(--ink);font-size:1.05rem;">Hendra Wibowo</a>
                 <div style="font-size:.78rem;color:var(--clay);font-weight:700;">Pelanggan VIP (Member)</div>
               </div>
             </div>
             
             <div style="display:flex;flex-direction:column;gap:8px;font-size:.86rem;color:var(--ink-70);">
               <div><b>No. WhatsApp:</b> 0812-9876-5432</div>
-              <div><b>Email:</b> hendra.gunawan@email.com</div>
+              <div><b>Email:</b> hendra.wibowo@email.com</div>
               <div><b>Alamat:</b> Jl. Kemang Raya No. 45, Jakarta Selatan</div>
             </div>
 
             <hr style="border:0;border-top:1px solid var(--sand);margin:14px 0;">
 
-            <a href="https://wa.me/6281298765432" target="_blank" class="btn btn--ghost btn--block btn--sm" style="color:#20683F;border-color:#20683F;">
+            <a href="https://wa.me/6281298765432" target="_blank" class="btn btn--ghost btn--block btn--sm" style="color:var(--green);border-color:var(--green);">
               <svg width="16" height="16"><use href="#i-phone"/></svg> Hubungi via WhatsApp
             </a>
           </div>
@@ -415,13 +471,13 @@
               <span class="chip chip--clay" style="font-size:.65rem;">Guest Access</span>
             </div>
 
-            <b style="font-size:1.25rem;letter-spacing:.04em;display:block;margin-bottom:6px;color:#fff;">ORD-2026-0089</b>
-            <p style="font-size:.82rem;color:rgba(255,248,239,.7);margin-bottom:16px;">
+            <b style="font-size:1.25rem;letter-spacing:.04em;display:block;margin-bottom:6px;color:#fff;">TH-2033</b>
+            <p style="font-size:.82rem;color:var(--paper);opacity:.85;margin-bottom:16px;">
               Bagikan kode atau tautan ini kepada pelanggan untuk memantau proses pengerjaan tanpa perlu login.
             </p>
 
             <!-- QR Box placeholder -->
-            <div style="background:#fff;border-radius:var(--r-s);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <div style="background:var(--paper);border-radius:var(--r-s);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:14px;">
               <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2A1810" stroke-width="1.8"><rect width="8" height="8" x="3" y="3" rx="1"/><rect width="8" height="8" x="13" y="3" rx="1"/><rect width="8" height="8" x="3" y="13" rx="1"/><rect width="3" height="3" x="14" y="14"/><rect width="3" height="3" x="18" y="18"/><rect width="3" height="3" x="14" y="18"/><rect width="3" height="3" x="18" y="14"/></svg>
               <div>
                 <small style="color:var(--ink-45);font-size:.72rem;display:block;">Tautan Publik Portal:</small>
@@ -429,7 +485,7 @@
               </div>
             </div>
 
-            <button class="btn btn--light btn--block btn--sm" onclick="alert('Tautan tracking berhasil disalin ke clipboard: https://tailorhub.id/portal/track-result.html?code=ORD-2026-0089')">
+            <button class="btn btn--light btn--block btn--sm" onclick="alert('Tautan tracking berhasil disalin ke clipboard: https://tailorhub.id/portal/track-result.html?code=TH-2033')">
               Salin Tautan Tracking
             </button>
           </div>
@@ -448,6 +504,7 @@ function switchTab(e, tabId) {
   document.getElementById('tabDetail').style.display = 'none';
   document.getElementById('tabTimeline').style.display = 'none';
   document.getElementById('tabPayment').style.display = 'none';
+  document.getElementById('tabHistory').style.display = 'none';
   document.getElementById(tabId).style.display = 'block';
 }
 </script>

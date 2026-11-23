@@ -1,192 +1,531 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aksi Massal Pesanan — TailorHub</title>
-<meta name="description" content="Pembaruan status massal, alokasi penjahit serentak, dan cetak nota kolektif.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/css/tokens.css">
-<link rel="stylesheet" href="../../assets/css/base.css">
-<link rel="stylesheet" href="../../assets/css/components.css">
-<link rel="stylesheet" href="../../assets/css/app.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aksi Massal Pesanan — TailorHub</title>
+    <meta
+      name="description"
+      content="Pembaruan status massal, alokasi penjahit serentak, dan cetak nota kolektif."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../assets/css/tokens.css" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/components.css" />
+    <link rel="stylesheet" href="../../assets/css/app.css" />
+  </head>
+  <body>
+    <svg
+      width="0"
+      height="0"
+      style="position: absolute"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <symbol
+          id="i-check"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m5 12.6 4.4 4.4L19 6.8" />
+        </symbol>
+        <symbol
+          id="i-home"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 11 12 4l9 7" />
+          <path d="M5 10v10h14V10" />
+        </symbol>
+        <symbol
+          id="i-order"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"
+          />
+          <path d="M9.3 3.6V2.4h5.4v1.2" />
+          <path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7" />
+        </symbol>
+        <symbol
+          id="i-scissors"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="6.1" cy="18" r="2.6" />
+          <circle cx="17.9" cy="18" r="2.6" />
+          <path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2" />
+        </symbol>
+        <symbol
+          id="i-users"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="9.3" cy="8.1" r="3.3" />
+          <path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3" />
+          <path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9" />
+          <path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3" />
+        </symbol>
+        <symbol
+          id="i-pay"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"
+          />
+          <path d="M3.4 10.2h17.2" />
+          <path d="M6.6 14.6h3.1M13.6 14.6h3.8" />
+        </symbol>
+        <symbol
+          id="i-chart"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3.6 20.4h16.8" />
+          <rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1" />
+          <rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1" />
+          <rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1" />
+        </symbol>
+        <symbol
+          id="i-gear"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="3.3" />
+          <path
+            d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"
+          />
+        </symbol>
+        <symbol
+          id="i-search"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.2-3.2" />
+        </symbol>
+        <symbol
+          id="i-bell"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"
+          />
+          <path d="M10 19.3a2.3 2.3 0 0 0 4 0" />
+        </symbol>
+        <symbol
+          id="i-print"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+          />
+          <rect x="6" y="14" width="12" height="7" rx="1" />
+        </symbol>
+        <symbol
+          id="i-trash"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3.5 6.5h17M9 6.5V4.5h6v2M6 6.5l1 14h10l1-14" />
+        </symbol>
+      </defs>
+    </svg>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
-  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
-  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
-  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
-  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
-  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
-  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
-  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
-  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
-  <symbol id="i-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></symbol>
-  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5h17M9 6.5V4.5h6v2M6 6.5l1 14h10l1-14"/></symbol>
-</defs></svg>
+    <div class="app">
+      <div
+        class="scrim"
+        onclick="document.querySelector('.app').classList.remove('nav-open')"
+      ></div>
 
-<div class="app">
-  <div class="scrim" onclick="document.querySelector('.app').classList.remove('nav-open')"></div>
-
-  <!-- SIDEBAR -->
-  <aside class="side">
-    <div class="side-brand">
-      <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-        <rect width="40" height="40" rx="12" fill="#C05424"/>
-        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
-        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
-        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
-      </svg>
-      <span>Tailor<em>Hub</em></span>
-    </div>
-
-    <div class="side-sec">Operasional</div>
-    <a href="../dashboard.html" class="nav-i"><svg width="18" height="18"><use href="#i-home"/></svg><span>Dashboard</span></a>
-    <a href="index.html" class="nav-i is-on"><svg width="18" height="18"><use href="#i-order"/></svg><span>Pesanan</span><span class="n-badge">12</span></a>
-    <a href="../production/board.html" class="nav-i"><svg width="18" height="18"><use href="#i-scissors"/></svg><span>Produksi</span></a>
-    <a href="../customers/index.html" class="nav-i"><svg width="18" height="18"><use href="#i-users"/></svg><span>Customer</span></a>
-
-    <div class="side-sec">Keuangan &amp; Analitik</div>
-    <a href="../payments/index.html" class="nav-i"><svg width="18" height="18"><use href="#i-pay"/></svg><span>Pembayaran</span></a>
-    <a href="../reports/index.html" class="nav-i"><svg width="18" height="18"><use href="#i-chart"/></svg><span>Laporan</span></a>
-
-    <div class="side-sec">Pengaturan</div>
-    <a href="../notifications/index.html" class="nav-i"><svg width="18" height="18"><use href="#i-bell"/></svg><span>Notifikasi</span><span class="n-badge">3</span></a>
-    <a href="../team/index.html" class="nav-i"><svg width="18" height="18"><use href="#i-users"/></svg><span>Tim</span></a>
-    <a href="../settings/tenant.html" class="nav-i"><svg width="18" height="18"><use href="#i-gear"/></svg><span>Pengaturan</span></a>
-
-    <div class="side-foot">
-      <a href="../../account/profile.html" class="side-user">
-        <span class="top-avatar" style="width:36px;height:36px;font-size:.82rem">PM</span>
-        <div><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></div>
-      </a>
-    </div>
-  </aside>
-
-  <!-- MAIN AREA -->
-  <div class="main">
-    <header class="top">
-      <button class="burger" onclick="document.querySelector('.app').classList.toggle('nav-open')">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-      <div class="search">
-        <svg width="18" height="18"><use href="#i-search"/></svg>
-        <input type="search" placeholder="Cari pesanan...">
-      </div>
-      <div class="top-actions">
-        <a href="../notifications/index.html" class="icon-btn"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
-        <a href="../../account/profile.html" class="top-avatar">PM</a>
-      </div>
-    </header>
-
-    <main class="page">
-      <div class="page-head">
-        <div>
-          <nav class="crumb">
-            <a href="../dashboard.html">TailorHub</a>
-            <span class="sep">/</span>
-            <a href="index.html">Pesanan</a>
-            <span class="sep">/</span>
-            <b>Aksi Massal</b>
-          </nav>
-          <h1>Aksi Massal Pesanan</h1>
-          <p class="sub">Perbarui status tahapan produksi, alokasikan staf penjahit, atau unduh nota secara bersamaan.</p>
+      <!-- SIDEBAR -->
+      <aside class="side">
+        <div class="side-brand">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="12" fill="#C05424" />
+            <path
+              d="M13.2 27.6 25.6 11.8"
+              stroke="#FFF8EF"
+              stroke-width="2.4"
+              stroke-linecap="round"
+            />
+            <circle
+              cx="26.4"
+              cy="10.8"
+              r="2.1"
+              fill="none"
+              stroke="#FFF8EF"
+              stroke-width="2"
+            />
+            <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD" />
+          </svg>
+          <span>Tailor<em>Hub</em></span>
         </div>
-        <a href="index.html" class="btn btn--ghost">Kembali ke Daftar</a>
-      </div>
 
-      <!-- PANEL AKSI MASSAL AKTIF -->
-      <div class="card" style="background:var(--clay-100);border-color:rgba(192,84,36,.3);margin-bottom:20px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span class="badge-count" style="font-size:.82rem;width:26px;height:26px;">3</span>
-            <b style="color:var(--ink);font-size:1rem;">Pesanan Dipilih untuk Aksi Massal</b>
+        <div class="side-sec">Operasional</div>
+        <a href="../dashboard.html" class="nav-i"
+          ><svg width="18" height="18"><use href="#i-home" /></svg
+          ><span>Dashboard</span></a
+        >
+        <a href="index.html" class="nav-i is-on"
+          ><svg width="18" height="18"><use href="#i-order" /></svg
+          ><span>Pesanan</span><span class="n-badge">12</span></a
+        >
+        <a href="../production/board.html" class="nav-i"
+          ><svg width="18" height="18"><use href="#i-scissors" /></svg
+          ><span>Produksi</span></a
+        >
+        <a href="../customers/index.html" class="nav-i"
+          ><svg width="18" height="18"><use href="#i-users" /></svg
+          ><span>Customer</span></a
+        >
+
+        <div class="side-sec">Keuangan &amp; Analitik</div>
+        <a href="../payments/index.html" class="nav-i"
+          ><svg width="18" height="18"><use href="#i-pay" /></svg
+          ><span>Pembayaran</span></a
+        >
+        <a href="../reports/index.html" class="nav-i"
+          ><svg width="18" height="18"><use href="#i-chart" /></svg
+          ><span>Laporan</span></a
+        >
+
+        <div class="side-sec">Pengaturan</div>
+        <a href="../notifications/index.html" class="nav-i"
+          ><svg width="18" height="18"><use href="#i-bell" /></svg
+          ><span>Notifikasi</span><span class="n-badge">3</span></a
+        >
+        <a href="../team/index.html" class="nav-i"
+          ><svg width="18" height="18"><use href="#i-users" /></svg
+          ><span>Tim</span></a
+        >
+        <a href="../settings/tenant.html" class="nav-i"
+          ><svg width="18" height="18"><use href="#i-gear" /></svg
+          ><span>Pengaturan</span></a
+        >
+
+        <div class="side-foot">
+          <a href="../../account/profile.html" class="side-user">
+            <span
+              class="top-avatar"
+              style="width: 36px; height: 36px; font-size: 0.82rem"
+              >PM</span
+            >
+            <div><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></div>
+          </a>
+        </div>
+      </aside>
+
+      <!-- MAIN AREA -->
+      <div class="main">
+        <header class="top">
+          <button
+            class="burger"
+            onclick="
+              document.querySelector('.app').classList.toggle('nav-open')
+            "
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div class="search">
+            <svg width="18" height="18"><use href="#i-search" /></svg>
+            <input type="search" placeholder="Cari pesanan..." />
+          </div>
+          <div class="top-actions">
+            <a
+              href="../notifications/index.html"
+              class="icon-btn"
+              aria-label="Notifikasi"
+              ><svg width="20" height="20"><use href="#i-bell" /></svg
+              ><span class="dot"></span
+            ></a>
+            <a href="../../account/profile.html" class="top-avatar">PM</a>
+          </div>
+        </header>
+
+        <main class="page">
+          <div class="page-head">
+            <div>
+              <nav class="crumb">
+                <a href="../dashboard.html">TailorHub</a>
+                <span class="sep">/</span>
+                <a href="index.html">Pesanan</a>
+                <span class="sep">/</span>
+                <b>Aksi Massal</b>
+              </nav>
+              <h1>Aksi Massal Pesanan</h1>
+              <p class="sub">
+                Perbarui status tahapan produksi, alokasikan staf penjahit, atau
+                unduh nota secara bersamaan.
+              </p>
+            </div>
+            <a href="index.html" class="btn btn--ghost">Kembali ke Daftar</a>
           </div>
 
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-            <select class="select" style="min-width:170px;background:#fff;padding-top:8px;padding-bottom:8px;">
-              <option value="">Pindahkan Tahap Massal...</option>
-              <option value="cut">Pindah ke: Pemotongan</option>
-              <option value="sew">Pindah ke: Penjahitan</option>
-              <option value="finish">Pindah ke: Finishing</option>
-              <option value="qc">Pindah ke: Quality Control</option>
-            </select>
+          <!-- PANEL AKSI MASSAL AKTIF -->
+          <div
+            class="card"
+            style="
+              background: var(--clay-100);
+              border-color: var(--clay-100);
+              margin-bottom: 20px;
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 14px;
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span
+                  class="badge-count"
+                  id="bulkCount"
+                  style="font-size: 0.82rem; width: 26px; height: 26px"
+                  >3</span
+                >
+                <b style="color: var(--ink); font-size: 1rem"
+                  >Pesanan Dipilih untuk Aksi Massal</b
+                >
+              </div>
 
-            <select class="select" style="min-width:170px;background:#fff;padding-top:8px;padding-bottom:8px;">
-              <option value="">Tetapkan Staff Massal...</option>
-              <option value="budi">Tugaskan ke: Mas Budi</option>
-              <option value="siti">Tugaskan ke: Mbak Siti</option>
-              <option value="joko">Tugaskan ke: Pak Joko</option>
-            </select>
+              <div
+                style="
+                  display: flex;
+                  gap: 10px;
+                  align-items: center;
+                  flex-wrap: wrap;
+                "
+              >
+                <select
+                  class="select"
+                  style="
+                    min-width: 170px;
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                  "
+                >
+                  <option value="">Pindahkan Tahap Massal...</option>
+                  <option value="cut">Pindah ke: Pemotongan</option>
+                  <option value="sew">Pindah ke: Penjahitan</option>
+                  <option value="finish">Pindah ke: Finishing</option>
+                  <option value="qc">Pindah ke: Quality Control</option>
+                </select>
 
-            <button type="button" class="btn btn--primary btn--sm" onclick="alert('3 pesanan berhasil diperbarui secara massal!')">
-              <svg width="15" height="15"><use href="#i-check"/></svg> Eksekusi Aksi
-            </button>
+                <select
+                  class="select"
+                  style="
+                    min-width: 170px;
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                  "
+                >
+                  <option value="">Tetapkan Staff Massal...</option>
+                  <option value="AS">Tugaskan ke: Andi S. (AS)</option>
+                  <option value="RN">Tugaskan ke: Rina N. (RN)</option>
+                  <option value="MB">Tugaskan ke: Mas Budi (MB)</option>
+                </select>
 
-            <button type="button" class="btn btn--ghost btn--sm" onclick="window.print()">
-              <svg width="15" height="15"><use href="#i-print"/></svg> Cetak Nota Kolektif
-            </button>
+                <button
+                  type="button"
+                  class="btn btn--primary btn--sm"
+                  onclick="
+                    alert('3 pesanan berhasil diperbarui secara massal!')
+                  "
+                >
+                  <svg width="15" height="15"><use href="#i-check" /></svg>
+                  Eksekusi Aksi
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn--ghost btn--sm"
+                  onclick="window.print()"
+                >
+                  <svg width="15" height="15"><use href="#i-print" /></svg>
+                  Cetak Nota Kolektif
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- TABEL PILIHAN PESANAN -->
-      <div class="table-wrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th style="width:40px;"><input type="checkbox" checked></th>
-              <th>Kode Pesanan</th>
-              <th>Pelanggan</th>
-              <th>Item Pakaian</th>
-              <th>Status Saat Ini</th>
-              <th>Staff Ditugaskan</th>
-              <th>Deadline</th>
-              <th class="num">Biaya</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="background:rgba(192,84,36,.04);">
-              <td><input type="checkbox" checked></td>
-              <td><b>ORD-2026-0089</b></td>
-              <td>Hendra Gunawan</td>
-              <td>Jas Formal Pria Full Set</td>
-              <td><span class="chip chip--sew"><span class="d"></span> Penjahitan</span></td>
-              <td>Mas Budi</td>
-              <td>24 Nov 2026</td>
-              <td class="num"><b>Rp 1.650.000</b></td>
-            </tr>
-            <tr style="background:rgba(192,84,36,.04);">
-              <td><input type="checkbox" checked></td>
-              <td><b>ORD-2026-0088</b></td>
-              <td>Nurul Aisyah</td>
-              <td>Kebaya Modern Brokat</td>
-              <td><span class="chip chip--cut"><span class="d"></span> Pemotongan</span></td>
-              <td>Mbak Siti</td>
-              <td>28 Nov 2026</td>
-              <td class="num"><b>Rp 950.000</b></td>
-            </tr>
-            <tr style="background:rgba(192,84,36,.04);">
-              <td><input type="checkbox" checked></td>
-              <td><b>ORD-2026-0087</b></td>
-              <td>Bambang Wijaya</td>
-              <td>Kemeja Batik Tulis Sutra</td>
-              <td><span class="chip chip--queue"><span class="d"></span> Antrean</span></td>
-              <td><em>Belum Ada</em></td>
-              <td>02 Des 2026</td>
-              <td class="num"><b>Rp 700.000</b></td>
-            </tr>
-          </tbody>
-        </table>
+          <!-- TABEL PILIHAN PESANAN -->
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width: 40px">
+                    <input type="checkbox" id="selectAllBulk" checked />
+                  </th>
+                  <th>Kode Pesanan</th>
+                  <th>Pelanggan</th>
+                  <th>Item Pakaian</th>
+                  <th>Status Saat Ini</th>
+                  <th>Staff Ditugaskan</th>
+                  <th>Deadline</th>
+                  <th class="num">Biaya</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: rgba(192, 84, 36, 0.04)">
+                  <td><input type="checkbox" class="bulk-cb" checked /></td>
+                  <td><b>TH-2033</b></td>
+                  <td>Hendra Wibowo</td>
+                  <td>Jas Formal ×1</td>
+                  <td>
+                    <span class="chip chip--finish"
+                      ><span class="d"></span> Finishing</span
+                    >
+                  </td>
+                  <td>Mas Budi (MB)</td>
+                  <td>21 Nov 2026</td>
+                  <td class="num"><b>Rp 2.500.000</b></td>
+                </tr>
+                <tr style="background: rgba(192, 84, 36, 0.04)">
+                  <td><input type="checkbox" class="bulk-cb" checked /></td>
+                  <td><b>TH-2041</b></td>
+                  <td>Budi Santoso</td>
+                  <td>Kemeja Formal ×3</td>
+                  <td>
+                    <span class="chip chip--sew"
+                      ><span class="d"></span> Penjahitan</span
+                    >
+                  </td>
+                  <td>Andi S. (AS)</td>
+                  <td>23 Nov 2026</td>
+                  <td class="num"><b>Rp 450.000</b></td>
+                </tr>
+                <tr style="background: rgba(192, 84, 36, 0.04)">
+                  <td><input type="checkbox" class="bulk-cb" checked /></td>
+                  <td><b>TH-2045</b></td>
+                  <td>PT Maju Jaya</td>
+                  <td>Seragam Kantor ×20</td>
+                  <td>
+                    <span class="chip chip--queue"
+                      ><span class="d"></span> Antrean</span
+                    >
+                  </td>
+                  <td><em>Belum Ditugaskan</em></td>
+                  <td>02 Des 2026</td>
+                  <td class="num"><b>Rp 8.000.000</b></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
       </div>
-    </main>
-  </div>
-</div>
+    </div>
 
-</body>
+    <script>
+      (function () {
+        "use strict";
+        var selectAll = document.getElementById("selectAllBulk");
+        var cbs = document.querySelectorAll(".bulk-cb");
+        var countBadge = document.getElementById("bulkCount");
+
+        function updateCount() {
+          var checkedCount =
+            document.querySelectorAll(".bulk-cb:checked").length;
+          if (countBadge) countBadge.textContent = checkedCount;
+          if (selectAll) {
+            selectAll.checked = checkedCount === cbs.length && cbs.length > 0;
+          }
+        }
+
+        if (selectAll) {
+          selectAll.addEventListener("change", function () {
+            var state = this.checked;
+            cbs.forEach(function (cb) {
+              cb.checked = state;
+              var tr = cb.closest("tr");
+              if (tr) {
+                tr.style.background = state ? "rgba(192,84,36,.04)" : "";
+              }
+            });
+            updateCount();
+          });
+        }
+
+        cbs.forEach(function (cb) {
+          cb.addEventListener("change", function () {
+            var tr = cb.closest("tr");
+            if (tr) {
+              tr.style.background = cb.checked ? "rgba(192,84,36,.04)" : "";
+            }
+            updateCount();
+          });
+        });
+      })();
+    </script>
+  </body>
 </html>
