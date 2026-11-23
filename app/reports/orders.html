@@ -15,10 +15,48 @@
 <link rel="stylesheet" href="../../assets/css/app.css">
 <style>
 /* ============================================================
-   STYLING KHUSUS LAPORAN PESANAN — CLEAN SAAS ENTERPRISE
+   STYLING KHUSUS LAPORAN PESANAN — ENTERPRISE CLEAN SAAS
    ============================================================ */
 
-/* Alur Tahapan Produksi (Funnel Grid) */
+/* Sub-Navigasi Antar Halaman Laporan (SaaS Standard) */
+.report-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.report-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .2s;
+}
+
+.report-nav-item:hover {
+  color: var(--clay);
+  background: rgba(192, 84, 36, .04);
+}
+
+.report-nav-item.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+  background: rgba(192, 84, 36, .06);
+  font-weight: 800;
+}
+
+/* Alur Tahapan Produksi (Modern Process Tracker) */
 .stage-pipeline {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -30,11 +68,11 @@
   background: var(--paper);
   border: 1px solid var(--sand);
   border-radius: var(--r-m);
-  padding: 16px 14px;
+  padding: 16px;
   box-shadow: var(--shadow-s);
   display: flex;
   flex-direction: column;
-  position: relative;
+  justify-content: space-between;
   transition: transform .2s, border-color .2s;
 }
 
@@ -43,83 +81,96 @@
   border-color: var(--clay-300);
 }
 
-.stage-card::after {
-  content: "→";
-  position: absolute;
-  right: -9px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--sand-dark);
-  font-weight: 800;
-  font-size: .9rem;
-  z-index: 2;
+.stage-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-.stage-card:last-child::after {
-  display: none;
+.stage-step-badge {
+  font-size: .68rem;
+  font-weight: 800;
+  color: var(--ink-45);
+  text-transform: uppercase;
+  letter-spacing: .06em;
 }
 
 .stage-name {
-  font-size: .74rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  color: var(--ink-45);
-  margin-bottom: 6px;
+  font-size: .84rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.3;
 }
 
 .stage-count {
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 800;
   color: var(--ink);
+  margin-bottom: 4px;
 }
 
 .stage-pct {
   font-size: .75rem;
   font-weight: 700;
   color: var(--ink-70);
-  margin-top: 4px;
 }
 
-/* Tab filter tabel */
-.tab-row {
+/* Tab filter tabel modern */
+.filter-tabs {
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid var(--sand);
+  padding: 4px;
+  background: var(--bg);
+  border-radius: var(--r-m);
   margin-bottom: 20px;
   overflow-x: auto;
 }
 
-.tab-btn {
-  padding: 10px 16px;
+.filter-tab-btn {
+  padding: 8px 16px;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-radius: var(--r-s);
   font-family: inherit;
-  font-size: .88rem;
+  font-size: .84rem;
   font-weight: 700;
   color: var(--ink-70);
   cursor: pointer;
-  transition: color .2s, border-color .2s;
+  transition: all .2s;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.tab-btn:hover {
+.filter-tab-btn:hover {
+  color: var(--ink);
+}
+
+.filter-tab-btn.is-active {
+  background: #fff;
   color: var(--clay);
+  box-shadow: var(--shadow-s);
 }
 
-.tab-btn.is-active {
-  color: var(--clay);
-  border-bottom-color: var(--clay);
+.filter-badge {
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-size: .72rem;
+  font-weight: 800;
+  background: rgba(0,0,0,.05);
 }
 
-/* Responsiveness */
-@media (max-width: 980px) {
+.filter-tab-btn.is-active .filter-badge {
+  background: var(--clay-100);
+  color: var(--clay-800);
+}
+
+@media (max-width: 1024px) {
   .stage-pipeline {
     grid-template-columns: repeat(3, 1fr);
-  }
-  .stage-card::after {
-    display: none;
   }
 }
 
@@ -132,7 +183,7 @@
 </head>
 <body>
 
-<!-- SVG Sprite Standar -->
+<!-- SVG Sprite Standar TailorHub -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
   <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
@@ -143,12 +194,9 @@
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
   <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
-  <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8Z"/></symbol>
-  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
 </defs></svg>
 
@@ -194,7 +242,7 @@
 
   <!-- ===================== MAIN ===================== -->
   <div class="main">
-    <!-- Topbar -->
+    <!-- Topbar resmi -->
     <header class="top">
       <button class="burger" id="burger" aria-label="Buka menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
       <form class="search" action="../search.html" method="GET">
@@ -218,8 +266,8 @@
             <span>/</span>
             <b>Pesanan</b>
           </nav>
-          <h1>Laporan Volume & Status Pesanan</h1>
-          <p class="sub">Rekapitulasi pesanan masuk, pemantauan tahapan pengerjaan, dan evaluasi ketepatan tenggat waktu pengerjaan.</p>
+          <h1>Laporan Pesanan & Siklus Produksi</h1>
+          <p class="sub">Rekapitulasi volume pesanan masuk, alur tahapan jahit, rasio ketepatan waktu, dan lead time produksi.</p>
         </div>
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
           <a href="export.html?type=orders" class="btn btn--outline">
@@ -232,7 +280,17 @@
         </div>
       </div>
 
-      <!-- KPI Grid Pesanan -->
+      <!-- Sub-Navigasi Antar Laporan (Unified Tab Bar) -->
+      <nav class="report-nav">
+        <a href="index.html" class="report-nav-item">Ringkasan Utama</a>
+        <a href="orders.html" class="report-nav-item is-active">Laporan Pesanan</a>
+        <a href="income.html" class="report-nav-item">Laporan Pemasukan</a>
+        <a href="customers.html" class="report-nav-item">Laporan Pelanggan</a>
+        <a href="productivity.html" class="report-nav-item">Produktivitas Staff</a>
+        <a href="export.html" class="report-nav-item">Pratinjau & Ekspor</a>
+      </nav>
+
+      <!-- KPI Grid Pesanan (4 Kolom Standard) -->
       <section class="kpis">
         <div class="kpi">
           <span class="kpi-ic" style="background:var(--clay)"><svg width="21" height="21"><use href="#i-order"/></svg></span>
@@ -263,48 +321,77 @@
         </div>
       </section>
 
-      <!-- Pipeline Alur Produksi -->
-      <div style="margin: 24px 0 12px">
-        <h3 style="font-size: 1.05rem; font-weight:800; color:var(--ink)">Distribusi Status Produksi Aktif</h3>
-        <p class="sub" style="margin:2px 0 0">Visualisasi beban kerja pada masing-masing tahapan pengerjaan saat ini</p>
+      <!-- Pipeline Alur Produksi Modern -->
+      <div style="margin: 28px 0 14px">
+        <h3 style="font-size: 1.05rem; font-weight:800; color:var(--ink)">Distribusi Status Tahapan Produksi</h3>
+        <p class="sub" style="margin:2px 0 0;font-size:.82rem">Visualisasi beban pengerjaan di setiap stasiun kerja saat ini</p>
       </div>
 
       <div class="stage-pipeline">
         <div class="stage-card">
-          <span class="stage-name">1. Antrean Baru</span>
-          <span class="stage-count">12</span>
-          <span class="stage-pct">9,4% dari total</span>
+          <div class="stage-card-head">
+            <span class="stage-step-badge">Tahap 1</span>
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--sand-dark)"></span>
+          </div>
+          <div class="stage-name">Antrean Masuk</div>
+          <div class="stage-count">12</div>
+          <div class="stage-pct">9,4% dari total</div>
         </div>
+
         <div class="stage-card">
-          <span class="stage-name">2. Pola & Potong</span>
-          <span class="stage-count">14</span>
-          <span class="stage-pct">10,9% dari total</span>
+          <div class="stage-card-head">
+            <span class="stage-step-badge">Tahap 2</span>
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--indigo)"></span>
+          </div>
+          <div class="stage-name">Pola & Potong</div>
+          <div class="stage-count">14</div>
+          <div class="stage-pct">10,9% dari total</div>
         </div>
+
         <div class="stage-card">
-          <span class="stage-name">3. Proses Jahit</span>
-          <span class="stage-count">16</span>
-          <span class="stage-pct">12,5% dari total</span>
+          <div class="stage-card-head">
+            <span class="stage-step-badge">Tahap 3</span>
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--clay)"></span>
+          </div>
+          <div class="stage-name">Proses Jahit</div>
+          <div class="stage-count">16</div>
+          <div class="stage-pct">12,5% dari total</div>
         </div>
+
         <div class="stage-card">
-          <span class="stage-name">4. Finishing/Bordir</span>
-          <span class="stage-count">8</span>
-          <span class="stage-pct">6,2% dari total</span>
+          <div class="stage-card-head">
+            <span class="stage-step-badge">Tahap 4</span>
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--amber)"></span>
+          </div>
+          <div class="stage-name">Finishing / Bordir</div>
+          <div class="stage-count">8</div>
+          <div class="stage-pct">6,2% dari total</div>
         </div>
+
         <div class="stage-card">
-          <span class="stage-name">5. Quality Control</span>
-          <span class="stage-count">5</span>
-          <span class="stage-pct">3,9% dari total</span>
+          <div class="stage-card-head">
+            <span class="stage-step-badge">Tahap 5</span>
+            <span style="width:8px;height:8px;border-radius:50%;background:#3C4FA6"></span>
+          </div>
+          <div class="stage-name">Quality Control</div>
+          <div class="stage-count">5</div>
+          <div class="stage-pct">3,9% dari total</div>
         </div>
-        <div class="stage-card" style="background:rgba(30,126,52,.05);border-color:var(--s-done)">
-          <span class="stage-name" style="color:var(--green)">6. Selesai</span>
-          <span class="stage-count" style="color:var(--green)">86</span>
-          <span class="stage-pct" style="color:var(--green)">67,1% selesai</span>
+
+        <div class="stage-card" style="background:rgba(30,126,52,.04);border-color:var(--s-done)">
+          <div class="stage-card-head">
+            <span class="stage-step-badge" style="color:var(--green)">Tahap 6</span>
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--green)"></span>
+          </div>
+          <div class="stage-name" style="color:var(--green)">Selesai Diambil</div>
+          <div class="stage-count" style="color:var(--green)">86</div>
+          <div class="stage-pct" style="color:var(--green)">67,1% selesai</div>
         </div>
       </div>
 
-      <!-- Dua Kolom Analisis: Volume Mingguan & Lead Time -->
+      <!-- Dua Kolom Analisis (.cols: 1.5fr / 1fr) -->
       <section class="cols" style="margin-top:24px">
-        <!-- Panel Kiri: Grafik Volume Mingguan (Masuk vs Selesai) -->
+        <!-- Kolom Kiri: Grafik Volume Mingguan (Masuk vs Selesai) -->
         <div class="card">
           <div class="card-head">
             <div>
@@ -317,55 +404,80 @@
             </div>
           </div>
 
-          <div style="position:relative;margin-top:16px">
-            <svg viewBox="0 0 600 220" style="width:100%;height:auto;overflow:visible">
-              <line x1="30" y1="30" x2="580" y2="30" stroke="#EADBC8" stroke-dasharray="3 3"/>
-              <text x="5" y="34" font-size="10" fill="var(--ink-45)" font-weight="600">40</text>
+          <div style="position:relative;margin-top:10px">
+            <!-- Tooltip Hover Dinamis -->
+            <div id="ordersTip" style="
+              display:none;position:absolute;pointer-events:none;
+              background:var(--ink-900);color:#fff;border-radius:10px;
+              padding:8px 13px;font-size:.8rem;font-weight:700;
+              box-shadow:var(--shadow-m);white-space:nowrap;z-index:10;
+              transform:translate(-50%,-110%);
+            ">
+              <div id="ordersTipLabel" style="font-size:.72rem;font-weight:600;color:rgba(255,248,239,.6);margin-bottom:2px"></div>
+              <div id="ordersTipVal" style="font-size:.92rem;color:#fff"></div>
+              <div style="position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+                width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+                border-top:6px solid var(--ink-900)"></div>
+            </div>
 
-              <line x1="30" y1="80" x2="580" y2="80" stroke="#EADBC8" stroke-dasharray="3 3"/>
-              <text x="5" y="84" font-size="10" fill="var(--ink-45)" font-weight="600">30</text>
+            <svg class="chart" id="ordersChart" viewBox="0 0 640 240" role="img" aria-label="Grafik volume pesanan" style="cursor:crosshair">
+              <!-- Gridlines Horizontal -->
+              <g stroke="#EADBC8" stroke-width="1">
+                <line x1="44" y1="40" x2="620" y2="40"/>
+                <line x1="44" y1="93" x2="620" y2="93"/>
+                <line x1="44" y1="146" x2="620" y2="146"/>
+                <line x1="44" y1="200" x2="620" y2="200"/>
+              </g>
 
-              <line x1="30" y1="130" x2="580" y2="130" stroke="#EADBC8" stroke-dasharray="3 3"/>
-              <text x="5" y="134" font-size="10" fill="var(--ink-45)" font-weight="600">20</text>
+              <g font-family="Plus Jakarta Sans" font-size="11" fill="#8E7266">
+                <text x="36" y="44" text-anchor="end">40</text>
+                <text x="36" y="97" text-anchor="end">30</text>
+                <text x="36" y="150" text-anchor="end">20</text>
+                <text x="36" y="204" text-anchor="end">0</text>
+              </g>
 
-              <line x1="30" y1="180" x2="580" y2="180" stroke="#EADBC8"/>
-              <text x="12" y="184" font-size="10" fill="var(--ink-45)" font-weight="600">0</text>
+              <!-- Grouped Bars Bersih & Rapi -->
+              <!-- M1: Masuk 28 (h=112, y=88), Selesai 20 (h=80, y=120) -->
+              <g>
+                <rect class="bar" data-label="Minggu 1: Pesanan Masuk" data-val="28 Pesanan Masuk" x="80" y="88" width="34" height="112" rx="6" fill="#C05424"/>
+                <rect class="bar" data-label="Minggu 1: Pesanan Selesai" data-val="20 Pesanan Selesai" x="120" y="120" width="34" height="80" rx="6" fill="#2F8F5B"/>
 
-              <!-- M1: Masuk 28, Selesai 20 -->
-              <rect x="70" y="75" width="30" height="105" rx="6" fill="var(--clay)"/>
-              <rect x="105" y="105" width="30" height="75" rx="6" fill="var(--s-done)"/>
-              <text x="102" y="202" font-size="12" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 1</text>
+                <!-- M2: Masuk 34 (h=136, y=64), Selesai 22 (h=88, y=112) -->
+                <rect class="bar" data-label="Minggu 2: Pesanan Masuk" data-val="34 Pesanan Masuk" x="220" y="64" width="34" height="136" rx="6" fill="#C05424"/>
+                <rect class="bar" data-label="Minggu 2: Pesanan Selesai" data-val="22 Pesanan Selesai" x="260" y="112" width="34" height="88" rx="6" fill="#2F8F5B"/>
 
-              <!-- M2: Masuk 34, Selesai 22 -->
-              <rect x="200" y="52" width="30" height="128" rx="6" fill="var(--clay)"/>
-              <rect x="235" y="98" width="30" height="82" rx="6" fill="var(--s-done)"/>
-              <text x="232" y="202" font-size="12" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 2</text>
+                <!-- M3: Masuk 36 (h=144, y=56), Selesai 24 (h=96, y=104) -->
+                <rect class="bar" data-label="Minggu 3: Pesanan Masuk" data-val="36 Pesanan Masuk" x="360" y="56" width="34" height="144" rx="6" fill="#C05424"/>
+                <rect class="bar" data-label="Minggu 3: Pesanan Selesai" data-val="24 Pesanan Selesai" x="400" y="104" width="34" height="96" rx="6" fill="#2F8F5B"/>
 
-              <!-- M3: Masuk 36, Selesai 24 -->
-              <rect x="330" y="45" width="30" height="135" rx="6" fill="var(--clay)"/>
-              <rect x="365" y="90" width="30" height="90" rx="6" fill="var(--s-done)"/>
-              <text x="362" y="202" font-size="12" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 3</text>
+                <!-- M4: Masuk 30 (h=120, y=80), Selesai 20 (h=80, y=120) -->
+                <rect class="bar" data-label="Minggu 4: Pesanan Masuk" data-val="30 Pesanan Masuk" x="500" y="80" width="34" height="120" rx="6" fill="#C05424"/>
+                <rect class="bar" data-label="Minggu 4: Pesanan Selesai" data-val="20 Pesanan Selesai" x="540" y="120" width="34" height="80" rx="6" fill="#2F8F5B"/>
+              </g>
 
-              <!-- M4: Masuk 30, Selesai 20 -->
-              <rect x="460" y="68" width="30" height="112" rx="6" fill="var(--clay)"/>
-              <rect x="495" y="105" width="30" height="75" rx="6" fill="var(--s-done)"/>
-              <text x="492" y="202" font-size="12" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 4</text>
+              <!-- X Labels -->
+              <g font-family="Plus Jakarta Sans" font-size="12" font-weight="700" fill="#8E7266" text-anchor="middle">
+                <text x="117" y="224">Mgg 1</text>
+                <text x="257" y="224">Mgg 2</text>
+                <text x="397" y="224">Mgg 3</text>
+                <text x="537" y="224">Mgg 4</text>
+              </g>
             </svg>
           </div>
         </div>
 
-        <!-- Panel Kanan: Evaluasi Waktu Pengerjaan (Lead Time) -->
+        <!-- Kolom Kanan: Evaluasi Waktu Pengerjaan (Lead Time) -->
         <div class="card">
           <div class="card-head">
             <div>
-              <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">Rata-rata Waktu per Tahap (Lead Time)</h3>
-              <p class="sub" style="margin:2px 0 0;font-size:.82rem">Tolok ukur kecepatan pengerjaan satu pesanan busana</p>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">Lead Time per Tahap</h3>
+              <p class="sub" style="margin:2px 0 0;font-size:.82rem">Kecepatan pengerjaan satu pesanan busana</p>
             </div>
             <span class="chip chip--neutral" style="font-size:.74rem">Target: ≤ 8 Hari</span>
           </div>
 
-          <div style="margin-top:16px">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+          <div style="margin-top:14px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.84rem">
               <span style="font-weight:700">Pola & Pengukuran Badan</span>
               <span style="font-weight:800;color:var(--ink-70)">1,0 Hari</span>
             </div>
@@ -373,7 +485,7 @@
               <div style="width:14%;height:100%;background:var(--clay);border-radius:99px"></div>
             </div>
 
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.84rem">
               <span style="font-weight:700">Pemotongan Kain & Bahan</span>
               <span style="font-weight:800;color:var(--ink-70)">1,5 Hari</span>
             </div>
@@ -381,7 +493,7 @@
               <div style="width:21%;height:100%;background:var(--indigo);border-radius:99px"></div>
             </div>
 
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.84rem">
               <span style="font-weight:700">Penjahitan Utama (Assembly)</span>
               <span style="font-weight:800;color:var(--ink-70)">3,2 Hari</span>
             </div>
@@ -389,7 +501,7 @@
               <div style="width:45%;height:100%;background:var(--amber);border-radius:99px"></div>
             </div>
 
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.84rem">
               <span style="font-weight:700">Finishing, Payet & Fitting</span>
               <span style="font-weight:800;color:var(--ink-70)">1,0 Hari</span>
             </div>
@@ -397,7 +509,7 @@
               <div style="width:14%;height:100%;background:#0d9488;border-radius:99px"></div>
             </div>
 
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.84rem">
               <span style="font-weight:700">Quality Control (QC) & Packing</span>
               <span style="font-weight:800;color:var(--ink-70)">0,5 Hari</span>
             </div>
@@ -413,24 +525,32 @@
         </div>
       </section>
 
-      <!-- Panel Tabel Rekapitulasi Pesanan -->
+      <!-- Panel Tabel Rekapitulasi Pesanan (.card resmi) -->
       <section class="card" style="margin-top:24px">
         <div class="card-head" style="flex-wrap:wrap;gap:12px">
           <div>
-            <h3>Tabel Rincian Riwayat Pesanan</h3>
-            <p class="sub" style="margin:2px 0 0">Data pencatatan seluruh pesanan aktif dan terselesaikan</p>
+            <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">Tabel Rincian Riwayat Pesanan</h3>
+            <p class="sub" style="margin:2px 0 0;font-size:.82rem">Data pencatatan seluruh pesanan aktif dan terselesaikan</p>
           </div>
           <div style="display:flex;gap:10px;align-items:center">
-            <input type="text" id="orderSearch" placeholder="Cari kode/pelanggan..." style="padding:8px 12px;border:1px solid var(--sand);border-radius:var(--r-m);font-size:.84rem;outline:none" onkeyup="filterOrderTable()">
+            <input type="text" id="orderSearch" placeholder="Cari kode/pelanggan..." style="padding:8px 14px;border:1px solid var(--sand);border-radius:var(--r-m);font-size:.84rem;outline:none;background:var(--bg)" onkeyup="filterOrderTable()">
           </div>
         </div>
 
-        <!-- Filter Tab -->
-        <div class="tab-row">
-          <button class="tab-btn is-active" onclick="filterTab(this, 'all')">Semua Pesanan (128)</button>
-          <button class="tab-btn" onclick="filterTab(this, 'active')">Sedang Proses (35)</button>
-          <button class="tab-btn" onclick="filterTab(this, 'done')">Selesai (86)</button>
-          <button class="tab-btn" onclick="filterTab(this, 'urgent')">Lewat Deadline (7)</button>
+        <!-- Filter Tab Segmented -->
+        <div class="filter-tabs">
+          <button class="filter-tab-btn is-active" onclick="filterTab(this, 'all')">
+            Semua Pesanan <span class="filter-badge">128</span>
+          </button>
+          <button class="filter-tab-btn" onclick="filterTab(this, 'active')">
+            Sedang Proses <span class="filter-badge">35</span>
+          </button>
+          <button class="filter-tab-btn" onclick="filterTab(this, 'done')">
+            Selesai <span class="filter-badge">86</span>
+          </button>
+          <button class="filter-tab-btn" onclick="filterTab(this, 'urgent')">
+            Lewat Deadline <span class="filter-badge" style="color:var(--red)">7</span>
+          </button>
         </div>
 
         <div style="overflow-x:auto">
@@ -457,7 +577,7 @@
                 <td><span class="chip chip--warn">Proses Jahit</span></td>
                 <td>Mas Joko</td>
                 <td><b style="color:var(--red)">Kemarin (-1 hari)</b></td>
-                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+                <td><a href="../orders/index.html" class="link-more" style="font-size:.82rem">Rincian</a></td>
               </tr>
 
               <!-- Row 2: Urgent due tomorrow -->
@@ -469,7 +589,7 @@
                 <td><span class="chip chip--info">Pola & Potong</span></td>
                 <td>Pak Mardi</td>
                 <td><b style="color:var(--amber)">Besok (24 Nov)</b></td>
-                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+                <td><a href="../orders/index.html" class="link-more" style="font-size:.82rem">Rincian</a></td>
               </tr>
 
               <!-- Row 3: Active in production -->
@@ -481,7 +601,7 @@
                 <td><span class="chip chip--neutral">Antrean Masuk</span></td>
                 <td>Mbak Siti</td>
                 <td>28 Nov 2026</td>
-                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+                <td><a href="../orders/index.html" class="link-more" style="font-size:.82rem">Rincian</a></td>
               </tr>
 
               <!-- Row 4: Active in QC -->
@@ -493,7 +613,7 @@
                 <td><span class="chip chip--info">Quality Control</span></td>
                 <td>Mbak Anisa</td>
                 <td>25 Nov 2026</td>
-                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+                <td><a href="../orders/index.html" class="link-more" style="font-size:.82rem">Rincian</a></td>
               </tr>
 
               <!-- Row 5: Done -->
@@ -505,7 +625,7 @@
                 <td><span class="chip chip--success">Selesai Diambil</span></td>
                 <td>Mas Joko</td>
                 <td>19 Nov 2026</td>
-                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+                <td><a href="../orders/index.html" class="link-more" style="font-size:.82rem">Rincian</a></td>
               </tr>
 
               <!-- Row 6: Done -->
@@ -517,7 +637,7 @@
                 <td><span class="chip chip--success">Selesai Diambil</span></td>
                 <td>Pak Mardi</td>
                 <td>18 Nov 2026</td>
-                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+                <td><a href="../orders/index.html" class="link-more" style="font-size:.82rem">Rincian</a></td>
               </tr>
 
               <!-- Row 7: Done -->
@@ -529,13 +649,13 @@
                 <td><span class="chip chip--success">Selesai Diambil</span></td>
                 <td>Mas Joko</td>
                 <td>15 Nov 2026</td>
-                <td><a href="../orders/index.html" class="link-more">Rincian</a></td>
+                <td><a href="../orders/index.html" class="link-more" style="font-size:.82rem">Rincian</a></td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <!-- Pagination -->
+        <!-- Pagination Rapi -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;font-size:.84rem;color:var(--ink-70)">
           <span>Menampilkan <b>1–7</b> dari <b>128</b> pesanan</span>
           <div style="display:flex;gap:6px">
@@ -553,8 +673,35 @@
 
 <script src="../../assets/js/app.js"></script>
 <script>
+/* Hover Tooltip untuk ordersChart */
+(function() {
+  var chart = document.getElementById('ordersChart');
+  var tip = document.getElementById('ordersTip');
+  var tipLabel = document.getElementById('ordersTipLabel');
+  var tipVal = document.getElementById('ordersTipVal');
+  if (chart && tip) {
+    var bars = chart.querySelectorAll('rect.bar');
+    bars.forEach(function(bar) {
+      bar.addEventListener('mouseenter', function() {
+        tipLabel.textContent = bar.getAttribute('data-label') || '';
+        tipVal.textContent = bar.getAttribute('data-val') || '';
+        var wrap = chart.parentElement.getBoundingClientRect();
+        var barRect = bar.getBoundingClientRect();
+        var left = barRect.left - wrap.left + (barRect.width / 2);
+        var top = barRect.top - wrap.top;
+        tip.style.left = left + 'px';
+        tip.style.top = top + 'px';
+        tip.style.display = 'block';
+      });
+      bar.addEventListener('mouseleave', function() {
+        tip.style.display = 'none';
+      });
+    });
+  }
+})();
+
 function filterTab(btn, type) {
-  var tabs = document.querySelectorAll('.tab-btn');
+  var tabs = document.querySelectorAll('.filter-tab-btn');
   tabs.forEach(function(t) { t.classList.remove('is-active'); });
   btn.classList.add('is-active');
 

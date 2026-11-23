@@ -18,36 +18,93 @@
    STYLING KHUSUS LAPORAN PEMASUKAN — CLEAN SAAS ENTERPRISE
    ============================================================ */
 
-/* Tab filter transaksi */
-.tab-row {
+/* Sub-Navigasi Antar Halaman Laporan (SaaS Standard) */
+.report-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.report-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .2s;
+}
+
+.report-nav-item:hover {
+  color: var(--clay);
+  background: rgba(192, 84, 36, .04);
+}
+
+.report-nav-item.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+  background: rgba(192, 84, 36, .06);
+  font-weight: 800;
+}
+
+/* Tab filter transaksi modern */
+.filter-tabs {
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid var(--sand);
+  padding: 4px;
+  background: var(--bg);
+  border-radius: var(--r-m);
   margin-bottom: 20px;
   overflow-x: auto;
 }
 
-.tab-btn {
-  padding: 10px 16px;
+.filter-tab-btn {
+  padding: 8px 16px;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-radius: var(--r-s);
   font-family: inherit;
-  font-size: .88rem;
+  font-size: .84rem;
   font-weight: 700;
   color: var(--ink-70);
   cursor: pointer;
-  transition: color .2s, border-color .2s;
+  transition: all .2s;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.tab-btn:hover {
-  color: var(--clay);
+.filter-tab-btn:hover {
+  color: var(--ink);
 }
 
-.tab-btn.is-active {
-  color: var(--clay);
-  border-bottom-color: var(--clay);
+.filter-tab-btn.is-active {
+  background: #fff;
+  color: var(--indigo);
+  box-shadow: var(--shadow-s);
+}
+
+.filter-badge {
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-size: .72rem;
+  font-weight: 800;
+  background: rgba(0,0,0,.05);
+}
+
+.filter-tab-btn.is-active .filter-badge {
+  background: var(--indigo-100);
+  color: var(--indigo);
 }
 
 /* Pay Method Item */
@@ -106,7 +163,6 @@
   <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
-  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
 </defs></svg>
 
@@ -190,6 +246,16 @@
         </div>
       </div>
 
+      <!-- Sub-Navigasi Antar Laporan (Unified Tab Bar) -->
+      <nav class="report-nav">
+        <a href="index.html" class="report-nav-item">Ringkasan Utama</a>
+        <a href="orders.html" class="report-nav-item">Laporan Pesanan</a>
+        <a href="income.html" class="report-nav-item is-active">Laporan Pemasukan</a>
+        <a href="customers.html" class="report-nav-item">Laporan Pelanggan</a>
+        <a href="productivity.html" class="report-nav-item">Produktivitas Staff</a>
+        <a href="export.html" class="report-nav-item">Pratinjau & Ekspor</a>
+      </nav>
+
       <!-- KPI Grid Pemasukan -->
       <section class="kpis">
         <div class="kpi">
@@ -268,8 +334,8 @@
               <!-- Bars M1-M4 -->
               <g>
                 <rect class="bar" data-label="Minggu 1 (1–7 Nov)" data-val="Rp9.200.000" x="90" y="102" width="68" height="98" rx="8" fill="#495ECD"/>
-                <rect class="bar" data-label="Minggu 2 (8–14 Nov)" data-val="Rp10.850.000" x="230" y="85" width="68" height="115" rx="8" fill="#495ECD"/>
-                <rect class="bar" data-label="Minggu 3 (15–21 Nov)" data-val="Rp11.400.000" x="370" y="78" width="68" height="122" rx="8" fill="#3A4BB0"/>
+                <rect class="bar" data-label="Minggu 2 (8–14 Nov)" data-val="Rp10.850.000" x="230" y="85" width="68" height="115" rx="8" fill="#3D4FA6"/>
+                <rect class="bar" data-label="Minggu 3 (15–21 Nov)" data-val="Rp11.400.000" x="370" y="78" width="68" height="122" rx="8" fill="#2E3E8C"/>
                 <rect class="bar" data-label="Minggu 4 (22–28 Nov)" data-val="Rp11.200.000" x="510" y="80" width="68" height="120" rx="8" fill="#C05424"/>
               </g>
 
@@ -339,16 +405,24 @@
             <p class="sub" style="margin:2px 0 0">Pencatatan rincian invoice, uang muka DP, dan pelunasan nota</p>
           </div>
           <div style="display:flex;gap:10px;align-items:center">
-            <input type="text" id="paySearch" placeholder="Cari invoice/pelanggan..." style="padding:8px 12px;border:1px solid var(--sand);border-radius:var(--r-m);font-size:.84rem;outline:none" onkeyup="filterPayTable()">
+            <input type="text" id="paySearch" placeholder="Cari invoice/pelanggan..." style="padding:8px 12px;border:1px solid var(--sand);border-radius:var(--r-m);font-size:.84rem;outline:none;background:var(--bg)" onkeyup="filterPayTable()">
           </div>
         </div>
 
-        <!-- Filter Tab -->
-        <div class="tab-row">
-          <button class="tab-btn is-active" onclick="filterPayTab(this, 'all')">Semua Transaksi (78)</button>
-          <button class="tab-btn" onclick="filterPayTab(this, 'dp')">Uang Muka / DP (32)</button>
-          <button class="tab-btn" onclick="filterPayTab(this, 'lunas')">Pelunasan (46)</button>
-          <button class="tab-btn" onclick="filterPayTab(this, 'pending')">Piutang Tertunda (4)</button>
+        <!-- Filter Tab Segmented -->
+        <div class="filter-tabs">
+          <button class="filter-tab-btn is-active" onclick="filterPayTab(this, 'all')">
+            Semua Transaksi <span class="filter-badge">78</span>
+          </button>
+          <button class="filter-tab-btn" onclick="filterPayTab(this, 'dp')">
+            Uang Muka / DP <span class="filter-badge">32</span>
+          </button>
+          <button class="filter-tab-btn" onclick="filterPayTab(this, 'lunas')">
+            Pelunasan <span class="filter-badge">46</span>
+          </button>
+          <button class="filter-tab-btn" onclick="filterPayTab(this, 'pending')">
+            Piutang Tertunda <span class="filter-badge" style="color:var(--amber)">4</span>
+          </button>
         </div>
 
         <div style="overflow-x:auto">
@@ -458,8 +532,35 @@
 
 <script src="../../assets/js/app.js"></script>
 <script>
+/* Hover Tooltip untuk incomeChart */
+(function() {
+  var chart = document.getElementById('incomeChart');
+  var tip = document.getElementById('chartTip');
+  var tipLabel = document.getElementById('chartTipLabel');
+  var tipVal = document.getElementById('chartTipVal');
+  if (chart && tip) {
+    var bars = chart.querySelectorAll('rect.bar');
+    bars.forEach(function(bar) {
+      bar.addEventListener('mouseenter', function() {
+        tipLabel.textContent = bar.getAttribute('data-label') || '';
+        tipVal.textContent = bar.getAttribute('data-val') || '';
+        var wrap = chart.parentElement.getBoundingClientRect();
+        var barRect = bar.getBoundingClientRect();
+        var left = barRect.left - wrap.left + (barRect.width / 2);
+        var top = barRect.top - wrap.top;
+        tip.style.left = left + 'px';
+        tip.style.top = top + 'px';
+        tip.style.display = 'block';
+      });
+      bar.addEventListener('mouseleave', function() {
+        tip.style.display = 'none';
+      });
+    });
+  }
+})();
+
 function filterPayTab(btn, type) {
-  var tabs = document.querySelectorAll('.tab-btn');
+  var tabs = document.querySelectorAll('.filter-tab-btn');
   tabs.forEach(function(t) { t.classList.remove('is-active'); });
   btn.classList.add('is-active');
 

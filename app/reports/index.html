@@ -18,6 +18,44 @@
    STYLING KHUSUS PUSAT LAPORAN — CLEAN SAAS ENTERPRISE
    ============================================================ */
 
+/* Sub-Navigasi Antar Halaman Laporan (SaaS Standard) */
+.report-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.report-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .2s;
+}
+
+.report-nav-item:hover {
+  color: var(--clay);
+  background: rgba(192, 84, 36, .04);
+}
+
+.report-nav-item.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+  background: rgba(192, 84, 36, .06);
+  font-weight: 800;
+}
+
 /* Bar Filter Periode */
 .report-filter-bar {
   display: flex;
@@ -332,6 +370,16 @@
           </a>
         </div>
       </div>
+
+      <!-- Sub-Navigasi Antar Laporan (Unified Tab Bar) -->
+      <nav class="report-nav">
+        <a href="index.html" class="report-nav-item is-active">Ringkasan Utama</a>
+        <a href="orders.html" class="report-nav-item">Laporan Pesanan</a>
+        <a href="income.html" class="report-nav-item">Laporan Pemasukan</a>
+        <a href="customers.html" class="report-nav-item">Laporan Pelanggan</a>
+        <a href="productivity.html" class="report-nav-item">Produktivitas Staff</a>
+        <a href="export.html" class="report-nav-item">Pratinjau & Ekspor</a>
+      </nav>
 
       <!-- Bar Filter Periode -->
       <section class="report-filter-bar">

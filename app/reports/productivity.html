@@ -18,6 +18,59 @@
    STYLING KHUSUS LAPORAN PRODUKTIVITAS — CLEAN SAAS ENTERPRISE
    ============================================================ */
 
+/* Sub-Navigasi Antar Halaman Laporan (SaaS Standard) */
+.report-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.report-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .2s;
+}
+
+.report-nav-item:hover {
+  color: var(--clay);
+  background: rgba(192, 84, 36, .04);
+}
+
+.report-nav-item.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+  background: rgba(192, 84, 36, .06);
+  font-weight: 800;
+}
+
+/* Post-MVP Banner Enterprise */
+.post-mvp-banner {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 4px solid var(--amber);
+  border-radius: var(--r-m);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 /* Grid Kartu Staff */
 .staff-perf-grid {
   display: grid;
@@ -46,16 +99,20 @@
 .staff-top {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.staff-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .staff-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: var(--clay-100);
-  color: var(--clay-800);
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -65,14 +122,14 @@
 }
 
 .staff-name {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 800;
   color: var(--ink);
   margin-bottom: 2px;
 }
 
 .staff-role {
-  font-size: .8rem;
+  font-size: .78rem;
   color: var(--ink-45);
   font-weight: 600;
 }
@@ -102,6 +159,16 @@
   color: var(--ink);
   margin-top: 4px;
   display: block;
+}
+
+.workload-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: .72rem;
+  font-weight: 800;
 }
 
 @media (max-width: 800px) {
@@ -206,12 +273,22 @@
         </div>
       </div>
 
-      <!-- Banner Status Post-MVP -->
-      <div style="background:var(--paper);border:1px solid var(--sand);border-left:4px solid var(--amber);border-radius:var(--r-m);padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <!-- Sub-Navigasi Antar Laporan (Unified Tab Bar) -->
+      <nav class="report-nav">
+        <a href="index.html" class="report-nav-item">Ringkasan Utama</a>
+        <a href="orders.html" class="report-nav-item">Laporan Pesanan</a>
+        <a href="income.html" class="report-nav-item">Laporan Pemasukan</a>
+        <a href="customers.html" class="report-nav-item">Laporan Pelanggan</a>
+        <a href="productivity.html" class="report-nav-item is-active">Produktivitas Staff</a>
+        <a href="export.html" class="report-nav-item">Pratinjau & Ekspor</a>
+      </nav>
+
+      <!-- Banner Status Post-MVP (FR-36) -->
+      <div class="post-mvp-banner">
         <div>
           <span class="chip chip--warn" style="font-size:.72rem;margin-bottom:6px">Pratinjau Fitur · FR-36</span>
-          <p style="font-size:.85rem;color:var(--ink-70);margin:4px 0 0;line-height:1.5">
-            <b>Info Rilis:</b> Menampilkan metrik operasional riil pengerjaan pesanan saat ini. Modul kalkulasi upah borongan dan bagi hasil komisi otomatis akan segera hadir pada pembaruan pasca-MVP.
+          <p style="font-size:.85rem;color:#92400e;margin:4px 0 0;line-height:1.5">
+            <b>Informasi Rilis:</b> Menampilkan metrik operasional riil pengerjaan pesanan saat ini. Modul kalkulasi upah borongan dan bagi hasil komisi otomatis ditandai sebagai fitur <b>pasca-MVP (Segera hadir di v1.1)</b>.
           </p>
         </div>
         <span class="chip chip--neutral" style="font-weight:700">Versi 1.0 (MVP)</span>
@@ -259,13 +336,16 @@
         <div class="staff-card">
           <div>
             <div class="staff-top">
-              <span class="staff-avatar" style="background:var(--clay-100);color:var(--clay-800)">PM</span>
-              <div>
-                <h4 class="staff-name">Pak Mardi</h4>
-                <span class="staff-role">Pemilik & Master Cutter (Pembuat Pola)</span>
+              <div class="staff-identity">
+                <span class="staff-avatar" style="background:var(--clay-100);color:var(--clay-800)">PM</span>
+                <div>
+                  <h4 class="staff-name">Pak Mardi</h4>
+                  <span class="staff-role">Master Cutter & Pembuat Pola</span>
+                </div>
               </div>
+              <span class="workload-pill" style="background:rgba(192,84,36,.12);color:var(--clay)">Kapasitas 100%</span>
             </div>
-            <p style="font-size:.82rem;color:var(--ink-70);line-height:1.4;margin:0">
+            <p style="font-size:.82rem;color:var(--ink-70);line-height:1.45;margin:0">
               Menangani pembuatan pola presisi, pengukuran badan pelanggan VIP, dan fitting jas serta kebaya pengantin.
             </p>
           </div>
@@ -289,14 +369,17 @@
         <div class="staff-card">
           <div>
             <div class="staff-top">
-              <span class="staff-avatar" style="background:rgba(73,94,205,.12);color:var(--indigo)">MJ</span>
-              <div>
-                <h4 class="staff-name">Mas Joko</h4>
-                <span class="staff-role">Penjahit Senior (Spesialis Jas & Celana Formal)</span>
+              <div class="staff-identity">
+                <span class="staff-avatar" style="background:rgba(73,94,205,.12);color:var(--indigo)">MJ</span>
+                <div>
+                  <h4 class="staff-name">Mas Joko</h4>
+                  <span class="staff-role">Penjahit Senior (Jas & Celana Formal)</span>
+                </div>
               </div>
+              <span class="workload-pill" style="background:rgba(73,94,205,.12);color:var(--indigo)">Kapasitas 92%</span>
             </div>
-            <p style="font-size:.82rem;color:var(--ink-70);line-height:1.4;margin:0">
-              Fokus pada penjahitan jas berstruktur, blazer furing, safari, dan celana bahan wol presisi.
+            <p style="font-size:.82rem;color:var(--ink-70);line-height:1.45;margin:0">
+              Fokus pada penjahitan jas berstruktur, blazer furing, safari, dan celana bahan wol presisi tinggi.
             </p>
           </div>
           <div class="staff-metrics">
@@ -319,13 +402,16 @@
         <div class="staff-card">
           <div>
             <div class="staff-top">
-              <span class="staff-avatar" style="background:rgba(217,119,6,.12);color:#b45309">MS</span>
-              <div>
-                <h4 class="staff-name">Mbak Siti</h4>
-                <span class="staff-role">Penjahit Produksi (Seragam & Kemeja)</span>
+              <div class="staff-identity">
+                <span class="staff-avatar" style="background:rgba(217,119,6,.12);color:#b45309">MS</span>
+                <div>
+                  <h4 class="staff-name">Mbak Siti</h4>
+                  <span class="staff-role">Penjahit Produksi (Seragam & Kemeja)</span>
+                </div>
               </div>
+              <span class="workload-pill" style="background:rgba(217,119,6,.12);color:#b45309">Kapasitas 88%</span>
             </div>
-            <p style="font-size:.82rem;color:var(--ink-70);line-height:1.4;margin:0">
+            <p style="font-size:.82rem;color:var(--ink-70);line-height:1.45;margin:0">
               Bertanggung jawab pada pesanan massal seragam kantor PDL, kemeja batik korporat, dan blus wanita.
             </p>
           </div>
@@ -349,19 +435,22 @@
         <div class="staff-card">
           <div>
             <div class="staff-top">
-              <span class="staff-avatar" style="background:rgba(30,126,52,.12);color:var(--green)">MA</span>
-              <div>
-                <h4 class="staff-name">Mbak Anisa</h4>
-                <span class="staff-role">Finishing, Payet & Quality Control (QC)</span>
+              <div class="staff-identity">
+                <span class="staff-avatar" style="background:rgba(30,126,52,.12);color:var(--green)">MA</span>
+                <div>
+                  <h4 class="staff-name">Mbak Anisa</h4>
+                  <span class="staff-role">Finishing, Payet & Quality Control</span>
+                </div>
               </div>
+              <span class="workload-pill" style="background:rgba(30,126,52,.12);color:var(--green)">Kapasitas 85%</span>
             </div>
-            <p style="font-size:.82rem;color:var(--ink-70);line-height:1.4;margin:0">
-              Pemasangan kancing, lubang kancing mesin, aplikasi payet kebaya pesta, setrika uap, dan verifikasi QC akhir.
+            <p style="font-size:.82rem;color:var(--ink-70);line-height:1.45;margin:0">
+              Pemasangan kancing, lubang kancing mesin, aplikasi payet kebaya pesta, setrika uap, dan verifikasi akhir.
             </p>
           </div>
           <div class="staff-metrics">
             <div>
-              <small>Total Item di-QC</small>
+              <small>Item di-QC</small>
               <b>86 Pcs</b>
             </div>
             <div>
@@ -376,56 +465,174 @@
         </div>
       </div>
 
-      <!-- Panel Efisiensi Alur Pengerjaan -->
-      <section class="card">
-        <div class="card-head">
-          <div>
-            <h3>Kapasitas Beban Kerja per Tahapan</h3>
-            <p class="sub" style="margin:2px 0 0">Tingkat utilisasi kapasitas peralatan dan meja jahit di bengkel</p>
+      <!-- Panel Efisiensi & Kapasitas Bengkel (.cols: 1.5fr / 1fr) -->
+      <section class="cols">
+        <!-- Kolom Kiri: Kapasitas Beban Kerja per Tahapan -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Kapasitas Beban Kerja per Tahapan</h3>
+              <p class="sub" style="margin:2px 0 0">Tingkat utilisasi kapasitas peralatan dan meja kerja bengkel</p>
+            </div>
+            <span class="chip chip--success">Optimal (Tidak Bottleneck)</span>
           </div>
-          <span class="chip chip--success">Optimal (Tidak Ada Bottleneck)</span>
+
+          <div style="margin-top:16px">
+            <div style="margin-bottom:16px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+                <span style="font-weight:700">Meja Potong & Persiapan Pola</span>
+                <span style="font-weight:800;color:var(--ink-70)">100% Kapasitas Optimal (14 pola/mgg)</span>
+              </div>
+              <div style="height:8px;background:var(--sand);border-radius:99px;overflow:hidden">
+                <div style="width:100%;height:100%;background:var(--clay);border-radius:99px"></div>
+              </div>
+            </div>
+
+            <div style="margin-bottom:16px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+                <span style="font-weight:700">Mesin Jahit Utama (3 Meja Jahit)</span>
+                <span style="font-weight:800;color:var(--ink-70)">92% Beban Kerja (Aman)</span>
+              </div>
+              <div style="height:8px;background:var(--sand);border-radius:99px;overflow:hidden">
+                <div style="width:92%;height:100%;background:var(--indigo);border-radius:99px"></div>
+              </div>
+            </div>
+
+            <div style="margin-bottom:16px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+                <span style="font-weight:700">Meja Obras & Finishing</span>
+                <span style="font-weight:800;color:var(--ink-70)">78% Utilisasi (Siap Tambah Order)</span>
+              </div>
+              <div style="height:8px;background:var(--sand);border-radius:99px;overflow:hidden">
+                <div style="width:78%;height:100%;background:#0d9488;border-radius:99px"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
+                <span style="font-weight:700">Pemeriksaan Kualitas (QC) & Packing</span>
+                <span style="font-weight:800;color:var(--ink-70)">85% Utilisasi</span>
+              </div>
+              <div style="height:8px;background:var(--sand);border-radius:99px;overflow:hidden">
+                <div style="width:85%;height:100%;background:var(--green);border-radius:99px"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div style="margin-top:16px">
-          <div style="margin-bottom:16px">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
-              <span style="font-weight:700">Meja Potong & Persiapan Pola</span>
-              <span style="font-weight:800;color:var(--ink-70)">100% Kapasitas Optimal (14 pola/minggu)</span>
-            </div>
-            <div style="height:8px;background:var(--sand);border-radius:99px;overflow:hidden">
-              <div style="width:100%;height:100%;background:var(--clay);border-radius:99px"></div>
+        <!-- Kolom Kanan: Catatan Produktivitas & Tindakan -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Rekomendasi Operasional</h3>
+              <p class="sub" style="margin:2px 0 0">Analisa efisiensi perputaran bengkel</p>
             </div>
           </div>
 
-          <div style="margin-bottom:16px">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
-              <span style="font-weight:700">Mesin Jahit Utama (3 Meja Jahit)</span>
-              <span style="font-weight:800;color:var(--ink-70)">92% Beban Kerja (Aman)</span>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px">
+            <div style="padding:12px 14px;background:var(--bg);border-radius:var(--r-m);font-size:.82rem;line-height:1.5">
+              <b style="color:var(--clay);display:block;margin-bottom:2px">Meja Potong Mencapai 100%:</b>
+              Pak Mardi menangani kapasitas maksimal. Pesanan seragam batch besar disarankan dijadwalkan secara bertahap.
             </div>
-            <div style="height:8px;background:var(--sand);border-radius:99px;overflow:hidden">
-              <div style="width:92%;height:100%;background:var(--indigo);border-radius:99px"></div>
+
+            <div style="padding:12px 14px;background:var(--bg);border-radius:var(--r-m);font-size:.82rem;line-height:1.5">
+              <b style="color:var(--green);display:block;margin-bottom:2px">Efisiensi Finishing Cepat:</b>
+              Mbak Anisa mempertahankan tingkat reject QC di bawah 5%, memastikan pesanan siap fitting tepat waktu.
+            </div>
+
+            <div style="padding:12px 14px;background:var(--bg);border-radius:var(--r-m);font-size:.82rem;line-height:1.5">
+              <b style="color:var(--indigo);display:block;margin-bottom:2px">Kapasitas Jahit Tersedia:</b>
+              Meja obras masih menyisakan ruang kapasitas 22% untuk menampung pesanan kilat (rush order).
             </div>
           </div>
+        </div>
+      </section>
 
-          <div style="margin-bottom:16px">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
-              <span style="font-weight:700">Meja Obras & Finishing</span>
-              <span style="font-weight:800;color:var(--ink-70)">78% Utilisasi (Siap Tambah Volume)</span>
-            </div>
-            <div style="height:8px;background:var(--sand);border-radius:99px;overflow:hidden">
-              <div style="width:78%;height:100%;background:#0d9488;border-radius:99px"></div>
-            </div>
-          </div>
-
+      <!-- Panel Bawah: Tabel Penugasan Pesanan Aktif per Staff -->
+      <section class="card" style="margin-top:24px">
+        <div class="card-head">
           <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem">
-              <span style="font-weight:700">Pemeriksaan Kualitas (QC) & Packing</span>
-              <span style="font-weight:800;color:var(--ink-70)">85% Utilisasi</span>
-            </div>
-            <div style="height:8px;background:var(--sand);border-radius:99px;overflow:hidden">
-              <div style="width:85%;height:100%;background:var(--green);border-radius:99px"></div>
-            </div>
+            <h3>Penugasan Pesanan Aktif di Bengkel</h3>
+            <p class="sub" style="margin:2px 0 0">Distribusi pesanan yang saat ini sedang dikerjakan masing-masing penjahit</p>
           </div>
+          <span class="chip chip--neutral">35 Pesanan Sedang Berjalan</span>
+        </div>
+
+        <div style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Penjahit PIC</th>
+                <th>No. Pesanan</th>
+                <th>Pelanggan</th>
+                <th>Busana / Item</th>
+                <th>Tahap Pengerjaan</th>
+                <th>Tenggat Selesai</th>
+                <th>Prioritas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="width:30px;height:30px;border-radius:8px;background:var(--clay-100);color:var(--clay-800);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.76rem">PM</span>
+                    <b>Pak Mardi</b>
+                  </div>
+                </td>
+                <td><b>TH-2041</b></td>
+                <td>Bpk. Budi Santoso</td>
+                <td>Kemeja Batik Katun Primis (3 pcs)</td>
+                <td><span class="chip chip--info">Pola & Potong</span></td>
+                <td>24 Nov 2026</td>
+                <td><span class="chip chip--warn">Mendesak</span></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="width:30px;height:30px;border-radius:8px;background:rgba(73,94,205,.12);color:var(--indigo);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.76rem">MJ</span>
+                    <b>Mas Joko</b>
+                  </div>
+                </td>
+                <td><b>TH-2033</b></td>
+                <td>Bpk. Hendra Wijaya</td>
+                <td>Jas Wol Hitam Full Furing (1 pcs)</td>
+                <td><span class="chip chip--warn">Proses Jahit</span></td>
+                <td><b style="color:var(--red)">Kemarin (-1h)</b></td>
+                <td><span class="chip chip--danger">Prioritas Utama</span></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="width:30px;height:30px;border-radius:8px;background:rgba(217,119,6,.12);color:#b45309;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.76rem">MS</span>
+                    <b>Mbak Siti</b>
+                  </div>
+                </td>
+                <td><b>TH-2045</b></td>
+                <td>PT Cipta Kreasi</td>
+                <td>Seragam PDL Kantor (20 pcs)</td>
+                <td><span class="chip chip--neutral">Antrean Masuk</span></td>
+                <td>28 Nov 2026</td>
+                <td><span class="chip chip--neutral">Normal</span></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="width:30px;height:30px;border-radius:8px;background:rgba(30,126,52,.12);color:var(--green);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.76rem">MA</span>
+                    <b>Mbak Anisa</b>
+                  </div>
+                </td>
+                <td><b>TH-2030</b></td>
+                <td>Ibu Rina Anggraini</td>
+                <td>Gamis Brokat Pesta (1 pcs)</td>
+                <td><span class="chip chip--info">Quality Control</span></td>
+                <td>25 Nov 2026</td>
+                <td><span class="chip chip--success">Siap Diambil</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </main>

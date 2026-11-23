@@ -18,6 +18,44 @@
    STYLING KHUSUS LAPORAN PELANGGAN — CLEAN SAAS ENTERPRISE
    ============================================================ */
 
+/* Sub-Navigasi Antar Halaman Laporan (SaaS Standard) */
+.report-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.report-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-70);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all .2s;
+}
+
+.report-nav-item:hover {
+  color: var(--clay);
+  background: rgba(192, 84, 36, .04);
+}
+
+.report-nav-item.is-active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+  background: rgba(192, 84, 36, .06);
+  font-weight: 800;
+}
+
 /* Badge Tingkatan Loyalitas */
 .tier-badge {
   display: inline-flex;
@@ -49,7 +87,7 @@
   border: 1px solid var(--sand-dark);
 }
 
-/* Rank Circle */
+/* Rank Circle Bulat & Elegan */
 .rank-num {
   width: 26px;
   height: 26px;
@@ -59,15 +97,46 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: .8rem;
+  font-size: .78rem;
   font-weight: 800;
-  color: var(--ink);
+  color: var(--ink-70);
 }
 
-.rank-num.top-3 {
-  background: var(--clay);
-  color: #fff;
-  border-color: var(--clay);
+.rank-num.gold {
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+.rank-num.silver {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+.rank-num.bronze {
+  background: #ffedd5;
+  color: #c2410c;
+  border-color: #fed7aa;
+}
+
+/* Customer Avatar Initials */
+.cust-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cust-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: .82rem;
+  flex: none;
 }
 </style>
 </head>
@@ -170,6 +239,16 @@
         </div>
       </div>
 
+      <!-- Sub-Navigasi Antar Laporan (Unified Tab Bar) -->
+      <nav class="report-nav">
+        <a href="index.html" class="report-nav-item">Ringkasan Utama</a>
+        <a href="orders.html" class="report-nav-item">Laporan Pesanan</a>
+        <a href="income.html" class="report-nav-item">Laporan Pemasukan</a>
+        <a href="customers.html" class="report-nav-item is-active">Laporan Pelanggan</a>
+        <a href="productivity.html" class="report-nav-item">Produktivitas Staff</a>
+        <a href="export.html" class="report-nav-item">Pratinjau & Ekspor</a>
+      </nav>
+
       <!-- KPI Grid Pelanggan -->
       <section class="kpis">
         <div class="kpi">
@@ -217,52 +296,96 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th style="width:40px">No</th>
+                  <th style="width:40px">Rank</th>
                   <th>Nama Pelanggan</th>
                   <th>Kategori</th>
-                  <th>Total Pesanan</th>
+                  <th>Pesanan</th>
                   <th>Total Belanja</th>
-                  <th>Status Loyalitas</th>
+                  <th>Loyalitas</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="rank-num top-3">1</span></td>
-                  <td><b>PT Surya Perkasa</b><br><small style="color:var(--ink-45)">Bpk. Anton Setiawan</small></td>
-                  <td>Instansi / Korporat</td>
-                  <td>12 pesanan</td>
+                  <td><span class="rank-num gold">1</span></td>
+                  <td>
+                    <div class="cust-cell">
+                      <span class="cust-avatar" style="background:rgba(73,94,205,.12);color:var(--indigo)">SP</span>
+                      <div>
+                        <b>PT Surya Perkasa</b>
+                        <div style="font-size:.76rem;color:var(--ink-45)">Bpk. Anton Setiawan</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="chip chip--neutral" style="font-size:.74rem">Korporat / B2B</span></td>
+                  <td><b>12 pesanan</b></td>
                   <td><b style="color:var(--clay)">Rp48.500.000</b></td>
                   <td><span class="tier-badge tier-platinum">Platinum</span></td>
                 </tr>
+
                 <tr>
-                  <td><span class="rank-num top-3">2</span></td>
-                  <td><b>Ibu Rina Sasmita</b><br><small style="color:var(--ink-45)">Keluarga & Pernikahan</small></td>
-                  <td>VIP Perorangan</td>
-                  <td>8 pesanan</td>
+                  <td><span class="rank-num silver">2</span></td>
+                  <td>
+                    <div class="cust-cell">
+                      <span class="cust-avatar" style="background:rgba(217,119,6,.12);color:#b45309">RS</span>
+                      <div>
+                        <b>Ibu Rina Sasmita</b>
+                        <div style="font-size:.76rem;color:var(--ink-45)">Keluarga & Pernikahan</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="chip chip--neutral" style="font-size:.74rem">VIP Perorangan</span></td>
+                  <td><b>8 pesanan</b></td>
                   <td><b style="color:var(--clay)">Rp24.200.000</b></td>
                   <td><span class="tier-badge tier-gold">Gold VIP</span></td>
                 </tr>
+
                 <tr>
-                  <td><span class="rank-num top-3">3</span></td>
-                  <td><b>Dinas Perhubungan Kota</b><br><small style="color:var(--ink-45)">Bpk. Danang Prabowo</small></td>
-                  <td>Instansi Pemerintah</td>
-                  <td>5 pesanan</td>
+                  <td><span class="rank-num bronze">3</span></td>
+                  <td>
+                    <div class="cust-cell">
+                      <span class="cust-avatar" style="background:rgba(30,126,52,.12);color:var(--green)">DP</span>
+                      <div>
+                        <b>Dinas Perhubungan Kota</b>
+                        <div style="font-size:.76rem;color:var(--ink-45)">Bpk. Danang Prabowo</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="chip chip--neutral" style="font-size:.74rem">Instansi Pemerintah</span></td>
+                  <td><b>5 pesanan</b></td>
                   <td><b style="color:var(--clay)">Rp18.900.000</b></td>
                   <td><span class="tier-badge tier-gold">Gold VIP</span></td>
                 </tr>
+
                 <tr>
                   <td><span class="rank-num">4</span></td>
-                  <td><b>Bpk. Hendra Gunawan</b><br><small style="color:var(--ink-45)">Eksekutif Swasta</small></td>
-                  <td>Jas & Formal</td>
-                  <td>6 pesanan</td>
+                  <td>
+                    <div class="cust-cell">
+                      <span class="cust-avatar" style="background:var(--sand);color:var(--ink-70)">HG</span>
+                      <div>
+                        <b>Bpk. Hendra Gunawan</b>
+                        <div style="font-size:.76rem;color:var(--ink-45)">Eksekutif Swasta</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="chip chip--neutral" style="font-size:.74rem">Jas & Formal</span></td>
+                  <td><b>6 pesanan</b></td>
                   <td><b style="color:var(--clay)">Rp14.350.000</b></td>
                   <td><span class="tier-badge tier-silver">Silver</span></td>
                 </tr>
+
                 <tr>
                   <td><span class="rank-num">5</span></td>
-                  <td><b>Ibu Kartika Sari</b><br><small style="color:var(--ink-45)">Busana Pesta & Gaun</small></td>
-                  <td>VIP Perorangan</td>
-                  <td>7 pesanan</td>
+                  <td>
+                    <div class="cust-cell">
+                      <span class="cust-avatar" style="background:var(--sand);color:var(--ink-70)">KS</span>
+                      <div>
+                        <b>Ibu Kartika Sari</b>
+                        <div style="font-size:.76rem;color:var(--ink-45)">Busana Pesta & Gaun</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="chip chip--neutral" style="font-size:.74rem">VIP Perorangan</span></td>
+                  <td><b>7 pesanan</b></td>
                   <td><b style="color:var(--clay)">Rp11.800.000</b></td>
                   <td><span class="tier-badge tier-silver">Silver</span></td>
                 </tr>
@@ -278,7 +401,7 @@
               <h3>Segmentasi Profil Pelanggan</h3>
               <p class="sub" style="margin:2px 0 0">Distribusi profil basis data pelanggan</p>
             </div>
-            <a href="../customers/index.html" class="link-more">Semua Customer</a>
+            <a href="../customers/index.html" class="link-more" style="font-size:.82rem">Semua Customer →</a>
           </div>
 
           <div style="margin-top:16px">
@@ -316,24 +439,27 @@
             </div>
           </div>
 
-          <div style="margin-top:20px;padding:14px;background:var(--bg);border-radius:var(--r-m);font-size:.82rem;line-height:1.5;color:var(--ink-70)">
-            <b>Wawasan Bisnis:</b> Pelanggan instansi (B2B) hanya berjumlah 28 akun tetapi menghasilkan <b>44% omzet</b>. Program retensi seragam tahunan sangat disarankan.
+          <div style="margin-top:24px;padding:14px;background:var(--bg);border-radius:var(--r-m);font-size:.82rem;line-height:1.5;color:var(--ink-70)">
+            <b>Wawasan Bisnis:</b> Pelanggan instansi (B2B) hanya berjumlah 28 akun namun menyumbang <b>44% omzet</b>. Layanan prioritas dan program kontrak jahit korporat direkomendasikan untuk dipertahankan.
           </div>
         </div>
       </section>
 
       <!-- Panel Bawah: Pelanggan Baru Bulan November 2026 -->
       <section class="card" style="margin-top:24px">
-        <div class="card-head">
+        <div class="card-head" style="flex-wrap:wrap;gap:12px">
           <div>
             <h3>Daftar Pelanggan Baru Terdaftar (November 2026)</h3>
-            <p class="sub" style="margin:2px 0 0">18 pelanggan baru yang mulai melakukan pengukuran & pemesanan pertama</p>
+            <p class="sub" style="margin:2px 0 0">18 pelanggan baru yang mulai melakukan pengukuran & pemesanan perdana</p>
           </div>
-          <span class="chip chip--success">+18 Pelanggan Baru</span>
+          <div style="display:flex;gap:10px;align-items:center">
+            <input type="text" id="custSearch" placeholder="Cari pelanggan/kontak..." style="padding:8px 12px;border:1px solid var(--sand);border-radius:var(--r-m);font-size:.84rem;outline:none;background:var(--bg)" onkeyup="filterCustomerTable()">
+            <span class="chip chip--success">+18 Pelanggan Baru</span>
+          </div>
         </div>
 
         <div style="overflow-x:auto">
-          <table class="table">
+          <table class="table" id="customersTable">
             <thead>
               <tr>
                 <th>Tgl Bergabung</th>
@@ -341,49 +467,80 @@
                 <th>Kontak WhatsApp</th>
                 <th>Pesanan Perdana</th>
                 <th>Nilai Pesanan</th>
-                <th>Sumber Datang</th>
+                <th>Saluran Akuisisi</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>20 Nov 2026</td>
-                <td><b>Bpk. Dimas Pratama</b></td>
-                <td>0812-8821-xxxx</td>
+                <td>
+                  <div class="cust-cell">
+                    <span class="cust-avatar" style="background:var(--clay-100);color:var(--clay-800)">DP</span>
+                    <b>Bpk. Dimas Pratama</b>
+                  </div>
+                </td>
+                <td>0812-8821-4431</td>
                 <td>Kemeja Batik Katun Halus (2 pcs)</td>
                 <td><b>Rp950.000</b></td>
-                <td>Rekomendasi Teman</td>
+                <td><span class="chip chip--neutral" style="font-size:.74rem">Rekomendasi Teman</span></td>
                 <td><span class="chip chip--info">Pola & Potong</span></td>
               </tr>
               <tr>
                 <td>18 Nov 2026</td>
-                <td><b>Ibu Sarah Wulandari</b></td>
-                <td>0813-9012-xxxx</td>
+                <td>
+                  <div class="cust-cell">
+                    <span class="cust-avatar" style="background:rgba(73,94,205,.12);color:var(--indigo)">SW</span>
+                    <b>Ibu Sarah Wulandari</b>
+                  </div>
+                </td>
+                <td>0813-9012-7720</td>
                 <td>Gamis Brokat Modern (1 pcs)</td>
                 <td><b>Rp1.450.000</b></td>
-                <td>Instagram TailorHub</td>
+                <td><span class="chip chip--neutral" style="font-size:.74rem">Instagram TailorHub</span></td>
                 <td><span class="chip chip--warn">Proses Jahit</span></td>
               </tr>
               <tr>
                 <td>15 Nov 2026</td>
-                <td><b>Bpk. Irfan Maulana</b></td>
-                <td>0856-4311-xxxx</td>
+                <td>
+                  <div class="cust-cell">
+                    <span class="cust-avatar" style="background:rgba(30,126,52,.12);color:var(--green)">IM</span>
+                    <b>Bpk. Irfan Maulana</b>
+                  </div>
+                </td>
+                <td>0856-4311-9018</td>
                 <td>Celana Chino Custom (3 pcs)</td>
                 <td><b>Rp1.050.000</b></td>
-                <td>Kunjungan Langsung</td>
+                <td><span class="chip chip--neutral" style="font-size:.74rem">Kunjungan Langsung</span></td>
                 <td><span class="chip chip--success">Selesai Diambil</span></td>
               </tr>
               <tr>
                 <td>11 Nov 2026</td>
-                <td><b>CV Bintang Mandiri (Bpk. Yudi)</b></td>
-                <td>0821-7788-xxxx</td>
+                <td>
+                  <div class="cust-cell">
+                    <span class="cust-avatar" style="background:rgba(217,119,6,.12);color:#b45309">BM</span>
+                    <b>CV Bintang Mandiri (Bpk. Yudi)</b>
+                  </div>
+                </td>
+                <td>0821-7788-2301</td>
                 <td>Kemeja Seragam Lapangan (15 pcs)</td>
                 <td><b>Rp3.750.000</b></td>
-                <td>B2B Referral</td>
+                <td><span class="chip chip--neutral" style="font-size:.74rem">B2B Referral</span></td>
                 <td><span class="chip chip--success">Selesai Diambil</span></td>
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;font-size:.84rem;color:var(--ink-70)">
+          <span>Menampilkan <b>1–4</b> dari <b>18</b> pelanggan baru</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem" disabled>Sebelumnya</button>
+            <button class="btn btn--primary" style="padding:6px 12px;font-size:.82rem">1</button>
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem">2</button>
+            <button class="btn btn--outline" style="padding:6px 12px;font-size:.82rem">Berikutnya</button>
+          </div>
         </div>
       </section>
     </main>
@@ -391,5 +548,19 @@
 </div>
 
 <script src="../../assets/js/app.js"></script>
+<script>
+function filterCustomerTable() {
+  var input = document.getElementById('custSearch').value.toLowerCase();
+  var rows = document.querySelectorAll('#customersTable tbody tr');
+  rows.forEach(function(row) {
+    var text = row.innerText.toLowerCase();
+    if (text.indexOf(input) !== -1) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+</script>
 </body>
 </html>
