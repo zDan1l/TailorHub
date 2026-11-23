@@ -389,6 +389,17 @@
   min-width: 0;
 }
 
+.task-detail-col .card-head {
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 16px;
+}
+
+.task-detail-col .card-head h2 {
+  margin: 0;
+  font-size: 1.04rem;
+}
+
 /* ----- Kartu Acuan Foto / Model Pakaian ----- */
 .model-ref {
   display: grid;
