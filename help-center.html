@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pusat Bantuan — TailorHub</title>
+<meta name="description" content="Pusat Bantuan TailorHub: panduan memulai, pesanan, produksi, portal customer, pembayaran, dan akun.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 1 3.4 6.5L4 20l1.5-3.4A8 8 0 0 1 4 12Z"/></symbol>
+</defs></svg>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="TailorHub beranda">
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <a href="features.html">Fitur</a>
+      <a href="pricing.html">Harga</a>
+      <a href="about.html">Tentang</a>
+      <a href="help-center.html" class="is-on">Bantuan</a>
+      <a href="contact.html">Kontak</a>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn--ghost" href="portal/track.html">Lacak Pesanan</a>
+      <a class="btn btn--primary" href="auth/register.html">Coba Gratis</a>
+    </div>
+    <button class="burger" aria-label="Buka menu" aria-expanded="false"><svg width="26" height="26"><use href="#i-menu"/></svg></button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <div class="wrap">
+      <a href="features.html">Fitur</a>
+      <a href="pricing.html">Harga</a>
+      <a href="about.html">Tentang</a>
+      <a href="help-center.html">Bantuan</a>
+      <a href="contact.html">Kontak</a>
+      <a class="btn btn--ghost" href="portal/track.html">Lacak Pesanan</a>
+      <a class="btn btn--primary" href="auth/register.html">Coba Gratis</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Pusat Bantuan</span>
+      <h1 data-reveal>Bagaimana kami bisa membantu?</h1>
+      <div class="input-group" data-reveal style="max-width:560px;margin:22px auto 0">
+        <svg width="20" height="20"><use href="#i-search"/></svg>
+        <input class="input" id="helpSearch" type="search" placeholder="Cari pertanyaan… (mis. 'kode pesanan')" aria-label="Cari bantuan">
+      </div>
+    </div>
+  </section>
+
+  <!-- Kategori -->
+  <section class="section--tight" style="padding-top:10px">
+    <div class="wrap">
+      <div class="grid g-3">
+        <a class="card card--hover feat" href="#faq" data-reveal style="--i:0">
+          <span class="icon-box"><svg width="24" height="24"><use href="#i-order"/></svg></span>
+          <h3>Memulai &amp; Pesanan</h3>
+          <p>Daftar usaha, setup awal, dan cara input pesanan pertama.</p>
+        </a>
+        <a class="card card--hover feat" href="#faq" data-reveal style="--i:1">
+          <span class="icon-box"><svg width="24" height="24"><use href="#i-scissors"/></svg></span>
+          <h3>Produksi &amp; Status</h3>
+          <p>Papan kanban, update tahap, dan alert deadline.</p>
+        </a>
+        <a class="card card--hover feat" href="#faq" data-reveal style="--i:2">
+          <span class="icon-box"><svg width="24" height="24"><use href="#i-users"/></svg></span>
+          <h3>Portal Customer</h3>
+          <p>Cara customer melacak pesanan lewat kode.</p>
+        </a>
+        <a class="card card--hover feat" href="#faq" data-reveal style="--i:3">
+          <span class="icon-box"><svg width="24" height="24"><use href="#i-pay"/></svg></span>
+          <h3>Pembayaran</h3>
+          <p>Catat DP, pelunasan, dan status tagihan.</p>
+        </a>
+        <a class="card card--hover feat" href="#faq" data-reveal style="--i:4">
+          <span class="icon-box"><svg width="24" height="24"><use href="#i-users"/></svg></span>
+          <h3>Tim &amp; Akun</h3>
+          <p>Undang tim, atur peran, dan kelola akun.</p>
+        </a>
+        <a class="card card--hover feat" href="#faq" data-reveal style="--i:5">
+          <span class="icon-box"><svg width="24" height="24"><use href="#i-chat"/></svg></span>
+          <h3>Lainnya</h3>
+          <p>Pertanyaan langganan, keamanan, dan data.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--tight" id="faq">
+    <div class="wrap">
+      <div class="section-head section-head--center" data-reveal>
+        <span class="eyebrow">Pertanyaan populer</span>
+        <h2>Jawaban cepat</h2>
+      </div>
+      <div class="faq" id="faqList">
+        <details data-reveal><summary>Bagaimana cara mendaftarkan usaha baru? <span class="pm"></span></summary><div class="faq-body"><p>Klik "Coba Gratis", isi nama usaha, email, dan password, lalu verifikasi email. Setelah itu Anda akan dipandu setup awal (profil usaha &amp; logo) di bawah 10 menit.</p></div></details>
+        <details data-reveal><summary>Apa itu kode pesanan dan untuk apa? <span class="pm"></span></summary><div class="faq-body"><p>Setiap pesanan punya kode unik (mis. TH-2041). Customer memakai kode ini untuk melacak status pesanannya di portal publik, tanpa perlu login.</p></div></details>
+        <details data-reveal><summary>Bagaimana staff memperbarui status produksi? <span class="pm"></span></summary><div class="faq-body"><p>Buka pesanan di papan produksi, pindahkan kartu ke tahap berikutnya atau gunakan tombol update status. Sistem mencatat waktu otomatis dan mengabari customer.</p></div></details>
+        <details data-reveal><summary>Apakah customer harus punya akun untuk melacak? <span class="pm"></span></summary><div class="faq-body"><p>Tidak. Customer cukup memasukkan kode pesanan di portal. Akun customer bersifat opsional untuk melihat riwayat pesanan.</p></div></details>
+        <details data-reveal><summary>Bagaimana mencatat uang muka (DP)? <span class="pm"></span></summary><div class="faq-body"><p>Di detail pesanan, buka tab Pembayaran lalu catat pembayaran: pilih jenis (DP/pelunasan), jumlah, dan metode. Sisa tagihan dihitung otomatis.</p></div></details>
+        <details data-reveal><summary>Bisakah saya mengundang anggota tim? <span class="pm"></span></summary><div class="faq-body"><p>Bisa. Di menu Tim, undang anggota via email dan tetapkan peran Admin atau Staff. Pemilik dapat mengubah atau menghapus akses kapan saja.</p></div></details>
+        <details data-reveal><summary>Apakah data usaha saya aman? <span class="pm"></span></summary><div class="faq-body"><p>Ya. TailorHub multi-tenant dengan isolasi data penuh, autentikasi aman, dan koneksi terenkripsi (HTTPS).</p></div></details>
+      </div>
+      <p id="noResult" class="text-center muted" style="display:none;margin-top:24px">Tidak ada hasil untuk pencarian Anda. Coba kata kunci lain atau <a href="contact.html" style="color:var(--clay);font-weight:700">hubungi kami</a>.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="cta-box" data-reveal="zoom">
+        <h2>Belum menemukan jawaban?</h2>
+        <p>Tim kami siap membantu pertanyaan Anda secara langsung.</p>
+        <div class="cta-actions">
+          <a class="btn btn--primary" href="contact.html">Hubungi Dukungan <svg width="18" height="18"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="TailorHub beranda">
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect width="40" height="40" rx="12" fill="#C05424"/>
+            <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+          </svg>
+          <span>Tailor<em>Hub</em></span>
+        </a>
+        <p>Sistem manajemen pesanan jahit &amp; konveksi dalam satu papan terpusat.</p>
+      </div>
+      <div class="foot-col"><h4>Produk</h4><ul>
+        <li><a href="features.html">Fitur</a></li>
+        <li><a href="pricing.html">Harga</a></li>
+        <li><a href="portal/track.html">Lacak Pesanan</a></li>
+      </ul></div>
+      <div class="foot-col"><h4>Perusahaan</h4><ul>
+        <li><a href="about.html">Tentang</a></li>
+        <li><a href="contact.html">Kontak</a></li>
+        <li><a href="help-center.html">Bantuan</a></li>
+      </ul></div>
+      <div class="foot-col"><h4>Legal</h4><ul>
+        <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+        <li><a href="privacy.html">Kebijakan Privasi</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-bar">
+      <span>© 2026 TailorHub. Seluruh hak cipta dilindungi.</span>
+      <span>Dibuat untuk usaha jahit &amp; konveksi Indonesia.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/public.js"></script>
+<script>
+/* Filter FAQ sederhana */
+(function(){
+  var input=document.getElementById('helpSearch');
+  var items=Array.prototype.slice.call(document.querySelectorAll('#faqList details'));
+  var none=document.getElementById('noResult');
+  input.addEventListener('input',function(){
+    var q=this.value.trim().toLowerCase(), shown=0;
+    items.forEach(function(d){
+      var match=d.textContent.toLowerCase().indexOf(q)>-1;
+      d.style.display=match?'':'none';
+      if(match)shown++;
+    });
+    none.style.display=shown?'none':'block';
+  });
+})();
+</script>
+</body>
+</html>
