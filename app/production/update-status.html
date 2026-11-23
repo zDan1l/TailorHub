@@ -340,6 +340,9 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 (function () {
   'use strict';
@@ -494,12 +497,24 @@
   progressNote.addEventListener('input', updatePreview);
   notifToggle.addEventListener('change', updatePreview);
 
-  document.getElementById('updateForm').addEventListener('submit', function (e) {
+  document.getElementById('updateForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     var code = orderSelect.value;
     var targetKey = getSelectedStageKey();
     var stageLabel = STAGES[targetKey].label;
     var nowStr = formatNow();
+
+    try {
+      if (window.TH) {
+        await window.TH.put('/api/orders/' + encodeURIComponent(code), {
+          production_status: stageLabel,
+          note: progressNote.value.trim() || ('Diperbarui ke tahap ' + stageLabel + ' oleh ' + staffSelect.value)
+        });
+      }
+    } catch (err) {
+      alert('Gagal menyimpan status ke database: ' + err.message);
+      return;
+    }
 
     ORDERS[code].stage = targetKey;
     ORDERS[code].staff = staffSelect.value;
@@ -517,13 +532,47 @@
   });
 
   var params = new URLSearchParams(window.location.search);
-  var paramCode = params.get('code');
+  var paramCode = params.get('code') || params.get('id');
   if (paramCode && ORDERS[paramCode]) {
     orderSelect.value = paramCode;
   }
 
   document.getElementById('timestampPreview').textContent = formatNow();
   onOrderChange();
+
+  // Sinkronisasi daftar pesanan dari D1
+  if (window.TH) {
+    var LABEL_TO_KEY = {
+      'Antrean': 'antrean', 'Pemotongan': 'potong', 'Penjahitan': 'jahit',
+      'Finishing': 'finishing', 'QC': 'qc', 'Selesai': 'selesai', 'Diambil': 'diambil'
+    };
+    window.TH.get('/api/orders?limit=200').then(function (res) {
+      var list = (res && res.data) || [];
+      list.forEach(function (o) {
+        var stKey = LABEL_TO_KEY[o.production_status] || 'antrean';
+        if (!ORDERS[o.code]) {
+          ORDERS[o.code] = {
+            item: (o.type || 'Pesanan') + ' ×' + (o.qty || 1),
+            customer: o.customer || '-',
+            stage: stKey,
+            staff: o.assignee || 'Andi S.',
+            pay: o.payment_status || 'Belum Bayar'
+          };
+          var opt = document.createElement('option');
+          opt.value = o.code;
+          opt.textContent = o.code + ' — ' + ORDERS[o.code].item + ' (' + ORDERS[o.code].customer + ')';
+          orderSelect.appendChild(opt);
+        } else {
+          ORDERS[o.code].stage = stKey;
+          ORDERS[o.code].pay = o.payment_status || ORDERS[o.code].pay;
+        }
+        if (paramCode && (String(o.id) === String(paramCode) || o.code === paramCode)) {
+          orderSelect.value = o.code;
+        }
+      });
+      onOrderChange();
+    }).catch(function () {});
+  }
 })();
 </script>
 </body>

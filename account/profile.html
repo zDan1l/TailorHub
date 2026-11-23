@@ -141,26 +141,26 @@
         
         <!-- Left: Avatar Card -->
         <div class="card" style="text-align:center;">
-          <div class="avatar avatar--lg" style="width:84px; height:84px; font-size:1.8rem; margin:0 auto 16px;">
-            SR
+          <div class="avatar avatar--lg" id="profAvatar" style="width:84px; height:84px; font-size:1.8rem; margin:0 auto 16px;">
+            PM
           </div>
-          <h3 style="margin-bottom:4px;">Siti Rahma</h3>
-          <p style="font-size:.85rem; color:var(--ink-45); margin-bottom:12px;">Pemilik · Melati Tailor &amp; Mode</p>
-          <span class="chip chip--done"><span class="d"></span>Akun Aktif</span>
+          <h3 id="profCardName" style="margin-bottom:4px;">Pak Mardi</h3>
+          <p id="profCardMeta" style="font-size:.85rem; color:var(--ink-45); margin-bottom:12px;">Pemilik · Jahit Lestari</p>
+          <span class="chip chip--done" id="profStatusChip"><span class="d"></span>Akun Aktif</span>
 
           <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--sand); display:grid; gap:8px;">
-            <button type="button" class="btn btn--light btn--sm">Unggah Foto Baru</button>
-            <button type="button" class="btn btn--ghost btn--sm" style="color:var(--red); border-color:transparent;">Hapus Foto</button>
+            <button type="button" class="btn btn--light btn--sm" id="btnLogoutAccount" style="color:var(--red);">Keluar dari Akun (Logout)</button>
           </div>
         </div>
 
         <!-- Right: Profile Form -->
         <div class="card">
-          <form onsubmit="alert('Perubahan profil berhasil disimpan!'); return false;">
+          <div id="profMsg" class="alert alert--info" style="display:none;margin-bottom:16px;font-size:.85rem;"></div>
+          <form id="profileForm">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
               <div class="field">
                 <label for="prof_name">Nama Lengkap <span class="req">*</span></label>
-                <input class="input" id="prof_name" type="text" value="Siti Rahma" required>
+                <input class="input" id="prof_name" type="text" value="Pak Mardi" required>
               </div>
 
               <div class="field">
@@ -173,18 +173,18 @@
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
               <div class="field">
                 <label for="prof_email">Alamat Email Login <span class="req">*</span></label>
-                <input class="input" id="prof_email" type="email" value="siti.rahma@melatitailor.com" required>
+                <input class="input" id="prof_email" type="email" value="owner@jahitlestari.id" required>
               </div>
 
               <div class="field">
-                <label for="prof_phone">Nomor WhatsApp Pribadi <span class="req">*</span></label>
-                <input class="input" id="prof_phone" type="tel" value="081234567890" required>
+                <label for="prof_phone">Nomor WhatsApp Usaha / Kontak <span class="req">*</span></label>
+                <input class="input" id="prof_phone" type="tel" value="0812-1111-2222" required>
               </div>
             </div>
 
             <div class="field">
-              <label for="prof_bio">Catatan Pribadi / Spesialisasi</label>
-              <textarea class="textarea" id="prof_bio" placeholder="Tuliskan catatan singkat peran Anda di workshop…">Desainer &amp; penjahit utama spesialis kebaya modern dan busana pengantin.</textarea>
+              <label for="prof_bio">Alamat / Catatan Usaha</label>
+              <textarea class="textarea" id="prof_bio" placeholder="Tuliskan alamat atau catatan singkat peran Anda di workshop…">Jakarta</textarea>
             </div>
 
             <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px; padding-top:18px; border-top:1px solid var(--sand);">
@@ -202,5 +202,63 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(async function () {
+  function initials(name) {
+    var parts = String(name || "").trim().split(/\s+/);
+    if (!parts[0]) return "TH";
+    return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
+  }
+  try {
+    var d = await TH.get("/api/account");
+    if (d && d.user) {
+      var uName = d.user.nama || d.user.name || "Pengguna";
+      var tName = (d.tenant && (d.tenant.nama || d.tenant.name)) || "TailorHub";
+      var roleLabel = d.user.role === "pemilik" ? "Pemilik Usaha" : d.user.role === "admin" ? "Admin Usaha" : "Staff Produksi";
+      document.getElementById("prof_name").value = uName;
+      document.getElementById("prof_role").value = roleLabel;
+      document.getElementById("prof_email").value = d.user.email || "";
+      if (d.tenant && d.tenant.phone) document.getElementById("prof_phone").value = d.tenant.phone;
+      if (d.tenant && d.tenant.address) document.getElementById("prof_bio").value = d.tenant.address;
+      document.getElementById("profAvatar").textContent = initials(uName);
+      document.getElementById("profCardName").textContent = uName;
+      document.getElementById("profCardMeta").textContent = roleLabel + " · " + tName;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  document.getElementById("profileForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var msg = document.getElementById("profMsg");
+    msg.style.display = "none";
+    try {
+      var res = await TH.put("/api/account", {
+        name: document.getElementById("prof_name").value.trim(),
+        email: document.getElementById("prof_email").value.trim(),
+        phone: document.getElementById("prof_phone").value.trim(),
+        address: document.getElementById("prof_bio").value.trim()
+      });
+      if (res && res.user) {
+        var uName = res.user.nama || res.user.name;
+        document.getElementById("profCardName").textContent = uName;
+        document.getElementById("profAvatar").textContent = initials(uName);
+      }
+      msg.textContent = "Perubahan profil berhasil disimpan ke database!";
+      msg.style.display = "flex";
+    } catch (err) {
+      alert("Gagal menyimpan profil: " + err.message);
+    }
+  });
+
+  document.getElementById("btnLogoutAccount").addEventListener("click", async function () {
+    await TH.logout();
+    location.href = "/auth/login.html";
+  });
+})();
+</script>
 </body>
 </html>

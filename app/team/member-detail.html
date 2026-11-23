@@ -286,6 +286,56 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id") || "3";
+  let currentMember = null;
+
+  try {
+    const { member, orders } = await TH.get(`/api/team/${encodeURIComponent(id)}`);
+    if (member) {
+      currentMember = member;
+      const crumbB = document.querySelector(".crumb b");
+      if (crumbB) crumbB.textContent = `Detail Staf: ${member.name}`;
+      const avatar = document.querySelector(".member-avatar-lg");
+      if (avatar) avatar.textContent = TH.initials(member.name);
+      const nameH3 = document.querySelector(".member-profile-card h3");
+      if (nameH3) nameH3.textContent = member.name;
+      const roleP = document.querySelector(".member-profile-card p");
+      const roleLabels = { pemilik: "Pemilik Usaha", owner: "Pemilik Usaha", admin: "Admin Kasir & CS", staff: "Penjahit / Operator Produksi" };
+      if (roleP) roleP.textContent = `${roleLabels[member.role] || member.role} · Jahit Lestari`;
+      const assigned = orders || [];
+      const doneCount = assigned.filter(o => o.production_status === "Selesai" || o.production_status === "Diambil").length;
+      const activeCount = assigned.length - doneCount;
+      const statItems = document.querySelectorAll(".profile-stat-item b");
+      if (statItems[0]) statItems[0].textContent = `${doneCount} Pesanan`;
+      if (statItems[1]) statItems[1].textContent = `${activeCount} Pesanan`;
+    }
+  } catch (e) {
+    console.warn("Load member detail error:", e);
+  }
+
+  const form = document.querySelector("main form");
+  if (form) {
+    form.removeAttribute("onsubmit");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const roleSel = form.querySelector("select");
+      const raw = (roleSel?.value || "").toLowerCase();
+      const role = raw.includes("pemilik") ? "pemilik" : (raw.includes("admin") ? "admin" : "staff");
+      try {
+        await TH.put(`/api/team/${encodeURIComponent(id)}`, { name: currentMember?.name, role });
+        alert("Hak akses anggota berhasil diperbarui!");
+      } catch (err) {
+        alert(err.message || "Gagal memperbarui hak akses");
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>

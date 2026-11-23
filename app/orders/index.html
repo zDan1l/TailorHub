@@ -641,6 +641,9 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 (function() {
   'use strict';
@@ -664,6 +667,96 @@
     2: '6–10'
   };
   var currentStatus = 'all';
+
+  function initials(name) {
+    var parts = String(name || '').trim().split(/\s+/);
+    if (!parts[0]) return 'PL';
+    return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
+  }
+
+  function mapStatusBucket(st) {
+    if (st === 'Antrean') return 'queue';
+    if (st === 'QC' || st === 'Selesai' || st === 'Diambil') return 'done';
+    return 'production';
+  }
+
+  function mapPayBucket(ps) {
+    if (ps === 'Lunas') return 'paid';
+    if (ps === 'DP') return 'dp';
+    return 'unpaid';
+  }
+
+  async function loadOrdersFromD1() {
+    try {
+      var res = await TH.get('/api/orders?limit=200');
+      var list = (res && res.data) || [];
+      if (!list.length) return;
+
+      // Update KPI tiles & tab badges
+      var tiles = document.querySelectorAll('.tile b');
+      var activeCount = list.filter(function (o) { return o.production_status !== 'Selesai' && o.production_status !== 'Diambil'; }).length;
+      var sewCount = list.filter(function (o) { return o.production_status === 'Penjahitan'; }).length;
+      var qCount = list.filter(function (o) { return mapStatusBucket(o.production_status) === 'queue'; }).length;
+      var pCount = list.filter(function (o) { return mapStatusBucket(o.production_status) === 'production'; }).length;
+      var dCount = list.filter(function (o) { return mapStatusBucket(o.production_status) === 'done'; }).length;
+      if (tiles[0]) tiles[0].textContent = activeCount;
+      if (tiles[1]) tiles[1].textContent = sewCount;
+
+      var tabBadges = document.querySelectorAll('#orderStatusTabs .badge-count');
+      if (tabBadges[0]) tabBadges[0].textContent = list.length;
+      if (tabBadges[1]) tabBadges[1].textContent = qCount;
+      if (tabBadges[2]) tabBadges[2].textContent = pCount;
+      if (tabBadges[3]) tabBadges[3].textContent = dCount;
+
+      // Rebuild rows from D1
+      getRows().forEach(function (r) { r.remove(); });
+      list.forEach(function (o, idx) {
+        var pageNum = Math.floor(idx / 5) + 1;
+        var stBucket = mapStatusBucket(o.production_status);
+        var payBucket = mapPayBucket(o.payment_status);
+        var custName = o.customer || 'Pelanggan';
+        var tr = document.createElement('tr');
+        tr.setAttribute('data-page', String(pageNum));
+        tr.setAttribute('data-status', stBucket);
+        tr.setAttribute('data-payment', payBucket);
+        tr.setAttribute('data-price', String(o.price || 0));
+        tr.setAttribute('data-deadline', o.deadline || '');
+        tr.setAttribute('data-date', o.entry_date || '');
+        tr.innerHTML =
+          '<td><input type="checkbox" class="order-cb" data-id="' + TH.esc(o.id) + '"></td>' +
+          '<td><a href="detail.html?id=' + encodeURIComponent(o.id) + '" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">' + TH.esc(o.code) + '</a>' +
+            '<div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">' + TH.esc(o.entry_date || '-') + '</div></td>' +
+          '<td><div style="display:flex;align-items:center;gap:9px;"><span class="avatar avatar--sm">' + TH.esc(initials(custName)) + '</span>' +
+            '<div><a href="../customers/detail.html?id=' + encodeURIComponent(o.customer_id || 1) + '" style="font-weight:700;color:var(--ink);">' + TH.esc(custName) + '</a>' +
+            '<div style="font-size:.74rem;color:var(--ink-45);">' + TH.esc(o.customer_phone || '') + '</div></div></div></td>' +
+          '<td><b>' + TH.esc(o.type) + ' ×' + TH.esc(o.qty) + '</b><div style="font-size:.78rem;color:var(--ink-45);">' + TH.esc(o.detail || '-') + (o.assignee ? ' · ' + TH.esc(o.assignee) : '') + '</div></td>' +
+          '<td><span class="chip ' + TH.statusChip(o.production_status) + '"><span class="d"></span> ' + TH.esc(o.production_status) + '</span></td>' +
+          '<td><span class="chip ' + TH.statusChip(o.payment_status) + '"><span class="d"></span> ' + TH.esc(o.payment_status) + '</span></td>' +
+          '<td><span style="font-weight:700;color:var(--ink);">' + TH.esc(o.deadline || '—') + '</span></td>' +
+          '<td class="num"><b>' + TH.rupiah(o.price) + '</b></td>' +
+          '<td style="text-align:right;white-space:nowrap;">' +
+            '<a href="detail.html?id=' + encodeURIComponent(o.id) + '" class="btn btn--ghost btn--sm">Detail</a> ' +
+            '<a href="print.html?id=' + encodeURIComponent(o.id) + '" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a> ' +
+            '<a href="edit.html?id=' + encodeURIComponent(o.id) + '" class="btn btn--ghost btn--sm" title="Edit"><svg width="14" height="14"><use href="#i-edit"/></svg></a> ' +
+            '<a href="delete-modal.html?id=' + encodeURIComponent(o.id) + '" class="btn btn--ghost btn--sm" style="color:var(--red);" title="Hapus"><svg width="14" height="14"><use href="#i-trash"/></svg></a>' +
+          '</td>';
+        tbody.insertBefore(tr, emptyRow);
+      });
+
+      var totalPages = Math.max(1, Math.ceil(list.length / 5));
+      availablePages = [];
+      PAGE_RANGES = {};
+      for (var p = 1; p <= totalPages; p++) {
+        availablePages.push(p);
+        var s = (p - 1) * 5 + 1;
+        var e = Math.min(p * 5, list.length);
+        PAGE_RANGES[p] = s + '–' + e;
+      }
+      renderPage(1);
+    } catch (err) {
+      console.error('Gagal memuat daftar pesanan dari D1:', err);
+    }
+  }
 
   function getRows() {
     return Array.from(tbody.querySelectorAll('tr:not(#noOrderRow)'));
@@ -825,8 +918,9 @@
     });
   }
 
-  // Inisialisasi awal ke halaman 1
+  // Inisialisasi awal ke halaman 1 & muat dari D1
   renderPage(1);
+  loadOrdersFromD1();
 })();
 </script>
 </body>

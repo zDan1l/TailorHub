@@ -139,7 +139,8 @@
   </div>
 </footer>
 
-<script src="../assets/js/portal.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/portal.js"></script>
 <script>
 (function () {
   'use strict';
@@ -175,13 +176,14 @@
     input.classList.remove('input--err');
   }
 
-  function goToResult(rawCode) {
-    var order = portal.findOrder(rawCode);
+  async function goToResult(rawCode) {
+    var slug = new URLSearchParams(window.location.search).get('slug') || 'jahit-lestari';
+    var order = await portal.fetchOrderFromApi(rawCode, slug);
     if (!order) {
       showError(rawCode);
       return;
     }
-    window.location.href = 'track-result.html?code=' + encodeURIComponent(order.code) + '&from=track';
+    window.location.href = 'track-result.html?slug=' + encodeURIComponent(slug) + '&code=' + encodeURIComponent(order.code) + '&from=track';
   }
 
   // Tangani redirect error dari track-result.html jika ada (?error=notfound&code=...)

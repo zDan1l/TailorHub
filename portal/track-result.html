@@ -156,9 +156,10 @@
   </div>
 </footer>
 
-<script src="../assets/js/portal.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/portal.js"></script>
 <script>
-(function () {
+(async function () {
   'use strict';
 
   var portal = window.TailorPortal;
@@ -209,9 +210,10 @@
   }
 
   var rawCode = params.get('code');
+  var slug = params.get('slug') || 'jahit-lestari';
   var hasQueryCode = rawCode !== null && String(rawCode).trim() !== '';
   var lookupCode = hasQueryCode ? rawCode : 'TH-2041';
-  var order = portal.findOrder(lookupCode);
+  var order = await portal.fetchOrderFromApi(lookupCode, slug);
 
   var notFoundView = document.getElementById('notFoundView');
   var resultView = document.getElementById('resultView');

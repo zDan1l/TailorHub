@@ -339,11 +339,28 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
 <script>
 // ==========================================
 // 1. TIMELINE SVG GENERATOR & STEP CONTROLLER
 // ==========================================
 var currentStep = 2;
+var activeTenant = null;
+
+(async function initOnboarding() {
+  try {
+    var me = await TH.get('/api/account');
+    if (me && me.tenant) {
+      activeTenant = me.tenant;
+      if (me.tenant.phone) document.getElementById('tenant_phone').value = me.tenant.phone;
+      if (me.tenant.address) document.getElementById('tenant_address').value = me.tenant.address;
+      if (me.tenant.nama) document.getElementById('summary_name').innerText = me.tenant.nama;
+      if (me.tenant.slug) {
+        document.getElementById('portal_url').innerText = location.origin + '/portal/track.html?slug=' + me.tenant.slug;
+      }
+    }
+  } catch (e) {}
+})();
 
 function renderTimeline(step) {
   var svg = document.getElementById('wizard_svg');
@@ -451,10 +468,18 @@ function goToStep(step) {
     title.innerText = 'Setup Usaha Berhasil!';
     subtitle.innerText = 'Workshop Anda kini sudah siap di sistem TailorHub untuk menerima pesanan pertama';
     
-    // Update summary in step 4
+    // Simpan profil workshop ke D1
+    var phoneVal = document.getElementById('tenant_phone').value.trim();
+    var addrVal = document.getElementById('tenant_address').value.trim();
     var cat = document.getElementById('tenant_category').value;
-    if (cat) {
-      document.getElementById('summary_name').innerText = 'Rumah Jahit Anda (' + cat + ')';
+    var tName = activeTenant && activeTenant.nama ? activeTenant.nama : 'Rumah Jahit Anda';
+    document.getElementById('summary_name').innerText = tName + (cat ? ' (' + cat + ')' : '');
+
+    TH.put('/api/account', { phone: phoneVal, address: addrVal }).catch(function () {});
+    var invEmail = document.getElementById('invite_email').value.trim();
+    var invRole = document.getElementById('invite_role').value;
+    if (invEmail) {
+      TH.post('/api/team', { name: invEmail.split('@')[0], email: invEmail, role: invRole, status: 'diundang' }).catch(function () {});
     }
   }
 

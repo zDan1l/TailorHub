@@ -496,6 +496,9 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 function switchTab(e, tabId) {
   e.preventDefault();
@@ -507,6 +510,86 @@ function switchTab(e, tabId) {
   document.getElementById('tabHistory').style.display = 'none';
   document.getElementById(tabId).style.display = 'block';
 }
+
+(async function () {
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id') || params.get('code') || 'TH-2033';
+  try {
+    var d = await TH.get('/api/orders/' + encodeURIComponent(id));
+    if (!d || !d.order) return;
+    var o = d.order;
+    document.title = 'Detail Pesanan ' + o.code + ' — TailorHub';
+    var crumbB = document.querySelector('.crumb b');
+    if (crumbB) crumbB.textContent = o.code;
+    var h1 = document.querySelector('.page-head h1');
+    if (h1) h1.textContent = o.code;
+
+    var headChips = document.querySelectorAll('.page-head .chip');
+    if (headChips[0]) {
+      headChips[0].className = 'chip ' + TH.statusChip(o.production_status);
+      headChips[0].innerHTML = '<span class="d"></span> Tahap: ' + TH.esc(o.production_status);
+    }
+    if (headChips[1]) {
+      headChips[1].className = 'chip ' + TH.statusChip(o.payment_status);
+      headChips[1].innerHTML = '<span class="d"></span> ' + TH.esc(o.payment_status);
+    }
+    var subP = document.querySelector('.page-head .sub');
+    if (subP) {
+      subP.innerHTML = 'Dibuat pada ' + TH.esc(o.entry_date || o.created_at || '-') + ' · Target Selesai: <b>' + TH.esc(o.deadline || '—') + '</b>';
+    }
+
+    // Update tombol aksi header dengan ?id=
+    var headBtns = document.querySelectorAll('.page-head a.btn');
+    if (headBtns[0]) headBtns[0].href = 'print.html?id=' + encodeURIComponent(o.id);
+    if (headBtns[1]) headBtns[1].href = 'edit.html?id=' + encodeURIComponent(o.id);
+    if (headBtns[2]) headBtns[2].href = '../production/update-status.html?id=' + encodeURIComponent(o.id);
+    if (headBtns[3]) headBtns[3].href = 'delete-modal.html?id=' + encodeURIComponent(o.id);
+
+    // Tab 1: Detail
+    var tabDetailH3 = document.querySelector('#tabDetail h3');
+    if (tabDetailH3) tabDetailH3.textContent = (o.type || 'Pesanan') + ' ×' + (o.qty || 1);
+    var tabDetailP = document.querySelector('#tabDetail p');
+    if (tabDetailP && (o.notes || o.detail)) tabDetailP.textContent = o.notes || o.detail;
+
+    // Tab 3: Pembayaran
+    var payTotals = document.querySelectorAll('#tabPayment b[style*="font-size:1.3rem"]');
+    if (payTotals[0]) payTotals[0].textContent = TH.rupiah(o.price);
+    if (payTotals[1]) payTotals[1].textContent = TH.rupiah(d.sisa);
+    var payTbody = document.querySelector('#tabPayment tbody');
+    if (payTbody && Array.isArray(d.payments) && d.payments.length) {
+      payTbody.innerHTML = d.payments.map(function (p) {
+        return '<tr><td>' + TH.esc(p.paid_at || p.created_at || '-') + '</td>' +
+          '<td>' + TH.esc(p.type === 'pelunasan' ? 'Pelunasan' : 'Uang Muka (DP)') + '</td>' +
+          '<td>' + TH.esc((p.method || 'tunai').toUpperCase()) + '</td>' +
+          '<td class="num"><b>' + TH.rupiah(p.amount) + '</b></td>' +
+          '<td><span class="chip chip--paid"><span class="d"></span> Diterima</span></td></tr>';
+      }).join('');
+    }
+    var recordPayLink = document.querySelector('#tabPayment a.btn--primary');
+    if (recordPayLink) recordPayLink.href = '../payments/record.html?order_id=' + encodeURIComponent(o.id);
+
+    // Tab 4: Riwayat
+    var histTbody = document.querySelector('#tabHistory tbody');
+    if (histTbody && Array.isArray(d.history) && d.history.length) {
+      histTbody.innerHTML = d.history.slice().reverse().map(function (h) {
+        return '<tr><td><span style="font-size:.8rem;color:var(--ink-45);">' + TH.esc(h.created_at || '-') + '</span></td>' +
+          '<td><b>Sistem / Tim</b></td>' +
+          '<td>Status: <span class="chip ' + TH.statusChip(h.status) + '" style="font-size:.65rem;">' + TH.esc(h.status) + '</span> ' + TH.esc(h.note || '') + '</td></tr>';
+      }).join('');
+    }
+
+    // Sidebar Customer & Self-Tracking
+    var custLink = document.querySelector('.card a[href*="customers/detail.html"]');
+    if (custLink) {
+      custLink.textContent = o.customer || 'Pelanggan';
+      if (o.customer_id) custLink.href = '../customers/detail.html?id=' + encodeURIComponent(o.customer_id);
+    }
+    var trackCodeEl = document.querySelector('.card[style*="var(--ink-900)"] b');
+    if (trackCodeEl) trackCodeEl.textContent = o.code;
+  } catch (err) {
+    console.error('Gagal memuat detail pesanan:', err);
+  }
+})();
 </script>
 
 </body>

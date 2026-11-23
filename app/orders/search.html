@@ -274,5 +274,85 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  var form = document.querySelector('.card form');
+  var tbody = document.querySelector('.table tbody');
+  var countEl = form ? form.querySelector('span b') : null;
+  var inputs = form ? form.querySelectorAll('input') : [];
+  var selects = form ? form.querySelectorAll('select') : [];
+
+  var statusMap = {
+    queue: 'Antrean',
+    cut: 'Pemotongan',
+    sew: 'Penjahitan',
+    finish: 'Finishing',
+    qc: 'QC',
+    done: 'Selesai'
+  };
+  var payMap = {
+    unpaid: 'Belum Bayar',
+    dp: 'DP',
+    paid: 'Lunas'
+  };
+
+  // Bersihkan default filter statis agar langsung menampilkan hasil nyata dari D1
+  if (inputs[0]) inputs[0].value = new URLSearchParams(location.search).get('q') || '';
+  if (selects[0]) selects[0].value = '';
+  if (selects[1]) selects[1].value = '';
+  if (selects[2]) selects[2].value = '';
+
+  async function runFilter() {
+    try {
+      var q = inputs[0] ? inputs[0].value.trim() : '';
+      var stKey = selects[0] ? selects[0].value : '';
+      var payKey = selects[1] ? selects[1].value : '';
+      var minPrice = inputs[3] && inputs[3].value ? Number(inputs[3].value) : 0;
+      var maxPrice = inputs[4] && inputs[4].value ? Number(inputs[4].value) : 0;
+
+      var qs = [];
+      if (q) qs.push('q=' + encodeURIComponent(q));
+      if (stKey && statusMap[stKey]) qs.push('status=' + encodeURIComponent(statusMap[stKey]));
+      if (payKey && payMap[payKey]) qs.push('payment=' + encodeURIComponent(payMap[payKey]));
+
+      var res = await TH.get('/api/orders' + (qs.length ? '?' + qs.join('&') : ''));
+      var list = ((res && res.data) || []).filter(function (o) {
+        if (minPrice && (o.price || 0) < minPrice) return false;
+        if (maxPrice && (o.price || 0) > maxPrice) return false;
+        return true;
+      });
+
+      if (countEl) countEl.textContent = list.length;
+      if (tbody) {
+        tbody.innerHTML = list.map(function (o) {
+          return '<tr>' +
+            '<td><a href="detail.html?id=' + encodeURIComponent(o.id) + '" style="font-weight:800;color:var(--clay);">' + TH.esc(o.code) + '</a><div style="font-size:.74rem;color:var(--ink-45);">' + TH.esc(o.entry_date || '-') + '</div></td>' +
+            '<td><b>' + TH.esc(o.customer || '-') + '</b><div style="font-size:.74rem;color:var(--ink-45);">' + TH.esc(o.customer_phone || '') + '</div></td>' +
+            '<td><b>' + TH.esc(o.type) + ' ×' + TH.esc(o.qty) + '</b><div style="font-size:.78rem;color:var(--clay);font-weight:600;">' + TH.esc(o.detail || '-') + '</div></td>' +
+            '<td><span class="chip ' + TH.statusChip(o.production_status) + '"><span class="d"></span> ' + TH.esc(o.production_status) + '</span></td>' +
+            '<td><span class="chip ' + TH.statusChip(o.payment_status) + '"><span class="d"></span> ' + TH.esc(o.payment_status) + '</span></td>' +
+            '<td><b>' + TH.esc(o.deadline || '—') + '</b></td>' +
+            '<td class="num"><b>' + TH.rupiah(o.price) + '</b></td>' +
+            '<td style="text-align:right;"><a href="detail.html?id=' + encodeURIComponent(o.id) + '" class="btn btn--ghost btn--sm">Detail</a></td>' +
+          '</tr>';
+        }).join('');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      runFilter();
+    });
+  }
+  runFilter();
+})();
+</script>
 </body>
 </html>

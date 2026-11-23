@@ -176,6 +176,52 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("order_id") || params.get("id") || "TH-2045";
+  try {
+    const { order, paid, sisa } = await TH.get(`/api/orders/${encodeURIComponent(id)}`);
+    if (!order) return;
+    const sub = document.querySelector(".page-head .sub");
+    if (sub) sub.textContent = `Rincian tagihan pesanan ${order.code}`;
+    const invMeta = document.querySelector(".inv-meta");
+    if (invMeta) {
+      invMeta.innerHTML = `<b>INVOICE #INV-${TH.esc(order.code.replace("TH-", ""))}</b>
+        <div>Tanggal: ${TH.esc(order.entry_date || "2026-11-23")}</div>
+        <div>Jatuh tempo: ${TH.esc(order.deadline || "—")}</div>`;
+    }
+    const parties = document.querySelectorAll(".inv-parties p");
+    if (parties[1]) {
+      parties[1].innerHTML = `<b>${TH.esc(order.customer || "Pelanggan")}</b><br>Telp: ${TH.esc(order.customer_phone || "—")}`;
+    }
+    const tbody = document.querySelector(".inv-table tbody");
+    const unitPrice = Math.round(Number(order.price || 0) / Math.max(1, Number(order.qty || 1)));
+    if (tbody) {
+      tbody.innerHTML = `<tr><td><b>${TH.esc(order.type)}</b><br><span style="font-size:.82rem;color:var(--ink-45)">${TH.esc(order.detail || order.notes || "Jahitan kustom")}</span></td><td>${order.qty}</td><td class="num">${TH.rupiah(unitPrice)}</td><td class="num"><b>${TH.rupiah(order.price)}</b></td></tr>`;
+    }
+    const rows = document.querySelectorAll(".inv-total .row");
+    if (rows[0]) rows[0].querySelectorAll("span")[1].textContent = TH.rupiah(order.price);
+    if (rows[2]) rows[2].querySelectorAll("span")[1].textContent = TH.rupiah(order.price);
+    const cls = TH.statusChip(order.payment_status);
+    const lbl = order.payment_status || "Belum Bayar";
+    const chip = document.querySelector(".inv-status .chip");
+    if (chip) { chip.className = `chip ${cls}`; chip.textContent = lbl; }
+    const totalPaid = Number(paid || 0);
+    const totalSisa = Number(sisa != null ? sisa : Math.max(0, Number(order.price || 0) - totalPaid));
+    const statusRight = document.querySelectorAll(".inv-status > div")[1];
+    if (statusRight) {
+      statusRight.innerHTML = `Terbayar: <b style="color:var(--ink)">${TH.rupiah(totalPaid)}</b> · Sisa: <b style="color:var(--red)">${TH.rupiah(totalSisa)}</b>`;
+    }
+    const recBtn = document.querySelector('.inv-actions a[href*="record.html"]');
+    if (recBtn) recBtn.href = `record.html?order_id=${order.id}`;
+  } catch (e) {
+    console.warn("Load invoice error:", e);
+  }
+});
+</script>
 </body>
 </html>

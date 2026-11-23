@@ -671,8 +671,47 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
+(async function () {
+  try {
+    var d = await TH.get("/api/reports/orders");
+    if (d && d.kpi) {
+      var kpiEls = document.querySelectorAll(".kpis .kpi b");
+      if (kpiEls[0]) kpiEls[0].textContent = d.kpi.totalPesanan;
+      if (kpiEls[1]) kpiEls[1].textContent = d.kpi.pesananAktif;
+      if (kpiEls[2]) kpiEls[2].textContent = d.kpi.pesananSelesai;
+      if (kpiEls[3]) kpiEls[3].textContent = d.kpi.terlambat;
+    }
+    if (d && Array.isArray(d.orders) && d.orders.length) {
+      var tbody = document.querySelector("#ordersTable tbody");
+      if (tbody) {
+        tbody.innerHTML = d.orders.map(function (o) {
+          var isDone = o.production_status === "Selesai" || o.production_status === "Diambil";
+          var isLate = !isDone && o.deadline && new Date(o.deadline) < new Date();
+          var rType = isDone ? "done" : (isLate ? "urgent active" : "active");
+          return (
+            "<tr data-type='" + rType + "'>" +
+              "<td><b>" + TH.esc(o.code) + "</b></td>" +
+              "<td>" + TH.esc(o.entry_date || "-") + "</td>" +
+              "<td>" + TH.esc(o.customer || "-") + "</td>" +
+              "<td>" + TH.esc(o.type) + " (" + TH.esc(o.qty) + " pcs)</td>" +
+              "<td><span class='chip " + TH.statusChip(o.production_status) + "'>" + TH.esc(o.production_status) + "</span></td>" +
+              "<td>" + TH.esc(o.assignee || "-") + "</td>" +
+              "<td>" + TH.esc(o.deadline || "—") + "</td>" +
+              "<td><a href='/app/orders/detail.html?id=" + encodeURIComponent(o.id) + "' class='link-more' style='font-size:.82rem'>Rincian</a></td>" +
+            "</tr>"
+          );
+        }).join("");
+      }
+    }
+  } catch (e) {
+    console.error("Gagal memuat laporan pesanan:", e);
+  }
+})();
+
 /* Hover Tooltip untuk ordersChart */
 (function() {
   var chart = document.getElementById('ordersChart');

@@ -200,5 +200,67 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script>
+(async function () {
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id') || params.get('code') || 'TH-2033';
+  try {
+    var d = await TH.get('/api/orders/' + encodeURIComponent(id));
+    if (!d || !d.order) return;
+    var o = d.order;
+    document.title = 'Surat Kerja & Nota Pesanan ' + o.code + ' — TailorHub';
+    var backBtn = document.querySelector('.no-print-bar a');
+    if (backBtn) backBtn.href = 'detail.html?id=' + encodeURIComponent(o.id);
+
+    var headRight = document.querySelector('.invoice-head > div:last-child');
+    if (headRight) {
+      headRight.innerHTML =
+        '<div style="font-size:1.3rem;font-weight:800;color:var(--ink-900);">SURAT KERJA &amp; NOTA</div>' +
+        '<div style="font-size:1.1rem;font-weight:800;color:var(--clay);margin-top:2px;">' + TH.esc(o.code) + '</div>' +
+        '<div style="font-size:.8rem;color:var(--ink-45);margin-top:4px;">Tgl Masuk: ' + TH.esc(o.entry_date || '-') + '</div>' +
+        '<div style="font-size:.85rem;font-weight:700;color:var(--clay);">Target Selesai: ' + TH.esc(o.deadline || '—') + '</div>';
+    }
+
+    var boxes = document.querySelectorAll('.info-row .box');
+    if (boxes[0]) {
+      boxes[0].innerHTML =
+        '<div class="box-title">Data Pemesan (Customer)</div>' +
+        '<b style="font-size:1.05rem;color:var(--ink);">' + TH.esc(o.customer || '-') + '</b>' +
+        '<div style="color:var(--ink-70);margin-top:2px;">No. WhatsApp: ' + TH.esc(o.customer_phone || '-') + '</div>' +
+        '<div style="color:var(--ink-70);">Alamat: ' + TH.esc(o.customer_address || '-') + '</div>';
+    }
+    if (boxes[1]) {
+      boxes[1].innerHTML =
+        '<div class="box-title">Instruksi Pengerjaan Bengkel</div>' +
+        '<div><b>Penjahit Ditugaskan:</b> ' + TH.esc(o.assignee || 'Tim Produksi') + '</div>' +
+        '<div><b>Status Saat Ini:</b> ' + TH.esc(o.production_status) + '</div>' +
+        '<div><b>Catatan:</b> ' + TH.esc(o.notes || o.detail || '-') + '</div>';
+    }
+
+    var tbody = document.querySelector('table tbody');
+    if (tbody) {
+      var unitPrice = o.qty ? Math.round((o.price || 0) / o.qty) : (o.price || 0);
+      tbody.innerHTML =
+        '<tr><td>1</td><td><b>' + TH.esc(o.type) + '</b><div style="font-size:.8rem;color:var(--ink-70);margin-top:3px;">' +
+        TH.esc(o.detail || '') + (o.notes ? '<br>' + TH.esc(o.notes) : '') + '</div></td>' +
+        '<td style="text-align:center;">' + TH.esc(o.qty) + ' Pcs</td>' +
+        '<td class="num">' + TH.rupiah(unitPrice) + '</td>' +
+        '<td class="num"><b>' + TH.rupiah(o.price) + '</b></td></tr>';
+    }
+
+    var calcBox = document.querySelector('div[style*="min-width:260px"]');
+    if (calcBox) {
+      calcBox.innerHTML =
+        '<div style="display:flex;justify-content:space-between;padding:4px 0;"><span>Total Biaya:</span><b>' + TH.rupiah(o.price) + '</b></div>' +
+        '<div style="display:flex;justify-content:space-between;padding:4px 0;color:var(--green);"><span>Telah Dibayar:</span><b>- ' + TH.rupiah(d.paid) + '</b></div>' +
+        '<div style="display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid var(--ink-900);font-size:1.1rem;color:var(--red);"><b>Sisa Pelunasan:</b><b>' + TH.rupiah(d.sisa) + '</b></div>';
+    }
+  } catch (e) {
+    console.error(e);
+  }
+})();
+</script>
 </body>
 </html>

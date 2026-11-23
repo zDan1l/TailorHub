@@ -264,7 +264,7 @@
 
             <hr style="border:0;border-top:1px solid var(--sand);margin:18px 0;">
             <button type="submit" class="btn btn--primary btn--block">Simpan Perubahan</button>
-            <a href="detail.html" class="btn btn--ghost btn--block" style="text-align:center;margin-top:8px;">Batal</a>
+            <a href="detail.html" id="btnCancelEdit" class="btn btn--ghost btn--block" style="text-align:center;margin-top:8px;">Batal</a>
           </div>
         </div>
       </form>
@@ -272,5 +272,86 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(async function () {
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id') || params.get('code') || 'TH-2033';
+  var form = document.querySelector('form');
+  var currentOrderId = id;
+
+  var inputs = form.querySelectorAll('input, select, textarea');
+  // Mapping elemen form di edit.html:
+  // inputs[0] = judul pesanan, inputs[2] = bahan kain, inputs[3] = qty
+  // textarea = notes, date inputs: entry_date & deadline, selects: status produksi & status bayar, number: price
+  var titleInput = form.querySelector('input[type="text"]');
+  var fabricInput = form.querySelectorAll('input[type="text"]')[1];
+  var qtyInput = form.querySelector('input[min="1"]');
+  var notesArea = form.querySelector('textarea');
+  var dateInputs = form.querySelectorAll('input[type="date"]');
+  var selects = form.querySelectorAll('select');
+  var priceInput = form.querySelector('input[value="2500000"]');
+  var dpInput = form.querySelector('input[value="1250000"]');
+
+  try {
+    var d = await TH.get('/api/orders/' + encodeURIComponent(id));
+    if (d && d.order) {
+      var o = d.order;
+      currentOrderId = o.id;
+      document.title = 'Edit Pesanan ' + o.code + ' — TailorHub';
+      var h1 = document.querySelector('.page-head h1');
+      if (h1) h1.textContent = 'Edit Pesanan ' + o.code;
+      if (titleInput) titleInput.value = o.type || '';
+      if (fabricInput) fabricInput.value = o.detail || '';
+      if (qtyInput) qtyInput.value = o.qty || 1;
+      if (notesArea) notesArea.value = o.notes || o.detail || '';
+      if (dateInputs[0] && o.entry_date) dateInputs[0].value = o.entry_date;
+      if (dateInputs[1] && o.deadline) dateInputs[1].value = o.deadline;
+      if (priceInput) priceInput.value = o.price || 0;
+      if (dpInput) dpInput.value = d.paid || 0;
+      if (selects[2]) {
+        var stVal = o.production_status === 'QC' ? 'Quality Control' : o.production_status;
+        Array.from(selects[2].options).forEach(function (opt) {
+          if (opt.text === stVal || opt.text === o.production_status) opt.selected = true;
+        });
+      }
+      if (selects[3]) {
+        var pMap = { 'Belum Bayar': 'unpaid', 'DP': 'dp', 'Lunas': 'paid' };
+        if (pMap[o.payment_status]) selects[3].value = pMap[o.payment_status];
+      }
+      var cancelBtn = document.getElementById('btnCancelEdit');
+      if (cancelBtn) cancelBtn.href = 'detail.html?id=' + encodeURIComponent(o.id);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var rawStatus = selects[2] ? selects[2].options[selects[2].selectedIndex].text : 'Antrean';
+    if (rawStatus === 'Quality Control') rawStatus = 'QC';
+    var payMap = { unpaid: 'Belum Bayar', dp: 'DP', paid: 'Lunas' };
+    var payStatus = selects[3] ? (payMap[selects[3].value] || 'DP') : 'DP';
+
+    try {
+      await TH.put('/api/orders/' + encodeURIComponent(currentOrderId), {
+        type: titleInput ? titleInput.value.trim() : 'Pesanan',
+        detail: fabricInput ? fabricInput.value.trim() : null,
+        qty: qtyInput ? Number(qtyInput.value) || 1 : 1,
+        notes: notesArea ? notesArea.value.trim() : null,
+        deadline: dateInputs[1] ? dateInputs[1].value : null,
+        price: priceInput ? Number(priceInput.value) || 0 : 0,
+        production_status: rawStatus,
+        payment_status: payStatus
+      });
+      location.href = '/app/orders/detail.html?id=' + encodeURIComponent(currentOrderId);
+    } catch (err) {
+      alert('Gagal menyimpan perubahan: ' + err.message);
+    }
+  });
+})();
+</script>
 </body>
 </html>

@@ -537,12 +537,15 @@
   <span id="toastMsg">Berkas berhasil diunduh!</span>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 var activeFormat = 'pdf';
+var liveExportData = { orders: null, income: null, customers: null };
 
 /* Cek Query Parameter (e.g. export.html?type=income) */
-(function() {
+(async function() {
   var params = new URLSearchParams(window.location.search);
   var type = params.get('type');
   if (type) {
@@ -551,6 +554,16 @@ var activeFormat = 'pdf';
       select.value = type;
     }
   }
+  try {
+    var res = await Promise.all([
+      TH.get('/api/reports/orders'),
+      TH.get('/api/reports/income'),
+      TH.get('/api/customers')
+    ]);
+    liveExportData.orders = res[0];
+    liveExportData.income = res[1];
+    liveExportData.customers = res[2];
+  } catch (e) {}
   updatePreview();
 })();
 
@@ -662,6 +675,38 @@ function triggerDownload() {
   var type = document.getElementById('reportTypeSelect').value;
   var ext = activeFormat === 'pdf' ? '.pdf' : '.csv';
   var fileName = 'TailorHub-Laporan-' + type + '-Nov2026' + ext;
+
+  if (activeFormat === 'csv') {
+    var rows = [];
+    if (type === 'income' && liveExportData.income && liveExportData.income.payments) {
+      rows.push(['ID', 'Kode Pesanan', 'Pelanggan', 'Jenis', 'Metode', 'Nominal', 'Tanggal']);
+      liveExportData.income.payments.forEach(function (p) {
+        rows.push([p.id, p.code, p.customer || '-', p.type, p.method || '-', p.amount, p.paid_at || p.created_at || '-']);
+      });
+    } else if (type === 'customers' && liveExportData.customers && liveExportData.customers.data) {
+      rows.push(['ID', 'Nama', 'Telepon', 'Email', 'Alamat', 'Jumlah Pesanan', 'Total Belanja']);
+      liveExportData.customers.data.forEach(function (c) {
+        rows.push([c.id, c.name, c.phone || '-', c.email || '-', c.address || '-', c.order_count || 0, c.total_value || 0]);
+      });
+    } else if (liveExportData.orders && liveExportData.orders.orders) {
+      rows.push(['Kode', 'Pelanggan', 'Jenis', 'Qty', 'Status Produksi', 'Status Bayar', 'Total Harga', 'Deadline']);
+      liveExportData.orders.orders.forEach(function (o) {
+        rows.push([o.code, o.customer || '-', o.type, o.qty, o.production_status, o.payment_status, o.price, o.deadline || '-']);
+      });
+    }
+    if (rows.length) {
+      var csvContent = rows.map(function (r) {
+        return r.map(function (cell) { return '"' + String(cell == null ? '' : cell).replace(/"/g, '""') + '"'; }).join(',');
+      }).join('\n');
+      var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+  }
 
   var toast = document.getElementById('toast');
   var toastMsg = document.getElementById('toastMsg');

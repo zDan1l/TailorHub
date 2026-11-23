@@ -457,17 +457,97 @@
   </div>
 </div>
 
-<script src="../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
 var currentTab = 'all';
 
+async function loadLiveSearchFromD1(q) {
+  try {
+    var queryParam = q ? '?q=' + encodeURIComponent(q) : '';
+    var results = await Promise.all([
+      TH.get('/api/orders' + queryParam),
+      TH.get('/api/customers' + queryParam),
+      TH.get('/api/payments')
+    ]);
+    var orders = (results[0] && results[0].data) || [];
+    var customers = (results[1] && results[1].data) || [];
+    var payments = (results[2] && results[2].data) || [];
+    var listEl = document.getElementById('resultsList');
+    if (!listEl) return;
+
+    var html = [];
+    orders.forEach(function (o) {
+      var textAttr = [o.code, o.customer || '', o.type || '', o.production_status || '', o.payment_status || ''].join(' ');
+      html.push(
+        '<div class="search-card" data-category="orders" data-text="' + TH.esc(textAttr) + '">' +
+          '<div class="search-card-left">' +
+            '<span class="search-icon-box" style="background:var(--clay)"><svg width="22" height="22"><use href="#i-order"/></svg></span>' +
+            '<div>' +
+              '<div class="search-title"><span>Pesanan <b>' + TH.esc(o.code) + '</b></span><span class="chip ' + TH.statusChip(o.production_status) + '" style="font-size:.72rem">' + TH.esc(o.production_status) + '</span></div>' +
+              '<div class="search-sub"><b>' + TH.esc(o.customer || '-') + '</b> — ' + TH.esc(o.type) + ' (' + TH.esc(o.qty) + ' pcs)</div>' +
+              '<div class="search-meta"><span>Tenggat: <b>' + TH.esc(o.deadline || '—') + '</b></span><span>Tagihan: <b>' + TH.rupiah(o.price) + '</b> (' + TH.esc(o.payment_status) + ')</span></div>' +
+            '</div>' +
+          '</div>' +
+          '<div><a href="/app/orders/detail.html?id=' + encodeURIComponent(o.id) + '" class="btn btn--outline" style="font-size:.82rem">Lihat Detail Pesanan →</a></div>' +
+        '</div>'
+      );
+    });
+
+    customers.forEach(function (c) {
+      var textAttr = [c.name, c.phone || '', c.email || '', c.address || ''].join(' ');
+      html.push(
+        '<div class="search-card" data-category="customers" data-text="' + TH.esc(textAttr) + '">' +
+          '<div class="search-card-left">' +
+            '<span class="search-icon-box" style="background:var(--teal)"><svg width="22" height="22"><use href="#i-users"/></svg></span>' +
+            '<div>' +
+              '<div class="search-title"><span>Pelanggan: <b>' + TH.esc(c.name) + '</b></span><span class="chip chip--neutral" style="font-size:.72rem">Pelanggan</span></div>' +
+              '<div class="search-sub">WhatsApp: <b>' + TH.esc(c.phone || '-') + '</b> · Alamat: ' + TH.esc(c.address || '-') + '</div>' +
+              '<div class="search-meta"><span>Riwayat: <b>' + TH.esc(c.order_count || 0) + ' pesanan tercatat</b></span><span>Total Belanja: <b>' + TH.rupiah(c.total_value || 0) + '</b></span></div>' +
+            '</div>' +
+          '</div>' +
+          '<div><a href="/app/customers/detail.html?id=' + encodeURIComponent(c.id) + '" class="btn btn--outline" style="font-size:.82rem">Buka Profil Pelanggan →</a></div>' +
+        '</div>'
+      );
+    });
+
+    payments.forEach(function (p) {
+      var invCode = 'INV-' + p.id + ' ' + (p.code || '');
+      var textAttr = [invCode, p.type || '', p.method || ''].join(' ');
+      html.push(
+        '<div class="search-card" data-category="payments" data-text="' + TH.esc(textAttr) + '">' +
+          '<div class="search-card-left">' +
+            '<span class="search-icon-box" style="background:var(--indigo)"><svg width="22" height="22"><use href="#i-pay"/></svg></span>' +
+            '<div>' +
+              '<div class="search-title"><span>Pembayaran <b>' + TH.esc(p.code) + '</b></span><span class="chip chip--warn" style="font-size:.72rem">' + TH.esc((p.type || 'dp').toUpperCase()) + '</span></div>' +
+              '<div class="search-sub">Metode: <b>' + TH.esc(p.method || 'tunai') + '</b> (Pesanan ' + TH.esc(p.code) + ')</div>' +
+              '<div class="search-meta"><span>Nominal Masuk: <b>' + TH.rupiah(p.amount) + '</b></span><span>Tgl: <b>' + TH.esc(p.paid_at || p.created_at || '-') + '</b></span></div>' +
+            '</div>' +
+          '</div>' +
+          '<div><a href="/app/payments/detail.html?order_id=' + encodeURIComponent(p.order_id) + '" class="btn btn--outline" style="font-size:.82rem">Buka Bukti Bayar →</a></div>' +
+        '</div>'
+      );
+    });
+
+    if (html.length) {
+      listEl.innerHTML = html.join('');
+    }
+  } catch (e) {
+    console.error('Gagal memuat pencarian D1:', e);
+  }
+}
+
 // Baca parameter query dari URL jika ada (?q=...)
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', async function() {
   var urlParams = new URLSearchParams(window.location.search);
   var q = urlParams.get('q');
-  if (q) {
+  if (q !== null) {
     document.getElementById('mainSearchInput').value = q;
+  } else {
+    document.getElementById('mainSearchInput').value = '';
   }
+  await loadLiveSearchFromD1('');
   runSearch();
 });
 

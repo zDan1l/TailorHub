@@ -183,7 +183,8 @@
   </div>
 </footer>
 
-<script src="../assets/js/portal.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/portal.js"></script>
 <script>
 (function () {
   'use strict';
@@ -206,10 +207,11 @@
     input.classList.remove('input--err');
   });
 
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
     var clean = portal.normalizeCode(input.value);
-    var order = portal.findOrder(clean);
+    var slug = new URLSearchParams(window.location.search).get('slug') || 'jahit-lestari';
+    var order = await portal.fetchOrderFromApi(clean, slug);
     if (!order) {
       errMsg.textContent = clean
         ? 'Kode "' + clean + '" belum ditemukan. Coba periksa ulang nota atau pilih contoh TH-2041.'
@@ -219,7 +221,7 @@
       input.focus();
       return;
     }
-    window.location.href = 'track-result.html?code=' + encodeURIComponent(order.code) + '&from=landing';
+    window.location.href = 'track-result.html?slug=' + encodeURIComponent(slug) + '&code=' + encodeURIComponent(order.code) + '&from=landing';
   });
 })();
 </script>
