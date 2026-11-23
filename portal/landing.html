@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jahit Lestari — Portal Pelanggan · TailorHub</title>
+<meta name="description" content="Beranda portal pelanggan Jahit Lestari. Cek progres jahitan, jam operasional, layanan busana kustom, dan kontak WhatsApp CS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/portal.css">
+</head>
+<body class="portal-page">
+
+<!-- Inline SVG Sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+</defs></svg>
+
+<header class="portal-header">
+  <div class="portal-header-in">
+    <a href="landing.html" class="portal-brand" title="Beranda Jahit Lestari">
+      <span class="portal-brand-mark" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-scissors"/></svg>
+      </span>
+      <span class="portal-brand-text">
+        <b>Jahit Lestari</b>
+        <small>Tailor &amp; Konveksi</small>
+      </span>
+    </a>
+
+    <nav class="portal-nav" aria-label="Navigasi Portal">
+      <a href="customer-login.html" class="portal-nav-link">
+        <svg width="16" height="16"><use href="#i-users"/></svg>
+        <span>Masuk Akun</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="portal-shell portal-shell--wide">
+  <section class="portal-hero" aria-labelledby="heroTitle">
+    <div class="portal-hero-badge">
+      <span class="chip chip--done"><span class="d"></span>Buka Hari Ini · 08.00–17.00 WIB</span>
+    </div>
+
+    <h1 id="heroTitle">Pantau Jahitan Anda Kapan Saja</h1>
+    <p class="portal-hero-lead">
+      Cek progres pemotongan, penjahitan, finishing, hingga siap diambil secara real-time melalui kode pesanan di nota Anda.
+    </p>
+
+    <form id="landingTrackForm" class="portal-quick-form" novalidate>
+      <label for="landingCodeInput" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Kode Pesanan</label>
+      <input
+        id="landingCodeInput"
+        name="code"
+        class="input"
+        type="text"
+        placeholder="Masukkan kode pesanan (cth: TH-2041)"
+        autocomplete="off"
+        autocapitalize="characters"
+        spellcheck="false"
+        required
+      >
+      <button type="submit" class="btn btn--primary">
+        <span>Lacak Sekarang</span>
+        <svg width="17" height="17"><use href="#i-arrow"/></svg>
+      </button>
+    </form>
+
+    <div id="landingError" class="alert alert--error track-error" role="alert" hidden>
+      <svg width="20" height="20"><use href="#i-warn"/></svg>
+      <div>
+        <b>Kode belum ditemukan.</b>
+        <span id="landingErrorMsg">Periksa ulang kode pada nota atau coba lihat contoh pesanan di bawah.</span>
+      </div>
+    </div>
+
+    <div class="portal-hero-actions">
+      <a href="track.html" class="btn btn--ghost btn--sm">
+        <svg width="16" height="16"><use href="#i-search"/></svg>
+        <span>Buka Halaman Lacak</span>
+      </a>
+      <a href="track-result.html?code=TH-2041&from=landing" class="sample-chip">Contoh: TH-2041</a>
+      <a href="track-result.html?code=TH-2030&from=landing" class="sample-chip">Contoh: TH-2030</a>
+    </div>
+  </section>
+
+  <section class="portal-info-grid" aria-label="Informasi Workshop Jahit Lestari">
+    <article class="portal-info-card">
+      <span class="portal-info-ic" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-clock"/></svg>
+      </span>
+      <div>
+        <small>Jam Operasional</small>
+        <b>Senin–Sabtu · 08.00–17.00 WIB</b>
+        <p>Minggu &amp; hari libur nasional tutup.</p>
+      </div>
+    </article>
+
+    <article class="portal-info-card">
+      <span class="portal-info-ic portal-info-ic--indigo" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-home"/></svg>
+      </span>
+      <div>
+        <small>Alamat Workshop</small>
+        <b>Jl. Dharmawangsa No. 48, Surabaya</b>
+        <p>Parkir mudah, ruang fitting tersedia di lantai dasar.</p>
+      </div>
+    </article>
+
+    <article class="portal-info-card">
+      <span class="portal-info-ic" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-scissors"/></svg>
+      </span>
+      <div>
+        <small>Layanan Unggulan</small>
+        <b>Busana Kustom &amp; Seragam</b>
+        <p>Jas &amp; blazer, kemeja batik, kebaya pesta, hingga seragam kantor/komunitas.</p>
+      </div>
+    </article>
+
+    <article class="portal-info-card">
+      <span class="portal-info-ic portal-info-ic--green" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-phone"/></svg>
+      </span>
+      <div>
+        <small>WhatsApp Customer Service</small>
+        <b>0812-3456-7890 (Admin Workshop)</b>
+        <p style="margin-bottom:8px">Konsultasi bahan, ubah jadwal fitting, atau konfirmasi pengambilan.</p>
+        <a id="waLandingBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">
+          <span>Chat WhatsApp CS</span>
+          <svg width="15" height="15"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </article>
+  </section>
+
+  <section class="portal-steps-card" aria-labelledby="stepsTitle">
+    <h2 id="stepsTitle">Cara Cek Progres Jahitan</h2>
+    <div class="portal-steps-3">
+      <div class="portal-step-mini">
+        <span class="portal-step-num">1</span>
+        <b>Siapkan Kode di Nota</b>
+        <p>Temukan kode pesanan berformat <b>TH-XXXX</b> di nota cetak atau pesan WhatsApp.</p>
+      </div>
+      <div class="portal-step-mini">
+        <span class="portal-step-num">2</span>
+        <b>Masukkan Kode Pesanan</b>
+        <p>Ketik kode pada kolom pencarian di atas lalu tekan tombol Lacak Sekarang.</p>
+      </div>
+      <div class="portal-step-mini">
+        <span class="portal-step-num">3</span>
+        <b>Pantau hingga Siap Ambil</b>
+        <p>Lihat tahap pengerjaan dari antrean, potong, jahit, QC, sampai siap diambil.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="portal-subtle-link">
+    Pelanggan tetap dengan banyak pesanan? <a href="customer-login.html">Masuk ke Akun Pelanggan</a> atau <a href="customer-register.html">Daftar Akun</a>
+  </p>
+</main>
+
+<footer class="portal-footer">
+  <div class="portal-footer-in">
+    <span><b>Jahit Lestari</b> · Dikelola dengan TailorHub</span>
+    <div class="portal-footer-links">
+      <a href="track.html">Lacak Pesanan</a>
+      <a href="customer-login.html">Akun Pelanggan</a>
+      <a id="waFooterLink" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">WhatsApp CS</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/portal.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var portal = window.TailorPortal;
+  if (!portal) return;
+
+  var form = document.getElementById('landingTrackForm');
+  var input = document.getElementById('landingCodeInput');
+  var errBox = document.getElementById('landingError');
+  var errMsg = document.getElementById('landingErrorMsg');
+
+  var waBtn = document.getElementById('waLandingBtn');
+  var waFooter = document.getElementById('waFooterLink');
+  if (waBtn) waBtn.href = portal.buildWaUrl('');
+  if (waFooter) waFooter.href = portal.buildWaUrl('');
+
+  input.addEventListener('input', function () {
+    errBox.hidden = true;
+    input.classList.remove('input--err');
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var clean = portal.normalizeCode(input.value);
+    var order = portal.findOrder(clean);
+    if (!order) {
+      errMsg.textContent = clean
+        ? 'Kode "' + clean + '" belum ditemukan. Coba periksa ulang nota atau pilih contoh TH-2041.'
+        : 'Masukkan kode pesanan terlebih dahulu (contoh: TH-2041).';
+      errBox.hidden = false;
+      input.classList.add('input--err');
+      input.focus();
+      return;
+    }
+    window.location.href = 'track-result.html?code=' + encodeURIComponent(order.code) + '&from=landing';
+  });
+})();
+</script>
+</body>
+</html>

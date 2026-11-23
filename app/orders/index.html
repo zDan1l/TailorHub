@@ -163,7 +163,7 @@
       <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px;">
         <div class="tile">
           <small>Total Pesanan Aktif</small>
-          <b>28</b>
+          <b>8</b>
           <div class="tile-foot">
             <span style="font-size:.78rem;color:var(--ink-45);">Sedang dikerjakan</span>
             <span class="delta delta--up">+4 minggu ini</span>
@@ -171,7 +171,7 @@
         </div>
         <div class="tile">
           <small>Tahap Penjahitan</small>
-          <b>12</b>
+          <b>2</b>
           <div class="tile-foot">
             <span class="chip chip--sew" style="font-size:.68rem;">Penjahitan</span>
             <span style="font-size:.78rem;color:var(--ink-45);">3 penjahit</span>
@@ -179,10 +179,10 @@
         </div>
         <div class="tile">
           <small>Mendekati Deadline (H-3)</small>
-          <b style="color:var(--clay);">5</b>
+          <b style="color:var(--clay);">2</b>
           <div class="tile-foot">
             <span class="chip chip--clay" style="font-size:.68rem;">Perlu Prioritas</span>
-            <span style="font-size:.78rem;color:var(--ink-45);">24-26 Nov</span>
+            <span style="font-size:.78rem;color:var(--ink-45);">23-24 Nov</span>
           </div>
         </div>
         <div class="tile">
@@ -190,7 +190,7 @@
           <b style="color:var(--red);">1</b>
           <div class="tile-foot">
             <span class="chip chip--danger" style="font-size:.68rem;">Terlambat</span>
-            <span style="font-size:.78rem;color:var(--red);">ORD-2026-0074</span>
+            <span style="font-size:.78rem;color:var(--red);">TH-2033</span>
           </div>
         </div>
       </section>
@@ -199,22 +199,22 @@
       <div class="card" style="padding:16px 20px;margin-bottom:18px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
           <!-- Tabs Status -->
-          <div class="tabs" style="border-bottom:0;">
-            <a href="index.html" class="is-on">Semua <span class="badge-count" style="margin-left:5px;font-size:.68rem;">28</span></a>
-            <a href="index.html?status=queue">Antrean <span class="badge-count" style="margin-left:5px;background:var(--s-queue);font-size:.68rem;">4</span></a>
-            <a href="index.html?status=production">Proses Produksi <span class="badge-count" style="margin-left:5px;background:var(--indigo);font-size:.68rem;">18</span></a>
-            <a href="index.html?status=done">Selesai / QC <span class="badge-count" style="margin-left:5px;background:var(--green);font-size:.68rem;">6</span></a>
+          <div class="tabs" id="orderStatusTabs" style="border-bottom:0;">
+            <a href="#" data-status="all" class="is-on">Semua <span class="badge-count" style="margin-left:5px;font-size:.68rem;">10</span></a>
+            <a href="#" data-status="queue">Antrean <span class="badge-count" style="margin-left:5px;background:var(--s-queue);font-size:.68rem;">2</span></a>
+            <a href="#" data-status="production">Proses Produksi <span class="badge-count" style="margin-left:5px;background:var(--indigo);font-size:.68rem;">5</span></a>
+            <a href="#" data-status="done">Selesai / QC <span class="badge-count" style="margin-left:5px;background:var(--green);font-size:.68rem;">3</span></a>
           </div>
 
           <!-- Fast filter dropdowns -->
           <div style="display:flex;gap:10px;align-items:center;">
-            <select class="select" style="padding-top:8px;padding-bottom:8px;min-width:145px;font-size:.85rem;" onchange="this.form.submit()">
+            <select id="filterPayment" class="select" style="padding-top:8px;padding-bottom:8px;min-width:145px;font-size:.85rem;">
               <option value="">Semua Status Bayar</option>
               <option value="unpaid">Belum Bayar</option>
               <option value="dp">DP (Uang Muka)</option>
               <option value="paid">Lunas</option>
             </select>
-            <select class="select" style="padding-top:8px;padding-bottom:8px;min-width:140px;font-size:.85rem;">
+            <select id="filterSort" class="select" style="padding-top:8px;padding-bottom:8px;min-width:140px;font-size:.85rem;">
               <option value="deadline">Urut: Deadline Terdekat</option>
               <option value="latest">Urut: Pesanan Terbaru</option>
               <option value="price-desc">Urut: Nilai Tertinggi</option>
@@ -228,7 +228,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th style="width:40px;"><input type="checkbox" title="Pilih Semua"></th>
+              <th style="width:40px;"><input type="checkbox" id="selectAllOrders" title="Pilih Semua"></th>
               <th>Kode &amp; Tanggal</th>
               <th>Pelanggan</th>
               <th>Rincian Pesanan</th>
@@ -240,195 +240,26 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Baris 1: Mendekati deadline -->
-            <tr>
-              <td><input type="checkbox"></td>
+            <!-- ================= PAGE 1 ================= -->
+            <!-- Baris 1: Lewat deadline (Finishing) -->
+            <tr data-page="1" data-status="production" data-payment="dp" data-price="2500000" data-deadline="2026-11-21" data-date="2026-11-10" style="background:rgba(192,57,43,.03);">
+              <td><input type="checkbox" class="order-cb"></td>
               <td>
-                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">ORD-2026-0089</a>
-                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">20 Nov 2026</div>
+                <a href="detail.html" style="font-weight:800;color:var(--red);letter-spacing:-.01em;">TH-2033</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">10 Nov 2026</div>
               </td>
               <td>
                 <div style="display:flex;align-items:center;gap:9px;">
-                  <span class="avatar avatar--sm">HG</span>
+                  <span class="avatar avatar--sm">HW</span>
                   <div>
-                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Hendra Gunawan</a>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Hendra Wibowo</a>
                     <div style="font-size:.74rem;color:var(--ink-45);">0812-9876-5432</div>
                   </div>
                 </div>
               </td>
               <td>
-                <b>Jas Formal Pria Full Set</b>
-                <div style="font-size:.78rem;color:var(--ink-45);">Bahan Wool Semi Italian · 1 Stel</div>
-              </td>
-              <td>
-                <span class="chip chip--sew"><span class="d"></span> Penjahitan</span>
-              </td>
-              <td>
-                <span class="chip chip--dp"><span class="d"></span> DP Rp 800.000</span>
-              </td>
-              <td>
-                <span style="font-weight:700;color:var(--clay);display:inline-flex;align-items:center;gap:4px;">
-                  <svg width="14" height="14"><use href="#i-clock"/></svg> 24 Nov (H-2)
-                </span>
-                <div style="font-size:.72rem;color:var(--clay);font-weight:600;">Mendekati Batas</div>
-              </td>
-              <td class="num">
-                <b>Rp 1.650.000</b>
-                <div style="font-size:.72rem;color:var(--pay-unpaid);font-weight:600;">Sisa Rp 850.000</div>
-              </td>
-              <td style="text-align:right;white-space:nowrap;">
-                <a href="detail.html" class="btn btn--ghost btn--sm" title="Lihat Rincian">Detail</a>
-                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
-                <a href="edit.html" class="btn btn--ghost btn--sm" title="Edit Pesanan"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
-                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);" title="Hapus"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
-              </td>
-            </tr>
-
-            <!-- Baris 2: Pemotongan -->
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>
-                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">ORD-2026-0088</a>
-                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">19 Nov 2026</div>
-              </td>
-              <td>
-                <div style="display:flex;align-items:center;gap:9px;">
-                  <span class="avatar avatar--sm" style="background:var(--indigo-100);color:var(--indigo);">NA</span>
-                  <div>
-                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Nurul Aisyah</a>
-                    <div style="font-size:.74rem;color:var(--ink-45);">0857-1122-3344</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <b>Kebaya Modern Brokat</b>
-                <div style="font-size:.78rem;color:var(--ink-45);">Brokat Chantilly + Rok Songket · 1 Stel</div>
-              </td>
-              <td>
-                <span class="chip chip--cut"><span class="d"></span> Pemotongan</span>
-              </td>
-              <td>
-                <span class="chip chip--paid"><span class="d"></span> Lunas</span>
-              </td>
-              <td>
-                <span style="font-weight:700;color:var(--ink);">28 Nov 2026</span>
-                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Aman (H-6)</div>
-              </td>
-              <td class="num">
-                <b>Rp 950.000</b>
-                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Lunas</div>
-              </td>
-              <td style="text-align:right;white-space:nowrap;">
-                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
-                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
-                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
-                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
-              </td>
-            </tr>
-
-            <!-- Baris 3: Antrean -->
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>
-                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">ORD-2026-0087</a>
-                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">19 Nov 2026</div>
-              </td>
-              <td>
-                <div style="display:flex;align-items:center;gap:9px;">
-                  <span class="avatar avatar--sm">BW</span>
-                  <div>
-                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Bambang Wijaya</a>
-                    <div style="font-size:.74rem;color:var(--ink-45);">0813-4455-6677</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <b>Kemeja Batik Tulis Sutra</b>
-                <div style="font-size:.78rem;color:var(--ink-45);">Furing Dorman Italia · 2 Pcs</div>
-              </td>
-              <td>
-                <span class="chip chip--queue"><span class="d"></span> Antrean</span>
-              </td>
-              <td>
-                <span class="chip chip--unpaid"><span class="d"></span> Belum Bayar</span>
-              </td>
-              <td>
-                <span style="font-weight:700;color:var(--ink);">02 Des 2026</span>
-                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Aman (10 Hari)</div>
-              </td>
-              <td class="num">
-                <b>Rp 700.000</b>
-                <div style="font-size:.72rem;color:var(--pay-unpaid);font-weight:600;">Belum Dibayar</div>
-              </td>
-              <td style="text-align:right;white-space:nowrap;">
-                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
-                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
-                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
-                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
-              </td>
-            </tr>
-
-            <!-- Baris 4: QC / Selesai -->
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>
-                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">ORD-2026-0086</a>
-                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">15 Nov 2026</div>
-              </td>
-              <td>
-                <div style="display:flex;align-items:center;gap:9px;">
-                  <span class="avatar avatar--sm" style="background:var(--clay-100);color:var(--clay-700);">MS</span>
-                  <div>
-                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Maya Safitri</a>
-                    <div style="font-size:.74rem;color:var(--ink-45);">0819-8877-6655</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <b>Dress Pesta Satin Silk</b>
-                <div style="font-size:.78rem;color:var(--ink-45);">Aksen Mutiara Pinggang · 1 Pcs</div>
-              </td>
-              <td>
-                <span class="chip chip--qc"><span class="d"></span> Quality Control</span>
-              </td>
-              <td>
-                <span class="chip chip--paid"><span class="d"></span> Lunas</span>
-              </td>
-              <td>
-                <span style="font-weight:700;color:var(--green);">23 Nov 2026</span>
-                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Besok Siap Diambil</div>
-              </td>
-              <td class="num">
-                <b>Rp 850.000</b>
-                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Lunas</div>
-              </td>
-              <td style="text-align:right;white-space:nowrap;">
-                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
-                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
-                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
-                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
-              </td>
-            </tr>
-
-            <!-- Baris 5: Terlambat -->
-            <tr style="background:rgba(192,57,43,.03);">
-              <td><input type="checkbox"></td>
-              <td>
-                <a href="detail.html" style="font-weight:800;color:var(--red);letter-spacing:-.01em;">ORD-2026-0074</a>
-                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">10 Nov 2026</div>
-              </td>
-              <td>
-                <div style="display:flex;align-items:center;gap:9px;">
-                  <span class="avatar avatar--sm" style="background:#FDE8E6;color:var(--red);">DY</span>
-                  <div>
-                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Denny Yanuar</a>
-                    <div style="font-size:.74rem;color:var(--ink-45);">0812-3344-9900</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <b>Seragam Kerja Kantor (10 Pcs)</b>
-                <div style="font-size:.78rem;color:var(--ink-45);">Kemeja Drill Bordir Komputer</div>
+                <b>Jas Formal ×1</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Bahan Semi Wool Italian · Mas Budi</div>
               </td>
               <td>
                 <span class="chip chip--finish"><span class="d"></span> Finishing</span>
@@ -443,8 +274,52 @@
                 <div style="font-size:.72rem;color:var(--red);font-weight:800;">Terlambat 1 Hari</div>
               </td>
               <td class="num">
-                <b>Rp 2.200.000</b>
-                <div style="font-size:.72rem;color:var(--pay-unpaid);font-weight:600;">Sisa Rp 1.100.000</div>
+                <b>Rp 2.500.000</b>
+                <div style="font-size:.72rem;color:var(--pay-unpaid);font-weight:600;">Sisa Rp 1.250.000</div>
+              </td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm" title="Lihat Rincian">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm" title="Edit Pesanan"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);" title="Hapus"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- Baris 2: Penjahitan (Mendekati deadline besok) -->
+            <tr data-page="1" data-status="production" data-payment="dp" data-price="450000" data-deadline="2026-11-23" data-date="2026-11-16">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2041</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">16 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm" style="background:var(--clay-100);color:var(--clay-700);">BS</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Budi Santoso</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0813-2345-6789</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Kemeja Formal ×3</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Katun Poplin Premium · Andi S.</div>
+              </td>
+              <td>
+                <span class="chip chip--sew"><span class="d"></span> Penjahitan</span>
+              </td>
+              <td>
+                <span class="chip chip--dp"><span class="d"></span> DP</span>
+              </td>
+              <td>
+                <span style="font-weight:700;color:var(--clay);display:inline-flex;align-items:center;gap:4px;">
+                  <svg width="14" height="14"><use href="#i-clock"/></svg> Besok (23 Nov)
+                </span>
+                <div style="font-size:.72rem;color:var(--clay);font-weight:600;">Mendekati Batas</div>
+              </td>
+              <td class="num">
+                <b>Rp 450.000</b>
+                <div style="font-size:.72rem;color:var(--pay-unpaid);font-weight:600;">Sisa Rp 200.000</div>
               </td>
               <td style="text-align:right;white-space:nowrap;">
                 <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
@@ -453,6 +328,299 @@
                 <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
               </td>
             </tr>
+
+            <!-- Baris 3: QC & Lunas -->
+            <tr data-page="1" data-status="done" data-payment="paid" data-price="1200000" data-deadline="2026-11-24" data-date="2026-11-15">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2040</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">15 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm" style="background:var(--indigo-100);color:var(--indigo);">CD</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Citra Dewi</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0818-3456-7890</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Jas Formal ×1</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Semi Wool Formal · Andi S.</div>
+              </td>
+              <td>
+                <span class="chip chip--qc"><span class="d"></span> Quality Control</span>
+              </td>
+              <td>
+                <span class="chip chip--paid"><span class="d"></span> Lunas</span>
+              </td>
+              <td>
+                <span style="font-weight:700;color:var(--green);">24 Nov 2026</span>
+                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Tahap QC Akhir</div>
+              </td>
+              <td class="num">
+                <b>Rp 1.200.000</b>
+                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Lunas</div>
+              </td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- Baris 4: Finishing -->
+            <tr data-page="1" data-status="production" data-payment="paid" data-price="950000" data-deadline="2026-11-26" data-date="2026-11-12">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2035</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">12 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm" style="background:var(--indigo-100);color:var(--indigo);">CD</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Citra Dewi</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0818-3456-7890</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Jas Almamater ×1</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Drill Premium Bordir · Mas Budi</div>
+              </td>
+              <td>
+                <span class="chip chip--finish"><span class="d"></span> Finishing</span>
+              </td>
+              <td>
+                <span class="chip chip--paid"><span class="d"></span> Lunas</span>
+              </td>
+              <td>
+                <span style="font-weight:700;color:var(--ink);">26 Nov 2026</span>
+                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Aman (H-4)</div>
+              </td>
+              <td class="num">
+                <b>Rp 950.000</b>
+                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Lunas</div>
+              </td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- Baris 5: Antrean Corporate -->
+            <tr data-page="1" data-status="queue" data-payment="unpaid" data-price="8000000" data-deadline="2026-12-02" data-date="2026-11-22">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2045</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">22 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm" style="background:var(--red-100);color:var(--red);">PM</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">PT Maju Jaya (Denny Yanuar)</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0812-3344-9900</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Seragam Kantor ×20</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Kemeja Drill + Bordir Logo</div>
+              </td>
+              <td>
+                <span class="chip chip--queue"><span class="d"></span> Antrean</span>
+              </td>
+              <td>
+                <span class="chip chip--unpaid"><span class="d"></span> Belum Bayar</span>
+              </td>
+              <td>
+                <span style="font-weight:700;color:var(--ink);">02 Des 2026</span>
+                <div style="font-size:.72rem;color:var(--green);font-weight:600;">Aman (10 Hari)</div>
+              </td>
+              <td class="num">
+                <b>Rp 8.000.000</b>
+                <div style="font-size:.72rem;color:var(--pay-unpaid);font-weight:600;">Belum Dibayar</div>
+              </td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- ================= PAGE 2 ================= -->
+            <!-- Baris 6: Antrean Celana -->
+            <tr data-page="2" data-status="queue" data-payment="dp" data-price="800000" data-deadline="2026-11-28" data-date="2026-11-21" style="display:none;">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2044</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">21 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm" style="background:var(--sand);color:var(--ink-900);">RD</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Rudi Darmawan</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0812-5566-7788</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Celana Bahan ×2</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Semi Wool Formal Chino</div>
+              </td>
+              <td><span class="chip chip--queue"><span class="d"></span> Antrean</span></td>
+              <td><span class="chip chip--dp"><span class="d"></span> DP Rp 400.000</span></td>
+              <td><span style="font-weight:700;color:var(--ink);">28 Nov 2026</span><div style="font-size:.72rem;color:var(--green);font-weight:600;">Aman (H-6)</div></td>
+              <td class="num"><b>Rp 800.000</b><div style="font-size:.72rem;color:var(--pay-unpaid);font-weight:600;">Sisa Rp 400.000</div></td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- Baris 7: Pemotongan Kemeja Batik -->
+            <tr data-page="2" data-status="production" data-payment="paid" data-price="1500000" data-deadline="2026-11-29" data-date="2026-11-13" style="display:none;">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2037</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">13 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm" style="background:var(--clay-100);color:var(--clay-700);">SW</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Sari Wulandari</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0857-8899-0011</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Kemeja Batik ×6</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Batik Sutra Primissima · Andi S.</div>
+              </td>
+              <td><span class="chip chip--cut"><span class="d"></span> Pemotongan</span></td>
+              <td><span class="chip chip--paid"><span class="d"></span> Lunas</span></td>
+              <td><span style="font-weight:700;color:var(--ink);">29 Nov 2026</span><div style="font-size:.72rem;color:var(--green);font-weight:600;">Aman (H-7)</div></td>
+              <td class="num"><b>Rp 1.500.000</b><div style="font-size:.72rem;color:var(--green);font-weight:600;">Lunas</div></td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- Baris 8: Penjahitan Gamis -->
+            <tr data-page="2" data-status="production" data-payment="dp" data-price="850000" data-deadline="2026-11-30" data-date="2026-11-14" style="display:none;">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2038</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">14 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm" style="background:var(--indigo-100);color:var(--indigo);">NL</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Nurul Laila</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0857-1122-3344</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Gamis Pesta ×1</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Ceruty Babydoll Premium · Rina N.</div>
+              </td>
+              <td><span class="chip chip--sew"><span class="d"></span> Penjahitan</span></td>
+              <td><span class="chip chip--dp"><span class="d"></span> DP Rp 425.000</span></td>
+              <td><span style="font-weight:700;color:var(--ink);">30 Nov 2026</span><div style="font-size:.72rem;color:var(--green);font-weight:600;">Aman (8 Hari)</div></td>
+              <td class="num"><b>Rp 850.000</b><div style="font-size:.72rem;color:var(--pay-unpaid);font-weight:600;">Sisa Rp 425.000</div></td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- Baris 9: Selesai Siap Ambil -->
+            <tr data-page="2" data-status="done" data-payment="paid" data-price="300000" data-deadline="2026-11-22" data-date="2026-11-08" style="display:none;">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2030</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">08 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm">HW</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Hendra Wibowo</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0812-9876-5432</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Kemeja Kerja ×2</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Katun Oxford Signature · Rina N.</div>
+              </td>
+              <td><span class="chip chip--done"><span class="d"></span> Selesai</span></td>
+              <td><span class="chip chip--paid"><span class="d"></span> Lunas</span></td>
+              <td><span style="font-weight:700;color:var(--green);">22 Nov 2026</span><div style="font-size:.72rem;color:var(--green);font-weight:600;">Siap Diambil</div></td>
+              <td class="num"><b>Rp 300.000</b><div style="font-size:.72rem;color:var(--green);font-weight:600;">Lunas</div></td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- Baris 10: Diambil -->
+            <tr data-page="2" data-status="done" data-payment="paid" data-price="1750000" data-deadline="2026-11-20" data-date="2026-11-05" style="display:none;">
+              <td><input type="checkbox" class="order-cb"></td>
+              <td>
+                <a href="detail.html" style="font-weight:800;color:var(--clay);letter-spacing:-.01em;">TH-2026</a>
+                <div style="font-size:.76rem;color:var(--ink-45);margin-top:2px;">05 Nov 2026</div>
+              </td>
+              <td>
+                <div style="display:flex;align-items:center;gap:9px;">
+                  <span class="avatar avatar--sm" style="background:var(--sand);color:var(--ink-900);">IR</span>
+                  <div>
+                    <a href="../customers/detail.html" style="font-weight:700;color:var(--ink);">Ibu Ratna</a>
+                    <div style="font-size:.74rem;color:var(--ink-45);">0813-9900-1122</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <b>Kebaya Wisuda ×1</b>
+                <div style="font-size:.78rem;color:var(--ink-45);">Brokat Perancis + Rok Batik · Rina N.</div>
+              </td>
+              <td><span class="chip chip--taken"><span class="d"></span> Diambil</span></td>
+              <td><span class="chip chip--paid"><span class="d"></span> Lunas</span></td>
+              <td><span style="font-weight:700;color:var(--ink);">20 Nov 2026</span><div style="font-size:.72rem;color:var(--ink-45);font-weight:600;">Sudah Diambil</div></td>
+              <td class="num"><b>Rp 1.750.000</b><div style="font-size:.72rem;color:var(--green);font-weight:600;">Lunas</div></td>
+              <td style="text-align:right;white-space:nowrap;">
+                <a href="detail.html" class="btn btn--ghost btn--sm">Detail</a>
+                <a href="print.html" class="btn btn--ghost btn--sm" title="Cetak Nota"><svg width="14" height="14"><use href="#i-print"/></svg></a>
+                <a href="edit.html" class="btn btn--ghost btn--sm"><svg width="14" height="14"><use href="#i-edit"/></svg></a>
+                <a href="delete-modal.html" class="btn btn--ghost btn--sm" style="color:var(--red);"><svg width="14" height="14"><use href="#i-trash"/></svg></a>
+              </td>
+            </tr>
+
+            <!-- ================= PAGE 3 ================= -->
+            <!-- ================= PAGE 6 ================= -->
+            <tr id="noOrderRow" style="display:none;">
+              <td colspan="9" style="text-align:center;padding:36px;color:var(--ink-45);">Tidak ada pesanan yang cocok dengan kriteria filter.</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -460,21 +628,206 @@
       <!-- Pagination Footer -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;">
         <span style="font-size:.86rem;color:var(--ink-45);">
-          Menampilkan <b>1–5</b> dari <b>28</b> pesanan
+          Menampilkan <b id="orderVisibleRange">1–5</b> dari <b>10</b> pesanan
         </span>
-        <div class="pager">
-          <a href="#" class="is-off">‹</a>
-          <a href="#" class="is-on">1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">...</a>
-          <a href="#">6</a>
-          <a href="#">›</a>
+        <div class="pager" id="orderPager">
+          <a href="#" id="pagerPrev" class="is-off" aria-label="Sebelumnya">‹</a>
+          <a href="#" class="pager-btn is-on" data-target-page="1">1</a>
+          <a href="#" class="pager-btn" data-target-page="2">2</a>
+          <a href="#" id="pagerNext" aria-label="Berikutnya">›</a>
         </div>
       </div>
     </main>
   </div>
 </div>
 
+<script>
+(function() {
+  'use strict';
+  var tabs = document.querySelectorAll('#orderStatusTabs a');
+  var paySelect = document.getElementById('filterPayment');
+  var sortSelect = document.getElementById('filterSort');
+  var searchInput = document.querySelector('.top .search input');
+  var selectAll = document.getElementById('selectAllOrders');
+  var tbody = document.querySelector('.table tbody');
+  var rangeText = document.getElementById('orderVisibleRange');
+  var emptyRow = document.getElementById('noOrderRow');
+  var pager = document.getElementById('orderPager');
+  var pagerBtns = document.querySelectorAll('#orderPager .pager-btn');
+  var btnPrev = document.getElementById('pagerPrev');
+  var btnNext = document.getElementById('pagerNext');
+
+  var currentPage = 1;
+  var availablePages = [1, 2];
+  var PAGE_RANGES = {
+    1: '1–5',
+    2: '6–10'
+  };
+  var currentStatus = 'all';
+
+  function getRows() {
+    return Array.from(tbody.querySelectorAll('tr:not(#noOrderRow)'));
+  }
+
+  function updatePaginationUI() {
+    pagerBtns.forEach(function(btn) {
+      var p = parseInt(btn.getAttribute('data-target-page'), 10);
+      if (p === currentPage) {
+        btn.classList.add('is-on');
+      } else {
+        btn.classList.remove('is-on');
+      }
+    });
+
+    if (btnPrev) {
+      if (currentPage === 1) btnPrev.classList.add('is-off');
+      else btnPrev.classList.remove('is-off');
+    }
+
+    if (btnNext) {
+      if (currentPage === 6) btnNext.classList.add('is-off');
+      else btnNext.classList.remove('is-off');
+    }
+
+    if (rangeText && PAGE_RANGES[currentPage]) {
+      rangeText.innerHTML = '<b>' + PAGE_RANGES[currentPage] + '</b> dari <b>10</b>';
+    }
+  }
+
+  function renderPage(pageNum) {
+    currentPage = pageNum;
+    var rows = getRows();
+    rows.forEach(function(row) {
+      var p = parseInt(row.getAttribute('data-page'), 10) || 1;
+      row.style.display = (p === currentPage) ? '' : 'none';
+    });
+    if (pager) pager.style.display = '';
+    updatePaginationUI();
+    if (emptyRow) emptyRow.style.display = 'none';
+  }
+
+  function applyFilter() {
+    var q = ((searchInput && searchInput.value) || '').toLowerCase().trim();
+    var payVal = (paySelect && paySelect.value) || '';
+    var sortVal = (sortSelect && sortSelect.value) || 'deadline';
+    var isFilterActive = (currentStatus !== 'all') || Boolean(payVal) || Boolean(q);
+
+    if (!isFilterActive) {
+      renderPage(currentPage);
+      return;
+    }
+
+    var rows = getRows();
+    var visible = 0;
+
+    rows.forEach(function(row) {
+      var rowStatus = row.getAttribute('data-status') || '';
+      var rowPay = row.getAttribute('data-payment') || '';
+      var rowText = row.textContent.toLowerCase();
+
+      var matchStatus = (currentStatus === 'all') || (rowStatus === currentStatus);
+      var matchPay = !payVal || (rowPay === payVal);
+      var matchQ = !q || (rowText.indexOf(q) !== -1);
+
+      if (matchStatus && matchPay && matchQ) {
+        row.style.display = '';
+        visible++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    var visibleRows = rows.filter(function(r) { return r.style.display !== 'none'; });
+    if (sortVal === 'price-desc') {
+      visibleRows.sort(function(a, b) {
+        return (parseInt(b.getAttribute('data-price'), 10) || 0) - (parseInt(a.getAttribute('data-price'), 10) || 0);
+      });
+      visibleRows.forEach(function(r) { tbody.appendChild(r); });
+    } else if (sortVal === 'latest') {
+      visibleRows.sort(function(a, b) {
+        return (b.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
+      });
+      visibleRows.forEach(function(r) { tbody.appendChild(r); });
+    } else if (sortVal === 'deadline') {
+      visibleRows.sort(function(a, b) {
+        return (a.getAttribute('data-deadline') || '').localeCompare(b.getAttribute('data-deadline') || '');
+      });
+      visibleRows.forEach(function(r) { tbody.appendChild(r); });
+    }
+
+    if (emptyRow) {
+      emptyRow.style.display = visible === 0 ? '' : 'none';
+      tbody.appendChild(emptyRow);
+    }
+
+    if (rangeText) {
+      rangeText.innerHTML = '<b>' + visible + '</b> hasil cocok';
+    }
+  }
+
+  // Pager number clicks
+  pagerBtns.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = parseInt(btn.getAttribute('data-target-page'), 10);
+      if (target) {
+        renderPage(target);
+      }
+    });
+  });
+
+  // Prev / Next clicks
+  if (btnPrev) {
+    btnPrev.addEventListener('click', function(e) {
+      e.preventDefault();
+      var idx = availablePages.indexOf(currentPage);
+      if (idx > 0) {
+        renderPage(availablePages[idx - 1]);
+      }
+    });
+  }
+
+  if (btnNext) {
+    btnNext.addEventListener('click', function(e) {
+      e.preventDefault();
+      var idx = availablePages.indexOf(currentPage);
+      if (idx !== -1 && idx < availablePages.length - 1) {
+        renderPage(availablePages[idx + 1]);
+      }
+    });
+  }
+
+  // Tabs status click
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      tabs.forEach(function(t) { t.classList.remove('is-on'); });
+      tab.classList.add('is-on');
+      currentStatus = tab.getAttribute('data-status') || 'all';
+      applyFilter();
+    });
+  });
+
+  if (paySelect) paySelect.addEventListener('change', applyFilter);
+  if (sortSelect) sortSelect.addEventListener('change', applyFilter);
+  if (searchInput) searchInput.addEventListener('input', applyFilter);
+
+  // Checkbox Select All
+  if (selectAll) {
+    selectAll.addEventListener('change', function() {
+      var isChecked = this.checked;
+      var cbs = tbody.querySelectorAll('.order-cb');
+      cbs.forEach(function(cb) {
+        if (cb.closest('tr').style.display !== 'none') {
+          cb.checked = isChecked;
+        }
+      });
+    });
+  }
+
+  // Inisialisasi awal ke halaman 1
+  renderPage(1);
+})();
+</script>
 </body>
 </html>

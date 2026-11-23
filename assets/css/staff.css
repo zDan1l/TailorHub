@@ -1,0 +1,687 @@
+/* ============================================================
+   TAILORHUB — STAFF WORKSPACE STYLES
+   Khusus halaman app/staff/* (my-tasks.html & task-detail.html).
+   Dioptimalkan untuk smartphone meja jahit (360px–390px) & desktop.
+   Semua warna/radius/bayangan memakai token dari tokens.css.
+   ============================================================ */
+
+[hidden] {
+  display: none !important;
+}
+
+/* ----- Banner Profil & Switcher Staf ----- */
+.staff-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-s);
+}
+
+.staff-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.staff-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--clay);
+  color: #fff;
+  font-weight: 800;
+  font-size: .95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-shadow: var(--shadow-s);
+}
+
+.staff-profile-info {
+  min-width: 0;
+}
+
+.staff-profile-info b {
+  display: block;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ink-900);
+}
+
+.staff-profile-info small {
+  display: block;
+  font-size: .8rem;
+  color: var(--ink-70);
+}
+
+.staff-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.staff-switcher label {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  white-space: nowrap;
+}
+
+.staff-switcher .select {
+  min-width: 190px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: .85rem;
+}
+
+/* ----- Ringkasan KPI Staf (3 Kolom Kompak) ----- */
+.staff-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.staff-kpi {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-s);
+  min-width: 0;
+}
+
+.staff-kpi-label {
+  display: block;
+  font-size: .74rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  margin-bottom: 4px;
+}
+
+.staff-kpi-val {
+  display: block;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--ink-900);
+}
+
+.staff-kpi--warn .staff-kpi-val {
+  color: var(--clay);
+}
+
+.staff-kpi--done .staff-kpi-val {
+  color: var(--s-done);
+}
+
+/* ----- Tab Pengelompokan Tugas (1 Baris Scrollable) ----- */
+.staff-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+  scrollbar-width: thin;
+}
+
+.staff-tab {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--sand);
+  background: var(--paper);
+  color: var(--ink-70);
+  font-size: .83rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 40px;
+  transition: background .2s, color .2s, border-color .2s;
+}
+
+.staff-tab:hover {
+  border-color: var(--clay-300);
+  color: var(--clay);
+}
+
+.staff-tab.is-on {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: #fff;
+}
+
+.staff-tab .tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  background: var(--cream-200);
+  color: var(--ink);
+}
+
+.staff-tab.is-on .tab-count {
+  background: rgba(255, 255, 255, .24);
+  color: #fff;
+}
+
+/* ----- Toolbar Pencarian Ringkas ----- */
+.staff-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.staff-toolbar .input {
+  flex: 1;
+  min-width: 0;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: .88rem;
+}
+
+/* ----- Daftar & Kartu Tugas Staf (Touch-Friendly) ----- */
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 14px;
+}
+
+.task-card {
+  --acc: var(--s-sew);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-left: 5px solid var(--acc);
+  border-radius: var(--r-m);
+  padding: 16px;
+  box-shadow: var(--shadow-s);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-m);
+}
+
+.task-card[data-stage="cut"] { --acc: var(--s-cut); }
+.task-card[data-stage="sew"] { --acc: var(--s-sew); }
+.task-card[data-stage="finish"] { --acc: var(--s-finish); }
+.task-card[data-stage="qc"] { --acc: var(--s-qc); }
+.task-card[data-stage="done"] { --acc: var(--s-done); }
+.task-card[data-stage="taken"] { --acc: var(--s-taken); }
+
+.tc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tc-code {
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  color: var(--ink-70);
+}
+
+.tc-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tc-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ink-900);
+  line-height: 1.3;
+}
+
+.tc-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  padding: 10px 12px;
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-s);
+  font-size: .8rem;
+}
+
+.tc-meta-item small {
+  display: block;
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--ink-45);
+}
+
+.tc-meta-item b {
+  display: block;
+  font-weight: 700;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.tc-note {
+  margin: 0;
+  padding: 9px 11px;
+  border-radius: var(--r-s);
+  background: var(--cream-200);
+  border-left: 3px solid var(--clay);
+  font-size: .8rem;
+  color: var(--ink-70);
+  line-height: 1.45;
+}
+
+.tc-state {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: .78rem;
+  color: var(--ink-45);
+  font-weight: 600;
+}
+
+.tc-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.tc-actions .btn,
+.staff-action-bar .btn {
+  min-height: 44px;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-finish {
+  background: var(--s-done);
+  border-color: var(--s-done);
+  color: #fff;
+}
+
+.btn-finish:hover {
+  background: var(--s-taken);
+  border-color: var(--s-taken);
+  color: #fff;
+}
+
+/* ----- Empty State Tugas ----- */
+.staff-empty {
+  background: var(--paper);
+  border: 1px dashed var(--sand-dark);
+  border-radius: var(--r-m);
+  padding: 28px 18px;
+  text-align: center;
+  color: var(--ink-70);
+}
+
+.staff-empty b {
+  display: block;
+  font-size: .95rem;
+  color: var(--ink-900);
+  margin-bottom: 4px;
+}
+
+/* ============================================================
+   HALAMAN DETAIL INSTRUKSI TUGAS (task-detail.html)
+   ============================================================ */
+.task-detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.task-detail-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.task-detail-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.task-detail-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.task-detail-col .card-head {
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 16px;
+}
+
+.task-detail-col .card-head h2 {
+  margin: 0;
+  font-size: 1.04rem;
+}
+
+/* ----- Kartu Acuan Foto / Model Pakaian ----- */
+.model-ref {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.model-ref-canvas {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-s);
+  background: var(--cream-200);
+  border: 1px solid var(--sand);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  color: var(--clay);
+  text-align: center;
+}
+
+.model-ref-canvas span {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--ink-70);
+}
+
+.model-ref-info h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  color: var(--ink-900);
+}
+
+.model-ref-info p {
+  margin: 0 0 10px;
+  font-size: .85rem;
+  color: var(--ink-70);
+  line-height: 1.5;
+}
+
+.model-ref-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ----- Grid Spesifikasi Ukuran Kustom ----- */
+.measure-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.measure-box {
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-s);
+  padding: 10px 12px;
+}
+
+.measure-box small {
+  display: block;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  margin-bottom: 2px;
+}
+
+.measure-box b {
+  display: block;
+  font-size: .95rem;
+  font-weight: 800;
+  color: var(--ink-900);
+}
+
+.pattern-specs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--sand);
+  font-size: .84rem;
+}
+
+.pattern-specs small {
+  display: block;
+  font-size: .72rem;
+  color: var(--ink-45);
+  font-weight: 700;
+}
+
+.pattern-specs b {
+  color: var(--ink-900);
+}
+
+/* ----- Catatan Desainer ----- */
+.designer-note {
+  background: var(--amber-100);
+  border: 1px solid var(--sand);
+  border-left: 4px solid var(--clay);
+  border-radius: var(--r-s);
+  padding: 14px;
+  font-size: .88rem;
+  line-height: 1.55;
+  color: var(--ink-900);
+}
+
+/* ----- Panel Aksi Penyelesaian Tahap ----- */
+.staff-action-bar {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-m);
+  padding: 16px;
+  box-shadow: var(--shadow-s);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quick-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.quick-chip {
+  flex: none;
+  white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--sand);
+  background: var(--cream);
+  color: var(--ink-70);
+  font-size: .76rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.quick-chip:hover {
+  border-color: var(--clay);
+  color: var(--clay);
+}
+
+.staff-action-btns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.staff-action-btns .btn {
+  min-height: 48px;
+  font-size: .94rem;
+}
+
+/* ----- Toast Konfirmasi ----- */
+.staff-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--s-done);
+  color: #fff;
+  border-radius: var(--r-m);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-l);
+  max-width: 360px;
+  animation: staffToastIn .35s var(--ease);
+}
+
+.staff-toast b {
+  display: block;
+  font-weight: 800;
+  font-size: .9rem;
+}
+
+.staff-toast small {
+  display: block;
+  color: rgba(255, 255, 255, .86);
+  font-size: .78rem;
+}
+
+.staff-toast .toast-x {
+  margin-left: auto;
+  background: rgba(255, 255, 255, .2);
+  border: 0;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex: none;
+}
+
+@keyframes staffToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS (MOBILE-FIRST 360px–390px SAFE)
+   ============================================================ */
+@media (max-width: 900px) {
+  .task-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .top-actions .btn {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding: 18px 16px;
+  }
+  .top {
+    padding: 12px 16px;
+  }
+  .search {
+    max-width: none;
+  }
+  .staff-hero {
+    padding: 14px;
+  }
+  .staff-switcher {
+    width: 100%;
+  }
+  .staff-switcher .select {
+    width: 100%;
+    min-width: 0;
+  }
+  .staff-kpis {
+    gap: 8px;
+  }
+  .staff-kpi {
+    padding: 11px 10px;
+  }
+  .staff-kpi-val {
+    font-size: 1.25rem;
+  }
+  .task-list {
+    grid-template-columns: 1fr;
+  }
+  .tc-actions {
+    grid-template-columns: 1fr;
+  }
+  .model-ref {
+    grid-template-columns: 1fr;
+  }
+  .model-ref-canvas {
+    aspect-ratio: 16 / 9;
+  }
+  .measure-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pattern-specs {
+    grid-template-columns: 1fr;
+  }
+  .quick-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .staff-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
+}
