@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detail Produksi TH-2041 — TailorHub</title>
+<meta name="description" content="Detail alur produksi 7 tahap TailorHub lengkap dengan timestamp perubahan status, catatan staf, dan penanggung jawab.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<link rel="stylesheet" href="../../assets/css/production.css">
+</head>
+<body>
+
+<!-- SVG Sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" onclick="document.getElementById('app').classList.remove('nav-open')"></div>
+
+  <!-- SIDEBAR (reusable App Shell) -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="28" height="28" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#C05424"/>
+        <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>
+        <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/>
+      </svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <div class="side-sec">Operasional</div>
+    <a href="../dashboard.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-home"/></svg>
+      <span>Dashboard</span>
+    </a>
+    <a href="../orders/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-order"/></svg>
+      <span>Pesanan</span>
+      <span class="n-badge">12</span>
+    </a>
+    <a href="board.html" class="nav-i is-on">
+      <svg width="18" height="18"><use href="#i-scissors"/></svg>
+      <span>Produksi</span>
+    </a>
+    <a href="../customers/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-users"/></svg>
+      <span>Customer</span>
+    </a>
+
+    <div class="side-sec">Keuangan &amp; Analitik</div>
+    <a href="../payments/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-pay"/></svg>
+      <span>Pembayaran</span>
+    </a>
+    <a href="../reports/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-chart"/></svg>
+      <span>Laporan</span>
+    </a>
+
+    <div class="side-sec">Pengaturan</div>
+    <a href="../notifications/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-bell"/></svg>
+      <span>Notifikasi</span>
+      <span class="n-badge">3</span>
+    </a>
+    <a href="../team/index.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-users"/></svg>
+      <span>Tim</span>
+    </a>
+    <a href="../settings/tenant.html" class="nav-i">
+      <svg width="18" height="18"><use href="#i-gear"/></svg>
+      <span>Pengaturan</span>
+    </a>
+
+    <div class="side-foot">
+      <a href="../../account/profile.html" class="side-user">
+        <span class="top-avatar" style="width:36px;height:36px;font-size:.82rem">PM</span>
+        <div>
+          <b>Pak Mardi</b>
+          <small>Pemilik · Jahit Lestari</small>
+        </div>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main">
+    <header class="top">
+      <button type="button" class="burger" aria-label="Buka menu" onclick="document.getElementById('app').classList.toggle('nav-open')">
+        <svg width="24" height="24"><use href="#i-menu"/></svg>
+      </button>
+
+      <div class="search">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" placeholder="Cari pesanan, customer, kode…" onkeydown="if(event.key==='Enter')location.href='../orders/search.html?q='+encodeURIComponent(this.value)">
+      </div>
+
+      <div class="top-actions">
+        <a href="deadline-alerts.html" class="btn btn--ghost btn--sm">
+          <svg width="16" height="16"><use href="#i-warn"/></svg>
+          <span>Alert Deadline</span>
+          <span class="badge-count">2</span>
+        </a>
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi">
+          <svg width="20" height="20"><use href="#i-bell"/></svg>
+          <span class="dot"></span>
+        </a>
+        <a href="../../account/profile.html" class="top-avatar" title="Profil Pak Mardi">PM</a>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span class="sep">/</span>
+            <a href="board.html">Produksi</a>
+            <span class="sep">/</span>
+            <b id="crumbCode">TH-2041</b>
+          </nav>
+          <h1 id="orderHeading">TH-2041 — Kemeja Formal ×3</h1>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;">
+            <span id="stageChip" class="chip chip--sew"><span class="d"></span>Penjahitan (3/7)</span>
+            <span id="deadlineChip" class="chip chip--clay"><span class="d"></span>Deadline: Besok · 24 Nov 2026</span>
+            <span id="payChip" class="chip chip--dp"><span class="d"></span>DP</span>
+            <span id="custSubtitle" style="font-size:.86rem;color:var(--ink-70);font-weight:600;margin-left:4px;">Customer: Budi Santoso</span>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <a href="board.html" class="btn btn--ghost">Kembali ke Kanban</a>
+          <a href="../orders/detail.html" class="btn btn--ghost">Lihat Detail Pesanan</a>
+          <a id="btnUpdateStatus" href="update-status.html?code=TH-2041" class="btn btn--primary">
+            <svg width="17" height="17"><use href="#i-scissors"/></svg>
+            <span>Update Status</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Layout 2 Kolom -->
+      <div class="prod-grid">
+        <!-- KOLOM KIRI: TIMELINE & CATATAN -->
+        <div class="prod-stack">
+          <section class="card" aria-label="Timeline produksi 7 tahap">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px;">
+              <div>
+                <h3>Timeline Tahap Produksi</h3>
+                <p style="font-size:.84rem;color:var(--ink-45);margin-top:3px;">Riwayat perpindahan status dengan timestamp otomatis setiap tahap.</p>
+              </div>
+              <span class="chip chip--soft" id="progressSummary">Progres 3 dari 7 tahap</span>
+            </div>
+
+            <div class="prod-timeline" id="prodTimeline">
+              <div class="pt-item is-done" data-step="1">
+                <div class="pt-rail">
+                  <span class="pt-node"><svg width="16" height="16"><use href="#i-check"/></svg></span>
+                  <span class="pt-line"></span>
+                </div>
+                <div class="pt-body">
+                  <div class="pt-title">1. Antrean</div>
+                  <div class="pt-meta">20 Nov 2026 · 09:15 WIB · Oleh Pak Mardi</div>
+                  <div class="pt-note">Bahan katun poplin diterima dan dicek kelengkapan warna.</div>
+                </div>
+              </div>
+
+              <div class="pt-item is-done" data-step="2">
+                <div class="pt-rail">
+                  <span class="pt-node"><svg width="16" height="16"><use href="#i-check"/></svg></span>
+                  <span class="pt-line"></span>
+                </div>
+                <div class="pt-body">
+                  <div class="pt-title">2. Pemotongan</div>
+                  <div class="pt-meta">21 Nov 2026 · 13:40 WIB · Oleh Andi S.</div>
+                  <div class="pt-note">Pola slim fit M/L selesai dipotong rapi beserta interlining kerah.</div>
+                </div>
+              </div>
+
+              <div class="pt-item is-active" data-step="3">
+                <div class="pt-rail">
+                  <span class="pt-node"><svg width="15" height="15"><use href="#i-scissors"/></svg></span>
+                  <span class="pt-line"></span>
+                </div>
+                <div class="pt-body">
+                  <div class="pt-title">3. Penjahitan <span class="chip chip--clay" style="font-size:.68rem;">Sedang Berjalan</span></div>
+                  <div class="pt-meta">Mulai: 22 Nov 2026 · 08:30 WIB · Oleh Andi S.</div>
+                  <div class="pt-note">Proses penyambungan badan, lengan, dan kerah kemeja.</div>
+                </div>
+              </div>
+
+              <div class="pt-item is-pending" data-step="4">
+                <div class="pt-rail">
+                  <span class="pt-node">4</span>
+                  <span class="pt-line"></span>
+                </div>
+                <div class="pt-body">
+                  <div class="pt-title">4. Finishing</div>
+                  <div class="pt-meta">Estimasi: 23 Nov 2026 · Pasang kancing, lubang kancing &amp; obras</div>
+                </div>
+              </div>
+
+              <div class="pt-item is-pending" data-step="5">
+                <div class="pt-rail">
+                  <span class="pt-node">5</span>
+                  <span class="pt-line"></span>
+                </div>
+                <div class="pt-body">
+                  <div class="pt-title">5. Quality Control (QC)</div>
+                  <div class="pt-meta">Estimasi: 24 Nov 2026 · Pengecekan jahitan, simetri &amp; setrika uap</div>
+                </div>
+              </div>
+
+              <div class="pt-item is-pending" data-step="6">
+                <div class="pt-rail">
+                  <span class="pt-node">6</span>
+                  <span class="pt-line"></span>
+                </div>
+                <div class="pt-body">
+                  <div class="pt-title">6. Selesai</div>
+                  <div class="pt-meta">Target: 24 Nov 2026 · Pesanan dikemas dan siap diambil</div>
+                </div>
+              </div>
+
+              <div class="pt-item is-pending" data-step="7">
+                <div class="pt-rail">
+                  <span class="pt-node">7</span>
+                </div>
+                <div class="pt-body">
+                  <div class="pt-title">7. Diambil</div>
+                  <div class="pt-meta">Menunggu serah terima &amp; pelunasan dengan customer</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Log Catatan Produksi -->
+          <section class="card" aria-label="Log catatan produksi">
+            <h3 style="margin-bottom:14px;">Log Catatan Produksi</h3>
+            <div class="note-list" id="noteList">
+              <div class="note-item">
+                <div class="note-head"><b>Andi S. (Penjahit)</b><span>22 Nov 2026 · 08:35 WIB</span></div>
+                <p>Kancing mutiara putih 11mm sudah disiapkan sesuai permintaan customer. Lanjut jahit manset lengan.</p>
+              </div>
+              <div class="note-item">
+                <div class="note-head"><b>Pak Mardi (Pemilik)</b><span>20 Nov 2026 · 09:20 WIB</span></div>
+                <p>Prioritaskan pesanan ini karena target dipakai acara kantor tanggal 25 November pagi.</p>
+              </div>
+            </div>
+
+            <form id="noteForm">
+              <div class="field" style="margin-bottom:10px;">
+                <label for="noteInput">Tambah Catatan Produksi Baru</label>
+                <textarea id="noteInput" class="textarea" placeholder="Tulis kendala kain, progres jahit, atau pesan untuk tim QC…" required></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--sm">Simpan Catatan</button>
+            </form>
+          </section>
+        </div>
+
+        <!-- KOLOM KANAN: PENUGASAN, SPESIFIKASI & PORTAL -->
+        <div class="prod-stack">
+          <!-- Penanggung Jawab -->
+          <section class="card" aria-label="Penanggung jawab produksi">
+            <h3 style="margin-bottom:14px;">Penanggung Jawab</h3>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+              <span class="avatar avatar--lg" id="staffAvatar">AS</span>
+              <div>
+                <b id="staffName" style="display:block;font-size:1rem;color:var(--ink);">Andi S.</b>
+                <span id="staffRole" style="font-size:.8rem;color:var(--ink-45);">Penjahit Utama · Spesialis Kemeja</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="assignStaff">Ganti Penanggung Jawab</label>
+              <select id="assignStaff" class="select">
+                <option value="AS|Andi S.|Penjahit Utama · Spesialis Kemeja" selected>Andi S. (AS)</option>
+                <option value="RN|Rina N.|Penjahit Busana Wanita">Rina N. (RN)</option>
+                <option value="MB|Mas Budi|Spesialis Jas &amp; Blazer">Mas Budi (MB)</option>
+                <option value="PM|Pak Mardi|Kepala Produksi &amp; QC">Pak Mardi (PM)</option>
+              </select>
+            </div>
+            <button type="button" id="saveStaffBtn" class="btn btn--ghost btn--block btn--sm">Simpan Penugasan</button>
+          </section>
+
+          <!-- Spesifikasi Teknis & Ukuran -->
+          <section class="card" aria-label="Spesifikasi bahan dan ukuran">
+            <h3 style="margin-bottom:14px;">Spesifikasi Produksi</h3>
+            <div class="spec-grid" style="margin-bottom:14px;">
+              <div class="spec-item">
+                <small>Bahan Utama</small>
+                <b id="specFabric">Katun Poplin Jepang</b>
+              </div>
+              <div class="spec-item">
+                <small>Jumlah Item</small>
+                <b id="specQty">3 Pcs (M, L, L)</b>
+              </div>
+              <div class="spec-item">
+                <small>Model Potongan</small>
+                <b id="specCut">Slim Fit · Lengan Panjang</b>
+              </div>
+              <div class="spec-item">
+                <small>Ukuran Kunci</small>
+                <b id="specSize">LD 100 · Lgn 60 · Krh 40 cm</b>
+              </div>
+            </div>
+            <a href="../orders/detail.html" class="btn btn--ghost btn--block btn--sm">Buka Rincian Ukuran Lengkap →</a>
+          </section>
+
+          <!-- Sinkronisasi Portal Customer -->
+          <section class="card" style="background:var(--ink-900);color:#fff;border-color:var(--ink-900);" aria-label="Sinkronisasi portal customer">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <small style="color:var(--clay-300);text-transform:uppercase;font-weight:800;letter-spacing:.08em;font-size:.7rem;">Portal Tracking Publik</small>
+              <span class="chip chip--clay" style="font-size:.66rem;">Sinkron Otomatis</span>
+            </div>
+            <b id="portalCode" style="font-size:1.25rem;letter-spacing:.03em;display:block;margin-bottom:6px;">TH-2041</b>
+            <p style="font-size:.82rem;color:rgba(255,248,239,.72);margin-bottom:14px;">
+              Setiap pembaruan tahap di halaman ini langsung terlihat oleh customer di halaman tracking mandiri.
+            </p>
+            <div style="display:grid;gap:8px;">
+              <a id="btnPortalPreview" href="../../portal/track-result.html?code=TH-2041" class="btn btn--light btn--block btn--sm">Pratinjau Halaman Tracking</a>
+              <button type="button" id="btnSendWa" class="btn btn--ghost btn--block btn--sm" style="color:#fff;border-color:rgba(255,255,255,.28);">
+                <svg width="15" height="15"><use href="#i-phone"/></svg>
+                <span>Kirim Update WA ke Customer</span>
+              </button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var ORDERS = {
+    'TH-2045': {
+      title: 'TH-2045 — Seragam Kantor ×20',
+      customer: 'PT Maju Jaya',
+      step: 1, stageLabel: 'Antrean (1/7)', stageClass: 'chip--queue',
+      deadlineLabel: 'Deadline: 02 Des 2026', deadlineClass: 'chip--soft',
+      payLabel: 'Belum Bayar', payClass: 'chip--unpaid',
+      staff: 'PM|Pak Mardi|Menunggu Penugasan Staf',
+      fabric: 'American Drill', qty: '20 Stel (S–XXL)', cut: 'Reguler Korporat', size: 'LD Standar S–XXL'
+    },
+    'TH-2044': {
+      title: 'TH-2044 — Celana Bahan ×2',
+      customer: 'Rudi Darmawan',
+      step: 1, stageLabel: 'Antrean (1/7)', stageClass: 'chip--queue',
+      deadlineLabel: 'Deadline: 28 Nov 2026', deadlineClass: 'chip--soft',
+      payLabel: 'DP', payClass: 'chip--dp',
+      staff: 'PM|Pak Mardi|Menunggu Penugasan Staf',
+      fabric: 'Twist Wool Hitam', qty: '2 Pcs', cut: 'Straight Fit', size: 'Pinggang 84 · Pjg 99 cm'
+    },
+    'TH-2037': {
+      title: 'TH-2037 — Kemeja Batik ×6',
+      customer: 'Sari Wulandari',
+      step: 2, stageLabel: 'Pemotongan (2/7)', stageClass: 'chip--cut',
+      deadlineLabel: 'Deadline: 29 Nov 2026', deadlineClass: 'chip--soft',
+      payLabel: 'DP', payClass: 'chip--dp',
+      staff: 'AS|Andi S.|Penjahit Utama · Spesialis Kemeja',
+      fabric: 'Katun Primisima Batik', qty: '6 Pcs', cut: 'Reguler · Sambung Motif', size: 'LD 98–108 cm'
+    },
+    'TH-2041': {
+      title: 'TH-2041 — Kemeja Formal ×3',
+      customer: 'Budi Santoso',
+      step: 3, stageLabel: 'Penjahitan (3/7)', stageClass: 'chip--sew',
+      deadlineLabel: 'Deadline: Besok · 24 Nov 2026', deadlineClass: 'chip--clay',
+      payLabel: 'DP', payClass: 'chip--dp',
+      staff: 'AS|Andi S.|Penjahit Utama · Spesialis Kemeja',
+      fabric: 'Katun Poplin Jepang', qty: '3 Pcs (M, L, L)', cut: 'Slim Fit · Lengan Panjang', size: 'LD 100 · Lgn 60 · Krh 40 cm'
+    },
+    'TH-2038': {
+      title: 'TH-2038 — Gamis Pesta ×1',
+      customer: 'Nurul Laila',
+      step: 3, stageLabel: 'Penjahitan (3/7)', stageClass: 'chip--sew',
+      deadlineLabel: 'Deadline: 30 Nov 2026', deadlineClass: 'chip--soft',
+      payLabel: 'DP', payClass: 'chip--dp',
+      staff: 'RN|Rina N.|Penjahit Busana Wanita',
+      fabric: 'Ceruti Babydoll + Furing', qty: '1 Pcs', cut: 'A-Line Payet', size: 'LD 92 · Pjg 138 cm'
+    },
+    'TH-2035': {
+      title: 'TH-2035 — Jas Almamater ×1',
+      customer: 'Citra Dewi',
+      step: 4, stageLabel: 'Finishing (4/7)', stageClass: 'chip--finish',
+      deadlineLabel: 'Deadline: 26 Nov 2026', deadlineClass: 'chip--soft',
+      payLabel: 'Lunas', payClass: 'chip--paid',
+      staff: 'MB|Mas Budi|Spesialis Jas & Blazer',
+      fabric: 'Nagata Drill Navy', qty: '1 Pcs', cut: 'Standard Kampus', size: 'LD 94 · Lgn 57 cm'
+    },
+    'TH-2033': {
+      title: 'TH-2033 — Jas Formal ×1',
+      customer: 'Hendra W.',
+      step: 4, stageLabel: 'Finishing (4/7)', stageClass: 'chip--finish',
+      deadlineLabel: 'Lewat Deadline (-1 hari)', deadlineClass: 'chip--danger',
+      payLabel: 'DP', payClass: 'chip--dp',
+      staff: 'MB|Mas Budi|Spesialis Jas & Blazer',
+      fabric: 'Semi Wool Charcoal', qty: '1 Stel', cut: 'Slim Fit Double Vent', size: 'LD 102 · Pjg 74 cm'
+    },
+    'TH-2040': {
+      title: 'TH-2040 — Jas Formal ×1',
+      customer: 'Citra Dewi',
+      step: 5, stageLabel: 'QC (5/7)', stageClass: 'chip--qc',
+      deadlineLabel: 'Deadline: 24 Nov 2026 (H-2)', deadlineClass: 'chip--clay',
+      payLabel: 'Lunas', payClass: 'chip--paid',
+      staff: 'AS|Andi S.|Penjahit Utama · Spesialis Kemeja',
+      fabric: 'Wool Blend Hitam', qty: '1 Stel', cut: 'Tailored Blazer', size: 'LD 92 · Bahu 40 cm'
+    },
+    'TH-2030': {
+      title: 'TH-2030 — Kemeja Kerja ×2',
+      customer: 'Hendra W.',
+      step: 6, stageLabel: 'Selesai (6/7)', stageClass: 'chip--done',
+      deadlineLabel: 'Siap Diambil', deadlineClass: 'chip--done',
+      payLabel: 'Lunas', payClass: 'chip--paid',
+      staff: 'RN|Rina N.|Penjahit Busana Wanita',
+      fabric: 'Oxford Biru Muda', qty: '2 Pcs', cut: 'Reguler Fit', size: 'LD 104 · Lgn 61 cm'
+    },
+    'TH-2026': {
+      title: 'TH-2026 — Kebaya Wisuda ×1',
+      customer: 'Ibu Ratna',
+      step: 7, stageLabel: 'Diambil (7/7)', stageClass: 'chip--taken',
+      deadlineLabel: 'Diambil 20 Nov 2026', deadlineClass: 'chip--taken',
+      payLabel: 'Lunas', payClass: 'chip--paid',
+      staff: 'RN|Rina N.|Penjahit Busana Wanita',
+      fabric: 'Brokat Prancis + Satin', qty: '1 Stel', cut: 'Kartini Modern', size: 'LD 96 · Pjg 70 cm'
+    }
+  };
+
+  function showToast(title, message) {
+    var old = document.getElementById('prodToast');
+    if (old) old.remove();
+
+    var toast = document.createElement('div');
+    toast.id = 'prodToast';
+    toast.className = 'prod-toast';
+
+    var textWrap = document.createElement('div');
+    var b = document.createElement('b');
+    b.textContent = title;
+    var s = document.createElement('small');
+    s.textContent = message;
+    textWrap.appendChild(b);
+    textWrap.appendChild(s);
+
+    var close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'toast-x';
+    close.textContent = '×';
+    close.addEventListener('click', function () { toast.remove(); });
+
+    toast.appendChild(textWrap);
+    toast.appendChild(close);
+    document.body.appendChild(toast);
+
+    setTimeout(function () { if (toast.parentNode) toast.remove(); }, 4200);
+  }
+
+  function setChip(el, cls, text) {
+    el.className = 'chip ' + cls;
+    el.textContent = '';
+    var dot = document.createElement('span');
+    dot.className = 'd';
+    el.appendChild(dot);
+    el.appendChild(document.createTextNode(text));
+  }
+
+  function applyOrderFromQuery() {
+    var params = new URLSearchParams(window.location.search);
+    var code = params.get('code');
+    if (!code || !ORDERS[code]) return;
+
+    var data = ORDERS[code];
+    document.title = 'Detail Produksi ' + code + ' — TailorHub';
+    document.getElementById('crumbCode').textContent = code;
+    document.getElementById('orderHeading').textContent = data.title;
+    document.getElementById('custSubtitle').textContent = 'Customer: ' + data.customer;
+    document.getElementById('progressSummary').textContent = 'Progres ' + data.step + ' dari 7 tahap';
+    document.getElementById('portalCode').textContent = code;
+    document.getElementById('btnUpdateStatus').href = 'update-status.html?code=' + encodeURIComponent(code);
+    document.getElementById('btnPortalPreview').href = '../../portal/track-result.html?code=' + encodeURIComponent(code);
+
+    setChip(document.getElementById('stageChip'), data.stageClass, data.stageLabel);
+    setChip(document.getElementById('deadlineChip'), data.deadlineClass, data.deadlineLabel);
+    setChip(document.getElementById('payChip'), data.payClass, data.payLabel);
+
+    document.getElementById('specFabric').textContent = data.fabric;
+    document.getElementById('specQty').textContent = data.qty;
+    document.getElementById('specCut').textContent = data.cut;
+    document.getElementById('specSize').textContent = data.size;
+
+    var staffParts = data.staff.split('|');
+    document.getElementById('staffAvatar').textContent = staffParts[0];
+    document.getElementById('staffName').textContent = staffParts[1];
+    document.getElementById('staffRole').textContent = staffParts[2];
+
+    var selectEl = document.getElementById('assignStaff');
+    for (var i = 0; i < selectEl.options.length; i++) {
+      if (selectEl.options[i].value.indexOf(staffParts[0] + '|') === 0) {
+        selectEl.selectedIndex = i;
+        break;
+      }
+    }
+
+    var steps = document.querySelectorAll('#prodTimeline .pt-item');
+    steps.forEach(function (item) {
+      var stepNum = Number(item.getAttribute('data-step'));
+      var node = item.querySelector('.pt-node');
+      item.classList.remove('is-done', 'is-active', 'is-pending');
+      if (stepNum < data.step) {
+        item.classList.add('is-done');
+        node.textContent = '✓';
+      } else if (stepNum === data.step) {
+        item.classList.add('is-active');
+        node.textContent = String(stepNum);
+      } else {
+        item.classList.add('is-pending');
+        node.textContent = String(stepNum);
+      }
+    });
+  }
+
+  document.getElementById('noteForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = document.getElementById('noteInput');
+    var val = input.value.trim();
+    if (!val) return;
+
+    var item = document.createElement('div');
+    item.className = 'note-item';
+
+    var head = document.createElement('div');
+    head.className = 'note-head';
+    var author = document.createElement('b');
+    author.textContent = 'Pak Mardi (Baru saja)';
+    var time = document.createElement('span');
+    time.textContent = 'Hari ini';
+    head.appendChild(author);
+    head.appendChild(time);
+
+    var p = document.createElement('p');
+    p.textContent = val;
+
+    item.appendChild(head);
+    item.appendChild(p);
+    var noteList = document.getElementById('noteList');
+    noteList.insertBefore(item, noteList.firstChild);
+
+    input.value = '';
+    showToast('Catatan tersimpan', 'Catatan produksi baru berhasil ditambahkan ke log.');
+  });
+
+  document.getElementById('saveStaffBtn').addEventListener('click', function () {
+    var parts = document.getElementById('assignStaff').value.split('|');
+    document.getElementById('staffAvatar').textContent = parts[0];
+    document.getElementById('staffName').textContent = parts[1];
+    document.getElementById('staffRole').textContent = parts[2];
+    showToast('Penugasan diperbarui', 'Pesanan dialokasikan kepada ' + parts[1] + '.');
+  });
+
+  document.getElementById('btnSendWa').addEventListener('click', function () {
+    var code = document.getElementById('crumbCode').textContent;
+    showToast('Notifikasi WhatsApp terkirim', 'Update progres terbaru ' + code + ' dikirim ke customer.');
+  });
+
+  applyOrderFromQuery();
+})();
+</script>
+</body>
+</html>
