@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detail &amp; Hak Akses Anggota — TailorHub</title>
+<meta name="description" content="Detail profil staf, ubah role, dan atur izin tahap produksi yang boleh di-update (FR-38, FR-39).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+.detail-layout{display:grid;grid-template-columns:320px 1fr;gap:24px;align-items:start;}
+.member-profile-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:28px;box-shadow:var(--shadow-s);text-align:center;}
+.member-avatar-lg{width:88px;height:88px;border-radius:50%;background:#27ae60;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;margin-bottom:14px;box-shadow:var(--shadow-s);}
+.profile-stat-box{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;padding:16px 0;border-top:1px solid var(--sand);border-bottom:1px solid var(--sand);text-align:left;}
+.profile-stat-item small{display:block;font-size:.72rem;font-weight:800;color:var(--ink-45);text-transform:uppercase;letter-spacing:.06em;}
+.profile-stat-item b{font-size:1.2rem;font-weight:800;color:var(--ink);display:block;margin-top:2px;}
+
+.perm-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:28px;box-shadow:var(--shadow-s);margin-bottom:24px;}
+.perm-head{margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--sand);}
+.perm-head h3{font-size:1.15rem;margin-bottom:4px;}
+.perm-head p{font-size:.85rem;color:var(--ink-45);}
+
+.perm-group{display:grid;gap:10px;margin-top:14px;}
+.perm-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--cream-200);border:1px solid var(--sand);border-radius:var(--r-m);}
+
+@media(max-width:860px){
+  .detail-layout{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim" onclick="document.getElementById('app').classList.remove('nav-open')"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#C05424"/><path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/><circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/><circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i" href="../reports/index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i" href="../notifications/index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i is-on" href="index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i" href="../settings/tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN AREA ===================== -->
+  <div class="main">
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu" onclick="document.getElementById('app').classList.toggle('nav-open')"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <form class="search" action="../search.html" method="GET">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" name="q" placeholder="Cari pesanan, staf…">
+      </form>
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <a href="../../account/profile.html" class="top-avatar">PM</a>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <a href="index.html">Tim</a>
+            <span>/</span>
+            <b>Detail Staf: Joko Susanto</b>
+          </nav>
+          <h1>Detail &amp; Hak Akses Anggota</h1>
+          <p class="sub">Konfigurasi peran kerja, batas tahap produksi yang boleh di-update, dan izin akses data (FR-38, FR-39).</p>
+        </div>
+        <a href="index.html" class="btn btn--ghost btn--sm">← Kembali ke Daftar Tim</a>
+      </div>
+
+      <div class="detail-layout">
+        
+        <!-- Left: Profile & Productivity Card -->
+        <aside>
+          <div class="member-profile-card">
+            <div class="member-avatar-lg">JS</div>
+            <h3 style="margin-bottom:4px;">Joko Susanto</h3>
+            <p style="font-size:.85rem;color:var(--ink-45);margin-bottom:12px;">Penjahit Senior · Jahit Lestari</p>
+            <span class="chip chip--paid"><span class="d"></span>Akun Aktif</span>
+
+            <div class="profile-stat-box">
+              <div class="profile-stat-item">
+                <small>Pesanan Selesai</small>
+                <b>186 Pakaian</b>
+              </div>
+              <div class="profile-stat-item">
+                <small>Sedang Dikerjakan</small>
+                <b style="color:var(--clay);">5 Pesanan</b>
+              </div>
+              <div class="profile-stat-item">
+                <small>Waktu Rata-rata</small>
+                <b>2.4 Hari</b>
+              </div>
+              <div class="profile-stat-item">
+                <small>Rating Jahitan</small>
+                <b style="color:#f39c12;">4.9 / 5.0</b>
+              </div>
+            </div>
+
+            <div style="text-align:left;font-size:.85rem;color:var(--ink-70);margin-bottom:20px;display:grid;gap:6px;">
+              <div><b>Email:</b> joko.tailor@gmail.com</div>
+              <div><b>WhatsApp:</b> 0812-9988-1234</div>
+              <div><b>Bergabung:</b> 10 Januari 2024</div>
+            </div>
+
+            <button type="button" class="btn btn--danger btn--sm btn--block" onclick="confirm('Apakah Anda yakin ingin menonaktifkan akun staf ini?');">
+              Nonaktifkan Akses Akun
+            </button>
+          </div>
+        </aside>
+
+        <!-- Right: Permissions & Role Configuration Form -->
+        <main>
+          <form onsubmit="alert('Hak akses anggota Joko Susanto berhasil diperbarui!'); return false;">
+            
+            <!-- Section 1: Role Jabatan -->
+            <div class="perm-card">
+              <div class="perm-head">
+                <h3>Role &amp; Jabatan Kerja</h3>
+                <p>Menentukan tanggung jawab utama staf di sistem TailorHub</p>
+              </div>
+
+              <div class="field">
+                <label>Pilih Role Akun <span class="req">*</span></label>
+                <select class="select">
+                  <option>Pemilik Usaha (Akses Penuh)</option>
+                  <option>Admin Kasir &amp; Customer Service</option>
+                  <option selected>Penjahit Senior / Operator Produksi</option>
+                  <option>Tukang Potong Pola</option>
+                  <option>Asisten Finishing &amp; QC</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Section 2: Izin Tahap Produksi (FR-39) -->
+            <div class="perm-card">
+              <div class="perm-head">
+                <h3>Izin Tahap Produksi (FR-39)</h3>
+                <p>Pilih tahapan pada papan Kanban produksi yang boleh diubah statusnya oleh staf ini</p>
+              </div>
+
+              <div class="perm-group">
+                <label class="perm-item check">
+                  <div>
+                    <b>1. Antrean &amp; Menunggu Kain</b>
+                    <small style="display:block;color:var(--ink-45);">Menerima kain pelanggan &amp; memindahkan ke proses potong</small>
+                  </div>
+                  <input type="checkbox">
+                </label>
+
+                <label class="perm-item check">
+                  <div>
+                    <b>2. Potong Pola</b>
+                    <small style="display:block;color:var(--ink-45);">Memotong kain dan menandai potongan pola</small>
+                  </div>
+                  <input type="checkbox">
+                </label>
+
+                <label class="perm-item check">
+                  <div>
+                    <b>3. Proses Jahit</b>
+                    <small style="display:block;color:var(--ink-45);">Menjahit busana utama dan melaporkan progres jahit</small>
+                  </div>
+                  <input type="checkbox" checked>
+                </label>
+
+                <label class="perm-item check">
+                  <div>
+                    <b>4. Finishing &amp; Obras</b>
+                    <small style="display:block;color:var(--ink-45);">Pemasangan kancing, resleting, dan setrika uap</small>
+                  </div>
+                  <input type="checkbox" checked>
+                </label>
+
+                <label class="perm-item check">
+                  <div>
+                    <b>5. Quality Control (QC)</b>
+                    <small style="display:block;color:var(--ink-45);">Memeriksa ukuran jahitan dan memberi centang lolos uji</small>
+                  </div>
+                  <input type="checkbox" checked>
+                </label>
+
+                <label class="perm-item check">
+                  <div>
+                    <b>6. Selesai / Siap Diambil</b>
+                    <small style="display:block;color:var(--ink-45);">Memindahkan pesanan ke etalase toko dan trigger notifikasi WhatsApp</small>
+                  </div>
+                  <input type="checkbox">
+                </label>
+              </div>
+            </div>
+
+            <!-- Section 3: Pembatasan Modul Lain -->
+            <div class="perm-card">
+              <div class="perm-head">
+                <h3>Hak Akses Modul Sistem</h3>
+                <p>Pengaturan visibilitas modul lain untuk menjaga kerahasiaan data finansial usaha</p>
+              </div>
+
+              <div class="perm-group">
+                <div class="perm-item">
+                  <div>
+                    <b>Modul Keuangan &amp; Pembayaran</b>
+                    <small style="display:block;color:var(--ink-45);">Omzet kasir, rekonsiliasi, dan saldo piutang</small>
+                  </div>
+                  <span class="chip chip--soft" style="color:var(--red);">Terkunci (Tanpa Akses)</span>
+                </div>
+
+                <div class="perm-item">
+                  <div>
+                    <b>Data Pelanggan &amp; Catatan Ukuran</b>
+                    <small style="display:block;color:var(--ink-45);">Melihat data lingkar dada, panjang lengan, dan postur</small>
+                  </div>
+                  <span class="chip chip--paid">Hanya Lihat (Read-Only)</span>
+                </div>
+
+                <div class="perm-item">
+                  <div>
+                    <b>Pengaturan Usaha &amp; Billing</b>
+                    <small style="display:block;color:var(--ink-45);">Paket langganan dan konfigurasi toko</small>
+                  </div>
+                  <span class="chip chip--soft" style="color:var(--red);">Terkunci (Tanpa Akses)</span>
+                </div>
+              </div>
+
+              <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:24px;">
+                <a href="index.html" class="btn btn--ghost">Batal</a>
+                <button type="submit" class="btn btn--primary">
+                  <svg width="17" height="17"><use href="#i-check"/></svg>
+                  <span>Simpan Perubahan Hak Akses</span>
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </main>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../../assets/js/app.js"></script>
+</body>
+</html>
