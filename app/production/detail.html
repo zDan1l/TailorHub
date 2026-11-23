@@ -204,7 +204,7 @@
                   <span class="pt-line"></span>
                 </div>
                 <div class="pt-body">
-                  <div class="pt-title">3. Penjahitan <span class="chip chip--clay" style="font-size:.68rem;">Sedang Berjalan</span></div>
+                  <div class="pt-title">3. Penjahitan <span id="activeStageBadge" class="chip chip--clay" style="font-size:.68rem;">Sedang Berjalan</span></div>
                   <div class="pt-meta">Mulai: 22 Nov 2026 · 08:30 WIB · Oleh Andi S.</div>
                   <div class="pt-note">Proses penyambungan badan, lengan, dan kerah kemeja.</div>
                 </div>
@@ -335,9 +335,15 @@
               <span class="chip chip--clay" style="font-size:.66rem;">Sinkron Otomatis</span>
             </div>
             <b id="portalCode" style="font-size:1.25rem;letter-spacing:.03em;display:block;margin-bottom:6px;">TH-2041</b>
-            <p style="font-size:.82rem;color:rgba(255,248,239,.72);margin-bottom:14px;">
+            <p style="font-size:.82rem;color:rgba(255,248,239,.72);margin-bottom:12px;">
               Setiap pembaruan tahap di halaman ini langsung terlihat oleh customer di halaman tracking mandiri.
             </p>
+            <div class="detail-wa-preview" id="detailWaPreview">Pratinjau Pesan WA:
+Halo Budi Santoso,
+Pesanan TH-2041 (Kemeja Formal ×3) di Jahit Lestari kini berada di tahap *Penjahitan* (3/7).
+
+Pantau progres lengkap di:
+https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
             <div style="display:grid;gap:8px;">
               <a id="btnPortalPreview" href="../../portal/track-result.html?code=TH-2041" class="btn btn--light btn--block btn--sm">Pratinjau Halaman Tracking</a>
               <button type="button" id="btnSendWa" class="btn btn--ghost btn--block btn--sm" style="color:#fff;border-color:rgba(255,255,255,.28);">
@@ -384,6 +390,15 @@
       staff: 'AS|Andi S.|Penjahit Utama · Spesialis Kemeja',
       fabric: 'Katun Primisima Batik', qty: '6 Pcs', cut: 'Reguler · Sambung Motif', size: 'LD 98–108 cm'
     },
+    'TH-2043': {
+      title: 'TH-2043 — Kaos Komunitas ×30',
+      customer: 'Komunitas Lari Sby',
+      step: 2, stageLabel: 'Pemotongan (2/7)', stageClass: 'chip--cut',
+      deadlineLabel: 'Deadline: 01 Des 2026', deadlineClass: 'chip--soft',
+      payLabel: 'DP', payClass: 'chip--dp',
+      staff: 'RN|Rina N.|Penjahit Busana Wanita',
+      fabric: 'Cotton Combed 24s', qty: '30 Pcs (S–XXL)', cut: 'Unisex Raglan', size: 'LD Standar S–XXL'
+    },
     'TH-2041': {
       title: 'TH-2041 — Kemeja Formal ×3',
       customer: 'Budi Santoso',
@@ -428,6 +443,15 @@
       payLabel: 'Lunas', payClass: 'chip--paid',
       staff: 'AS|Andi S.|Penjahit Utama · Spesialis Kemeja',
       fabric: 'Wool Blend Hitam', qty: '1 Stel', cut: 'Tailored Blazer', size: 'LD 92 · Bahu 40 cm'
+    },
+    'TH-2042': {
+      title: 'TH-2042 — Blazer Kerja ×2',
+      customer: 'Ibu Maya',
+      step: 5, stageLabel: 'QC (5/7)', stageClass: 'chip--qc',
+      deadlineLabel: 'Deadline: 27 Nov 2026', deadlineClass: 'chip--soft',
+      payLabel: 'DP', payClass: 'chip--dp',
+      staff: 'MB|Mas Budi|Spesialis Jas & Blazer',
+      fabric: 'Polyester Gabardine', qty: '2 Pcs', cut: 'Tailored Fit Wanita', size: 'LD 94 · Lgn 56 cm'
     },
     'TH-2030': {
       title: 'TH-2030 — Kemeja Kerja ×2',
@@ -487,10 +511,23 @@
     el.appendChild(document.createTextNode(text));
   }
 
+  function updateDetailWaPreview(code, data) {
+    var previewEl = document.getElementById('detailWaPreview');
+    if (!previewEl) return;
+    var itemName = data.title.replace(code + ' — ', '');
+    var stageName = data.stageLabel.replace(/\s*\(\d\/7\)/, '');
+    previewEl.textContent =
+      'Pratinjau Pesan WA:\n' +
+      'Halo ' + data.customer + ',\n' +
+      'Pesanan ' + code + ' (' + itemName + ') di Jahit Lestari kini berada di tahap *' + stageName + '* (' + data.step + '/7).\n\n' +
+      'Pantau progres lengkap di:\n' +
+      'https://tailorhub.id/portal/track-result.html?code=' + code;
+  }
+
   function applyOrderFromQuery() {
     var params = new URLSearchParams(window.location.search);
-    var code = params.get('code');
-    if (!code || !ORDERS[code]) return;
+    var code = params.get('code') || 'TH-2041';
+    if (!ORDERS[code]) code = 'TH-2041';
 
     var data = ORDERS[code];
     document.title = 'Detail Produksi ' + code + ' — TailorHub';
@@ -524,10 +561,12 @@
       }
     }
 
+    var activeBadge = document.getElementById('activeStageBadge');
     var steps = document.querySelectorAll('#prodTimeline .pt-item');
     steps.forEach(function (item) {
       var stepNum = Number(item.getAttribute('data-step'));
       var node = item.querySelector('.pt-node');
+      var titleEl = item.querySelector('.pt-title');
       item.classList.remove('is-done', 'is-active', 'is-pending');
       if (stepNum < data.step) {
         item.classList.add('is-done');
@@ -535,11 +574,16 @@
       } else if (stepNum === data.step) {
         item.classList.add('is-active');
         node.textContent = String(stepNum);
+        if (activeBadge && titleEl) {
+          titleEl.appendChild(activeBadge);
+        }
       } else {
         item.classList.add('is-pending');
         node.textContent = String(stepNum);
       }
     });
+
+    updateDetailWaPreview(code, data);
   }
 
   document.getElementById('noteForm').addEventListener('submit', function (e) {

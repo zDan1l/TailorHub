@@ -187,11 +187,14 @@
               <option value="TH-2033">TH-2033 — Jas Formal ×1 (Hendra W.) · Lewat Deadline</option>
               <option value="TH-2040">TH-2040 — Jas Formal ×1 (Citra Dewi)</option>
               <option value="TH-2035">TH-2035 — Jas Almamater ×1 (Citra Dewi)</option>
+              <option value="TH-2042">TH-2042 — Blazer Kerja ×2 (Ibu Maya)</option>
               <option value="TH-2037">TH-2037 — Kemeja Batik ×6 (Sari Wulandari)</option>
+              <option value="TH-2043">TH-2043 — Kaos Komunitas ×30 (Komunitas Lari Sby)</option>
               <option value="TH-2038">TH-2038 — Gamis Pesta ×1 (Nurul Laila)</option>
               <option value="TH-2044">TH-2044 — Celana Bahan ×2 (Rudi Darmawan)</option>
               <option value="TH-2045">TH-2045 — Seragam Kantor ×20 (PT Maju Jaya)</option>
               <option value="TH-2030">TH-2030 — Kemeja Kerja ×2 (Hendra W.)</option>
+              <option value="TH-2026">TH-2026 — Kebaya Wisuda ×1 (Ibu Ratna)</option>
             </select>
           </div>
 
@@ -201,43 +204,43 @@
               <label class="stage-opt" data-stage="antrean">
                 <input type="radio" name="newStage" value="antrean">
                 <span class="stage-opt-dot" style="background:var(--s-queue)"></span>
-                <span class="stage-opt-txt"><b>Antrean</b><small>Tahap 1/7</small></span>
+                <span class="stage-opt-txt"><span class="stage-opt-num">1/7</span><b>Antrean</b></span>
               </label>
 
               <label class="stage-opt" data-stage="potong">
                 <input type="radio" name="newStage" value="potong">
                 <span class="stage-opt-dot" style="background:var(--s-cut)"></span>
-                <span class="stage-opt-txt"><b>Pemotongan</b><small>Tahap 2/7</small></span>
+                <span class="stage-opt-txt"><span class="stage-opt-num">2/7</span><b>Pemotongan</b></span>
               </label>
 
               <label class="stage-opt" data-stage="jahit">
                 <input type="radio" name="newStage" value="jahit">
                 <span class="stage-opt-dot" style="background:var(--s-sew)"></span>
-                <span class="stage-opt-txt"><b>Penjahitan</b><small>Tahap 3/7</small></span>
+                <span class="stage-opt-txt"><span class="stage-opt-num">3/7</span><b>Penjahitan</b></span>
               </label>
 
               <label class="stage-opt is-selected" data-stage="finishing">
                 <input type="radio" name="newStage" value="finishing" checked>
                 <span class="stage-opt-dot" style="background:var(--s-finish)"></span>
-                <span class="stage-opt-txt"><b>Finishing</b><small>Tahap 4/7</small></span>
+                <span class="stage-opt-txt"><span class="stage-opt-num">4/7</span><b>Finishing</b></span>
               </label>
 
               <label class="stage-opt" data-stage="qc">
                 <input type="radio" name="newStage" value="qc">
                 <span class="stage-opt-dot" style="background:var(--s-qc)"></span>
-                <span class="stage-opt-txt"><b>QC</b><small>Tahap 5/7</small></span>
+                <span class="stage-opt-txt"><span class="stage-opt-num">5/7</span><b>QC</b></span>
               </label>
 
               <label class="stage-opt" data-stage="selesai">
                 <input type="radio" name="newStage" value="selesai">
                 <span class="stage-opt-dot" style="background:var(--s-done)"></span>
-                <span class="stage-opt-txt"><b>Selesai</b><small>Tahap 6/7</small></span>
+                <span class="stage-opt-txt"><span class="stage-opt-num">6/7</span><b>Selesai</b></span>
               </label>
 
               <label class="stage-opt" data-stage="diambil">
                 <input type="radio" name="newStage" value="diambil">
                 <span class="stage-opt-dot" style="background:var(--s-taken)"></span>
-                <span class="stage-opt-txt"><b>Diambil</b><small>Tahap 7/7</small></span>
+                <span class="stage-opt-txt"><span class="stage-opt-num">7/7</span><b>Diambil</b></span>
               </label>
             </div>
           </div>
@@ -351,11 +354,14 @@
     'TH-2033': { item: 'Jas Formal ×1', customer: 'Hendra W.', stage: 'finishing', staff: 'Mas Budi', pay: 'DP' },
     'TH-2040': { item: 'Jas Formal ×1', customer: 'Citra Dewi', stage: 'qc', staff: 'Andi S.', pay: 'Lunas' },
     'TH-2035': { item: 'Jas Almamater ×1', customer: 'Citra Dewi', stage: 'finishing', staff: 'Mas Budi', pay: 'Lunas' },
+    'TH-2042': { item: 'Blazer Kerja ×2', customer: 'Ibu Maya', stage: 'qc', staff: 'Mas Budi', pay: 'DP' },
     'TH-2037': { item: 'Kemeja Batik ×6', customer: 'Sari Wulandari', stage: 'potong', staff: 'Andi S.', pay: 'DP' },
+    'TH-2043': { item: 'Kaos Komunitas ×30', customer: 'Komunitas Lari Sby', stage: 'potong', staff: 'Rina N.', pay: 'DP' },
     'TH-2038': { item: 'Gamis Pesta ×1', customer: 'Nurul Laila', stage: 'jahit', staff: 'Rina N.', pay: 'DP' },
     'TH-2044': { item: 'Celana Bahan ×2', customer: 'Rudi Darmawan', stage: 'antrean', staff: 'Pak Mardi', pay: 'DP' },
     'TH-2045': { item: 'Seragam Kantor ×20', customer: 'PT Maju Jaya', stage: 'antrean', staff: 'Pak Mardi', pay: 'Belum Bayar' },
-    'TH-2030': { item: 'Kemeja Kerja ×2', customer: 'Hendra W.', stage: 'selesai', staff: 'Rina N.', pay: 'Lunas' }
+    'TH-2030': { item: 'Kemeja Kerja ×2', customer: 'Hendra W.', stage: 'selesai', staff: 'Rina N.', pay: 'Lunas' },
+    'TH-2026': { item: 'Kebaya Wisuda ×1', customer: 'Ibu Ratna', stage: 'diambil', staff: 'Rina N.', pay: 'Lunas' }
   };
 
   var orderSelect = document.getElementById('orderSelect');
