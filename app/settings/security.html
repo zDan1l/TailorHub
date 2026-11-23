@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keamanan &amp; Privasi — TailorHub</title>
+<meta name="description" content="Atur kata sandi akun pemilik, verifikasi dua langkah, manajemen sesi login aktif, dan isolasi data tenant.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+<style>
+/* Tab Navigasi Pengaturan */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--sand);margin-bottom:24px;overflow-x:auto;}
+.tabs a{padding:11px 16px;font-size:.9rem;font-weight:700;color:var(--ink-45);border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;}
+.tabs a:hover{color:var(--clay);}
+.tabs a.is-on{color:var(--clay);border-bottom-color:var(--clay);}
+
+/* Security Cards */
+.sec-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:28px;box-shadow:var(--shadow-s);margin-bottom:24px;}
+.sec-head{margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--sand);}
+.sec-head h3{font-size:1.15rem;margin-bottom:4px;}
+.sec-head p{font-size:.85rem;color:var(--ink-45);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+/* Device List */
+.device-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;background:var(--cream-200);border:1px solid var(--sand);border-radius:var(--r-m);margin-bottom:10px;}
+.device-info{display:flex;align-items:center;gap:14px;}
+.device-icon{width:40px;height:40px;border-radius:12px;background:var(--paper);border:1px solid var(--sand);display:inline-flex;align-items:center;justify-content:center;color:var(--ink-70);flex:none;}
+
+@media(max-width:768px){
+  .form-row{grid-template-columns:1fr;}
+  .device-item{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M5 12l7 7 7-7"/><path d="M4 20h16"/></symbol>
+</defs></svg>
+
+<div class="app" id="app">
+  <div class="scrim" id="scrim" onclick="document.getElementById('app').classList.remove('nav-open')"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="side-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#C05424"/><path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/><circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/><circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg>
+      <span>Tailor<em>Hub</em></span>
+    </div>
+
+    <nav>
+      <div class="side-sec">Utama</div>
+      <a class="nav-i" href="../dashboard.html"><svg width="19" height="19"><use href="#i-home"/></svg> Dashboard</a>
+      <a class="nav-i" href="../orders/index.html"><svg width="19" height="19"><use href="#i-order"/></svg> Pesanan <span class="n-badge">12</span></a>
+      <a class="nav-i" href="../production/board.html"><svg width="19" height="19"><use href="#i-scissors"/></svg> Produksi</a>
+      <a class="nav-i" href="../customers/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Customer</a>
+
+      <div class="side-sec">Keuangan</div>
+      <a class="nav-i" href="../payments/index.html"><svg width="19" height="19"><use href="#i-pay"/></svg> Pembayaran</a>
+      <a class="nav-i" href="../reports/index.html"><svg width="19" height="19"><use href="#i-chart"/></svg> Laporan</a>
+
+      <div class="side-sec">Pengaturan</div>
+      <a class="nav-i" href="../notifications/index.html"><svg width="19" height="19"><use href="#i-bell"/></svg> Notifikasi <span class="n-badge">3</span></a>
+      <a class="nav-i" href="../team/index.html"><svg width="19" height="19"><use href="#i-users"/></svg> Tim</a>
+      <a class="nav-i is-on" href="tenant.html"><svg width="19" height="19"><use href="#i-gear"/></svg> Pengaturan</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="side-user" href="../../account/profile.html">
+        <span class="top-avatar" style="width:38px;height:38px;font-size:.82rem">PM</span>
+        <span><b>Pak Mardi</b><small>Pemilik · Jahit Lestari</small></span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN AREA ===================== -->
+  <div class="main">
+    <header class="top">
+      <button class="burger" id="burger" aria-label="Buka menu" onclick="document.getElementById('app').classList.toggle('nav-open')"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+      <form class="search" action="../search.html" method="GET">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+        <input type="search" name="q" placeholder="Cari keamanan, kata sandi, sesi…">
+      </form>
+      <div class="top-actions">
+        <a href="../notifications/index.html" class="icon-btn" aria-label="Notifikasi"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></a>
+        <a href="../../account/profile.html" class="top-avatar">PM</a>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <nav class="crumb">
+            <a href="../dashboard.html">TailorHub</a>
+            <span>/</span>
+            <a href="tenant.html">Pengaturan</a>
+            <span>/</span>
+            <b>Keamanan &amp; Privasi</b>
+          </nav>
+          <h1>Keamanan &amp; Privasi</h1>
+          <p class="sub">Kelola kata sandi akun pemilik, verifikasi dua langkah, manajemen sesi aktif, dan isolasi data tenant (NFR-03, NFR-04).</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs Pengaturan -->
+      <div class="tabs">
+        <a href="tenant.html"><svg width="16" height="16"><use href="#i-gear"/></svg> Profil &amp; Branding</a>
+        <a href="billing.html"><svg width="16" height="16"><use href="#i-pay"/></svg> Langganan &amp; Billing</a>
+        <a href="order-preferences.html"><svg width="16" height="16"><use href="#i-order"/></svg> Preferensi Pesanan</a>
+        <a href="notifications.html"><svg width="16" height="16"><use href="#i-bell"/></svg> Integrasi Notifikasi</a>
+        <a href="security.html" class="is-on"><svg width="16" height="16"><use href="#i-check"/></svg> Keamanan</a>
+      </div>
+
+      <!-- Section 1: Ganti Kata Sandi -->
+      <div class="sec-card">
+        <div class="sec-head">
+          <h3>Perbarui Kata Sandi Pemilik</h3>
+          <p>Pastikan akun pemilik usaha Anda menggunakan kata sandi yang kuat dan aman</p>
+        </div>
+
+        <form onsubmit="alert('Kata sandi berhasil diperbarui!'); return false;">
+          <div class="field">
+            <label>Kata Sandi Saat Ini <span class="req">*</span></label>
+            <input class="input" type="password" placeholder="Masukkan kata sandi lama Anda" required style="max-width:480px;">
+          </div>
+
+          <div class="form-row" style="max-width:760px;">
+            <div class="field">
+              <label>Kata Sandi Baru <span class="req">*</span></label>
+              <input class="input" type="password" placeholder="Minimal 8 karakter unik" required>
+              <span class="help">Gunakan kombinasi huruf besar, angka, dan simbol.</span>
+            </div>
+            <div class="field">
+              <label>Konfirmasi Kata Sandi Baru <span class="req">*</span></label>
+              <input class="input" type="password" placeholder="Ketik ulang kata sandi baru" required>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;">
+            <button type="submit" class="btn btn--primary">
+              <svg width="17" height="17"><use href="#i-check"/></svg>
+              <span>Simpan Kata Sandi Baru</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Section 2: Autentikasi Dua Langkah (2FA) -->
+      <div class="sec-card">
+        <div class="sec-head">
+          <h3>Autentikasi Dua Langkah (2FA)</h3>
+          <p>Lapisan keamanan tambahan menggunakan kode OTP dari aplikasi Google Authenticator saat login</p>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+              <b style="font-size:1rem;color:var(--ink);">Status 2FA Akun</b>
+              <span class="chip chip--soft">Nonaktif</span>
+            </div>
+            <p style="font-size:.86rem;color:var(--ink-70);max-width:54ch;">
+              Sangat disarankan untuk mengaktifkan 2FA guna melindungi data omzet keuangan dan database kontak pelanggan usaha Anda.
+            </p>
+          </div>
+          <button class="btn btn--light" onclick="alert('Fitur 2FA: Silakan scan QR code dengan Google Authenticator di perangkat Anda.');">
+            <span>Aktifkan 2FA Sekarang</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 3: Sesi & Perangkat Login Aktif -->
+      <div class="sec-card">
+        <div class="sec-head" style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <h3>Sesi Perangkat Aktif</h3>
+            <p>Daftar komputer dan ponsel yang sedang terhubung ke akun Jahit Lestari</p>
+          </div>
+          <button class="btn btn--danger btn--sm" onclick="confirm('Apakah Anda ingin mengeluarkan semua sesi di perangkat lain?');">
+            <span>Logout Semua Perangkat Lain</span>
+          </button>
+        </div>
+
+        <div class="device-item">
+          <div class="device-info">
+            <span class="device-icon"><svg width="20" height="20"><use href="#i-monitor"/></svg></span>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <b>Windows PC — Google Chrome 130</b>
+                <span class="chip chip--paid" style="font-size:.66rem;"><span class="d"></span>Perangkat Ini</span>
+              </div>
+              <small style="color:var(--ink-45);display:block;margin-top:2px;">Surabaya, Jawa Timur · IP: 182.253.14.92 · Aktif sekarang</small>
+            </div>
+          </div>
+          <span style="font-size:.82rem;font-weight:700;color:var(--green);">Sedang Digunakan</span>
+        </div>
+
+        <div class="device-item">
+          <div class="device-info">
+            <span class="device-icon"><svg width="20" height="20"><use href="#i-phone"/></svg></span>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <b>Samsung Galaxy A54 — TailorHub Mobile App</b>
+              </div>
+              <small style="color:var(--ink-45);display:block;margin-top:2px;">Surabaya, Jawa Timur · Aktif 2 jam yang lalu</small>
+            </div>
+          </div>
+          <button class="btn btn--ghost btn--sm" style="color:var(--red);border-color:transparent;" onclick="alert('Sesi pada Samsung Galaxy A54 berhasil diputus.');">Putus Akses</button>
+        </div>
+      </div>
+
+      <!-- Section 4: Privasi & Isolasi Data Tenant (NFR-03, NFR-04) -->
+      <div class="sec-card">
+        <div class="sec-head">
+          <h3>Privasi &amp; Isolasi Data Usaha (NFR-03, NFR-04)</h3>
+          <p>Kepatuhan keamanan data dan enkripsi multi-tenant SaaS TailorHub</p>
+        </div>
+
+        <div style="background:var(--cream-200);border:1px solid var(--sand);border-radius:var(--r-m);padding:18px;margin-bottom:18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg width="20" height="20" style="color:var(--green);"><use href="#i-shield"/></svg>
+            <b style="color:var(--ink);">Data Terisolasi Secara Logis &amp; Terenkripsi</b>
+          </div>
+          <p style="font-size:.86rem;color:var(--ink-70);line-height:1.5;">
+            Seluruh data pelanggan, ukuran tubuh jahitan, serta riwayat pembayaran toko Anda dipisahkan secara ketat dengan skema <code>tenant_id</code> unik. Tenant lain di TailorHub tidak dapat mengakses informasi bisnis Anda.
+          </p>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <b>Cadangkan Data Usaha Mandiri</b>
+            <p style="font-size:.84rem;color:var(--ink-45);margin-top:2px;">Unduh seluruh arsip pesanan, buku pelanggan, dan catatan ukuran tubuh dalam format CSV / JSON.</p>
+          </div>
+          <button class="btn btn--ghost btn--sm" onclick="alert('Menyiapkan file arsip data Jahit Lestari (ZIP/CSV)...');">
+            <svg width="15" height="15"><use href="#i-download"/></svg>
+            <span>Ekspor Cadangan Data (.ZIP)</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../../assets/js/app.js"></script>
+</body>
+</html>
