@@ -5,6 +5,11 @@
    Semua warna/radius/bayangan memakai token dari tokens.css.
    ============================================================ */
 
+/* Pastikan atribut HTML hidden tidak tertimpa display:flex/grid */
+[hidden] {
+  display: none !important;
+}
+
 /* ----- Sub-navigasi & View Switch ----- */
 .prod-subnav {
   display: flex;
