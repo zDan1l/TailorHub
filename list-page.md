@@ -27,14 +27,6 @@ Sebagian ditandai *(partial)* = potongan HTML/modal yang disisipkan, bukan halam
 | **4** | Dev 4 | Manajemen Pesanan & Customer | 11 | **Zelvia** |
 | **5** | Dev 5 | Produksi, Tugas Staff & Portal Customer | 13 |
 | **6** | Dev 6 | Pembayaran, Tim & Pengaturan Tenant | 13 |
-| Bagian      | Pengembang    | Fokus Area                               | Jml |
-| ----------- | ------------- | ---------------------------------------- | --- |
-| **1** | Dev 1         | Situs Publik, Marketing & Halaman Sistem | 10  |
-| **2** | Dev 2         | Autentikasi & Akun Pengguna              | 10  |
-| **3** | Dev 3         | Dashboard, Laporan & Notifikasi          | 10  |
-| **4** | Dev 4 (Putri) | Manajemen Pesanan & Customer             | 11  |
-| **5** | Dev 5         | Produksi, Tugas Staff & Portal Customer  | 13  |
-| **6** | Dev 6         | Pembayaran, Tim & Pengaturan Tenant      | 13  |
 
 > **Konvensi bersama:** semua halaman App Shell memakai partial sidebar + topbar yang sama. Warna status wajib mengikuti *Peta Status Pesanan* di style guide. Nama file huruf kecil, pisah tanda hubung (`order-detail.html`). Impor CSS sesuai `structure-folder.md`.
 
@@ -178,7 +170,7 @@ Atur kanal (in-app, email, WhatsApp) per jenis kejadian.
 
 ---
 
-# BAGIAN 4 — Dev 4 (Putri) · Manajemen Pesanan & Customer
+# BAGIAN 4 — Dev 4 · Manajemen Pesanan & Customer
 
 Inti operasional + database pelanggan (dibuat bersama saat input pesanan). Mengacu FLOW B, modul 5.2 & 5.5.
 
