@@ -303,71 +303,63 @@
       </div>
 
       <!-- Dua Kolom Analisis: Volume Mingguan & Lead Time -->
-      <section class="panels" style="margin-top:24px">
+      <section class="cols" style="margin-top:24px">
         <!-- Panel Kiri: Grafik Volume Mingguan (Masuk vs Selesai) -->
-        <div class="panel">
-          <div class="panel-head">
+        <div class="card">
+          <div class="card-head">
             <div>
-              <h3>Tren Volume Pesanan Masuk vs Selesai</h3>
-              <p class="sub" style="margin:2px 0 0">Komparasi 4 minggu bulan November 2026</p>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">Tren Volume Pesanan Masuk vs Selesai</h3>
+              <p class="sub" style="margin:2px 0 0;font-size:.82rem">Komparasi 4 minggu bulan November 2026</p>
             </div>
-            <div style="display:flex;gap:12px;font-size:.78rem;font-weight:700">
-              <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--clay);border-radius:2px"></span> Masuk</span>
-              <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--s-done);border-radius:2px"></span> Selesai</span>
+            <div class="legend">
+              <span><i style="background:var(--clay)"></i>Masuk</span>
+              <span><i style="background:var(--s-done)"></i>Selesai</span>
             </div>
           </div>
 
           <div style="position:relative;margin-top:16px">
-            <svg viewBox="0 0 600 210" style="width:100%;height:auto;overflow:visible">
-              <line x1="30" y1="30" x2="580" y2="30" stroke="var(--sand)" stroke-dasharray="3 3"/>
+            <svg viewBox="0 0 600 220" style="width:100%;height:auto;overflow:visible">
+              <line x1="30" y1="30" x2="580" y2="30" stroke="#EADBC8" stroke-dasharray="3 3"/>
               <text x="5" y="34" font-size="10" fill="var(--ink-45)" font-weight="600">40</text>
 
-              <line x1="30" y1="80" x2="580" y2="80" stroke="var(--sand)" stroke-dasharray="3 3"/>
+              <line x1="30" y1="80" x2="580" y2="80" stroke="#EADBC8" stroke-dasharray="3 3"/>
               <text x="5" y="84" font-size="10" fill="var(--ink-45)" font-weight="600">30</text>
 
-              <line x1="30" y1="130" x2="580" y2="130" stroke="var(--sand)" stroke-dasharray="3 3"/>
+              <line x1="30" y1="130" x2="580" y2="130" stroke="#EADBC8" stroke-dasharray="3 3"/>
               <text x="5" y="134" font-size="10" fill="var(--ink-45)" font-weight="600">20</text>
 
-              <line x1="30" y1="180" x2="580" y2="180" stroke="var(--sand)"/>
+              <line x1="30" y1="180" x2="580" y2="180" stroke="#EADBC8"/>
               <text x="12" y="184" font-size="10" fill="var(--ink-45)" font-weight="600">0</text>
 
-              <!-- M1: Masuk 28 (h=105, y=75), Selesai 20 (h=75, y=105) -->
-              <rect x="70" y="75" width="30" height="105" rx="4" fill="var(--clay)"/>
-              <rect x="105" y="105" width="30" height="75" rx="4" fill="var(--s-done)"/>
-              <text x="102" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 1</text>
-              <text x="85" y="68" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">28</text>
-              <text x="120" y="98" font-size="10" fill="var(--green)" font-weight="700" text-anchor="middle">20</text>
+              <!-- M1: Masuk 28, Selesai 20 -->
+              <rect x="70" y="75" width="30" height="105" rx="6" fill="var(--clay)"/>
+              <rect x="105" y="105" width="30" height="75" rx="6" fill="var(--s-done)"/>
+              <text x="102" y="202" font-size="12" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 1</text>
 
-              <!-- M2: Masuk 34 (h=128, y=52), Selesai 22 (h=82, y=98) -->
-              <rect x="200" y="52" width="30" height="128" rx="4" fill="var(--clay)"/>
-              <rect x="235" y="98" width="30" height="82" rx="4" fill="var(--s-done)"/>
-              <text x="232" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 2</text>
-              <text x="215" y="45" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">34</text>
-              <text x="250" y="91" font-size="10" fill="var(--green)" font-weight="700" text-anchor="middle">22</text>
+              <!-- M2: Masuk 34, Selesai 22 -->
+              <rect x="200" y="52" width="30" height="128" rx="6" fill="var(--clay)"/>
+              <rect x="235" y="98" width="30" height="82" rx="6" fill="var(--s-done)"/>
+              <text x="232" y="202" font-size="12" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 2</text>
 
-              <!-- M3: Masuk 36 (h=135, y=45), Selesai 24 (h=90, y=90) -->
-              <rect x="330" y="45" width="30" height="135" rx="4" fill="var(--clay)"/>
-              <rect x="365" y="90" width="30" height="90" rx="4" fill="var(--s-done)"/>
-              <text x="362" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 3</text>
-              <text x="345" y="38" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">36</text>
-              <text x="380" y="83" font-size="10" fill="var(--green)" font-weight="700" text-anchor="middle">24</text>
+              <!-- M3: Masuk 36, Selesai 24 -->
+              <rect x="330" y="45" width="30" height="135" rx="6" fill="var(--clay)"/>
+              <rect x="365" y="90" width="30" height="90" rx="6" fill="var(--s-done)"/>
+              <text x="362" y="202" font-size="12" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 3</text>
 
-              <!-- M4: Masuk 30 (h=112, y=68), Selesai 20 (h=75, y=105) -->
-              <rect x="460" y="68" width="30" height="112" rx="4" fill="var(--clay)"/>
-              <rect x="495" y="105" width="30" height="75" rx="4" fill="var(--s-done)"/>
-              <text x="492" y="198" font-size="11" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 4</text>
-              <text x="475" y="61" font-size="10" fill="var(--clay)" font-weight="700" text-anchor="middle">30</text>
-              <text x="510" y="98" font-size="10" fill="var(--green)" font-weight="700" text-anchor="middle">20</text>
+              <!-- M4: Masuk 30, Selesai 20 -->
+              <rect x="460" y="68" width="30" height="112" rx="6" fill="var(--clay)"/>
+              <rect x="495" y="105" width="30" height="75" rx="6" fill="var(--s-done)"/>
+              <text x="492" y="202" font-size="12" fill="var(--ink-70)" font-weight="700" text-anchor="middle">Mgg 4</text>
             </svg>
           </div>
         </div>
 
         <!-- Panel Kanan: Evaluasi Waktu Pengerjaan (Lead Time) -->
-        <div class="panel">
-          <div class="panel-head">
+        <div class="card">
+          <div class="card-head">
             <div>
-              <h3>Rata-rata Waktu per Tahap (Lead Time)</h3>
-              <p class="sub" style="margin:2px 0 0">Tolok ukur kecepatan pengerjaan satu pesanan busana</p>
+              <h3 style="font-size:1.05rem;font-weight:800;color:var(--ink)">Rata-rata Waktu per Tahap (Lead Time)</h3>
+              <p class="sub" style="margin:2px 0 0;font-size:.82rem">Tolok ukur kecepatan pengerjaan satu pesanan busana</p>
             </div>
             <span class="chip chip--neutral" style="font-size:.74rem">Target: ≤ 8 Hari</span>
           </div>
@@ -422,8 +414,8 @@
       </section>
 
       <!-- Panel Tabel Rekapitulasi Pesanan -->
-      <section class="panel" style="margin-top:24px">
-        <div class="panel-head" style="flex-wrap:wrap;gap:12px">
+      <section class="card" style="margin-top:24px">
+        <div class="card-head" style="flex-wrap:wrap;gap:12px">
           <div>
             <h3>Tabel Rincian Riwayat Pesanan</h3>
             <p class="sub" style="margin:2px 0 0">Data pencatatan seluruh pesanan aktif dan terselesaikan</p>
