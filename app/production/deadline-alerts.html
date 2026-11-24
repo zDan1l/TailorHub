@@ -243,59 +243,85 @@
 <script>
 (function () {
   'use strict';
-
+  var T = window.TH;
+  var MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  function fmt(s){ if(!s) return '—'; var d=new Date(s+'T00:00:00'); return isNaN(d)?s:((d.getDate()<10?'0':'')+d.getDate()+' '+MONTHS[d.getMonth()]); }
+  function days(s){ if(!s) return null; var d=new Date(s+'T00:00:00'); if(isNaN(d))return null; var n=new Date(); n.setHours(0,0,0,0); return Math.round((d-n)/86400000); }
+  var tbody = document.querySelector('#deadlineTable tbody');
   var pills = document.querySelectorAll('.alert-pill');
-  var rows = document.querySelectorAll('#deadlineTable tbody tr[data-urgency]');
+  var currentFilter = 'all';
 
   function showToast(title, message) {
-    var old = document.getElementById('prodToast');
-    if (old) old.remove();
-
-    var toast = document.createElement('div');
-    toast.id = 'prodToast';
-    toast.className = 'prod-toast';
-
-    var textWrap = document.createElement('div');
-    var b = document.createElement('b');
-    b.textContent = title;
-    var s = document.createElement('small');
-    s.textContent = message;
-    textWrap.appendChild(b);
-    textWrap.appendChild(s);
-
-    var close = document.createElement('button');
-    close.type = 'button';
-    close.className = 'toast-x';
-    close.textContent = '×';
-    close.addEventListener('click', function () { toast.remove(); });
-
-    toast.appendChild(textWrap);
-    toast.appendChild(close);
-    document.body.appendChild(toast);
-
+    var old = document.getElementById('prodToast'); if (old) old.remove();
+    var toast = document.createElement('div'); toast.id = 'prodToast'; toast.className = 'prod-toast';
+    var tw = document.createElement('div'); var b = document.createElement('b'); b.textContent = title;
+    var s = document.createElement('small'); s.textContent = message; tw.appendChild(b); tw.appendChild(s);
+    var x = document.createElement('button'); x.type = 'button'; x.className = 'toast-x'; x.textContent = '×';
+    x.addEventListener('click', function () { toast.remove(); });
+    toast.appendChild(tw); toast.appendChild(x); document.body.appendChild(toast);
     setTimeout(function () { if (toast.parentNode) toast.remove(); }, 4200);
+  }
+
+  function urgencyOf(o){ var dd=days(o.deadline); if(dd===null) return 'safe'; if(dd<0) return 'late'; if(dd<=3) return 'soon'; return 'safe'; }
+  function urgencyChip(o){ var dd=days(o.deadline);
+    if(dd<0) return '<span class="chip chip--danger"><span class="d"></span>Lewat '+Math.abs(dd)+' hari</span>';
+    if(dd===0) return '<span class="chip chip--clay"><span class="d"></span>Hari ini</span>';
+    if(dd===1) return '<span class="chip chip--clay"><span class="d"></span>Besok (H-1)</span>';
+    return '<span class="chip chip--clay"><span class="d"></span>'+fmt(o.deadline)+' (H-'+dd+')</span>'; }
+  function setPill(f, n){ var L={all:'Semua Mendesak',late:'Lewat Deadline',soon:'Mendekati ≤3 Hari'}; var p=document.querySelector('.alert-pill[data-filter="'+f+'"]'); if(p) p.textContent=L[f]+' ('+n+')'; }
+  function updateKpi(key, n){ document.querySelectorAll('.prod-kpi').forEach(function(k){ var s=k.querySelector('small'); if(s && s.textContent.toLowerCase().indexOf(key.toLowerCase())>-1){ var b=k.querySelector('b'); if(b) b.textContent=n; } }); }
+  function applyFilter(){ document.querySelectorAll('#deadlineTable tbody tr[data-urgency]').forEach(function(r){ var u=r.getAttribute('data-urgency'); r.hidden=!(currentFilter==='all'||u===currentFilter); }); }
+
+  function render(orders){
+    var active = orders.filter(function(o){ return o.production_status!=='Selesai' && o.production_status!=='Diambil'; });
+    var late = active.filter(function(o){ return o.deadline && days(o.deadline)<0; });
+    var soon = active.filter(function(o){ var d=days(o.deadline); return o.deadline && d>=0 && d<=3; });
+    var safe = active.filter(function(o){ var d=days(o.deadline); return !o.deadline || d>3; });
+    var list = late.concat(soon).sort(function(a,b){ return days(a.deadline)-days(b.deadline); });
+
+    setPill('all', late.length+soon.length); setPill('late', late.length); setPill('soon', soon.length);
+    updateKpi('Lewat', late.length); updateKpi('Mendekati', soon.length); updateKpi('Aman', safe.length);
+
+    var banner = document.querySelector('.alert.alert--error');
+    if (banner){
+      if (late.length){ banner.hidden=false; var o=late[0];
+        var box=banner.querySelector('div'); if(box) box.innerHTML='<b>'+late.length+' pesanan telah melewati deadline!</b><div style="font-size:.85rem;opacity:.92;margin-top:2px;"><b>'+T.esc(o.code)+'</b> ('+T.esc(o.detail||o.type||'-')+') terlambat '+Math.abs(days(o.deadline))+' hari pada tahap '+T.esc(o.production_status)+'.</div>';
+        var pr=banner.querySelector('a'); if(pr) pr.href='update-status.html?code='+encodeURIComponent(o.code);
+      } else banner.hidden=true;
+    }
+
+    if (!list.length){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--ink-45);padding:28px">Tidak ada pesanan mendesak saat ini. 🎉</td></tr>'; return; }
+    tbody.innerHTML = list.map(function(o){
+      var u=urgencyOf(o);
+      var href='detail.html?code='+encodeURIComponent(o.code);
+      var staff = o.assignee ? '<div class="staff-cell"><span class="avatar avatar--sm">'+T.esc(T.initials(o.assignee))+'</span><span>'+T.esc(o.assignee)+'</span></div>' : '<span style="color:var(--ink-45)">Belum ditugaskan</span>';
+      return '<tr data-urgency="'+u+'"'+(u==='late'?' class="row-late"':'')+'>'+
+        '<td><a href="'+href+'"'+(u==='late'?' style="color:var(--red)"':'')+'><b>'+T.esc(o.code)+'</b></a><div style="font-size:.8rem;color:var(--ink-70)">'+T.esc(o.detail||o.type||'-')+(o.qty>1?' ×'+o.qty:'')+'</div></td>'+
+        '<td><div class="cust-cell"><span class="mini">'+T.esc(T.initials(o.customer||'-'))+'</span><span>'+T.esc(o.customer||'-')+'</span></div></td>'+
+        '<td>'+urgencyChip(o)+'</td>'+
+        '<td><span class="chip '+T.statusChip(o.production_status)+'"><span class="d"></span>'+T.esc(o.production_status)+'</span></td>'+
+        '<td>'+staff+'</td>'+
+        '<td><div class="row-actions"><button type="button" class="btn btn--ghost btn--sm js-remind" data-code="'+T.esc(o.code)+'" data-staff="'+T.esc(o.assignee||'staf terkait')+'">Ingatkan Staf</button><a href="update-status.html?code='+encodeURIComponent(o.code)+'" class="btn btn--primary btn--sm">Update</a><a href="'+href+'" class="btn btn--ghost btn--sm">Detail</a></div></td>'+
+      '</tr>';
+    }).join('');
+    applyFilter();
   }
 
   pills.forEach(function (pill) {
     pill.addEventListener('click', function () {
       pills.forEach(function (p) { p.classList.remove('is-on'); });
-      pill.classList.add('is-on');
-
-      var filter = pill.getAttribute('data-filter');
-      rows.forEach(function (row) {
-        var urgency = row.getAttribute('data-urgency');
-        row.hidden = !(filter === 'all' || urgency === filter);
-      });
+      pill.classList.add('is-on'); currentFilter = pill.getAttribute('data-filter'); applyFilter();
     });
   });
-
-  document.querySelectorAll('.js-remind').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var code = btn.getAttribute('data-code');
-      var staff = btn.getAttribute('data-staff');
-      showToast('Pengingat dikirim', 'Notifikasi prioritas ' + code + ' telah dikirim ke ' + staff + '.');
-    });
+  tbody.addEventListener('click', function (e) {
+    var btn = e.target.closest('.js-remind');
+    if (btn) showToast('Pengingat dikirim', 'Notifikasi prioritas ' + btn.getAttribute('data-code') + ' telah dikirim ke ' + btn.getAttribute('data-staff') + '.');
   });
+
+  (async function () {
+    try { var res = await T.get('/api/orders?limit=200'); render((res && res.data) || []); }
+    catch (e) { console.error('Gagal memuat deadline:', e); tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--red);padding:28px">Gagal memuat data.</td></tr>'; }
+  })();
 })();
 </script>
 <script src="/assets/js/app-shell.js"></script>

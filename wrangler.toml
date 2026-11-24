@@ -21,4 +21,4 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "tailorhub"
-database_id = "70fe0138-5ed2-4d7a-b63a-053ac2fe4c1f"
+database_id = "765597cb-dc9f-481c-b081-c6d5e36bef53"

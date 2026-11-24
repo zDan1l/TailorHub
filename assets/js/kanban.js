@@ -402,20 +402,111 @@
     'Diambil': 'diambil'
   };
 
+  var ID_MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  function fmtDate(s) {
+    if (!s) return '—';
+    var d = new Date(s + 'T00:00:00');
+    if (isNaN(d)) return s;
+    return (d.getDate() < 10 ? '0' : '') + d.getDate() + ' ' + ID_MONTHS[d.getMonth()];
+  }
+  function daysUntil(s) {
+    if (!s) return null;
+    var d = new Date(s + 'T00:00:00'); if (isNaN(d)) return null;
+    var now = new Date(); now.setHours(0, 0, 0, 0);
+    return Math.round((d - now) / 86400000);
+  }
+  function deadlineInfo(deadline, stageKey) {
+    if (stageKey === 'selesai' || stageKey === 'diambil')
+      return { cat: 'normal', cls: '', icon: 'i-check', text: deadline ? fmtDate(deadline) : 'Selesai' };
+    var dd = daysUntil(deadline);
+    if (dd === null) return { cat: 'normal', cls: '', icon: 'i-clock', text: '—' };
+    if (dd < 0) return { cat: 'late', cls: 'is-late', icon: 'i-warn', text: Math.abs(dd) + ' hr lewat' };
+    if (dd === 0) return { cat: 'soon', cls: 'is-soon', icon: 'i-clock', text: 'Hari ini' };
+    if (dd <= 3) return { cat: 'soon', cls: 'is-soon', icon: 'i-clock', text: fmtDate(deadline) };
+    return { cat: 'normal', cls: '', icon: 'i-clock', text: fmtDate(deadline) };
+  }
+
+  function buildCardEl(o) {
+    var T = window.TH;
+    var stageKey = LABEL_TO_KEY[o.production_status] || 'antrean';
+    var cust = o.customer || 'Tanpa nama';
+    var title = (o.detail || o.type || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : '');
+    var dl = deadlineInfo(o.deadline, stageKey);
+    var staffInit = o.assignee ? T.initials(o.assignee) : '';
+    var right = o.assignee
+      ? '<span class="kc-assignee" title="' + T.esc(o.assignee) + '">' + T.esc(staffInit) + '</span>'
+      : '<span class="chip ' + T.statusChip(o.payment_status) + '">' + T.esc(o.payment_status) + '</span>';
+    var steps = '';
+    for (var i = 0; i < 7; i++) steps += '<i></i>';
+    var href = 'detail.html?code=' + encodeURIComponent(o.code);
+    var html =
+      '<article class="kcard" data-code="' + T.esc(o.code) + '" data-stage="' + stageKey + '"' +
+      ' data-staff="' + T.esc(staffInit) + '" data-deadline="' + dl.cat + '" draggable="true">' +
+      '<div class="kc-top"><a href="' + href + '" class="kc-code">' + T.esc(o.code) + '</a>' +
+      '<span class="kc-type">' + T.esc(o.type || '-') + '</span></div>' +
+      '<div class="kc-title">' + T.esc(title) + '</div>' +
+      '<div class="kc-cust"><span class="mini">' + T.esc(T.initials(cust)) + '</span> ' + T.esc(cust) + '</div>' +
+      '<div class="kc-steps">' + steps + '</div>' +
+      '<div class="kc-stepslabel"><span></span><span class="pct"></span></div>' +
+      '<div class="kc-foot"><span class="kc-dead ' + dl.cls + '"><svg width="14" height="14"><use href="#' + dl.icon + '"/></svg> ' + T.esc(dl.text) + '</span>' + right + '</div>' +
+      '<div class="kc-actions">' +
+      '<button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya">←</button>' +
+      '<div class="kc-actions-mid"><a href="' + href + '" class="kc-btn">Detail</a>' +
+      '<a href="update-status.html?code=' + encodeURIComponent(o.code) + '" class="kc-btn">Update</a></div>' +
+      '<button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya">→</button>' +
+      '</div></article>';
+    var wrap = document.createElement('div');
+    wrap.innerHTML = html;
+    var card = wrap.firstElementChild;
+    // drag per-kartu (delegasi klik prev/next sudah terpasang di bindCardEvents)
+    card.addEventListener('dragstart', function (e) {
+      draggedCard = card; card.classList.add('is-dragging');
+      if (e.dataTransfer) { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', o.code || ''); }
+    });
+    card.addEventListener('dragend', function () {
+      card.classList.remove('is-dragging'); draggedCard = null;
+      document.querySelectorAll('.kcol.is-over').forEach(function (c) { c.classList.remove('is-over'); });
+    });
+    return card;
+  }
+
+  function populateStaffFilter(orders) {
+    var sel = document.getElementById('filterStaff');
+    if (!sel) return;
+    var seen = {};
+    var opts = '<option value="">Semua Staf</option>';
+    orders.forEach(function (o) {
+      if (o.assignee) {
+        var init = window.TH.initials(o.assignee);
+        if (!seen[init]) { seen[init] = 1; opts += '<option value="' + init + '">' + window.TH.esc(o.assignee) + ' (' + init + ')</option>'; }
+      }
+    });
+    opts += '<option value="unassigned">Belum Ditugaskan</option>';
+    sel.innerHTML = opts;
+  }
+
+  // Render papan dari data D1 (mengganti kartu statis dengan data asli).
   async function syncBoardWithD1() {
     if (!window.TH) return;
     try {
       var res = await window.TH.get('/api/orders?limit=200');
       var orders = (res && res.data) || [];
+      // bersihkan semua kartu statis
+      document.querySelectorAll('.kcard').forEach(function (c) { c.remove(); });
+      // render kartu dari D1 ke kolom tahapnya
       orders.forEach(function (o) {
         var stageKey = LABEL_TO_KEY[o.production_status] || 'antrean';
-        var existing = document.querySelector('.kcard[data-code="' + o.code + '"]');
-        if (existing) {
-          moveCardToStage(existing, stageKey, true);
-        }
+        var col = document.querySelector('.kcol[data-stage="' + stageKey + '"]');
+        if (!col) return;
+        var card = buildCardEl(o);
+        var emptyEl = col.querySelector('.kcol-empty');
+        if (emptyEl) col.insertBefore(card, emptyEl); else col.appendChild(card);
+        syncCardVisual(card, stageKey);
       });
+      populateStaffFilter(orders);
+      updateColumnCounts();
     } catch (e) {
-      console.error('Gagal sinkronisasi Kanban dengan D1:', e);
+      console.error('Gagal memuat papan Kanban dari D1:', e);
     }
   }
 

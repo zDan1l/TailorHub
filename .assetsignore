@@ -1,0 +1,15 @@
+# File yang TIDAK boleh ikut diunggah sebagai aset statis ke Cloudflare Pages.
+# (functions/ tetap diproses sebagai backend — jangan dimasukkan ke sini.)
+node_modules
+.wrangler
+.git
+db
+*.sql
+package.json
+package-lock.json
+wrangler.toml
+.dev.vars
+.dev.vars.example
+.assetsignore
+.gitignore
+*.md
