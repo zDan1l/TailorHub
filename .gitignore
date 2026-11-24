@@ -7,7 +7,7 @@ npm-debug.log*
 
 # Cloudflare Wrangler / Pages
 .wrangler/
-.dev.vars
+.wrangler/tmp/
 dist/
 
 # OS
