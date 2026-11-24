@@ -138,7 +138,8 @@
 
       <div style="max-width:680px;">
         <div class="card">
-          <form onsubmit="alert('Preferensi berhasil disimpan!'); return false;">
+          <div id="prefMsg" class="alert alert--info" style="display:none;margin-bottom:16px;font-size:.85rem;"></div>
+          <form id="prefForm">
             
             <h3 style="margin-bottom:14px; font-size:1.02rem;">Bahasa &amp; Lokalisasi</h3>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
@@ -202,5 +203,30 @@
   </div>
 </div>
 
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  var KEY = "th_account_prefs";
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (saved) {
+      if (saved.lang) document.getElementById("pref_lang").value = saved.lang;
+      if (saved.tz) document.getElementById("pref_tz").value = saved.tz;
+    }
+  } catch (e) {}
+
+  document.getElementById("prefForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var lang = document.getElementById("pref_lang").value;
+    var tz = document.getElementById("pref_tz").value;
+    try { localStorage.setItem(KEY, JSON.stringify({ lang: lang, tz: tz })); } catch (err) {}
+    var msg = document.getElementById("prefMsg");
+    msg.textContent = "Preferensi akun berhasil disimpan!";
+    msg.style.display = "flex";
+  });
+})();
+</script>
 </body>
 </html>

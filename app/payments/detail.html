@@ -168,6 +168,81 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("order_id") || params.get("id") || "TH-2041";
+  try {
+    const { order, payments, paid, sisa } = await TH.get(`/api/orders/${encodeURIComponent(id)}`);
+    if (!order) return;
+    const cls = TH.statusChip(order.payment_status);
+    const lbl = order.payment_status || "DP";
+    const totalPaid = Number(paid || 0);
+    const totalSisa = Number(sisa != null ? sisa : Math.max(0, Number(order.price || 0) - totalPaid));
+    const cust = order.customer || "Pelanggan";
+
+    const crumbB = document.querySelector(".crumb b");
+    if (crumbB) crumbB.textContent = `Riwayat ${order.code}`;
+    const hdrChip = document.querySelector(".detail-header .chip");
+    if (hdrChip) { hdrChip.className = `chip ${cls}`; hdrChip.textContent = lbl; }
+    const sub = document.querySelector(".page-head .sub");
+    if (sub) sub.textContent = `Pesanan ${order.code} · ${cust} · ${order.type} ×${order.qty}`;
+
+    const recBtn = document.querySelector('.detail-actions a[href*="record.html"]');
+    if (recBtn) recBtn.href = `record.html?order_id=${order.id}`;
+    const invBtn = document.querySelector('.detail-actions a[href*="invoice.html"]');
+    if (invBtn) invBtn.href = `invoice.html?order_id=${order.id}`;
+
+    const infoCards = document.querySelectorAll(".detail-grid .info-card");
+    if (infoCards[0]) {
+      infoCards[0].innerHTML = `
+        <h4>Informasi Tagihan</h4>
+        <div class="info-row"><span>Total Pesanan</span><b>${TH.rupiah(order.price)}</b></div>
+        <div class="info-row"><span>Total Terbayar</span><b style="color:var(--green)">${TH.rupiah(totalPaid)}</b></div>
+        <div class="info-row"><span>Sisa Tagihan</span><b style="color:var(--amber)">${TH.rupiah(totalSisa)}</b></div>
+        <div class="info-row"><span>Status</span><span class="chip ${cls}">${TH.esc(lbl)}</span></div>`;
+    }
+    if (infoCards[1]) {
+      infoCards[1].innerHTML = `
+        <h4>Detail Pesanan</h4>
+        <div class="info-row"><span>Kode</span><b>${TH.esc(order.code)}</b></div>
+        <div class="info-row"><span>Customer</span><b>${TH.esc(cust)}</b></div>
+        <div class="info-row"><span>Jenis</span><b>${TH.esc(order.type)} ×${order.qty}</b></div>
+        <div class="info-row"><span>Deadline</span><b>${TH.esc(order.deadline || "—")}</b></div>`;
+    }
+
+    const tl = document.querySelector(".timeline");
+    if (tl) {
+      let html = (payments || []).map(p => `
+        <div class="tl-item">
+          <div class="tl-dot"><svg><use href="#i-check"/></svg></div>
+          <div class="tl-content">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <b>${TH.esc((p.type || "DP").toUpperCase())} — ${TH.rupiah(p.amount)}</b>
+              <a href="receipt.html?order_id=${order.id}&payment_id=${p.id}" class="btn btn--ghost btn--sm" style="padding:3px 10px;font-size:.78rem;">Lihat Kwitansi</a>
+            </div>
+            <span>${TH.esc(p.method || "Transfer")} · ${TH.esc(p.paid_at || "")}</span>
+          </div>
+        </div>`).join("");
+      if (totalSisa > 0) {
+        html += `
+        <div class="tl-item">
+          <div class="tl-dot tl-dot--pending"></div>
+          <div class="tl-content">
+            <b>Pelunasan — ${TH.rupiah(totalSisa)}</b>
+            <span style="color:var(--amber);font-weight:600">Menunggu pembayaran</span>
+          </div>
+        </div>`;
+      }
+      tl.innerHTML = html;
+    }
+  } catch (e) {
+    console.warn("Load payment detail error:", e);
+  }
+});
+</script>
 </body>
 </html>

@@ -350,6 +350,92 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const tbody = document.querySelector(".table tbody");
+  const kpis = document.querySelectorAll(".team-kpi-grid .team-kpi b");
+
+  async function loadTeam() {
+    try {
+      const data = await TH.get("/api/team");
+      const items = data.data || [];
+      if (kpis[0]) kpis[0].textContent = `${items.length} / 5 Akun`;
+      if (kpis[1]) kpis[1].textContent = `${items.filter(u => u.role === "staff").length} Penjahit`;
+      if (kpis[2]) kpis[2].textContent = `${items.filter(u => u.role === "admin").length} Staf`;
+      if (kpis[3]) kpis[3].textContent = `${items.filter(u => u.status === "diundang").length} Orang`;
+
+      if (tbody && items.length) {
+        const roleMap = {
+          pemilik: ["chip--clay", "Pemilik (Owner)", "Akses Penuh (Semua)"],
+          owner: ["chip--clay", "Pemilik (Owner)", "Akses Penuh (Semua)"],
+          admin: ["chip--soft", "Admin Kasir & CS", "Pesanan, Bayar, Customer"],
+          staff: ["chip--soft", "Penjahit / Operator", "Tahap: Potong, Jahit, Finishing, QC"]
+        };
+        tbody.innerHTML = items.map(u => {
+          const isOwner = u.role === "pemilik" || u.role === "owner";
+          const [cls, rLabel, perm] = roleMap[u.role] || ["chip--soft", u.role, "Tahap Produksi"];
+          const ini = TH.initials(u.name);
+          const actionHtml = isOwner
+            ? `<span style="font-size:.82rem;color:var(--ink-45);">Akun Utama</span>`
+            : `<a href="member-detail.html?id=${u.id}" class="btn btn--ghost btn--sm">Detail &amp; Hak Akses</a>`;
+          const statusChip = u.status === "diundang" ? `<span class="chip chip--dp">Undangan Terkirim</span>` : `<span class="chip chip--paid">Aktif</span>`;
+          return `<tr>
+            <td>
+              <div class="user-cell">
+                <span class="user-avatar">${TH.esc(ini)}</span>
+                <div>
+                  <b>${TH.esc(u.name)}</b>
+                  <small style="display:block;color:var(--ink-45);font-size:.78rem;">${TH.esc(u.email)}</small>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip ${cls}">${rLabel}</span></td>
+            <td>—</td>
+            <td>${isOwner ? `<span style="color:var(--green);font-weight:700;">${perm}</span>` : perm}</td>
+            <td>${statusChip}</td>
+            <td>${actionHtml}</td>
+          </tr>`;
+        }).join("");
+      }
+    } catch (e) {
+      console.warn("Load team error:", e);
+    }
+  }
+
+  const inviteForm = document.querySelector("#inviteModal form");
+  if (inviteForm) {
+    inviteForm.removeAttribute("onsubmit");
+    inviteForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nameInput = inviteForm.querySelector('input[type="text"]');
+      const emailInput = inviteForm.querySelector('input[type="email"]');
+      const roleSelect = inviteForm.querySelector("select");
+      const rawRole = (roleSelect?.value || "").toLowerCase();
+      const role = rawRole.includes("admin") ? "admin" : "staff";
+      const submitBtn = inviteForm.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Mengirim…"; }
+      try {
+        await TH.post("/api/team", {
+          name: nameInput?.value.trim(),
+          email: emailInput?.value.trim(),
+          role
+        });
+        document.getElementById("inviteModal").classList.remove("is-active");
+        inviteForm.reset();
+        await loadTeam();
+      } catch (err) {
+        alert(err.message || "Gagal menambahkan anggota tim");
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Kirim Undangan Aktivasi"; }
+      }
+    });
+  }
+
+  loadTeam();
+});
+</script>
 </body>
 </html>

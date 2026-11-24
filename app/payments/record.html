@@ -168,6 +168,76 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(location.search);
+  const preOrderId = params.get("order_id") || params.get("id") || "";
+  const selects = document.querySelectorAll(".form-card .select");
+  const orderSelect = selects[0];
+  const typeSelect = selects[1];
+  const methodSelect = selects[2];
+  const amountInput = document.querySelector('.form-card input[type="text"]');
+  const saveBtn = document.querySelector(".form-actions .btn--primary");
+  const summaryRows = document.querySelectorAll(".summary-box .row");
+
+  let orders = [];
+  try {
+    const data = await TH.get("/api/orders?limit=200");
+    orders = data.data || [];
+    if (orderSelect && orders.length) {
+      orderSelect.innerHTML = `<option value="">Pilih pesanan…</option>` + orders.map(o =>
+        `<option value="${o.id}" ${String(o.id) === String(preOrderId) || o.code === preOrderId ? "selected" : ""}>${TH.esc(o.code)} — ${TH.esc(o.customer || "Pelanggan")} (${TH.esc(o.type)} ×${o.qty})</option>`
+      ).join("");
+    }
+  } catch (e) {
+    console.warn("Load orders for payment record error:", e);
+  }
+
+  function updateSummary() {
+    const selId = orderSelect ? orderSelect.value : "";
+    const order = orders.find(o => String(o.id) === String(selId)) || orders[0];
+    if (!order) return;
+    const total = Number(order.price || 0);
+    const paid = Number(order.paid_amount || 0);
+    const nowAmt = Number((amountInput?.value || "0").replace(/[^0-9]/g, "") || 0);
+    const rem = Math.max(0, total - paid - nowAmt);
+    if (summaryRows[0]) { const b = summaryRows[0].querySelector("b"); if (b) b.textContent = TH.rupiah(total); }
+    if (summaryRows[1]) { const s = summaryRows[1].querySelectorAll("span")[1]; if (s) s.textContent = TH.rupiah(paid); }
+    if (summaryRows[2]) { const s = summaryRows[2].querySelectorAll("span")[1]; if (s) s.textContent = TH.rupiah(nowAmt); }
+    if (summaryRows[3]) { const b = summaryRows[3].querySelector("b"); if (b) b.textContent = TH.rupiah(rem); }
+  }
+
+  if (orderSelect) orderSelect.addEventListener("change", updateSummary);
+  if (amountInput) amountInput.addEventListener("input", updateSummary);
+  updateSummary();
+
+  if (saveBtn) {
+    saveBtn.addEventListener("click", async () => {
+      const orderId = Number(orderSelect?.value || 0);
+      const amount = Number((amountInput?.value || "0").replace(/[^0-9]/g, "") || 0);
+      const rawType = (typeSelect?.value || "DP").toLowerCase();
+      const type = rawType.includes("lunas") ? "pelunasan" : (rawType.includes("cicil") ? "cicilan" : "dp");
+      const method = (methodSelect?.value || "transfer").toLowerCase();
+      if (!orderId || amount <= 0) {
+        alert("Pilih pesanan dan masukkan jumlah pembayaran yang valid.");
+        return;
+      }
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Menyimpan…";
+      try {
+        await TH.post("/api/payments", { order_id: orderId, amount, type, method });
+        location.href = `detail.html?order_id=${orderId}`;
+      } catch (err) {
+        alert(err.message || "Gagal menyimpan pembayaran");
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Simpan Pembayaran";
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>

@@ -147,6 +147,43 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("order_id") || params.get("id") || "TH-2041";
+  const paymentId = params.get("payment_id");
+  try {
+    const { order, payments, paid, sisa } = await TH.get(`/api/orders/${encodeURIComponent(id)}`);
+    if (!order) return;
+    const totalPaid = Number(paid || 0);
+    const totalSisa = Number(sisa != null ? sisa : Math.max(0, Number(order.price || 0) - totalPaid));
+    const pay = (payments || []).find(p => String(p.id) === String(paymentId)) || (payments || [])[0] || {
+      id: 1, amount: totalPaid, type: "dp", method: "Transfer Bank", paid_at: "2026-11-18"
+    };
+    const sub = document.querySelector(".page-head .sub");
+    if (sub) sub.textContent = `Kwitansi pembayaran pesanan ${order.code}`;
+    const rcptId = document.querySelector(".rcpt-id");
+    if (rcptId) rcptId.textContent = `Kwitansi #RCP-${order.code.replace("TH-", "")}-${String(pay.id).padStart(3, "0")}`;
+    const rows = document.querySelectorAll(".rcpt-row");
+    if (rows[0]) rows[0].querySelector("b").textContent = (pay.paid_at || "").slice(0, 10) || "2026-11-23";
+    if (rows[1]) rows[1].querySelector("b").textContent = order.code;
+    if (rows[2]) rows[2].querySelector("b").textContent = order.customer || "Pelanggan";
+    if (rows[3]) rows[3].querySelector("b").textContent = (pay.type || "dp").toUpperCase();
+    if (rows[4]) rows[4].querySelector("b").textContent = pay.method || "Transfer Bank";
+    const amtB = document.querySelector(".rcpt-amount b");
+    if (amtB) amtB.textContent = TH.rupiah(pay.amount);
+    if (rows[5]) rows[5].querySelectorAll("span")[1].textContent = TH.rupiah(order.price);
+    if (rows[6]) rows[6].querySelectorAll("span")[1].textContent = TH.rupiah(totalPaid);
+    if (rows[7]) rows[7].querySelector("b").textContent = TH.rupiah(totalSisa);
+    const detLink = document.querySelector('.rcpt-actions a[href*="detail.html"]');
+    if (detLink) detLink.href = `detail.html?order_id=${order.id}`;
+  } catch (e) {
+    console.warn("Load receipt error:", e);
+  }
+});
+</script>
 </body>
 </html>

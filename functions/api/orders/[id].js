@@ -1,23 +1,32 @@
-// GET    /api/orders/:id  — detail + riwayat status + pembayaran
+// GET    /api/orders/:id  — detail + riwayat status + pembayaran (:id boleh numeric id atau kode mis. TH-2041)
 // PUT    /api/orders/:id  — ubah data / status produksi
 // DELETE /api/orders/:id  — hapus pesanan (beserta riwayat & pembayaran)
 import { json, error, readJson, PRODUCTION_STATUSES } from "../_utils.js";
 
+async function findOrderByParam(DB, tenantId, idOrCode) {
+  const raw = String(idOrCode || "").trim();
+  return DB.prepare(
+    `SELECT o.*, c.name AS customer, c.phone AS customer_phone, c.email AS customer_email, c.address AS customer_address,
+            u.name AS assignee
+       FROM orders o
+       LEFT JOIN customers c ON c.id=o.customer_id
+       LEFT JOIN users u ON u.id=o.assignee_id
+      WHERE o.tenant_id=? AND (o.id=? OR UPPER(o.code)=UPPER(?))
+      LIMIT 1`
+  ).bind(tenantId, raw, raw).first();
+}
+
 export async function onRequestGet({ env, params, data }) {
   const t = data.auth.tenantId;
-  const order = await env.DB.prepare(
-    `SELECT o.*, c.name AS customer, c.phone AS customer_phone
-       FROM orders o LEFT JOIN customers c ON c.id=o.customer_id
-      WHERE o.id=? AND o.tenant_id=?`
-  ).bind(params.id, t).first();
+  const order = await findOrderByParam(env.DB, t, params.id);
   if (!order) return error("Pesanan tidak ditemukan.", 404);
 
   const history = await env.DB.prepare(
     "SELECT status, note, created_at FROM order_status_history WHERE order_id=? AND tenant_id=? ORDER BY id ASC"
-  ).bind(params.id, t).all();
+  ).bind(order.id, t).all();
   const payments = await env.DB.prepare(
-    "SELECT type, amount, method, paid_at, created_at FROM payments WHERE order_id=? AND tenant_id=? ORDER BY id ASC"
-  ).bind(params.id, t).all();
+    "SELECT id, type, amount, method, paid_at, created_at FROM payments WHERE order_id=? AND tenant_id=? ORDER BY id ASC"
+  ).bind(order.id, t).all();
 
   const paid = payments.results.reduce((s, p) => s + p.amount, 0);
   return json({ order, history: history.results, payments: payments.results, paid, sisa: Math.max(0, order.price - paid) });
@@ -28,7 +37,7 @@ export async function onRequestPut({ request, env, params, data }) {
   const b = await readJson(request);
   const DB = env.DB;
 
-  const order = await DB.prepare("SELECT * FROM orders WHERE id=? AND tenant_id=?").bind(params.id, t).first();
+  const order = await findOrderByParam(DB, t, params.id);
   if (!order) return error("Pesanan tidak ditemukan.", 404);
 
   // Ubah status produksi -> catat riwayat + notifikasi
@@ -39,7 +48,7 @@ export async function onRequestPut({ request, env, params, data }) {
     ).bind(t, order.id, b.production_status, b.note || null, data.auth.userId || null).run();
     await DB.prepare(
       "INSERT INTO notifications (tenant_id, title, body, type) VALUES (?,?,?, 'success')"
-    ).bind(t, `${order.code} → ${b.production_status}`, "Status produksi diperbarui").run();
+    ).bind(t, `${order.code} → ${b.production_status}`, b.note || "Status produksi diperbarui").run();
   }
 
   // Perbarui kolom yang dikirim (hanya yang ada di body)
@@ -50,21 +59,21 @@ export async function onRequestPut({ request, env, params, data }) {
   }
   if (sets.length) {
     sets.push("updated_at=datetime('now')");
-    args.push(params.id, t);
+    args.push(order.id, t);
     await DB.prepare(`UPDATE orders SET ${sets.join(", ")} WHERE id=? AND tenant_id=?`).bind(...args).run();
   }
-  return json({ ok: true });
+  return json({ ok: true, id: order.id, code: order.code });
 }
 
 export async function onRequestDelete({ env, params, data }) {
   const t = data.auth.tenantId;
   const DB = env.DB;
-  const order = await DB.prepare("SELECT id FROM orders WHERE id=? AND tenant_id=?").bind(params.id, t).first();
+  const order = await findOrderByParam(DB, t, params.id);
   if (!order) return error("Pesanan tidak ditemukan.", 404);
   await DB.batch([
-    DB.prepare("DELETE FROM order_status_history WHERE order_id=? AND tenant_id=?").bind(params.id, t),
-    DB.prepare("DELETE FROM payments WHERE order_id=? AND tenant_id=?").bind(params.id, t),
-    DB.prepare("DELETE FROM orders WHERE id=? AND tenant_id=?").bind(params.id, t),
+    DB.prepare("DELETE FROM order_status_history WHERE order_id=? AND tenant_id=?").bind(order.id, t),
+    DB.prepare("DELETE FROM payments WHERE order_id=? AND tenant_id=?").bind(order.id, t),
+    DB.prepare("DELETE FROM orders WHERE id=? AND tenant_id=?").bind(order.id, t),
   ]);
   return json({ ok: true });
 }

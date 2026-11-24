@@ -280,6 +280,23 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const [dash, team] = await Promise.all([
+      TH.get("/api/dashboard"),
+      TH.get("/api/team")
+    ]);
+    const quotaCards = document.querySelectorAll(".quota-grid .quota-card b");
+    if (quotaCards[0] && dash?.kpi) quotaCards[0].textContent = `${dash.kpi.pesananAktif || 0} Pesanan`;
+    if (quotaCards[1] && team?.data) quotaCards[1].textContent = `${team.data.length} dari 5 Akun`;
+  } catch (e) {
+    console.warn("Load billing quota error:", e);
+  }
+});
+</script>
 </body>
 </html>

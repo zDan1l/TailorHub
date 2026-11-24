@@ -775,8 +775,48 @@
 </div>
 
 <!-- Script Reusable Tim -->
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
 <script>
+(async function () {
+  try {
+    var results = await Promise.all([
+      TH.get("/api/reports/orders"),
+      TH.get("/api/reports/income")
+    ]);
+    var ro = results[0];
+    var ri = results[1];
+    if (ro && ro.kpi) {
+      document.getElementById("kpiOmzet").textContent = TH.rupiah(ro.kpi.totalOmzet);
+      document.getElementById("kpiDone").textContent = ro.kpi.pesananSelesai;
+      document.getElementById("kpiAov").textContent = TH.rupiah(ro.kpi.aov);
+      document.getElementById("kpiOntime").textContent = ro.kpi.ontimePct + "%";
+    }
+    if (ro && Array.isArray(ro.orders) && ro.orders.length) {
+      var topOrders = ro.orders.slice().sort(function (a, b) { return (b.price || 0) - (a.price || 0); }).slice(0, 5);
+      var tbody = document.querySelector(".table tbody");
+      if (tbody) {
+        tbody.innerHTML = topOrders.map(function (o) {
+          return (
+            "<tr>" +
+              "<td><b>" + TH.esc(o.code) + "</b></td>" +
+              "<td>" + TH.esc(o.customer || "-") + "</td>" +
+              "<td>" + TH.esc(o.type) + "</td>" +
+              "<td>" + TH.esc(o.qty) + " pcs</td>" +
+              "<td><b style='color:var(--ink)'>" + TH.rupiah(o.price) + "</b></td>" +
+              "<td><span class='chip " + TH.statusChip(o.payment_status) + "'>" + TH.esc(o.payment_status) + "</span></td>" +
+              "<td>" + TH.esc(o.deadline || "—") + "</td>" +
+            "</tr>"
+          );
+        }).join("");
+      }
+    }
+  } catch (e) {
+    console.error("Gagal memuat laporan utama:", e);
+  }
+})();
+
 function updatePeriod(period) {
   var status = document.getElementById('periodStatus');
   var omzet = document.getElementById('kpiOmzet');

@@ -60,27 +60,41 @@
     });
   }
 
-  /* ---- Global Topbar Search Handler (Enter ke search.html) ---- */
-  var topSearchInputs = document.querySelectorAll('header.top .search input');
-  topSearchInputs.forEach(function (input) {
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        var query = input.value.trim();
-        if (query) {
-          var path = window.location.pathname.replace(/\\/g, '/');
-          var isSubfolder = path.indexOf('/app/reports/') !== -1 ||
-                            path.indexOf('/app/notifications/') !== -1 ||
-                            path.indexOf('/app/orders/') !== -1 ||
-                            path.indexOf('/app/customers/') !== -1 ||
-                            path.indexOf('/app/production/') !== -1 ||
-                            path.indexOf('/app/payments/') !== -1 ||
-                            path.indexOf('/app/team/') !== -1 ||
-                            path.indexOf('/app/settings/') !== -1 ||
-                            path.indexOf('/account/') !== -1;
-          var target = isSubfolder ? '../search.html' : 'search.html';
-          window.location.href = target + '?q=' + encodeURIComponent(query);
-        }
-      }
-    });
+  /* ---- Global Topbar Search Form Normalization (submit native GET ke /app/search.html) ---- */
+  var topSearchForms = document.querySelectorAll('header.top form.search');
+  topSearchForms.forEach(function (form) {
+    form.setAttribute('action', '/app/search.html');
+    form.setAttribute('method', 'GET');
   });
+
+  /* ---- Sinkronisasi Identitas User & Tenant di App Shell (Sidebar & Topbar) ---- */
+  function initials(name) {
+    var parts = String(name || '').trim().split(/\s+/);
+    if (!parts[0]) return 'TH';
+    return parts.length > 1
+      ? (parts[0][0] + parts[1][0]).toUpperCase()
+      : parts[0].slice(0, 2).toUpperCase();
+  }
+
+  function applyShellUser(info) {
+    if (!info || !info.user) return;
+    var uName = info.user.nama || info.user.name || 'Pengguna';
+    var role = info.user.role === 'pemilik' ? 'Pemilik' : info.user.role === 'admin' ? 'Admin' : 'Staff';
+    var tName = (info.tenant && (info.tenant.nama || info.tenant.name)) || 'TailorHub';
+    var init = initials(uName);
+
+    document.querySelectorAll('.side-user b').forEach(function (el) { el.textContent = uName; });
+    document.querySelectorAll('.side-user small').forEach(function (el) { el.textContent = role + ' · ' + tName; });
+    document.querySelectorAll('.side-user .avatar, .side-user .top-avatar, header.top .top-avatar').forEach(function (el) {
+      el.textContent = init;
+    });
+  }
+
+  if (window.TH) {
+    var cached = window.TH.me();
+    if (cached) applyShellUser(cached);
+    window.TH.get('/api/auth/me').then(function (d) {
+      if (d && d.user) applyShellUser(d);
+    }).catch(function () {});
+  }
 })();

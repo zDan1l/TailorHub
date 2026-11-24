@@ -177,11 +177,12 @@
   }
 
   /**
-   * Memindahkan kartu ke kolom tahap target dan memicu toast konfirmasi.
+   * Memindahkan kartu ke kolom tahap target dan memicu toast konfirmasi + simpan ke D1.
    * @param {HTMLElement} card
    * @param {string} targetStageKey
+   * @param {boolean} [silent]
    */
-  function moveCardToStage(card, targetStageKey) {
+  function moveCardToStage(card, targetStageKey, silent) {
     if (!card || !STAGE_MAP[targetStageKey]) return;
 
     var currentStageKey = card.getAttribute('data-stage');
@@ -202,9 +203,20 @@
     syncCardVisual(card, targetStageKey);
     updateColumnCounts();
 
+    if (silent) return;
+
     var codeEl = card.querySelector('.kc-code');
     var orderCode = card.getAttribute('data-code') || (codeEl ? codeEl.textContent.trim() : 'Pesanan');
     var stageLabel = STAGE_MAP[targetStageKey].label;
+
+    if (window.TH && orderCode) {
+      window.TH.put('/api/orders/' + encodeURIComponent(orderCode), {
+        production_status: stageLabel,
+        note: 'Status diperbarui ke ' + stageLabel + ' melalui Papan Kanban'
+      }).catch(function (err) {
+        console.error('Gagal menyimpan status Kanban ke D1:', err);
+      });
+    }
 
     showToast('Status diperbarui', orderCode + ' dipindah ke tahap ' + stageLabel + '.');
   }
@@ -380,12 +392,40 @@
     }
   }
 
+  var LABEL_TO_KEY = {
+    'Antrean': 'antrean',
+    'Pemotongan': 'potong',
+    'Penjahitan': 'jahit',
+    'Finishing': 'finishing',
+    'QC': 'qc',
+    'Selesai': 'selesai',
+    'Diambil': 'diambil'
+  };
+
+  async function syncBoardWithD1() {
+    if (!window.TH) return;
+    try {
+      var res = await window.TH.get('/api/orders?limit=200');
+      var orders = (res && res.data) || [];
+      orders.forEach(function (o) {
+        var stageKey = LABEL_TO_KEY[o.production_status] || 'antrean';
+        var existing = document.querySelector('.kcard[data-code="' + o.code + '"]');
+        if (existing) {
+          moveCardToStage(existing, stageKey, true);
+        }
+      });
+    } catch (e) {
+      console.error('Gagal sinkronisasi Kanban dengan D1:', e);
+    }
+  }
+
   function init() {
     if (!document.querySelector('.kanban')) return;
     bindCardEvents();
     bindColumnEvents();
     bindFilterEvents();
     updateColumnCounts();
+    syncBoardWithD1();
   }
 
   if (document.readyState === 'loading') {

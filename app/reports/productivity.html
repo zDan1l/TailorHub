@@ -675,6 +675,44 @@
   </div>
 </div>
 
-<script src="../../assets/js/app.js"></script>
+<script src="/assets/js/api.js"></script>
+<script>TH.requireAuth("/auth/login.html");</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(async function () {
+  function initials(name) {
+    var parts = String(name || "").trim().split(/\s+/);
+    if (!parts[0]) return "ST";
+    return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
+  }
+  try {
+    var d = await TH.get("/api/reports/orders");
+    if (d && Array.isArray(d.orders) && d.orders.length) {
+      var tbody = document.querySelector(".table tbody");
+      if (tbody) {
+        var activeOrders = d.orders.filter(function (o) {
+          return o.production_status !== "Selesai" && o.production_status !== "Diambil";
+        });
+        tbody.innerHTML = activeOrders.map(function (o) {
+          var pic = o.assignee || "Tim Produksi";
+          return (
+            "<tr>" +
+              "<td><div style='display:flex;align-items:center;gap:10px'><span style='width:30px;height:30px;border-radius:8px;background:var(--clay-100);color:var(--clay-800);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.76rem'>" + TH.esc(initials(pic)) + "</span><b>" + TH.esc(pic) + "</b></div></td>" +
+              "<td><b>" + TH.esc(o.code) + "</b></td>" +
+              "<td>" + TH.esc(o.customer || "-") + "</td>" +
+              "<td>" + TH.esc(o.type) + " (" + TH.esc(o.qty) + " pcs)</td>" +
+              "<td><span class='chip " + TH.statusChip(o.production_status) + "'>" + TH.esc(o.production_status) + "</span></td>" +
+              "<td>" + TH.esc(o.deadline || "—") + "</td>" +
+              "<td><span class='chip chip--neutral'>Aktif</span></td>" +
+            "</tr>"
+          );
+        }).join("");
+      }
+    }
+  } catch (e) {
+    console.error("Gagal memuat laporan produktivitas:", e);
+  }
+})();
+</script>
 </body>
 </html>

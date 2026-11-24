@@ -53,6 +53,15 @@
     put: function (p, b) { return request("PUT", p, b); },
     patch: function (p, b) { return request("PATCH", p, b); },
     del: function (p) { return request("DELETE", p); },
+    api: function (p, opts) {
+      opts = opts || {};
+      return request(opts.method || "GET", p, opts.body);
+    },
+    initials: function (name) {
+      var parts = String(name || "").trim().split(/\s+/);
+      if (!parts[0]) return "TH";
+      return parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : parts[0].slice(0, 2).toUpperCase();
+    },
 
     // --- Auth ---
     login: async function (email, password) {
@@ -70,8 +79,8 @@
     me: currentUser,
     isLoggedIn: function () { return !!token(); },
     /* Panggil di atas halaman app/: jika belum login, lempar ke login. */
-    requireAuth: function (loginUrl) {
-      if (!token()) { location.href = loginUrl || "/auth/login.html"; return false; }
+    requireAuth: function () {
+      if (!token()) { location.href = "/auth/login.html"; return false; }
       return true;
     },
 
