@@ -1,62 +1,79 @@
 /* ============================================================
-   TAILORHUB — BASE
-   Reset, elemen dasar, tipografi, helper layout publik.
-   Butuh tokens.css diimpor lebih dulu.
+   TAILORHUB — BASE & TYPOGRAPHY
+   Reset, body, heading, dan tipografi dasar aplikasi.
    ============================================================ */
-*,*::before,*::after{box-sizing:border-box;}
-html{scroll-behavior:smooth;overflow-x:hidden;}
-body{
-  margin:0; background:var(--cream); color:var(--ink);
-  font-family:'Plus Jakarta Sans',system-ui,-apple-system,"Segoe UI",sans-serif;
-  font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased; overflow-x:hidden;
-}
-img{max-width:100%;display:block;}
-a{color:inherit;text-decoration:none;}
-button{font-family:inherit;}
-h1,h2,h3,h4{margin:0;line-height:1.13;}
-h1{font-size:clamp(2.3rem,4.3vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.07;}
-h2{font-size:clamp(1.85rem,3.3vw,2.6rem);font-weight:800;letter-spacing:-.034em;}
-h3{font-size:1.12rem;font-weight:700;letter-spacing:-.02em;}
-h4{font-size:.97rem;font-weight:700;letter-spacing:-.012em;}
-p{margin:0;}
-ul,ol{margin:0;padding:0;list-style:none;}
-code{font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-size:.92em;
-  background:var(--cream-200);border:1px solid var(--sand);border-radius:6px;padding:1px 6px;}
-
-/* ---------- Layout ---------- */
-.wrap{width:80vw;max-width:1600px;margin:0 auto;}
-.wrap--narrow{max-width:960px;}
-.section{padding:94px 0;}
-.section--tight{padding:64px 0;}
-
-/* ---------- Label & pengantar ---------- */
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.76rem;font-weight:800;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--clay);background:var(--clay-100);
-  border:1px solid rgba(192,84,36,.18);padding:7px 15px;border-radius:999px;}
-.eyebrow--light{color:#fff;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
-.lead{font-size:1.06rem;color:var(--ink-70);max-width:58ch;font-weight:500;}
-.section-head{max-width:700px;margin-bottom:50px;}
-.section-head h2{margin:17px 0 15px;}
-.section-head--center{margin-left:auto;margin-right:auto;text-align:center;}
-.section-head--center .lead{margin-left:auto;margin-right:auto;}
-
-/* ---------- Helper ---------- */
-.text-center{text-align:center;}
-.muted{color:var(--ink-45);}
-.tick{flex:none;margin-top:3px;color:var(--clay);}
-
-/* ---------- Animasi reveal (aktif jika JS menambah .js) ---------- */
-@media (prefers-reduced-motion:no-preference){
-  .js [data-reveal]{opacity:0;transform:translateY(26px);
-    transition:opacity .7s var(--ease),transform .7s var(--ease);
-    transition-delay:calc(var(--i,0)*70ms);}
-  .js [data-reveal="zoom"]{transform:scale(.96);}
-  .js [data-reveal].is-in{opacity:1;transform:none;}
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-/* ---------- Responsive dasar ---------- */
-@media (max-width:1180px){ .wrap{width:88vw;} }
-@media (max-width:720px){
-  .section{padding:62px 0;}
-  body{font-size:16px;}
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  line-height: 1.13;
+}
+
+h1 {
+  font-size: clamp(2rem, 3.6vw, 2.9rem);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.08;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -.034em;
+}
+
+h3 {
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+h4 {
+  font-size: .97rem;
+  font-weight: 700;
+  letter-spacing: -.012em;
+}
+
+p {
+  margin: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+code, pre {
+  font-family: 'SFMono-Regular', ui-monospace, 'Cascadia Code', Consolas, monospace;
 }
