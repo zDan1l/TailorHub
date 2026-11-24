@@ -77,6 +77,10 @@
           <span class="chip chip--done" id="profStatusChip"><span class="d"></span>Akun Aktif</span>
 
           <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--sand); display:grid; gap:8px;">
+            <a href="/portal/landing" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm" id="btnTenantLanding" style="display:none;">
+              Landing Page Tenant
+              <svg width="15" height="15"><use href="#i-arrow"/></svg>
+            </a>
             <button type="button" class="btn btn--light btn--sm" id="btnLogoutAccount" style="color:var(--red);">Keluar dari Akun (Logout)</button>
           </div>
         </div>
@@ -154,6 +158,17 @@
       document.getElementById("profAvatar").textContent = initials(uName);
       document.getElementById("profCardName").textContent = uName;
       document.getElementById("profCardMeta").textContent = roleLabel + " · " + tName;
+      var btnTenantLanding = document.getElementById("btnTenantLanding");
+      if (btnTenantLanding) {
+        if (d.user.role === "pemilik") {
+          btnTenantLanding.href = d.tenant && d.tenant.slug
+            ? "/portal/landing?slug=" + encodeURIComponent(d.tenant.slug)
+            : "/portal/landing";
+          btnTenantLanding.style.display = "";
+        } else {
+          btnTenantLanding.style.display = "none";
+        }
+      }
     }
   } catch (e) {
     console.error(e);
