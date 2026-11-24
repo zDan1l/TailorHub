@@ -117,6 +117,57 @@
   padding: 8px 10px;
   border-radius: 12px;
   transition: background .2s;
+  color: #fff;
+}
+
+/* Avatar inisial di sidebar */
+.side-ava {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--clay);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: .82rem;
+}
+
+.side-user-meta {
+  min-width: 0;
+}
+
+.side-user-meta b,
+.side-user-meta small {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tombol keluar */
+.side-logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 6px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: rgba(255, 248, 239, .6);
+  font-size: .86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.side-logout:hover {
+  background: rgba(255, 255, 255, .07);
+  color: #fff;
 }
 
 .side-user:hover {
@@ -276,9 +327,15 @@
 
 .page-head .sub {
   color: var(--ink-45);
-  font-size: .9rem;
+  font-size: .85rem;
   margin-top: 3px;
 }
+
+/* ---- Perapihan kepadatan (kurangi noise teks sekunder) ---- */
+/* Breadcrumb di dalam halaman redundan dengan sidebar + judul → sembunyikan */
+.page .crumb { display: none; }
+/* Rapikan jarak judul saat crumb hilang */
+.page-head h1 { line-height: 1.15; }
 
 /* ---- Responsive App Shell ---- */
 @media (max-width: 860px) {

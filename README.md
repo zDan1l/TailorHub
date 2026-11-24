@@ -107,11 +107,27 @@ Jangan pakai latar pucat/transparan. Gunakan kelas semantik ini **persis**:
 | Selesai         | `chip--done`   | Lewat deadline     | `chip--danger` |
 | Diambil         | `chip--taken`  | Label netral       | `chip--soft`   |
 
-### 5. Halaman internal WAJIB pakai App Shell yang sama
+### 5. App Shell = komponen TUNGGAL (jangan hardcode sidebar lagi)
 
-Salin struktur **sidebar + topbar** dari `app/dashboard.html` (ada komentar `SIDEBAR (reusable)`
-dan `Topbar (reusable)`). Hanya isi `<main class="page">` yang berbeda tiap halaman.
-Tandai menu aktif dengan `class="nav-i is-on"`.
+Sidebar + topbar dirender otomatis oleh **`assets/js/app-shell.js`** dan difilter sesuai
+**peran** user (Pemilik/Admin/Staff). **JANGAN** menyalin/menulis markup sidebar di halaman.
+Setiap halaman internal cukup berpola:
+
+```html
+<div class="app" id="app">
+  <div class="scrim"></div>
+  <aside class="side" id="appSidebar"></aside>   <!-- diisi app-shell.js -->
+  <div class="main">
+    <header class="top" id="appTopbar"></header> <!-- diisi app-shell.js -->
+    <main class="page"> …konten khusus halaman… </main>
+  </div>
+</div>
+<script src="/assets/js/app-shell.js"></script>   <!-- sebelum </body> -->
+```
+
+- Menu aktif, nama/peran user, dan badge notifikasi ditangani otomatis — tidak perlu diatur manual.
+- Mau menamb/mengubah menu atau hak akses peran? Edit **satu file**: `assets/js/app-shell.js`.
+- Halaman `app/orders/print.html` & `delete-modal.html` sengaja TANPA shell.
 
 ### 6. Responsif itu wajib
 
