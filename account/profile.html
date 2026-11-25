@@ -30,8 +30,8 @@
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
 </defs></svg>
 
-<div class="app">
-  <div class="scrim" onclick="document.querySelector('.app').classList.remove('nav-open')"></div>
+<div class="app" id="app">
+  <div class="scrim" id="scrim" onclick="document.querySelector('.app').classList.remove('nav-open')"></div>
 
   <!-- SIDEBAR (reusable App Shell) -->
   <aside class="side" id="appSidebar" aria-label="Navigasi utama"></aside>
@@ -65,7 +65,7 @@
         <a href="preferences.html">Preferensi Akun</a>
       </div>
 
-      <div style="display:grid; grid-template-columns:1fr 2fr; gap:24px;">
+      <div class="profile-grid">
         
         <!-- Left: Avatar Card -->
         <div class="card" style="text-align:center;">
@@ -89,7 +89,7 @@
         <div class="card">
           <div id="profMsg" class="alert alert--info" style="display:none;margin-bottom:16px;font-size:.85rem;"></div>
           <form id="profileForm">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="form-row">
               <div class="field">
                 <label for="prof_name">Nama Lengkap <span class="req">*</span></label>
                 <input class="input" id="prof_name" type="text" value="Pak Mardi" required>
@@ -102,7 +102,7 @@
               </div>
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="form-row">
               <div class="field">
                 <label for="prof_email">Alamat Email Login <span class="req">*</span></label>
                 <input class="input" id="prof_email" type="email" value="owner@jahitlestari.id" required>
@@ -119,7 +119,7 @@
               <textarea class="textarea" id="prof_bio" placeholder="Tuliskan alamat atau catatan singkat peran Anda di workshop…">Jakarta</textarea>
             </div>
 
-            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px; padding-top:18px; border-top:1px solid var(--sand);">
+            <div style="display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap; margin-top:20px; padding-top:18px; border-top:1px solid var(--sand);">
               <button type="reset" class="btn btn--ghost">Batalkan</button>
               <button type="submit" class="btn btn--primary">
                 Simpan Perubahan Profil
