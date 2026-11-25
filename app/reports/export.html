@@ -63,6 +63,10 @@
   align-items: start;
 }
 
+.export-layout > * {
+  min-width: 0;
+}
+
 /* Opsi Format Box */
 .format-grid {
   display: grid;
@@ -209,6 +213,30 @@
 
 @media (max-width: 1024px) {
   .export-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .sheet-wrapper {
+    padding: 14px 10px;
+  }
+  .sheet-a4 {
+    padding: 20px 16px;
+  }
+  .sheet-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sheet-meta {
+    text-align: left;
+  }
+  .sheet-signatures {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .format-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -396,7 +424,7 @@
               </div>
 
               <!-- Ringkasan Eksekutif -->
-              <div style="background:#faf8f5;border:1px solid #e8e2d9;border-radius:4px;padding:12px 16px;margin-bottom:20px;display:flex;justify-content:space-between;text-align:center">
+              <div style="background:#faf8f5;border:1px solid #e8e2d9;border-radius:4px;padding:12px 16px;margin-bottom:20px;display:flex;justify-content:space-between;text-align:center;flex-wrap:wrap;gap:12px">
                 <div>
                   <small style="font-size:.68rem;text-transform:uppercase;color:#777;font-weight:700" id="lblVol">Total Volume</small>
                   <div style="font-weight:800;font-size:1.05rem;margin-top:2px" id="sumVol">128 Pesanan</div>
@@ -412,7 +440,7 @@
               </div>
 
               <!-- Tabel Sampel Cuplikan (Dinamis Sesuai Jenis Laporan) -->
-              <div id="tablePreviewContainer">
+              <div id="tablePreviewContainer" style="overflow-x:auto">
                 <table class="sheet-table" id="previewTable">
                   <thead>
                     <tr>
