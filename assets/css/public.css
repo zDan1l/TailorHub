@@ -96,8 +96,10 @@ code {
 }
 .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 1.26rem; letter-spacing: -.038em; }
 .brand em { font-style: normal; color: var(--clay); }
-.brand svg { transition: transform .5s var(--ease); }
-.brand:hover svg { transform: rotate(-8deg) scale(1.06); }
+.brand svg,
+.brand img.brand-icon { object-fit: contain; flex: none; transition: transform .5s var(--ease); }
+.brand:hover svg,
+.brand:hover img.brand-icon { transform: rotate(-8deg) scale(1.06); }
 .nav { display: flex; gap: 24px; margin-left: auto; font-size: .94rem; font-weight: 600; color: var(--ink-70); }
 .nav a { position: relative; padding: 4px 0; transition: color .25s; }
 .nav a::after {

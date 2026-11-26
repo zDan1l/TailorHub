@@ -420,11 +420,15 @@
       color: var(--clay);
     }
 
-    .brand svg {
+    .brand svg,
+    .brand img.brand-icon {
+      object-fit: contain;
+      flex: none;
       transition: transform .5s var(--ease);
     }
 
-    .brand:hover svg {
+    .brand:hover svg,
+    .brand:hover img.brand-icon {
       transform: rotate(-8deg) scale(1.06);
     }
 
@@ -2145,6 +2149,9 @@
       }
     }
   </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 
 <body>
@@ -2225,14 +2232,7 @@
   <header class="site-header" id="header">
     <div class="wrap">
       <a class="brand" href="#top" aria-label="TailorHub beranda">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-          <rect width="40" height="40" rx="12" fill="#C05424" />
-          <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round" />
-          <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2" />
-          <path d="M13.2 27.6c-3.4-1.1-4-5 .4-5.6 4.4-.6 5.3 3.9 1.8 5.3" stroke="#F9DFCF" stroke-width="1.9"
-            stroke-linecap="round" fill="none" />
-          <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD" />
-        </svg>
+        <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="40" height="40" aria-hidden="true" style="object-fit:contain;flex:none;">
         <span>Tailor<em>Hub</em></span>
       </a>
       <nav class="nav" aria-label="Navigasi bagian halaman">
@@ -3846,14 +3846,7 @@
       <div class="foot-grid">
         <div>
           <a class="brand" href="#top">
-            <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <rect width="40" height="40" rx="12" fill="#C05424" />
-              <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round" />
-              <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2" />
-              <path d="M13.2 27.6c-3.4-1.1-4-5 .4-5.6 4.4-.6 5.3 3.9 1.8 5.3" stroke="#F9DFCF" stroke-width="1.9"
-                stroke-linecap="round" fill="none" />
-              <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD" />
-            </svg>
+            <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="36" height="36" aria-hidden="true" style="object-fit:contain;flex:none;">
             <span>Tailor<em>Hub</em></span>
           </a>
           <p>Platform SaaS multi-tenant untuk usaha jahit dan konveksi.</p>

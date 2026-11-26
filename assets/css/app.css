@@ -42,6 +42,16 @@
   color: var(--clay-300);
 }
 
+.side-brand .brand-icon {
+  width: 34px;
+  height: 34px;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--cream);
+  object-fit: contain;
+  flex: none;
+}
+
 .side-sec {
   font-size: .64rem;
   font-weight: 800;

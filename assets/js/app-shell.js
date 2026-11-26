@@ -81,11 +81,7 @@
   function renderSidebar(role, info) {
     var brand =
       '<a class="side-brand" href="/app/dashboard.html" aria-label="TailorHub">' +
-      '<svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">' +
-      '<rect width="40" height="40" rx="12" fill="#C05424"/>' +
-      '<path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>' +
-      '<circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>' +
-      '<circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg>' +
+      '<img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="34" height="34" aria-hidden="true">' +
       "<span>Tailor<em>Hub</em></span></a>";
 
     var nav = "<nav>";

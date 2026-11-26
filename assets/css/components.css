@@ -890,6 +890,13 @@
   color: var(--clay);
 }
 
+.auth-brand .brand-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex: none;
+}
+
 .auth-header h1 {
   font-size: 1.55rem;
   font-weight: 800;

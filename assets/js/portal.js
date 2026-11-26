@@ -553,6 +553,37 @@
     return findOrder(clean);
   }
 
+  var TENANT_ASSETS = {
+    'jahit-lestari': {
+      icon: '/assets/img/logo/tenant-jahit-lestari.png',
+      favicon32: '/assets/img/logo/tenant-jahit-lestari-32.png',
+      favicon192: '/assets/img/logo/tenant-jahit-lestari-192.png',
+      apple: '/assets/img/logo/tenant-jahit-lestari-apple.png'
+    }
+  };
+
+  function applyTenantBrandAssets() {
+    var rawSlug = new URLSearchParams(global.location.search).get('slug') || '';
+    var activeSlug = /^[a-z0-9-]{1,64}$/.test(rawSlug) ? rawSlug : 'jahit-lestari';
+    var assets = TENANT_ASSETS[activeSlug];
+    if (!assets || typeof document === 'undefined') return;
+
+    document.querySelectorAll('.portal-brand-mark img.brand-icon').forEach(function (img) {
+      img.setAttribute('src', assets.icon);
+    });
+    var icon32 = document.querySelector('link[rel="icon"][sizes="32x32"]');
+    if (icon32) icon32.setAttribute('href', assets.favicon32);
+    var icon192 = document.querySelector('link[rel="icon"][sizes="192x192"]');
+    if (icon192) icon192.setAttribute('href', assets.favicon192);
+    var apple = document.querySelector('link[rel="apple-touch-icon"]');
+    if (apple) apple.setAttribute('href', assets.apple);
+  }
+
+  applyTenantBrandAssets();
+  if (typeof document !== 'undefined' && document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyTenantBrandAssets);
+  }
+
   global.TailorPortal = {
     TENANT: TENANT,
     STAGES: STAGES,
@@ -568,6 +599,7 @@
     setSessionCustomer: setSessionCustomer,
     clearSessionCustomer: clearSessionCustomer,
     loginDemoCustomer: loginDemoCustomer,
-    createChip: createChip
+    createChip: createChip,
+    applyTenantBrandAssets: applyTenantBrandAssets
   };
 })(window);
