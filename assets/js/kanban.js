@@ -451,7 +451,7 @@
     var T = window.TH;
     var stageKey = LABEL_TO_KEY[o.production_status] || 'antrean';
     var cust = o.customer || 'Tanpa nama';
-    var title = (o.detail || o.type || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : '');
+    var title = (o.type || o.detail || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : '');
     var dl = deadlineInfo(o.deadline, stageKey);
     var staffInit = o.assignee ? T.initials(o.assignee) : '';
     var right = o.assignee
@@ -462,6 +462,8 @@
     for (var i = 0; i < 7; i++) stepsEl.appendChild(T.el('i'));
 
     var href = 'detail.html?code=' + encodeURIComponent(o.code);
+    var fabricFull = String(o.detail || '-').trim() || '-';
+    var fabricBadge = fabricFull.length > 20 ? fabricFull.slice(0, 17).trim() + '...' : fabricFull;
     var card = T.el('article', {
       className: 'kcard',
       'data-code': o.code,
@@ -473,7 +475,7 @@
     }, [
       T.el('div', { className: 'kc-top' }, [
         T.el('a', { href: href, className: 'kc-code', text: o.code }),
-        T.el('span', { className: 'kc-type', text: o.type || '-' })
+        T.el('span', { className: 'kc-type', title: fabricFull, text: fabricBadge })
       ]),
       T.el('div', { className: 'kc-title', text: title }),
       T.el('div', { className: 'kc-cust' }, [

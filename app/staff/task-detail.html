@@ -739,7 +739,7 @@
       var latestNote = (Array.isArray(d.notes) && d.notes.length) ? d.notes[0].body : '';
       var qtyLabel = (fb && fb.qty) || ((o.qty || 1) + ' Pcs');
       var orderData = {
-        title: o.code + ' — ' + (o.detail || o.type || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : ''),
+        title: o.code + ' — ' + (o.type || o.detail || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : ''),
         category: o.type || (fb && fb.category) || 'Pesanan Jahit',
         garmentType: (fb && fb.garmentType) || inferGarmentType(o.type),
         stageName: stName,

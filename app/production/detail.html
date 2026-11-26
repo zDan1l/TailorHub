@@ -67,7 +67,7 @@
 
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
           <a href="board.html" class="btn btn--ghost">Kembali ke Kanban</a>
-          <a href="../orders/detail.html" class="btn btn--ghost">Lihat Detail Pesanan</a>
+          <a id="btnOrderDetail" href="../orders/detail.html" class="btn btn--ghost">Lihat Detail Pesanan</a>
           <a id="btnUpdateStatus" href="update-status.html?code=TH-2041" class="btn btn--primary">
             <svg width="17" height="17"><use href="#i-scissors"/></svg>
             <span>Update Status</span>
@@ -232,7 +232,7 @@
                 <b id="specSize">LD 100 · Lgn 60 · Krh 40 cm</b>
               </div>
             </div>
-            <a href="../orders/detail.html" class="btn btn--ghost btn--block btn--sm">Buka Rincian Ukuran Lengkap →</a>
+            <a id="btnOrderMeasureDetail" href="../orders/detail.html" class="btn btn--ghost btn--block btn--sm">Buka Rincian Ukuran Lengkap →</a>
           </section>
 
           <!-- Sinkronisasi Portal Customer -->
@@ -448,6 +448,11 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
     document.getElementById('portalCode').textContent = code;
     document.getElementById('btnUpdateStatus').href = 'update-status.html?code=' + encodeURIComponent(code);
     document.getElementById('btnPortalPreview').href = '../../portal/track-result.html?code=' + encodeURIComponent(code);
+    var orderDetailParam = data.id ? ('id=' + encodeURIComponent(data.id)) : ('code=' + encodeURIComponent(code));
+    var btnOrderDetail = document.getElementById('btnOrderDetail');
+    var btnOrderMeasureDetail = document.getElementById('btnOrderMeasureDetail');
+    if (btnOrderDetail) btnOrderDetail.href = '../orders/detail.html?' + orderDetailParam;
+    if (btnOrderMeasureDetail) btnOrderMeasureDetail.href = '../orders/detail.html?' + orderDetailParam;
 
     setChip(document.getElementById('stageChip'), data.stageClass, data.stageLabel);
     setChip(document.getElementById('deadlineChip'), data.deadlineClass, data.deadlineLabel);
@@ -686,6 +691,7 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
         var assigneeName = o.assignee || '';
         var assigneeRole = o.assignee_role ? (ROLE_LABELS[o.assignee_role] || o.assignee_role) : '';
         ORDERS[o.code] = {
+          id: o.id,
           title: o.code + ' — ' + (o.type || 'Pesanan') + ' ×' + (o.qty || 1),
           customer: o.customer || (existing && existing.customer) || '-',
           step: step,

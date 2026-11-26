@@ -219,7 +219,7 @@
     var isPending = stName === 'Antrean';
     return {
       code: o.code,
-      title: (o.detail || o.type || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : ''),
+      title: (o.type || o.detail || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : ''),
       customer: o.customer || '-',
       stageKey: meta.key,
       stageName: stName,
