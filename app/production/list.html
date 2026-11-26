@@ -66,9 +66,9 @@
             <svg width="17" height="17"><use href="#i-grid"/></svg>
             <span>Buka Kanban</span>
           </a>
-          <a href="deadline-alerts.html" class="btn btn--ghost">
+          <a href="deadline-alerts.html" class="btn btn--ghost" id="deadlineAlertBtn">
             <svg width="17" height="17"><use href="#i-clock"/></svg>
-            <span>Pantau Deadline (2)</span>
+            <span id="deadlineAlertLabel">Pantau Deadline</span>
           </a>
           <a href="update-status.html" class="btn btn--primary">
             <svg width="17" height="17"><use href="#i-scissors"/></svg>
@@ -634,25 +634,115 @@
     'Diambil': { key: 'diambil', step: '7/7', cls: 'chip--taken' }
   };
 
+  var PAY_TO_KEY = {
+    'Belum Bayar': 'unpaid',
+    'DP': 'dp',
+    'Lunas': 'paid'
+  };
+
+  function populateStaffFilter(orders) {
+    window.TH.populateStaffSelect(staffSelect, orders);
+  }
+
+  function orderPriority(o, T) {
+    if (o.production_status === 'Diambil') return 4;
+    if (o.production_status === 'Selesai') return 3;
+    var cat = T.deadlineMeta(o.deadline, o.production_status).cat;
+    if (cat === 'late') return 0;
+    if (cat === 'soon') return 1;
+    return 2;
+  }
+
+  function buildOrderRowEl(o, T) {
+    var meta = STAGE_TO_KEY[o.production_status] || STAGE_TO_KEY['Antrean'];
+    var payKey = PAY_TO_KEY[o.payment_status] || 'unpaid';
+    var staffInit = o.assignee ? T.initials(o.assignee) : '';
+    var cust = o.customer || '-';
+    var itemTitle = (o.detail || o.type || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : '');
+    var dl = T.deadlineMeta(o.deadline, o.production_status);
+    var hrefDetail = 'detail.html?code=' + encodeURIComponent(o.code);
+    var hrefUpdate = 'update-status.html?code=' + encodeURIComponent(o.code);
+
+    var staffCell = o.assignee
+      ? T.el('div', { className: 'staff-cell' }, [
+          T.el('span', { className: 'avatar avatar--sm', text: staffInit }),
+          T.el('span', { text: o.assignee })
+        ])
+      : T.el('span', { style: 'color:var(--ink-45)', text: 'Belum ditugaskan' });
+
+    var deadlineContent = (dl.cat === 'late' || dl.cat === 'soon')
+      ? T.chipEl(dl.cls, dl.chipText)
+      : document.createTextNode(dl.chipText);
+
+    return T.el('tr', {
+      className: dl.cat === 'late' ? 'row-late' : '',
+      'data-stage': meta.key,
+      'data-staff': staffInit,
+      'data-pay': payKey
+    }, [
+      T.el('td', null, [
+        T.el('a', { href: hrefDetail, style: dl.cat === 'late' ? 'color:var(--red)' : 'color:var(--clay)' }, [
+          T.el('b', { text: o.code })
+        ]),
+        T.el('div', { style: 'font-size:.8rem;color:var(--ink-45)', text: itemTitle })
+      ]),
+      T.el('td', null, [
+        T.el('div', { className: 'cust-cell' }, [
+          T.el('span', { className: 'mini', text: T.initials(cust) }),
+          T.el('span', { text: cust })
+        ])
+      ]),
+      T.el('td', null, [
+        T.chipEl(meta.cls, o.production_status || 'Antrean'),
+        T.el('span', { style: 'font-size:.76rem;color:var(--ink-45);font-weight:700;margin-left:6px', text: meta.step })
+      ]),
+      T.el('td', null, staffCell),
+      T.el('td', null, T.chipEl(T.statusChip(o.payment_status), o.payment_status || 'Belum Bayar')),
+      T.el('td', null, deadlineContent),
+      T.el('td', null, [
+        T.el('div', { className: 'row-actions' }, [
+          T.el('a', { href: hrefDetail, className: 'btn btn--ghost btn--sm', text: 'Detail' }),
+          T.el('a', { href: hrefUpdate, className: 'btn btn--primary btn--sm', text: 'Update' })
+        ])
+      ])
+    ]);
+  }
+
+  function updateDeadlineBtn(orders) {
+    var labelEl = document.getElementById('deadlineAlertLabel');
+    if (!labelEl || !window.TH) return;
+    labelEl.textContent = 'Pantau Deadline (' + window.TH.countUrgentDeadlines(orders) + ')';
+  }
+
   if (window.TH) {
     window.TH.get('/api/orders?limit=200').then(function (res) {
-      var list = (res && res.data) || [];
-      list.forEach(function (o) {
-        var meta = STAGE_TO_KEY[o.production_status] || STAGE_TO_KEY['Antrean'];
-        rows.forEach(function (row) {
-          var bEl = row.querySelector('td a b');
-          if (bEl && bEl.textContent.trim() === o.code) {
-            row.setAttribute('data-stage', meta.key);
-            var tds = row.querySelectorAll('td');
-            if (tds[2]) {
-              tds[2].innerHTML = '<span class="chip ' + meta.cls + '"><span class="d"></span>' + window.TH.esc(o.production_status) + '</span>' +
-                '<span style="font-size:.76rem;color:var(--ink-45);font-weight:700;margin-left:6px">' + meta.step + '</span>';
-            }
-          }
-        });
+      var T = window.TH;
+      var list = ((res && res.data) || []).slice().sort(function (a, b) {
+        var pa = orderPriority(a, T);
+        var pb = orderPriority(b, T);
+        if (pa !== pb) return pa - pb;
+        var da = T.daysUntil(a.deadline);
+        var db = T.daysUntil(b.deadline);
+        if (da === null && db === null) return 0;
+        if (da === null) return 1;
+        if (db === null) return -1;
+        return da - db;
       });
+
+      var tbody = document.querySelector('#prodTable tbody');
+      tbody.querySelectorAll('tr[data-stage]').forEach(function (r) { r.remove(); });
+      var frag = document.createDocumentFragment();
+      list.forEach(function (o) { frag.appendChild(buildOrderRowEl(o, T)); });
+      tbody.insertBefore(frag, emptyRow);
+      rows = Array.prototype.slice.call(tbody.querySelectorAll('tr[data-stage]'));
+
+      populateStaffFilter(list);
+      updateDeadlineBtn(list);
+      currentPage = 1;
       renderTable();
-    }).catch(function () {});
+    }).catch(function (err) {
+      console.error('Gagal memuat daftar produksi dari D1:', err);
+    });
   }
 })();
 </script>

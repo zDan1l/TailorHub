@@ -442,9 +442,9 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
       'https://tailorhub.id/portal/track-result.html?code=' + code;
   }
 
-  function applyOrderFromQuery() {
+  function applyOrderFromQuery(overrideCode) {
     var params = new URLSearchParams(window.location.search);
-    var code = params.get('code') || 'TH-2041';
+    var code = overrideCode || params.get('code') || 'TH-2041';
     if (!ORDERS[code]) code = 'TH-2041';
 
     var data = ORDERS[code];
@@ -554,7 +554,41 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
 
   applyOrderFromQuery();
 
-  // Sinkronisasi status terbaru dari D1
+  function syncTimelineHistory(history, currentStep) {
+    if (!Array.isArray(history) || !history.length) return;
+    var STEP_MAP = { 'Antrean': 1, 'Pemotongan': 2, 'Penjahitan': 3, 'Finishing': 4, 'QC': 5, 'Selesai': 6, 'Diambil': 7 };
+    var byStep = {};
+    history.forEach(function (h) {
+      var st = STEP_MAP[h.status];
+      if (st) byStep[st] = h;
+    });
+    document.querySelectorAll('#prodTimeline .pt-item').forEach(function (item) {
+      var stepNum = Number(item.getAttribute('data-step'));
+      var h = byStep[stepNum];
+      var body = item.querySelector('.pt-body');
+      if (!body) return;
+      var metaEl = body.querySelector('.pt-meta');
+      var noteEl = body.querySelector('.pt-note');
+      if (h) {
+        if (metaEl) metaEl.textContent = (stepNum === currentStep ? 'Mulai: ' : '') + (h.created_at || 'Tercatat di sistem');
+        if (h.note) {
+          if (!noteEl) {
+            noteEl = document.createElement('div');
+            noteEl.className = 'pt-note';
+            body.appendChild(noteEl);
+          }
+          noteEl.textContent = h.note;
+        } else if (noteEl) {
+          noteEl.remove();
+        }
+      } else if (stepNum <= currentStep && metaEl) {
+        metaEl.textContent = stepNum === currentStep ? 'Sedang berlangsung' : 'Tahap selesai';
+        if (noteEl) noteEl.remove();
+      }
+    });
+  }
+
+  // Sinkronisasi status, deadline, dan detail terbaru dari D1
   (async function syncFromD1() {
     if (!window.TH) return;
     var params = new URLSearchParams(window.location.search);
@@ -565,30 +599,34 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
       if (d && d.order) {
         var o = d.order;
         var step = STEP_MAP[o.production_status] || 1;
-        ORDERS[o.code] = ORDERS[o.code] || {
-          title: o.code + ' — ' + o.type + ' ×' + o.qty,
-          customer: o.customer || '-',
+        var existing = ORDERS[o.code];
+        var dl = window.TH.deadlineMeta(o.deadline, o.production_status);
+        var staffVal = existing ? existing.staff : ('PM|' + (o.assignee || 'Belum Ditugaskan') + '|Tim Produksi');
+        if (o.assignee && (!existing || existing.staff.indexOf('|' + o.assignee + '|') === -1)) {
+          staffVal = window.TH.initials(o.assignee) + '|' + o.assignee + '|Tim Produksi';
+        }
+        ORDERS[o.code] = {
+          title: o.code + ' — ' + (o.type || 'Pesanan') + ' ×' + (o.qty || 1),
+          customer: o.customer || (existing && existing.customer) || '-',
           step: step,
           stageLabel: o.production_status + ' (' + step + '/7)',
           stageClass: window.TH.statusChip(o.production_status),
-          deadlineLabel: 'Deadline: ' + (o.deadline || '—'),
-          deadlineClass: 'chip--soft',
+          deadlineLabel: dl.detailText,
+          deadlineClass: dl.cls,
           payLabel: o.payment_status,
           payClass: window.TH.statusChip(o.payment_status),
-          staff: 'AS|' + (o.assignee || 'Tim Produksi') + '|Penjahit Produksi',
-          fabric: o.detail || 'Standar Workshop',
-          qty: o.qty + ' Pcs',
-          cut: 'Sesuai Nota',
-          size: 'Sesuai Fitting'
+          staff: staffVal,
+          fabric: o.detail || (existing && existing.fabric) || 'Standar Workshop',
+          qty: (existing && existing.qty) || ((o.qty || 1) + ' Pcs'),
+          cut: (existing && existing.cut) || 'Sesuai Nota',
+          size: (existing && existing.size) || 'Sesuai Fitting'
         };
-        ORDERS[o.code].step = step;
-        ORDERS[o.code].stageLabel = o.production_status + ' (' + step + '/7)';
-        ORDERS[o.code].stageClass = window.TH.statusChip(o.production_status);
-        ORDERS[o.code].payLabel = o.payment_status;
-        ORDERS[o.code].payClass = window.TH.statusChip(o.payment_status);
-        applyOrderFromQuery();
+        applyOrderFromQuery(o.code);
+        syncTimelineHistory(d.history, step);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error('Gagal menyinkronkan detail pesanan dari D1:', e);
+    }
   })();
 })();
 </script>
