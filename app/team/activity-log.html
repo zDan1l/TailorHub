@@ -19,15 +19,27 @@
 
 /* Table Card */
 .table-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);box-shadow:var(--shadow-s);overflow:hidden;}
-.tw{overflow-x:auto;}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tw .table{min-width:640px;}
 .log-user{display:flex;align-items:center;gap:10px;}
 .log-avatar{width:30px;height:30px;border-radius:50%;background:var(--clay);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:800;flex:none;}
 
 /* Pagination */
-.pager{display:flex;gap:6px;align-items:center;justify-content:center;padding:18px;}
+.pager{display:flex;gap:6px;align-items:center;justify-content:center;padding:18px;flex-wrap:wrap;}
 .pager a{min-width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;border-radius:10px;font-size:.88rem;font-weight:700;color:var(--ink-70);border:1px solid var(--sand);background:var(--paper);transition:all .2s;cursor:pointer;}
 .pager a:hover{border-color:var(--clay);color:var(--clay);}
 .pager a.is-on{background:var(--clay);color:#fff;border-color:var(--clay);}
+
+@media(max-width:600px){
+  .page{padding:16px 12px;}
+  .page-head{flex-direction:column;align-items:stretch;gap:12px;}
+  .page-head .btn{width:100%;justify-content:center;}
+  .filter-bar{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch;}
+  .filter-bar .select{max-width:100%!important;width:100%;font-size:.84rem;padding:9px 8px;}
+  .filter-bar .select:nth-of-type(3){grid-column:1 / -1;}
+  .filter-bar .input-group{grid-column:1 / -1;max-width:100%!important;width:100%;}
+  .filter-bar .input{max-width:100%!important;width:100%;}
+}
 </style>
 </head>
 <body>
