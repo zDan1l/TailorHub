@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../../assets/css/app.css">
 <style>
 /* Tab Navigasi Pengaturan */
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--sand);margin-bottom:24px;overflow-x:auto;}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--sand);margin-bottom:24px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
 .tabs a{padding:11px 16px;font-size:.9rem;font-weight:700;color:var(--ink-45);border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;}
 .tabs a:hover{color:var(--clay);}
 .tabs a.is-on{color:var(--clay);border-bottom-color:var(--clay);}
@@ -43,7 +43,17 @@
 @media(max-width:768px){
   .form-row{grid-template-columns:1fr;}
 }
+@media(max-width:600px){
+  .page{padding:16px 12px;}
+  .pref-card{padding:18px 14px;}
+  .stage-item{padding:10px 12px;gap:10px;}
+  .preview-box{flex-direction:column;align-items:flex-start;gap:8px;padding:14px;}
+  .pref-card button[type="submit"],.page form .btn{width:100%;justify-content:center;}
+}
 </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -55,7 +65,7 @@
   <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
-  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>

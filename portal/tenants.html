@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilih Penjahit &amp; Lacak Pesanan — TailorHub</title>
+<meta name="description" content="Pilih usaha jahit atau konveksi mitra TailorHub untuk melacak progres pesanan Anda secara real-time tanpa perlu login.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/public.css">
+<link rel="stylesheet" href="/assets/css/portal-tenants.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+</defs></svg>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/index.html" aria-label="TailorHub beranda">
+      <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="38" height="38" aria-hidden="true" style="object-fit:contain;flex:none;">
+      <span>Tailor<em>Hub</em></span>
+    </a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <a href="/features.html">Fitur</a>
+      <a href="/pricing.html">Harga</a>
+      <a href="/about.html">Tentang</a>
+      <a href="/help-center.html">Bantuan</a>
+      <a href="/contact.html">Kontak</a>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn--ghost" href="/auth/login.html">Masuk</a>
+      <a class="btn btn--primary" href="/auth/register.html">Coba Gratis</a>
+    </div>
+    <button type="button" class="burger" aria-label="Buka menu" aria-expanded="false">
+      <svg width="26" height="26"><use href="#i-menu"/></svg>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <div class="wrap">
+      <a href="/index.html">Beranda</a>
+      <a href="/features.html">Fitur</a>
+      <a href="/pricing.html">Harga</a>
+      <a href="/about.html">Tentang</a>
+      <a href="/help-center.html">Bantuan</a>
+      <a href="/contact.html">Kontak</a>
+      <a class="btn btn--ghost" href="/auth/login.html">Masuk</a>
+      <a class="btn btn--primary" href="/auth/register.html">Coba Gratis</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Portal Pelanggan Multi-Tenant</span>
+      <h1 data-reveal>Pilih Usaha Jahit untuk Melacak Pesanan</h1>
+      <p class="lead" data-reveal>Pilih penjahit atau konveksi tempat Anda memesan untuk masuk ke halaman pengecekan status jahitan secara real-time tanpa perlu login.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-label="Direktori usaha jahit mitra">
+    <div class="wrap">
+      <!-- Toolbar Pencarian & Filter Kategori -->
+      <div class="tenant-controls" data-reveal>
+        <div class="tenant-search-row">
+          <div class="input-group">
+            <svg width="18" height="18" aria-hidden="true"><use href="#i-search"/></svg>
+            <input
+              id="tenantSearch"
+              type="search"
+              class="input"
+              placeholder="Cari nama penjahit, kota, atau layanan…"
+              aria-label="Cari nama penjahit, kota, atau layanan"
+              autocomplete="off"
+            >
+          </div>
+          <span class="tenant-count" id="tenantCount" aria-live="polite">Menampilkan 6 dari 6 mitra penjahit</span>
+        </div>
+
+        <div class="tenant-pills" role="tablist" aria-label="Filter kategori usaha">
+          <button type="button" class="tenant-pill is-on" data-cat="all" role="tab" aria-selected="true">Semua</button>
+          <button type="button" class="tenant-pill" data-cat="Penjahit Custom" role="tab" aria-selected="false">Penjahit Custom</button>
+          <button type="button" class="tenant-pill" data-cat="Konveksi" role="tab" aria-selected="false">Konveksi</button>
+          <button type="button" class="tenant-pill" data-cat="Butik" role="tab" aria-selected="false">Butik</button>
+          <button type="button" class="tenant-pill" data-cat="Permak" role="tab" aria-selected="false">Permak</button>
+        </div>
+      </div>
+
+      <!-- Grid Daftar Tenant Dummy -->
+      <div class="grid g-3 tenant-grid" id="tenantGrid">
+        <article
+          class="card card--hover tenant-card"
+          data-reveal
+          data-name="Jahit Lestari"
+          data-city="Surabaya"
+          data-category="Penjahit Custom"
+          data-services="kemeja formal jas pria wanita seragam custom"
+        >
+          <div class="tenant-card-head">
+            <div class="tenant-identity">
+              <span class="tenant-avatar" aria-hidden="true">JL</span>
+              <div class="tenant-title-wrap">
+                <h3>Jahit Lestari</h3>
+                <span class="tenant-status"><i></i>Portal Aktif</span>
+              </div>
+            </div>
+            <span class="chip chip--soft">Penjahit Custom</span>
+          </div>
+
+          <div class="tenant-meta">
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-pin"/></svg>
+              <span>Surabaya</span>
+            </div>
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-clock"/></svg>
+              <span>Senin–Sabtu · 08.00–17.00 WIB</span>
+            </div>
+          </div>
+
+          <p class="tenant-desc">Spesialis kemeja formal, jas pria dan wanita, serta seragam custom dengan pengukuran presisi.</p>
+
+          <div class="tenant-card-foot">
+            <a class="btn btn--primary btn--sm tenant-cta" href="/portal/track?slug=jahit-lestari">
+              <span>Lacak Pesanan</span>
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article
+          class="card card--hover tenant-card"
+          data-reveal
+          data-name="Konveksi Sinar"
+          data-city="Bandung"
+          data-category="Konveksi"
+          data-services="produksi massal kaos komunitas seragam kerja polo hoodie"
+        >
+          <div class="tenant-card-head">
+            <div class="tenant-identity">
+              <span class="tenant-avatar tenant-avatar--indigo" aria-hidden="true">KS</span>
+              <div class="tenant-title-wrap">
+                <h3>Konveksi Sinar</h3>
+                <span class="tenant-status"><i></i>Portal Aktif</span>
+              </div>
+            </div>
+            <span class="chip chip--info">Konveksi</span>
+          </div>
+
+          <div class="tenant-meta">
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-pin"/></svg>
+              <span>Bandung</span>
+            </div>
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-clock"/></svg>
+              <span>Senin–Sabtu · 08.00–17.00 WIB</span>
+            </div>
+          </div>
+
+          <p class="tenant-desc">Produksi massal kaos komunitas, polo event, dan seragam kerja skala kecil hingga besar.</p>
+
+          <div class="tenant-card-foot">
+            <a class="btn btn--primary btn--sm tenant-cta" href="/portal/track?slug=jahit-lestari">
+              <span>Lacak Pesanan</span>
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article
+          class="card card--hover tenant-card"
+          data-reveal
+          data-name="Permak Rapi"
+          data-city="Jakarta Selatan"
+          data-category="Permak"
+          data-services="permak cepat celana bahan jas gaun potong pendek kecilkan"
+        >
+          <div class="tenant-card-head">
+            <div class="tenant-identity">
+              <span class="tenant-avatar tenant-avatar--green" aria-hidden="true">PR</span>
+              <div class="tenant-title-wrap">
+                <h3>Permak Rapi</h3>
+                <span class="tenant-status"><i></i>Portal Aktif</span>
+              </div>
+            </div>
+            <span class="chip chip--success">Permak</span>
+          </div>
+
+          <div class="tenant-meta">
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-pin"/></svg>
+              <span>Jakarta Selatan</span>
+            </div>
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-clock"/></svg>
+              <span>Setiap Hari · 09.00–19.00 WIB</span>
+            </div>
+          </div>
+
+          <p class="tenant-desc">Layanan permak cepat dan presisi untuk celana bahan, jas formal, denim, hingga gaun pesta.</p>
+
+          <div class="tenant-card-foot">
+            <a class="btn btn--primary btn--sm tenant-cta" href="/portal/track?slug=jahit-lestari">
+              <span>Lacak Pesanan</span>
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article
+          class="card card--hover tenant-card"
+          data-reveal
+          data-name="Butik Melati"
+          data-city="Yogyakarta"
+          data-category="Butik"
+          data-services="kebaya wisuda gamis pesta busana keluarga bridesmaid"
+        >
+          <div class="tenant-card-head">
+            <div class="tenant-identity">
+              <span class="tenant-avatar tenant-avatar--amber" aria-hidden="true">BM</span>
+              <div class="tenant-title-wrap">
+                <h3>Butik Melati</h3>
+                <span class="tenant-status"><i></i>Portal Aktif</span>
+              </div>
+            </div>
+            <span class="chip chip--warn">Butik</span>
+          </div>
+
+          <div class="tenant-meta">
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-pin"/></svg>
+              <span>Yogyakarta</span>
+            </div>
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-clock"/></svg>
+              <span>Senin–Sabtu · 09.00–18.00 WIB</span>
+            </div>
+          </div>
+
+          <p class="tenant-desc">Jahit kebaya wisuda, gamis pesta payet, dan seragam busana keluarga dengan detail halus.</p>
+
+          <div class="tenant-card-foot">
+            <a class="btn btn--primary btn--sm tenant-cta" href="/portal/track?slug=jahit-lestari">
+              <span>Lacak Pesanan</span>
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article
+          class="card card--hover tenant-card"
+          data-reveal
+          data-name="Seragam Nusantara"
+          data-city="Semarang"
+          data-category="Konveksi"
+          data-services="seragam kantor instansi almamater kampus bordir batik"
+        >
+          <div class="tenant-card-head">
+            <div class="tenant-identity">
+              <span class="tenant-avatar tenant-avatar--indigo" aria-hidden="true">SN</span>
+              <div class="tenant-title-wrap">
+                <h3>Seragam Nusantara</h3>
+                <span class="tenant-status"><i></i>Portal Aktif</span>
+              </div>
+            </div>
+            <span class="chip chip--info">Konveksi</span>
+          </div>
+
+          <div class="tenant-meta">
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-pin"/></svg>
+              <span>Semarang</span>
+            </div>
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-clock"/></svg>
+              <span>Senin–Jumat · 08.00–17.00 WIB</span>
+            </div>
+          </div>
+
+          <p class="tenant-desc">Pengadaan seragam kantor, batik instansi, dan jas almamater kampus dengan kontrol QC bertahap.</p>
+
+          <div class="tenant-card-foot">
+            <a class="btn btn--primary btn--sm tenant-cta" href="/portal/track?slug=jahit-lestari">
+              <span>Lacak Pesanan</span>
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article
+          class="card card--hover tenant-card"
+          data-reveal
+          data-name="Atelier Kirana"
+          data-city="Surabaya"
+          data-category="Butik"
+          data-services="tailored blazer wanita busana bespoke dress kerja"
+        >
+          <div class="tenant-card-head">
+            <div class="tenant-identity">
+              <span class="tenant-avatar tenant-avatar--amber" aria-hidden="true">AK</span>
+              <div class="tenant-title-wrap">
+                <h3>Atelier Kirana</h3>
+                <span class="tenant-status"><i></i>Portal Aktif</span>
+              </div>
+            </div>
+            <span class="chip chip--warn">Butik</span>
+          </div>
+
+          <div class="tenant-meta">
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-pin"/></svg>
+              <span>Surabaya</span>
+            </div>
+            <div class="tenant-meta-row">
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-clock"/></svg>
+              <span>Selasa–Minggu · 10.00–19.00 WIB</span>
+            </div>
+          </div>
+
+          <p class="tenant-desc">Tailored blazer wanita, setelan kerja modern, dan busana bespoke dengan sesi fitting terjadwal.</p>
+
+          <div class="tenant-card-foot">
+            <a class="btn btn--primary btn--sm tenant-cta" href="/portal/track?slug=jahit-lestari">
+              <span>Lacak Pesanan</span>
+              <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Empty State Filter -->
+      <div class="empty tenant-empty" id="tenantEmpty" hidden>
+        <span class="empty-ic" aria-hidden="true">
+          <svg width="30" height="30"><use href="#i-scissors"/></svg>
+        </span>
+        <h2>Usaha jahit tidak ditemukan</h2>
+        <p>Coba gunakan kata kunci nama usaha atau kota lain, atau reset filter kategori untuk melihat semua mitra.</p>
+        <div class="empty-actions">
+          <button type="button" class="btn btn--primary btn--sm" id="btnResetTenantFilter">Reset Filter</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="cta-box" data-reveal="zoom">
+        <h2>Punya usaha jahit atau konveksi sendiri?</h2>
+        <p>Daftarkan usaha Anda di TailorHub dan berikan portal tracking mandiri seperti ini kepada setiap pelanggan Anda.</p>
+        <div class="cta-actions">
+          <a class="btn btn--primary" href="/auth/register.html">Coba Gratis 14 Hari <svg width="18" height="18"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn--outline-light" href="/index.html">Kembali ke Beranda</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="/index.html" aria-label="TailorHub beranda">
+          <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="36" height="36" aria-hidden="true" style="object-fit:contain;flex:none;">
+          <span>Tailor<em>Hub</em></span>
+        </a>
+        <p>Sistem manajemen pesanan jahit &amp; konveksi dalam satu papan terpusat.</p>
+      </div>
+      <div class="foot-col"><h4>Produk</h4><ul>
+        <li><a href="/features.html">Fitur</a></li>
+        <li><a href="/pricing.html">Harga</a></li>
+        <li><a href="/portal/tenants">Lacak Pesanan</a></li>
+      </ul></div>
+      <div class="foot-col"><h4>Perusahaan</h4><ul>
+        <li><a href="/about.html">Tentang</a></li>
+        <li><a href="/contact.html">Kontak</a></li>
+        <li><a href="/help-center.html">Bantuan</a></li>
+      </ul></div>
+      <div class="foot-col"><h4>Legal</h4><ul>
+        <li><a href="/terms.html">Syarat &amp; Ketentuan</a></li>
+        <li><a href="/privacy.html">Kebijakan Privasi</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-bar">
+      <span>© 2026 TailorHub. Seluruh hak cipta dilindungi.</span>
+      <span>Dibuat untuk usaha jahit &amp; konveksi Indonesia.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/public.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var searchInput = document.getElementById("tenantSearch");
+  var pills = Array.prototype.slice.call(document.querySelectorAll(".tenant-pill"));
+  var cards = Array.prototype.slice.call(document.querySelectorAll("#tenantGrid .tenant-card"));
+  var countEl = document.getElementById("tenantCount");
+  var emptyEl = document.getElementById("tenantEmpty");
+  var resetBtn = document.getElementById("btnResetTenantFilter");
+  var activeCategory = "all";
+  var totalCount = cards.length;
+
+  function applyTenantFilter() {
+    var query = String((searchInput && searchInput.value) || "").trim().toLowerCase();
+    var visible = 0;
+
+    cards.forEach(function (card) {
+      var cat = card.getAttribute("data-category") || "";
+      var haystack = [
+        card.getAttribute("data-name") || "",
+        card.getAttribute("data-city") || "",
+        cat,
+        card.getAttribute("data-services") || ""
+      ].join(" ").toLowerCase();
+
+      var matchCat = activeCategory === "all" || cat === activeCategory;
+      var matchQuery = !query || haystack.indexOf(query) !== -1;
+      var show = matchCat && matchQuery;
+
+      card.hidden = !show;
+      if (show) visible += 1;
+    });
+
+    if (countEl) {
+      countEl.textContent = "Menampilkan " + visible + " dari " + totalCount + " mitra penjahit";
+    }
+    if (emptyEl) {
+      emptyEl.hidden = visible > 0;
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", applyTenantFilter);
+  }
+
+  pills.forEach(function (pill) {
+    pill.addEventListener("click", function () {
+      activeCategory = pill.getAttribute("data-cat") || "all";
+      pills.forEach(function (btn) {
+        var on = btn === pill;
+        btn.classList.toggle("is-on", on);
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      applyTenantFilter();
+    });
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", function () {
+      if (searchInput) searchInput.value = "";
+      activeCategory = "all";
+      pills.forEach(function (btn) {
+        var on = btn.getAttribute("data-cat") === "all";
+        btn.classList.toggle("is-on", on);
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      applyTenantFilter();
+      if (searchInput) searchInput.focus();
+    });
+  }
+
+  applyTenantFilter();
+})();
+</script>
+</body>
+</html>

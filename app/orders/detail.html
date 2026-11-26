@@ -12,6 +12,10 @@
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
+<link rel="stylesheet" href="../../assets/css/orders-customers.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -55,7 +59,7 @@
             <span class="sep">/</span>
             <b>TH-2033</b>
           </nav>
-          <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+          <div class="head-title">
             <h1>TH-2033</h1>
             <span class="chip chip--finish"><span class="d"></span> Tahap: Finishing</span>
             <span class="chip chip--dp"><span class="d"></span> DP Rp 1.250.000</span>
@@ -63,7 +67,7 @@
           <p class="sub">Dibuat pada 10 November 2026 · Target Selesai: <b style="color:var(--red);">21 November 2026 (Lewat Batas -1 Hari)</b></p>
         </div>
 
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div class="head-actions">
           <a href="print.html" class="btn btn--ghost" target="_blank">
             <svg width="17" height="17"><use href="#i-print"/></svg> Cetak Nota / Surat Kerja
           </a>
@@ -88,7 +92,7 @@
       </div>
 
       <!-- Layout 2 Kolom -->
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;">
+      <div class="rg-main" style="display:grid;gap:24px;align-items:start;">
         
         <!-- KOLOM KIRI: TABS KONTEN -->
         <div style="display:flex;flex-direction:column;gap:20px;">
@@ -102,7 +106,7 @@
               <a href="#tabHistory" onclick="switchTab(event, 'tabHistory')">Riwayat Aktivitas</a>
             </div>
 
-            <div style="padding:24px;">
+            <div class="tab-body">
               <!-- TAB 1: RINCIAN ITEM -->
               <div id="tabDetail">
                 <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;">
@@ -110,7 +114,7 @@
                   <span class="chip chip--soft">Kategori: Jas &amp; Blazer</span>
                 </div>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;background:var(--cream);padding:16px;border-radius:var(--r-m);margin-bottom:18px;">
+                <div class="rg-2" style="display:grid;gap:14px;background:var(--cream);padding:16px;border-radius:var(--r-m);margin-bottom:18px;">
                   <div>
                     <small style="color:var(--ink-45);display:block;font-size:.76rem;text-transform:uppercase;font-weight:700;">Bahan Utama</small>
                     <b style="color:var(--ink);">Semi Wool Italian (Grey Charcoal)</b>
@@ -267,7 +271,7 @@
               <!-- TAB 3: PEMBAYARAN -->
               <div id="tabPayment" style="display:none;">
                 <h3 style="margin-bottom:14px;">Ringkasan Biaya &amp; Pelunasan</h3>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+                <div class="rg-2" style="display:grid;gap:14px;margin-bottom:18px;">
                   <div style="background:var(--cream-200);padding:14px;border-radius:var(--r-m);">
                     <small style="color:var(--ink-45);font-size:.75rem;text-transform:uppercase;font-weight:700;">Total Biaya Jahit</small>
                     <b style="font-size:1.3rem;display:block;color:var(--ink);margin-top:4px;">Rp 2.500.000</b>

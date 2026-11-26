@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
 <style>
-.invoice-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:36px;box-shadow:var(--shadow-s);max-width:720px;}
+.invoice-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:36px;box-shadow:var(--shadow-s);max-width:720px;width:100%;}
 .inv-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:28px;flex-wrap:wrap;}
 .inv-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;}
 .inv-brand em{font-style:normal;color:var(--clay);}
@@ -23,7 +23,8 @@
 .inv-parties h4{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-45);margin-bottom:6px;}
 .inv-parties p{font-size:.9rem;color:var(--ink-70);line-height:1.6;}
 .inv-parties b{color:var(--ink);}
-.inv-table{width:100%;border-collapse:collapse;font-size:.9rem;margin-bottom:20px;}
+.inv-table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:20px;}
+.inv-table{width:100%;min-width:440px;border-collapse:collapse;font-size:.9rem;}
 .inv-table th{text-align:left;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-45);padding:10px 0;border-bottom:1px solid var(--sand);}
 .inv-table td{padding:12px 0;border-bottom:1px solid var(--sand);color:var(--ink-70);}
 .inv-table td b{color:var(--ink);}
@@ -33,9 +34,25 @@
 .inv-total .row span:first-child{color:var(--ink-45);min-width:120px;text-align:right;}
 .inv-total .grand{font-size:1.1rem;font-weight:800;color:var(--ink);border-top:2px solid var(--ink);padding-top:8px;margin-top:4px;}
 .inv-status{margin-top:24px;padding-top:20px;border-top:1px solid var(--sand);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.inv-actions{display:flex;gap:10px;margin-top:24px;}
+.inv-actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;}
+@media(max-width:600px){
+  .page{padding:16px 12px;}
+  .invoice-card{padding:20px 14px;}
+  .inv-header{flex-direction:column;align-items:flex-start;gap:12px;}
+  .inv-meta{text-align:left;}
+  .inv-parties{grid-template-columns:1fr;gap:16px;}
+  .inv-total{width:100%;align-items:stretch;}
+  .inv-total .row{justify-content:space-between;gap:10px;}
+  .inv-total .row span:first-child{text-align:left;min-width:auto;}
+  .inv-status{flex-direction:column;align-items:flex-start;gap:8px;}
+  .inv-actions{flex-direction:column;gap:10px;}
+  .inv-actions .btn{width:100%;justify-content:center;}
+}
 @media print{.page-head,.side,.top,.scrim,.inv-actions{display:none!important;}.app{display:block!important;}.page{padding:0!important;}.invoice-card{box-shadow:none;border:none;padding:20px;}}
 </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -85,7 +102,7 @@
       <div class="invoice-card">
         <div class="inv-header">
           <div class="inv-brand">
-            <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="12" fill="#C05424"/><path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/><circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/><circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg>
+            <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="28" height="28" aria-hidden="true" style="object-fit:contain;flex:none;">
             <span>Tailor<em>Hub</em></span>
           </div>
           <div class="inv-meta">
@@ -106,14 +123,16 @@
           </div>
         </div>
 
-        <table class="inv-table">
-          <thead>
-            <tr><th>Item</th><th>Qty</th><th class="num">Harga Satuan</th><th class="num">Subtotal</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><b>Seragam Kantor</b><br><span style="font-size:.82rem;color:var(--ink-45)">Kemeja lengan panjang, bahan katun</span></td><td>20</td><td class="num">Rp400.000</td><td class="num"><b>Rp8.000.000</b></td></tr>
-          </tbody>
-        </table>
+        <div class="inv-table-wrap">
+          <table class="inv-table">
+            <thead>
+              <tr><th>Item</th><th>Qty</th><th class="num">Harga Satuan</th><th class="num">Subtotal</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Seragam Kantor</b><br><span style="font-size:.82rem;color:var(--ink-45)">Kemeja lengan panjang, bahan katun</span></td><td>20</td><td class="num">Rp400.000</td><td class="num"><b>Rp8.000.000</b></td></tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="inv-total">
           <div class="row"><span>Subtotal</span><span>Rp8.000.000</span></div>

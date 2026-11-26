@@ -22,16 +22,16 @@
 .time-divider {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin: 32px 0 16px;
+  gap: 12px;
+  margin: 20px 0 12px;
 }
 
 .time-divider:first-of-type {
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .time-divider h3 {
-  font-size: .82rem;
+  font-size: .78rem;
   font-weight: 800;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -47,23 +47,23 @@
   background: var(--sand);
 }
 
-/* Kartu Notifikasi Individual */
+/* Kartu Notifikasi Individual — Kompak & Clean SaaS */
 .notif-card {
   background: var(--paper);
   border: 1px solid var(--sand);
-  border-radius: var(--r-l);
+  border-radius: var(--r-m);
   box-shadow: var(--shadow-s);
-  padding: 22px 26px;
-  margin-bottom: 16px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 14px;
   position: relative;
-  transition: transform .25s var(--ease), box-shadow .25s, border-color .25s;
+  transition: transform .2s var(--ease), box-shadow .2s, border-color .2s;
 }
 
 .notif-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-m);
   border-color: var(--clay-300);
 }
@@ -71,7 +71,7 @@
 /* Aksen Belum Dibaca */
 .notif-card.is-unread {
   background: #ffffff;
-  border-left: 5px solid var(--clay);
+  border-left: 4px solid var(--clay);
 }
 
 .notif-card.is-unread.urg-danger {
@@ -84,14 +84,20 @@
 
 /* Kotak Ikon */
 .notif-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+  margin-top: 2px;
+}
+
+.notif-icon-box svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* Konten Kartu */
@@ -105,30 +111,40 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 6px;
+  gap: 10px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+
+.notif-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .notif-category {
-  font-size: .72rem;
+  font-size: .68rem;
   font-weight: 800;
-  letter-spacing: .06em;
+  letter-spacing: .05em;
   text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--bg);
 }
 
-.notif-category--danger { color: var(--red); }
-.notif-category--warn { color: var(--warn); }
-.notif-category--order { color: var(--clay); }
-.notif-category--done { color: var(--green); }
-.notif-category--prod { color: var(--indigo); }
-.notif-category--pay { color: var(--amber); }
+.notif-category--danger { color: var(--red); background: rgba(217, 45, 32, .08); }
+.notif-category--warn { color: var(--warn); background: rgba(217, 119, 6, .08); }
+.notif-category--order { color: var(--clay); background: var(--clay-100); }
+.notif-category--done { color: var(--green); background: rgba(30, 126, 52, .08); }
+.notif-category--prod { color: var(--indigo); background: rgba(73, 94, 205, .08); }
+.notif-category--pay { color: var(--amber); background: rgba(217, 119, 6, .08); }
 
 .notif-header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: .78rem;
+  gap: 8px;
+  font-size: .75rem;
   color: var(--ink-45);
   font-weight: 600;
 }
@@ -136,9 +152,9 @@
 .badge-new {
   background: var(--clay);
   color: #fff;
-  font-size: .66rem;
+  font-size: .65rem;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 1px 7px;
   border-radius: 999px;
   letter-spacing: .03em;
 }
@@ -149,18 +165,25 @@
 
 /* Judul & Teks */
 .notif-title {
-  font-size: 1.02rem;
+  font-size: .95rem;
   font-weight: 800;
   color: var(--ink);
-  letter-spacing: -.02em;
-  margin-bottom: 6px;
+  letter-spacing: -.01em;
+  margin-bottom: 2px;
+}
+
+.notif-row-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .notif-message {
-  font-size: .91rem;
+  font-size: .85rem;
   color: var(--ink-70);
-  line-height: 1.58;
-  margin-bottom: 14px;
+  line-height: 1.45;
+  margin-bottom: 0;
 }
 
 .notif-message b {
@@ -168,13 +191,14 @@
   font-weight: 700;
 }
 
-/* Footer Kartu */
+/* Footer Kartu (Untuk Fallback Statis agar tetap rapi & kompak) */
 .notif-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding-top: 14px;
+  gap: 10px;
+  padding-top: 8px;
+  margin-top: 8px;
   border-top: 1px solid var(--sand);
   flex-wrap: wrap;
 }
@@ -182,33 +206,52 @@
 .notif-footer-chips {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
+}
+
+.notif-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--clay);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: background .15s;
+}
+
+.notif-action-link:hover {
+  background: var(--clay-100);
 }
 
 /* Responsive Mobile */
 @media (max-width: 680px) {
   .notif-card {
-    padding: 18px 16px;
-    gap: 14px;
-    border-radius: var(--r-m);
-    flex-direction: column;
+    padding: 14px;
+    gap: 12px;
   }
-  .notif-icon-box {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
+  .notif-row-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
   .notif-footer {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 8px;
   }
   .notif-footer .btn {
     width: 100%;
   }
 }
 </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -221,7 +264,7 @@
   <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
-  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
@@ -537,38 +580,100 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (sideB) sideB.textContent = apiNotif.unread;
       if (tabU) tabU.textContent = apiNotif.unread;
       if (tabA) tabA.textContent = apiNotif.data.length;
+      var cntText = document.getElementById('notifCountText');
+      if (cntText) cntText.textContent = 'Menampilkan ' + apiNotif.data.length + ' notifikasi (Semua)';
+
+      function svgUse(href, size) {
+        var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        s.setAttribute('width', String(size));
+        s.setAttribute('height', String(size));
+        var u = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        u.setAttribute('href', href);
+        s.appendChild(u);
+        return s;
+      }
 
       var todayGroup = document.querySelector('.time-group[data-group="today"]');
       if (todayGroup) {
         var divider = todayGroup.querySelector('.time-divider');
-        var cardsHtml = apiNotif.data.map(function (n) {
+        var frag = document.createDocumentFragment();
+        if (divider) frag.appendChild(divider);
+        apiNotif.data.forEach(function (n) {
           var isUnread = !n.is_read;
-          var catType = n.type === 'warn' || n.type === 'error' ? 'deadline' : (n.title && n.title.toLowerCase().indexOf('bayar') !== -1 ? 'payment' : 'production');
+          var isPay = n.title && n.title.toLowerCase().indexOf('bayar') !== -1;
+          var catType = (n.type === 'warn' || n.type === 'error') ? 'deadline' : (isPay ? 'payment' : 'production');
+          var catLabel = catType === 'deadline' ? 'Deadline' : (catType === 'payment' ? 'Pembayaran' : (n.type === 'success' ? 'Selesai' : 'Produksi'));
+          var catClass = catType === 'deadline' ? 'notif-category--warn' : (catType === 'payment' ? 'notif-category--pay' : (n.type === 'success' ? 'notif-category--done' : 'notif-category--prod'));
           var urgClass = isUnread ? (n.type === 'warn' ? ' is-unread urg-warn' : ' is-unread') : '';
           var icBg = n.type === 'warn' ? 'var(--warn)' : n.type === 'success' ? 'var(--s-done)' : 'var(--clay)';
           var icUse = n.type === 'warn' ? '#i-clock' : n.type === 'success' ? '#i-check' : '#i-order';
-          return (
-            '<article class="notif-card' + urgClass + '" data-type="' + catType + '" data-id="' + n.id + '">' +
-              '<div class="notif-icon-box" style="background:' + icBg + '"><svg width="22" height="22"><use href="' + icUse + '"/></svg></div>' +
-              '<div class="notif-body">' +
-                '<div class="notif-header">' +
-                  '<span class="notif-category notif-category--order">' + TH.esc(n.type || 'info') + '</span>' +
-                  '<div class="notif-header-right">' +
-                    (isUnread ? '<span class="badge-new">Baru</span>' : '') +
-                    '<span>' + TH.esc(n.created_at || '') + '</span>' +
-                  '</div>' +
-                '</div>' +
-                '<h2 class="notif-title">' + TH.esc(n.title) + '</h2>' +
-                '<p class="notif-message">' + TH.esc(n.body || '') + '</p>' +
-                '<div class="notif-footer">' +
-                  '<div class="notif-footer-chips"><span class="chip chip--soft">D1 Live</span></div>' +
-                  '<a href="/app/orders/index.html" class="btn btn--ghost btn--sm">Buka Pesanan <svg width="14" height="14"><use href="#i-arrow"/></svg></a>' +
-                '</div>' +
-              '</div>' +
-            '</article>'
-          );
-        }).join('');
-        todayGroup.innerHTML = (divider ? divider.outerHTML : '') + cardsHtml;
+
+          var art = document.createElement('article');
+          art.className = 'notif-card' + urgClass;
+          art.setAttribute('data-type', catType);
+          if (n.id != null) art.setAttribute('data-id', String(n.id));
+
+          var iconBox = document.createElement('div');
+          iconBox.className = 'notif-icon-box';
+          iconBox.style.background = icBg;
+          iconBox.appendChild(svgUse(icUse, 18));
+
+          var body = document.createElement('div');
+          body.className = 'notif-body';
+
+          var header = document.createElement('div');
+          header.className = 'notif-header';
+
+          var hLeft = document.createElement('div');
+          hLeft.className = 'notif-header-left';
+          var catSpan = document.createElement('span');
+          catSpan.className = 'notif-category ' + catClass;
+          catSpan.textContent = catLabel;
+          hLeft.appendChild(catSpan);
+          if (isUnread) {
+            var badge = document.createElement('span');
+            badge.className = 'badge-new';
+            badge.textContent = 'Baru';
+            hLeft.appendChild(badge);
+          }
+
+          var hRight = document.createElement('div');
+          hRight.className = 'notif-header-right';
+          var dateSpan = document.createElement('span');
+          dateSpan.textContent = n.created_at || '';
+          hRight.appendChild(dateSpan);
+
+          header.appendChild(hLeft);
+          header.appendChild(hRight);
+
+          var h2 = document.createElement('h2');
+          h2.className = 'notif-title';
+          h2.textContent = n.title || '';
+
+          var rowBottom = document.createElement('div');
+          rowBottom.className = 'notif-row-bottom';
+          var msg = document.createElement('p');
+          msg.className = 'notif-message';
+          msg.textContent = n.body || '';
+
+          var link = document.createElement('a');
+          link.href = '/app/orders/index.html';
+          link.className = 'notif-action-link';
+          link.textContent = 'Buka Pesanan ';
+          link.appendChild(svgUse('#i-arrow', 13));
+
+          rowBottom.appendChild(msg);
+          rowBottom.appendChild(link);
+
+          body.appendChild(header);
+          body.appendChild(h2);
+          body.appendChild(rowBottom);
+
+          art.appendChild(iconBox);
+          art.appendChild(body);
+          frag.appendChild(art);
+        });
+        todayGroup.replaceChildren(frag);
         var yGroup = document.querySelector('.time-group[data-group="yesterday"]');
         var eGroup = document.querySelector('.time-group[data-group="earlier"]');
         if (yGroup) yGroup.remove();

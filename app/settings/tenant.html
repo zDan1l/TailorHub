@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../../assets/css/app.css">
 <style>
 /* Tab Navigasi Pengaturan */
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--sand);margin-bottom:24px;overflow-x:auto;}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--sand);margin-bottom:24px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
 .tabs a{padding:11px 16px;font-size:.9rem;font-weight:700;color:var(--ink-45);border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;}
 .tabs a:hover{color:var(--clay);}
 .tabs a.is-on{color:var(--clay);border-bottom-color:var(--clay);}
@@ -24,7 +24,7 @@
 .brand-card{text-align:center;padding:24px;}
 .brand-logo-wrap{width:96px;height:96px;border-radius:24px;background:var(--clay);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;margin-bottom:14px;box-shadow:var(--shadow-s);position:relative;overflow:hidden;}
 .portal-card{padding:20px;background:var(--cream-200);border:1px solid var(--sand);border-radius:var(--r-m);margin-top:20px;text-align:left;}
-.qr-preview{background:#fff;padding:12px;border-radius:12px;border:1px solid var(--sand);display:inline-block;margin:12px 0;}
+.qr-preview{background:#fff;padding:12px;border-radius:12px;border:1px solid var(--sand);display:inline-block;margin:12px 0;max-width:100%;}
 .form-section{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:28px;box-shadow:var(--shadow-s);margin-bottom:24px;}
 .form-section-head{margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--sand);}
 .form-section-head h3{font-size:1.15rem;margin-bottom:4px;}
@@ -37,7 +37,26 @@
   .settings-grid{grid-template-columns:1fr;}
   .form-row,.form-row-3{grid-template-columns:1fr;}
 }
+@media(max-width:600px){
+  .page{padding:16px 12px;}
+  .form-section{padding:18px 14px;}
+  .brand-card{padding:18px 14px;}
+  .portal-card{padding:16px 12px;}
+  .form-actions{flex-direction:column-reverse;gap:10px;}
+  .form-actions .btn{width:100%;justify-content:center;}
+}
+@media print{
+  .side,.top,.scrim,.page-head,.tabs,.brand-card,main,.form-actions,
+  .portal-card .btn,.portal-card p,.portal-card .chip,.crumb{display:none!important;}
+  body,.app,.main,.page{background:#fff!important;padding:0!important;margin:0!important;display:block!important;}
+  aside{width:100%!important;max-width:100%!important;}
+  .portal-card{border:2px solid #2A1810!important;background:#fff!important;box-shadow:none!important;padding:28px!important;margin:40px auto!important;max-width:340px!important;text-align:center!important;border-radius:16px!important;}
+  .qr-preview{border:1px solid #ddd!important;padding:16px!important;display:inline-block!important;margin:12px auto!important;}
+}
 </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -49,7 +68,7 @@
   <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
-  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
@@ -100,14 +119,19 @@
         <aside>
           <!-- Logo Card -->
           <div class="card brand-card">
-            <div class="brand-logo-wrap">JL</div>
+            <div class="brand-logo-wrap" id="brandLogoWrap">
+              <!-- <span id="brandLogoInitials">JL</span> -->
+              <img src="/assets/img/logo/tenant-jahit-lestari.png" alt="" style="width: 85%;">
+              <!-- <img id="brandLogoImg" src="/assets/img/logo/tenant-jahit-lestari.png" alt="Logo Usaha" style="width:90%;height:90%;object-fit:cover;display:none;border-radius:inherit;"> -->
+            </div>
             <h3 style="margin-bottom:4px;">Jahit Lestari</h3>
             <p style="font-size:.82rem;color:var(--ink-45);margin-bottom:14px;">Spesialis Busana Formal &amp; Seragam</p>
             <span class="chip chip--paid"><span class="d"></span>Tenant Terverifikasi</span>
 
+            <input type="file" id="logoFileInput" accept="image/png,image/jpeg,image/svg+xml" style="display:none;">
             <div style="margin-top:18px;display:grid;gap:8px;">
-              <button type="button" class="btn btn--light btn--sm">Unggah Logo Baru</button>
-              <button type="button" class="btn btn--ghost btn--sm" style="color:var(--red);border-color:transparent;">Hapus Logo</button>
+              <button type="button" class="btn btn--light btn--sm" id="btnUploadLogo">Unggah Logo Baru</button>
+              <button type="button" class="btn btn--ghost btn--sm" id="btnDeleteLogo" style="color:var(--red);border-color:transparent;">Hapus Logo</button>
             </div>
             <small style="display:block;margin-top:10px;font-size:.74rem;color:var(--ink-45);">Format PNG, JPG atau SVG. Maksimal 2MB.</small>
           </div>
@@ -162,11 +186,11 @@
             </div>
 
             <div style="display:grid;gap:8px;margin-top:8px;">
-              <a href="../../portal/landing.html" target="_blank" class="btn btn--light btn--sm" style="width:100%;">
+              <a href="../../portal/landing.html" class="btn btn--light btn--sm" style="width:100%;">
                 <span>Lihat Halaman Portal</span>
                 <svg width="14" height="14"><use href="#i-external"/></svg>
               </a>
-              <button type="button" class="btn btn--ghost btn--sm" onclick="window.print()">
+              <button type="button" class="btn btn--ghost btn--sm" id="btnDownloadStandee">
                 <svg width="14" height="14"><use href="#i-download"/></svg>
                 <span>Unduh Standee Meja QR</span>
               </button>
@@ -336,11 +360,151 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (cityInput && tenant.city) cityInput.value = tenant.city;
       const brandH3 = document.querySelector(".brand-card h3");
       if (brandH3) brandH3.textContent = tenant.name || "Jahit Lestari";
-      const brandLogo = document.querySelector(".brand-logo-wrap");
-      if (brandLogo) brandLogo.textContent = TH.initials(tenant.name || "JL");
+      const brandLogoInitials = document.getElementById("brandLogoInitials");
+      if (brandLogoInitials) brandLogoInitials.textContent = TH.initials(tenant.name || "JL");
     }
   } catch (e) {
     console.warn("Load tenant settings error:", e);
+  }
+
+  // Interaktivitas Unggah & Hapus Logo Usaha
+  const logoFileInput = document.getElementById("logoFileInput");
+  const btnUploadLogo = document.getElementById("btnUploadLogo");
+  const btnDeleteLogo = document.getElementById("btnDeleteLogo");
+  const brandLogoImg = document.getElementById("brandLogoImg");
+  const brandLogoInitials = document.getElementById("brandLogoInitials");
+
+  if (btnUploadLogo && logoFileInput) {
+    btnUploadLogo.addEventListener("click", () => logoFileInput.click());
+    logoFileInput.addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Ukuran file logo terlalu besar. Maksimal 2MB.");
+        logoFileInput.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (brandLogoImg && brandLogoInitials) {
+          brandLogoImg.src = event.target.result;
+          brandLogoImg.style.display = "block";
+          brandLogoInitials.style.display = "none";
+          alert("Logo baru berhasil dipilih!");
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (btnDeleteLogo) {
+    btnDeleteLogo.addEventListener("click", () => {
+      if (confirm("Apakah Anda yakin ingin menghapus logo usaha?")) {
+        if (brandLogoImg && brandLogoInitials) {
+          brandLogoImg.src = "";
+          brandLogoImg.style.display = "none";
+          brandLogoInitials.style.display = "inline";
+        }
+        if (logoFileInput) logoFileInput.value = "";
+        alert("Logo berhasil dihapus, kembali ke inisial nama usaha.");
+      }
+    });
+  }
+
+  // Download QR Standee Meja sebagai file gambar PNG
+  const btnDownloadStandee = document.getElementById("btnDownloadStandee");
+  if (btnDownloadStandee) {
+    btnDownloadStandee.addEventListener("click", () => {
+      const qrSvg = document.querySelector(".qr-preview svg");
+      if (!qrSvg) return;
+
+      const brandName = (document.querySelector(".brand-card h3")?.textContent || "Jahit Lestari").trim();
+      const slugElem = document.querySelector(".portal-card div[style*='word-break']");
+      const slugText = (slugElem?.textContent || "jahitlestari.tailorhub.id").trim();
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const w = 540;
+      const h = 680;
+      canvas.width = w;
+      canvas.height = h;
+
+      // Background kartu putih
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0, 0, w, h);
+
+      // Border standee meja
+      ctx.strokeStyle = "#E8DED1";
+      ctx.lineWidth = 3;
+      if (ctx.roundRect) {
+        ctx.beginPath();
+        ctx.roundRect(20, 20, w - 40, h - 40, 20);
+        ctx.stroke();
+      } else {
+        ctx.strokeRect(20, 20, w - 40, h - 40);
+      }
+
+      // Header Nama Usaha
+      ctx.fillStyle = "#C05424";
+      ctx.font = "bold 30px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(brandName, w / 2, 75);
+
+      ctx.fillStyle = "#7D7067";
+      ctx.font = "15px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+      ctx.fillText("Portal Pelanggan & Lacak Progres", w / 2, 105);
+
+      // Garis pemisah tipis
+      ctx.strokeStyle = "#F0EBE1";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(60, 125);
+      ctx.lineTo(w - 60, 125);
+      ctx.stroke();
+
+      // Render SVG QR ke Image
+      const xml = new XMLSerializer().serializeToString(qrSvg);
+      const img = new Image();
+      img.onload = () => {
+        // Kotak wadah QR
+        ctx.fillStyle = "#FAF7F2";
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect((w - 360) / 2, 145, 360, 360, 14);
+          ctx.fill();
+        } else {
+          ctx.fillRect((w - 360) / 2, 145, 360, 360);
+        }
+
+        // Gambar QR Code (320x320)
+        ctx.drawImage(img, (w - 320) / 2, 165, 320, 320);
+
+        // Keterangan Scan
+        ctx.fillStyle = "#2A1810";
+        ctx.font = "bold 20px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+        ctx.fillText("Scan untuk Cek Status Pesanan", w / 2, 545);
+
+        // Subdomain URL
+        ctx.fillStyle = "#C05424";
+        ctx.font = "bold 17px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+        ctx.fillText(slugText, w / 2, 580);
+
+        // Petunjuk kamera
+        ctx.fillStyle = "#9C8E82";
+        ctx.font = "13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+        ctx.fillText("Arahkan kamera ponsel ke QR Code di atas", w / 2, 615);
+
+        // Eksekusi download file otomatis
+        const a = document.createElement("a");
+        const safeName = brandName.toLowerCase().replace(/[^a-z0-9]/g, "-");
+        a.download = `qr-standee-${safeName}.png`;
+        a.href = canvas.toDataURL("image/png");
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
+    });
   }
 
   form.removeAttribute("onsubmit");

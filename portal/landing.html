@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jahit Lestari — Portal Pelanggan · TailorHub</title>
 <meta name="description" content="Beranda portal pelanggan Jahit Lestari. Cek progres jahitan, jam operasional, layanan busana kustom, dan kontak WhatsApp CS.">
+<meta name="theme-color" content="#FFF8EF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,35 +13,52 @@
 <link rel="stylesheet" href="../assets/css/base.css">
 <link rel="stylesheet" href="../assets/css/components.css">
 <link rel="stylesheet" href="../assets/css/portal.css">
+<link rel="stylesheet" href="../assets/css/portal-landing.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
-<body class="portal-page">
+<body class="portal-page portal-page--landing">
 
 <!-- Inline SVG Sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
   <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
-  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.1A8 8 0 1 1 20 11.5Z"/><path d="M9 10.5h.01M12 10.5h.01M15 10.5h.01"/></symbol>
   <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
   <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.2 4L19 7"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.3 7.5 9.5 4.3-1.2 7.5-4.9 7.5-9.5V6Z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5Z"/><path d="m3 13 9 5 9-5"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M8 14h8"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 13H6Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
 </defs></svg>
 
 <header class="portal-header">
   <div class="portal-header-in">
-    <a href="landing.html" class="portal-brand" title="Beranda Jahit Lestari">
+    <a href="landing.html" class="portal-brand" title="Beranda Jahit Lestari" data-slug-link>
       <span class="portal-brand-mark" aria-hidden="true">
-        <svg width="20" height="20"><use href="#i-scissors"/></svg>
+        <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="30" height="30">
       </span>
       <span class="portal-brand-text">
-        <b>Jahit Lestari</b>
+        <b id="brandName">Jahit Lestari</b>
         <small>Tailor &amp; Konveksi</small>
       </span>
     </a>
 
     <nav class="portal-nav" aria-label="Navigasi Portal">
-      <a href="customer-login.html" class="portal-nav-link">
+      <a href="track.html" class="portal-nav-link portal-nav-link--track" data-slug-link>
+        <svg width="16" height="16"><use href="#i-search"/></svg>
+        <span>Lacak</span>
+      </a>
+      <a href="customer-login.html" class="portal-nav-link" data-slug-link>
         <svg width="16" height="16"><use href="#i-users"/></svg>
         <span>Masuk Akun</span>
       </a>
@@ -48,136 +66,233 @@
   </div>
 </header>
 
-<main class="portal-shell portal-shell--wide">
-  <section class="portal-hero" aria-labelledby="heroTitle">
-    <div class="portal-hero-badge">
-      <span class="chip chip--done"><span class="d"></span>Buka Hari Ini · 08.00–17.00 WIB</span>
-    </div>
+<main class="pl-shell">
+  <!-- ===== HERO ===== -->
+  <section class="pl-hero" aria-labelledby="heroTitle">
+    <div class="pl-hero-copy pl-reveal">
+      <div class="pl-badge-row">
+        <span id="openStatus" class="pl-status"><span class="pl-pulse" aria-hidden="true"></span><span id="openStatusText">Buka Hari Ini · 08.00–17.00 WIB</span></span>
+        <span class="pl-tag">
+          <svg width="14" height="14" aria-hidden="true"><use href="#i-scissors"/></svg>
+          Busana Kustom &amp; Seragam
+        </span>
+      </div>
 
-    <h1 id="heroTitle">Pantau Jahitan Anda Kapan Saja</h1>
-    <p class="portal-hero-lead">
-      Cek progres pemotongan, penjahitan, finishing, hingga siap diambil secara real-time melalui kode pesanan di nota Anda.
-    </p>
+      <h1 id="heroTitle">Pantau Jahitan Anda <span class="pl-accent">Kapan Saja</span></h1>
+      <p class="pl-lead">
+        Cek progres pemotongan, penjahitan, finishing, hingga siap diambil secara real-time — cukup dengan kode pesanan di nota Anda.
+      </p>
 
-    <form id="landingTrackForm" class="portal-quick-form" novalidate>
-      <label for="landingCodeInput" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Kode Pesanan</label>
-      <input
-        id="landingCodeInput"
-        name="code"
-        class="input"
-        type="text"
-        placeholder="Masukkan kode pesanan (cth: TH-2041)"
-        autocomplete="off"
-        autocapitalize="characters"
-        spellcheck="false"
-        required
-      >
-      <button type="submit" class="btn btn--primary">
-        <span>Lacak Sekarang</span>
-        <svg width="17" height="17"><use href="#i-arrow"/></svg>
-      </button>
-    </form>
+      <form id="landingTrackForm" class="pl-search" novalidate>
+        <svg width="20" height="20" aria-hidden="true"><use href="#i-search"/></svg>
+        <label for="landingCodeInput" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Kode Pesanan</label>
+        <input
+          id="landingCodeInput"
+          name="code"
+          class="input"
+          type="text"
+          placeholder="Kode pesanan, cth: TH-2041"
+          autocomplete="off"
+          autocapitalize="characters"
+          spellcheck="false"
+          maxlength="32"
+          required
+        >
+        <button type="submit" class="btn btn--primary" id="landingSubmit">
+          <span>Lacak Sekarang</span>
+          <svg width="17" height="17"><use href="#i-arrow"/></svg>
+        </button>
+      </form>
 
-    <div id="landingError" class="alert alert--error track-error" role="alert" hidden>
-      <svg width="20" height="20"><use href="#i-warn"/></svg>
-      <div>
-        <b>Kode belum ditemukan.</b>
-        <span id="landingErrorMsg">Periksa ulang kode pada nota atau coba lihat contoh pesanan di bawah.</span>
+      <div id="landingError" class="alert alert--error pl-error" role="alert" hidden>
+        <svg width="20" height="20"><use href="#i-warn"/></svg>
+        <div>
+          <b>Kode belum ditemukan.</b>
+          <span id="landingErrorMsg">Periksa ulang kode pada nota atau coba lihat contoh pesanan di bawah.</span>
+        </div>
+      </div>
+
+      <div class="pl-samples">
+        <span>Coba contoh:</span>
+        <a href="track-result.html?code=TH-2041&amp;from=landing" class="sample-chip" data-slug-link>TH-2041</a>
+        <a href="track-result.html?code=TH-2030&amp;from=landing" class="sample-chip" data-slug-link>TH-2030</a>
+        <a href="track-result.html?code=TH-2040&amp;from=landing" class="sample-chip" data-slug-link>TH-2040</a>
       </div>
     </div>
 
-    <div class="portal-hero-actions">
-      <a href="track.html" class="btn btn--ghost btn--sm">
-        <svg width="16" height="16"><use href="#i-search"/></svg>
-        <span>Buka Halaman Lacak</span>
+    <!-- Preview kartu pelacakan (contoh) -->
+    <div class="pl-preview pl-reveal pl-reveal--2">
+      <span class="pl-float pl-float--a" aria-hidden="true">
+        <svg width="16" height="16"><use href="#i-check"/></svg>
+        Lolos tahap potong
+      </span>
+
+      <a href="track-result.html?code=TH-2041&amp;from=landing" class="pl-preview-card" data-slug-link aria-label="Lihat contoh pelacakan pesanan TH-2041">
+        <div class="pl-preview-top">
+          <div>
+            <span class="pl-preview-code">TH-2041</span>
+            <b>Kemeja Formal ×3</b>
+            <small>Poplin Jepang · M, L, L</small>
+          </div>
+          <span class="chip chip--sew"><span class="d"></span>Penjahitan</span>
+        </div>
+
+        <div class="pl-progress-head"><span>Progres</span><span>3 dari 7 tahap</span></div>
+        <div class="pl-progress" aria-hidden="true"><span></span></div>
+
+        <ol class="pl-mini-steps">
+          <li class="is-done"><span class="pl-dot"><svg width="11" height="11"><use href="#i-check"/></svg></span>Antrean<time>20 Nov</time></li>
+          <li class="is-done"><span class="pl-dot"><svg width="11" height="11"><use href="#i-check"/></svg></span>Pemotongan<time>21 Nov</time></li>
+          <li class="is-active"><span class="pl-dot">3</span>Penjahitan<time>Sedang dikerjakan</time></li>
+          <li><span class="pl-dot">4</span>Finishing</li>
+        </ol>
+
+        <div class="pl-preview-foot">
+          <span>Lihat detail lengkap</span>
+          <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </div>
       </a>
-      <a href="track-result.html?code=TH-2041&from=landing" class="sample-chip">Contoh: TH-2041</a>
-      <a href="track-result.html?code=TH-2030&from=landing" class="sample-chip">Contoh: TH-2030</a>
+
+      <span class="pl-float pl-float--b" aria-hidden="true">
+        <svg width="16" height="16"><use href="#i-bolt"/></svg>
+        Update real-time
+      </span>
     </div>
   </section>
 
-  <section class="portal-info-grid" aria-label="Informasi Workshop Jahit Lestari">
-    <article class="portal-info-card">
-      <span class="portal-info-ic" aria-hidden="true">
-        <svg width="20" height="20"><use href="#i-clock"/></svg>
-      </span>
-      <div>
-        <small>Jam Operasional</small>
-        <b>Senin–Sabtu · 08.00–17.00 WIB</b>
-        <p>Minggu &amp; hari libur nasional tutup.</p>
-      </div>
-    </article>
+  <!-- ===== KEUNGGULAN ===== -->
+  <section class="pl-perks pl-reveal pl-reveal--3" aria-label="Keunggulan portal pelanggan">
+    <div class="pl-perk">
+      <span class="pl-perk-ic" aria-hidden="true"><svg width="20" height="20"><use href="#i-layers"/></svg></span>
+      <div><b>7 Tahap Transparan</b><small>Dari antrean hingga diambil</small></div>
+    </div>
+    <div class="pl-perk">
+      <span class="pl-perk-ic" aria-hidden="true"><svg width="20" height="20"><use href="#i-bolt"/></svg></span>
+      <div><b>Update Real-time</b><small>Langsung dari meja produksi</small></div>
+    </div>
+    <div class="pl-perk">
+      <span class="pl-perk-ic" aria-hidden="true"><svg width="20" height="20"><use href="#i-shield"/></svg></span>
+      <div><b>Tanpa Perlu Login</b><small>Cukup kode di nota Anda</small></div>
+    </div>
+  </section>
 
-    <article class="portal-info-card">
-      <span class="portal-info-ic portal-info-ic--indigo" aria-hidden="true">
-        <svg width="20" height="20"><use href="#i-home"/></svg>
-      </span>
-      <div>
+  <!-- ===== INFO WORKSHOP ===== -->
+  <section class="pl-section" aria-labelledby="infoTitle">
+    <div class="pl-section-head">
+      <span class="pl-eyebrow">Tentang Workshop</span>
+      <h2 id="infoTitle">Kunjungi &amp; Hubungi Kami</h2>
+      <p>Semua informasi penting tentang workshop Jahit Lestari dalam satu tempat.</p>
+    </div>
+
+    <div class="pl-info-grid">
+      <article class="pl-info">
+        <span class="pl-info-ic pl-info-ic--amber" aria-hidden="true"><svg width="22" height="22"><use href="#i-clock"/></svg></span>
+        <small>Jam Operasional</small>
+        <b>Senin–Sabtu<br>08.00–17.00 WIB</b>
+        <p>Minggu &amp; hari libur nasional tutup.</p>
+      </article>
+
+      <article class="pl-info">
+        <span class="pl-info-ic pl-info-ic--indigo" aria-hidden="true"><svg width="22" height="22"><use href="#i-pin"/></svg></span>
         <small>Alamat Workshop</small>
         <b>Jl. Dharmawangsa No. 48, Surabaya</b>
         <p>Parkir mudah, ruang fitting tersedia di lantai dasar.</p>
-      </div>
-    </article>
+        <a class="pl-info-link" href="https://www.google.com/maps/search/?api=1&amp;query=Jl.+Dharmawangsa+No.+48+Surabaya" target="_blank" rel="noopener noreferrer">
+          Buka di Maps <svg width="14" height="14" aria-hidden="true"><use href="#i-chev"/></svg>
+        </a>
+      </article>
 
-    <article class="portal-info-card">
-      <span class="portal-info-ic" aria-hidden="true">
-        <svg width="20" height="20"><use href="#i-scissors"/></svg>
-      </span>
-      <div>
+      <article class="pl-info">
+        <span class="pl-info-ic" aria-hidden="true"><svg width="22" height="22"><use href="#i-scissors"/></svg></span>
         <small>Layanan Unggulan</small>
         <b>Busana Kustom &amp; Seragam</b>
         <p>Jas &amp; blazer, kemeja batik, kebaya pesta, hingga seragam kantor/komunitas.</p>
-      </div>
-    </article>
+      </article>
 
-    <article class="portal-info-card">
-      <span class="portal-info-ic portal-info-ic--green" aria-hidden="true">
-        <svg width="20" height="20"><use href="#i-phone"/></svg>
-      </span>
-      <div>
-        <small>WhatsApp Customer Service</small>
-        <b>0812-3456-7890 (Admin Workshop)</b>
-        <p style="margin-bottom:8px">Konsultasi bahan, ubah jadwal fitting, atau konfirmasi pengambilan.</p>
-        <a id="waLandingBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">
-          <span>Chat WhatsApp CS</span>
-          <svg width="15" height="15"><use href="#i-arrow"/></svg>
+      <article class="pl-info">
+        <span class="pl-info-ic pl-info-ic--green" aria-hidden="true"><svg width="22" height="22"><use href="#i-phone"/></svg></span>
+        <small>WhatsApp CS</small>
+        <b>0812-3456-7890</b>
+        <p>Konsultasi bahan, ubah jadwal fitting, atau konfirmasi pengambilan.</p>
+        <a id="waLandingBtn" class="pl-info-link" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">
+          Chat Admin <svg width="14" height="14" aria-hidden="true"><use href="#i-chev"/></svg>
         </a>
-      </div>
-    </article>
+      </article>
+    </div>
   </section>
 
-  <section class="portal-steps-card" aria-labelledby="stepsTitle">
-    <h2 id="stepsTitle">Cara Cek Progres Jahitan</h2>
-    <div class="portal-steps-3">
-      <div class="portal-step-mini">
-        <span class="portal-step-num">1</span>
+  <!-- ===== CARA CEK ===== -->
+  <section class="pl-section" aria-labelledby="stepsTitle">
+    <div class="pl-section-head">
+      <span class="pl-eyebrow">Mudah &amp; Cepat</span>
+      <h2 id="stepsTitle">Cara Cek Progres Jahitan</h2>
+      <p>Tiga langkah sederhana untuk mengetahui posisi pesanan Anda.</p>
+    </div>
+
+    <ol class="pl-steps">
+      <li class="pl-step">
+        <span class="pl-step-num" aria-hidden="true"><svg width="26" height="26"><use href="#i-receipt"/></svg></span>
         <b>Siapkan Kode di Nota</b>
-        <p>Temukan kode pesanan berformat <b>TH-XXXX</b> di nota cetak atau pesan WhatsApp.</p>
-      </div>
-      <div class="portal-step-mini">
-        <span class="portal-step-num">2</span>
+        <p>Temukan kode berformat <b style="display:inline">TH-XXXX</b> di nota cetak atau pesan WhatsApp.</p>
+      </li>
+      <li class="pl-step">
+        <span class="pl-step-num" aria-hidden="true"><svg width="26" height="26"><use href="#i-keyboard"/></svg></span>
         <b>Masukkan Kode Pesanan</b>
-        <p>Ketik kode pada kolom pencarian di atas lalu tekan tombol Lacak Sekarang.</p>
-      </div>
-      <div class="portal-step-mini">
-        <span class="portal-step-num">3</span>
+        <p>Ketik kode pada kolom pencarian di atas lalu tekan Lacak Sekarang.</p>
+      </li>
+      <li class="pl-step">
+        <span class="pl-step-num" aria-hidden="true"><svg width="26" height="26"><use href="#i-bag"/></svg></span>
         <b>Pantau hingga Siap Ambil</b>
-        <p>Lihat tahap pengerjaan dari antrean, potong, jahit, QC, sampai siap diambil.</p>
-      </div>
+        <p>Lihat setiap tahap pengerjaan sampai pesanan siap diambil.</p>
+      </li>
+    </ol>
+
+    <div class="pl-stages" aria-label="Tahapan produksi">
+      <span class="chip chip--queue"><span class="d"></span>Antrean</span>
+      <span class="pl-stage-arrow" aria-hidden="true"><svg width="14" height="14"><use href="#i-chev"/></svg></span>
+      <span class="chip chip--cut"><span class="d"></span>Pemotongan</span>
+      <span class="pl-stage-arrow" aria-hidden="true"><svg width="14" height="14"><use href="#i-chev"/></svg></span>
+      <span class="chip chip--sew"><span class="d"></span>Penjahitan</span>
+      <span class="pl-stage-arrow" aria-hidden="true"><svg width="14" height="14"><use href="#i-chev"/></svg></span>
+      <span class="chip chip--finish"><span class="d"></span>Finishing</span>
+      <span class="pl-stage-arrow" aria-hidden="true"><svg width="14" height="14"><use href="#i-chev"/></svg></span>
+      <span class="chip chip--qc"><span class="d"></span>QC</span>
+      <span class="pl-stage-arrow" aria-hidden="true"><svg width="14" height="14"><use href="#i-chev"/></svg></span>
+      <span class="chip chip--done"><span class="d"></span>Selesai</span>
+      <span class="pl-stage-arrow" aria-hidden="true"><svg width="14" height="14"><use href="#i-chev"/></svg></span>
+      <span class="chip chip--taken"><span class="d"></span>Diambil</span>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="pl-cta" aria-labelledby="ctaTitle">
+    <div class="pl-cta-copy">
+      <h2 id="ctaTitle">Punya banyak pesanan sekaligus?</h2>
+      <p>Buat akun pelanggan untuk melihat seluruh riwayat jahitan Anda, atau tanyakan langsung ke admin via WhatsApp.</p>
+    </div>
+    <div class="pl-cta-actions">
+      <a id="waCtaBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn pl-btn-wa">
+        <svg width="18" height="18"><use href="#i-chat"/></svg>
+        <span>Chat WhatsApp</span>
+      </a>
+      <a href="customer-register.html" class="btn btn--ghost" data-slug-link>
+        <span>Daftar Akun</span>
+        <svg width="16" height="16"><use href="#i-arrow"/></svg>
+      </a>
     </div>
   </section>
 
   <p class="portal-subtle-link">
-    Pelanggan tetap dengan banyak pesanan? <a href="customer-login.html">Masuk ke Akun Pelanggan</a> atau <a href="customer-register.html">Daftar Akun</a>
+    Sudah punya akun? <a href="customer-login.html" data-slug-link>Masuk ke Akun Pelanggan</a>
   </p>
 </main>
 
 <footer class="portal-footer">
   <div class="portal-footer-in">
-    <span><b>Jahit Lestari</b> · Dikelola dengan TailorHub</span>
+    <span><b>Jahit Lestari</b> · Dikelola dengan <a href="../index.html">TailorHub</a></span>
     <div class="portal-footer-links">
-      <a href="track.html">Lacak Pesanan</a>
-      <a href="customer-login.html">Akun Pelanggan</a>
+      <a href="track.html" data-slug-link>Lacak Pesanan</a>
+      <a href="customer-login.html" data-slug-link>Akun Pelanggan</a>
       <a id="waFooterLink" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">WhatsApp CS</a>
     </div>
   </div>
@@ -192,32 +307,82 @@
   var portal = window.TailorPortal;
   if (!portal) return;
 
+  var params = new URLSearchParams(window.location.search);
+  var rawSlug = params.get('slug') || '';
+  // Slug hanya boleh huruf kecil, angka, dan tanda hubung
+  var slug = /^[a-z0-9-]{1,64}$/.test(rawSlug) ? rawSlug : 'jahit-lestari';
+
+  // Teruskan slug tenant ke semua tautan internal portal
+  if (rawSlug && slug === rawSlug) {
+    var links = document.querySelectorAll('[data-slug-link]');
+    for (var i = 0; i < links.length; i++) {
+      var u = new URL(links[i].getAttribute('href'), window.location.href);
+      if (u.origin !== window.location.origin) continue;
+      u.searchParams.set('slug', slug);
+      links[i].setAttribute('href', u.pathname + u.search);
+    }
+  }
+
+  // Tautan WhatsApp dengan pesan default
+  ['waLandingBtn', 'waFooterLink', 'waCtaBtn'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.href = portal.buildWaUrl('');
+  });
+
+  // Status buka/tutup berdasarkan waktu Surabaya (WIB)
+  (function updateOpenStatus() {
+    var box = document.getElementById('openStatus');
+    var txt = document.getElementById('openStatusText');
+    if (!box || !txt) return;
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Jakarta', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false
+      }).formatToParts(new Date());
+      var map = {};
+      parts.forEach(function (p) { map[p.type] = p.value; });
+      var mins = (parseInt(map.hour, 10) % 24) * 60 + parseInt(map.minute, 10);
+      var isWorkday = map.weekday !== 'Sun';
+      var open = isWorkday && mins >= 8 * 60 && mins < 17 * 60;
+      if (open) {
+        txt.textContent = 'Buka Sekarang · tutup 17.00 WIB';
+      } else {
+        box.classList.add('is-closed');
+        txt.textContent = (isWorkday && mins < 8 * 60) ? 'Tutup · buka 08.00 WIB' : 'Tutup · buka lagi besok 08.00 WIB';
+        if (map.weekday === 'Sat' && mins >= 17 * 60) txt.textContent = 'Tutup · buka Senin 08.00 WIB';
+        if (map.weekday === 'Sun') txt.textContent = 'Tutup hari ini · buka Senin 08.00 WIB';
+      }
+    } catch (err) {
+      // Biarkan teks default bila Intl tidak tersedia
+    }
+  })();
+
   var form = document.getElementById('landingTrackForm');
   var input = document.getElementById('landingCodeInput');
+  var submitBtn = document.getElementById('landingSubmit');
   var errBox = document.getElementById('landingError');
   var errMsg = document.getElementById('landingErrorMsg');
 
-  var waBtn = document.getElementById('waLandingBtn');
-  var waFooter = document.getElementById('waFooterLink');
-  if (waBtn) waBtn.href = portal.buildWaUrl('');
-  if (waFooter) waFooter.href = portal.buildWaUrl('');
-
   input.addEventListener('input', function () {
     errBox.hidden = true;
-    input.classList.remove('input--err');
+    form.classList.remove('is-err');
   });
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     var clean = portal.normalizeCode(input.value);
-    var slug = new URLSearchParams(window.location.search).get('slug') || 'jahit-lestari';
-    var order = await portal.fetchOrderFromApi(clean, slug);
+    submitBtn.disabled = true;
+    var order = null;
+    try {
+      order = await portal.fetchOrderFromApi(clean, slug);
+    } finally {
+      submitBtn.disabled = false;
+    }
     if (!order) {
       errMsg.textContent = clean
         ? 'Kode "' + clean + '" belum ditemukan. Coba periksa ulang nota atau pilih contoh TH-2041.'
         : 'Masukkan kode pesanan terlebih dahulu (contoh: TH-2041).';
       errBox.hidden = false;
-      input.classList.add('input--err');
+      form.classList.add('is-err');
       input.focus();
       return;
     }

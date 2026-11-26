@@ -1,264 +1,825 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Langganan &amp; Billing — TailorHub</title>
-<meta name="description" content="Kelola paket langganan aktif, kuota akun, metode pembayaran, dan riwayat tagihan langganan SaaS.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/css/tokens.css">
-<link rel="stylesheet" href="../../assets/css/base.css">
-<link rel="stylesheet" href="../../assets/css/components.css">
-<link rel="stylesheet" href="../../assets/css/app.css">
-<style>
-/* Tab Navigasi Pengaturan */
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--sand);margin-bottom:24px;overflow-x:auto;}
-.tabs a{padding:11px 16px;font-size:.9rem;font-weight:700;color:var(--ink-45);border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;}
-.tabs a:hover{color:var(--clay);}
-.tabs a.is-on{color:var(--clay);border-bottom-color:var(--clay);}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Langganan &amp; Billing — TailorHub</title>
+  <meta name="description"
+    content="Kelola paket langganan aktif, kuota akun, metode pembayaran, dan riwayat tagihan langganan SaaS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/tokens.css">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/app.css">
+  <style>
+    /* Tab Navigasi Pengaturan */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--sand);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+    }
 
-/* Billing Hero Card */
-.bill-hero{background:var(--ink);color:#fff;border-radius:var(--r-xl);padding:32px;box-shadow:var(--shadow-m);margin-bottom:24px;position:relative;overflow:hidden;}
-.bill-hero::after{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 90% -20%,rgba(192,84,36,.4),transparent 70%);pointer-events:none;}
-.bill-hero-inner{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;}
-.bill-title{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
-.bill-title h2{font-size:1.6rem;font-weight:800;color:#fff;}
-.bill-price{font-size:2rem;font-weight:800;color:#fff;margin:12px 0 6px;}
-.bill-price small{font-size:.9rem;font-weight:600;color:rgba(255,248,239,.65);}
-.bill-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.15);}
-.bill-stat-item small{display:block;font-size:.75rem;font-weight:700;color:rgba(255,248,239,.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
-.bill-stat-item b{font-size:1.15rem;color:#fff;}
+    .tabs a {
+      padding: 11px 16px;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--ink-45);
+      border-bottom: 2.5px solid transparent;
+      margin-bottom: -1px;
+      transition: color .2s, border-color .2s;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-/* Quota Grid */
-.quota-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px;}
-.quota-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-m);padding:20px;box-shadow:var(--shadow-s);}
-.quota-card small{font-size:.75rem;font-weight:800;color:var(--ink-45);text-transform:uppercase;letter-spacing:.06em;}
-.quota-card b{display:block;font-size:1.3rem;font-weight:800;margin:6px 0 10px;}
-.progress-bar{height:7px;background:var(--cream-200);border-radius:999px;overflow:hidden;}
-.progress-fill{height:100%;background:var(--clay);border-radius:999px;}
+    .tabs a:hover {
+      color: var(--clay);
+    }
 
-/* Table Card */
-.table-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);box-shadow:var(--shadow-s);overflow:hidden;}
-.table-card-head{padding:20px 24px;border-bottom:1px solid var(--sand);display:flex;justify-content:space-between;align-items:center;}
-.tw{overflow-x:auto;}
+    .tabs a.is-on {
+      color: var(--clay);
+      border-bottom-color: var(--clay);
+    }
 
-@media(max-width:768px){
-  .bill-stats{grid-template-columns:1fr;}
-}
-</style>
+    /* Billing Hero Card */
+    .bill-hero {
+      background: linear-gradient(145deg, #1f110a 0%, #2a1810 100%);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r-xl);
+      padding: 28px;
+      box-shadow: var(--shadow-m);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bill-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(600px 300px at 90% -20%, rgba(192, 84, 36, .35), transparent 70%);
+      pointer-events: none;
+    }
+
+    .bill-hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .bill-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .bill-title h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .chip-active-plan {
+      background: rgba(46, 125, 79, .25);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, .3);
+      font-size: .74rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+    }
+
+    .bill-price-card {
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 16px 0;
+    }
+
+    .bill-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .bill-price-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .bill-price-amount b {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.02em;
+    }
+
+    .bill-price-amount small {
+      font-size: .88rem;
+      font-weight: 600;
+      color: rgba(255, 248, 239, .65);
+    }
+
+    .bill-badge-auto {
+      font-size: .72rem;
+      font-weight: 700;
+      color: #fbd38d;
+      background: rgba(214, 158, 46, .2);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(214, 158, 46, .3);
+    }
+
+    .bill-period-info {
+      font-size: .8rem;
+      color: rgba(255, 248, 239, .75);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .bill-period-info svg {
+      flex: none;
+      color: #68d391;
+    }
+
+    .bill-hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .bill-hero-actions .btn {
+      height: 44px;
+      min-height: 44px;
+      padding: 0 20px;
+      font-size: .9rem;
+      font-weight: 700;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: var(--r-m);
+    }
+
+    .bill-hero .btn--primary {
+      background: var(--clay);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(192, 84, 36, .35);
+    }
+
+    .bill-hero .btn--primary:hover {
+      background: var(--clay-dark);
+    }
+
+    .bill-hero .btn--glass {
+      background: rgba(255, 255, 255, .09);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .22);
+      backdrop-filter: blur(4px);
+      transition: all .2s;
+    }
+
+    .bill-hero .btn--glass:hover {
+      background: rgba(255, 255, 255, .16);
+      border-color: #fff;
+    }
+
+    .bill-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .bill-stat-item {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .07);
+      border-radius: var(--r-s);
+      padding: 14px 16px;
+    }
+
+    .bill-stat-item small {
+      display: block;
+      font-size: .72rem;
+      font-weight: 700;
+      color: rgba(255, 248, 239, .6);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 6px;
+    }
+
+    .bill-stat-item b {
+      font-size: 1.05rem;
+      color: #fff;
+    }
+
+    /* Quota Grid */
+    .quota-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .quota-card {
+      background: var(--paper);
+      border: 1px solid var(--sand);
+      border-radius: var(--r-m);
+      padding: 20px;
+      box-shadow: var(--shadow-s);
+    }
+
+    .quota-card small {
+      font-size: .75rem;
+      font-weight: 800;
+      color: var(--ink-45);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .quota-card b {
+      display: block;
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin: 6px 0 10px;
+    }
+
+    .progress-bar {
+      height: 7px;
+      background: var(--cream-200);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--clay);
+      border-radius: 999px;
+    }
+
+    /* Table Card */
+    .table-card {
+      background: var(--paper);
+      border: 1px solid var(--sand);
+      border-radius: var(--r-l);
+      box-shadow: var(--shadow-s);
+      overflow: hidden;
+    }
+
+    .table-card-head {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--sand);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tw {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tw .table {
+      min-width: 560px;
+    }
+
+    @media(max-width:768px) {
+      .bill-stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+    }
+
+    @media(max-width:600px) {
+      .page {
+        padding: 16px 12px;
+      }
+
+      .bill-hero {
+        padding: 20px 16px;
+        border-radius: 18px;
+      }
+
+      .bill-hero-inner {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .bill-hero-actions {
+        width: 100%;
+      }
+
+      .bill-hero-actions .btn {
+        width: 100%;
+      }
+
+      .bill-price-amount b {
+        font-size: 1.6rem;
+      }
+
+      .quota-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .table-card-head {
+        padding: 16px 14px;
+      }
+    }
+
+    .print-only {
+      display: none;
+    }
+
+    @media print {
+
+      .side,
+      .top,
+      .scrim,
+      .page-head,
+      .tabs,
+      .bill-hero,
+      .quota-grid,
+      .quota-title,
+      .table-card-head,
+      .no-print,
+      .crumb {
+        display: none !important;
+      }
+
+      body,
+      .app,
+      .main,
+      .page {
+        background: #fff !important;
+        color: #1a1a1a !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+        width: 100% !important;
+      }
+
+      .print-only {
+        display: block !important;
+      }
+
+      .table-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #fff !important;
+      }
+
+      .tw {
+        overflow: visible !important;
+      }
+
+      .tw .table {
+        min-width: 100% !important;
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: .88rem !important;
+      }
+
+      .tw .table th {
+        background: #f5efe6 !important;
+        color: #2A1810 !important;
+        font-weight: 800 !important;
+        border: 1px solid #d5c8ba !important;
+        padding: 10px 12px !important;
+      }
+
+      .tw .table td {
+        border: 1px solid #e8ded1 !important;
+        padding: 10px 12px !important;
+        color: #222 !important;
+      }
+
+      .chip--paid {
+        background: #e8f5e9 !important;
+        color: #2e7d32 !important;
+        border: 1px solid #a5d6a7 !important;
+        font-weight: 700 !important;
+        padding: 2px 8px !important;
+      }
+    }
+  </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
+
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></symbol>
-  <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
-  <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
-  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.3" cy="8.1" r="3.3"/><path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3"/><path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9"/><path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3"/></symbol>
-  <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>
-  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>
-  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
-  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
-  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
-  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M5 12l7 7 7-7"/><path d="M4 20h16"/></symbol>
-  <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></symbol>
-</defs></svg>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11 12 4l9 7" />
+        <path d="M5 10v10h14V10" />
+      </symbol>
+      <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z" />
+        <path d="M9.3 3.6V2.4h5.4v1.2" />
+        <path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7" />
+      </symbol>
+      <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6.1" cy="18" r="2.6" />
+        <circle cx="17.9" cy="18" r="2.6" />
+        <path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2" />
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9.3" cy="8.1" r="3.3" />
+        <path d="M3.4 19.6c0-3.1 2.6-5.3 5.9-5.3s5.9 2.2 5.9 5.3" />
+        <path d="M16.2 5.3a3.2 3.2 0 0 1 0 5.9" />
+        <path d="M17.6 14.8c1.9.6 3.1 2.3 3.1 4.3" />
+      </symbol>
+      <symbol id="i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z" />
+        <path d="M3.4 10.2h17.2" />
+        <path d="M6.6 14.6h3.1M13.6 14.6h3.8" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3.6 20.4h16.8" />
+        <rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1" />
+        <rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1" />
+        <rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z" />
+        <path d="M10 19.3a2.3 2.3 0 0 0 4 0" />
+      </symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z" />
+        <circle cx="12" cy="12" r="3" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.2-3.2" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="m5 12.6 4.4 4.4L19 6.8" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"
+        stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v13M5 12l7 7 7-7" />
+        <path d="M4 20h16" />
+      </symbol>
+      <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="2" />
+        <line x1="2" y1="10" x2="22" y2="10" />
+      </symbol>
+    </defs>
+  </svg>
 
-<div class="app" id="app">
-  <div class="scrim" id="scrim" onclick="document.getElementById('app').classList.remove('nav-open')"></div>
+  <div class="app" id="app">
+    <div class="scrim" id="scrim" onclick="document.getElementById('app').classList.remove('nav-open')"></div>
 
-  <!-- ===================== SIDEBAR ===================== -->
-  <aside class="side" id="appSidebar" aria-label="Navigasi utama"></aside>
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="side" id="appSidebar" aria-label="Navigasi utama"></aside>
 
-  <!-- ===================== MAIN AREA ===================== -->
-  <div class="main">
-    <header class="top" id="appTopbar"></header>
+    <!-- ===================== MAIN AREA ===================== -->
+    <div class="main">
+      <header class="top" id="appTopbar"></header>
 
-    <main class="page">
-      <div class="page-head">
-        <div>
-          <nav class="crumb">
-            <a href="../dashboard.html">TailorHub</a>
-            <span>/</span>
-            <a href="tenant.html">Pengaturan</a>
-            <span>/</span>
-            <b>Langganan &amp; Billing</b>
-          </nav>
-          <h1>Langganan &amp; Billing</h1>
-          <p class="sub">Kelola paket aktif TailorHub SaaS, kuota akun, metode perpanjangan otomatis, dan riwayat faktur (FR-05).</p>
-        </div>
-      </div>
-
-      <!-- Navigation Tabs Pengaturan -->
-      <div class="tabs">
-        <a href="tenant.html"><svg width="16" height="16"><use href="#i-gear"/></svg> Profil &amp; Branding</a>
-        <a href="billing.html" class="is-on"><svg width="16" height="16"><use href="#i-pay"/></svg> Langganan &amp; Billing</a>
-        <a href="order-preferences.html"><svg width="16" height="16"><use href="#i-order"/></svg> Preferensi Pesanan</a>
-        <a href="notifications.html"><svg width="16" height="16"><use href="#i-bell"/></svg> Integrasi Notifikasi</a>
-        <a href="security.html"><svg width="16" height="16"><use href="#i-check"/></svg> Keamanan</a>
-      </div>
-
-      <!-- Active Plan Banner Hero -->
-      <section class="bill-hero">
-        <div class="bill-hero-inner">
+      <main class="page">
+        <div class="page-head">
           <div>
-            <div class="bill-title">
-              <h2>Paket Pro (Juragan Jahit)</h2>
-              <span class="chip chip--paid" style="background:#27ae60;color:#fff;"><span class="d"></span>Langganan Aktif</span>
+            <nav class="crumb">
+              <a href="../dashboard.html">TailorHub</a>
+              <span>/</span>
+              <a href="tenant.html">Pengaturan</a>
+              <span>/</span>
+              <b>Langganan &amp; Billing</b>
+            </nav>
+            <h1>Langganan &amp; Billing</h1>
+            <p class="sub">Kelola paket aktif TailorHub SaaS, kuota akun, metode perpanjangan otomatis, dan riwayat
+              faktur (FR-05).</p>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs Pengaturan -->
+        <div class="tabs">
+          <a href="tenant.html"><svg width="16" height="16">
+              <use href="#i-gear" />
+            </svg> Profil &amp; Branding</a>
+          <a href="billing.html" class="is-on"><svg width="16" height="16">
+              <use href="#i-pay" />
+            </svg> Langganan &amp; Billing</a>
+          <a href="order-preferences.html"><svg width="16" height="16">
+              <use href="#i-order" />
+            </svg> Preferensi Pesanan</a>
+          <a href="notifications.html"><svg width="16" height="16">
+              <use href="#i-bell" />
+            </svg> Integrasi Notifikasi</a>
+          <a href="security.html"><svg width="16" height="16">
+              <use href="#i-check" />
+            </svg> Keamanan</a>
+        </div>
+
+        <!-- Active Plan Banner Hero -->
+        <section class="bill-hero">
+          <div class="bill-hero-inner">
+            <div style="flex:1;min-width:0;">
+              <div class="bill-title">
+                <h2>Paket Pro (Juragan Jahit)</h2>
+                <span class="chip-active-plan">
+                  <span class="chip-pulse-dot"></span>
+                  Langganan Aktif
+                </span>
+              </div>
+              <p
+                style="color:rgba(255,248,239,.78);font-size:.88rem;line-height:1.55;max-width:54ch;margin:6px 0 14px;">
+                Mendukung operasional penuh usaha jahit Anda dengan fitur Kanban board, portal pelanggan mandiri, dan
+                notifikasi WhatsApp otomatis.
+              </p>
+
+              <div class="bill-price-card">
+                <div class="bill-price-row">
+                  <div class="bill-price-amount">
+                    <b>Rp150.000</b>
+                    <small>/ bulan</small>
+                  </div>
+                  <span class="bill-badge-auto">Ditagih otomatis</span>
+                </div>
+                <div class="bill-period-info">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  <span>Periode aktif: <b>15 Nov 2026 – 15 Des 2026</b> <span
+                      style="color:rgba(255,248,239,.55);">(Perpanjangan dalam 22 hari)</span></span>
+                </div>
+              </div>
             </div>
-            <p style="color:rgba(255,248,239,.8);font-size:.92rem;max-width:56ch;">
-              Mendukung operasional penuh usaha jahit Anda dengan fitur Kanban board, portal pelanggan mandiri, dan notifikasi WhatsApp otomatis.
-            </p>
-            <div class="bill-price">
-              Rp149.000 <small>/ bulan (Ditagih otomatis)</small>
-            </div>
-            <div style="font-size:.84rem;color:rgba(255,248,239,.65);">
-              Periode aktif saat ini: <b>15 Nov 2026 – 15 Des 2026</b> (Perpanjangan otomatis dalam 22 hari)
+
+            <div class="bill-hero-actions">
+              <button class="btn btn--primary"
+                onclick="alert('Pilihan upgrade paket: Paket Enterprise / Multi-Cabang (Rp299.000/bulan)');">
+                <svg width="15" height="15">
+                  <use href="#i-plus" />
+                </svg>
+                <span>Upgrade / Ubah Paket</span>
+              </button>
+              <button class="btn btn--glass"
+                onclick="confirm('Apakah Anda yakin ingin mematikan perpanjangan otomatis?');">
+                <svg width="15" height="15">
+                  <use href="#i-gear" />
+                </svg>
+                <span>Kelola Perpanjangan</span>
+              </button>
             </div>
           </div>
 
-          <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;">
-            <button class="btn btn--primary" onclick="alert('Pilihan upgrade paket: Paket Enterprise / Multi-Cabang (Rp299.000/bulan)');">
-              <span>Upgrade / Ubah Paket</span>
+          <div class="bill-stats">
+            <div class="bill-stat-item">
+              <small>Metode Pembayaran Tersimpan</small>
+              <b>BCA Virtual Account (Auto-Debit)</b>
+            </div>
+            <div class="bill-stat-item">
+              <small>Total Invoice Terbayar</small>
+              <b>3 Periode (Rp450.000)</b>
+            </div>
+            <div class="bill-stat-item">
+              <small>Status Lisensi Tenant</small>
+              <b style="color:#68d391;">Resmi &amp; Terverifikasi</b>
+            </div>
+          </div>
+        </section>
+
+        <!-- Kuota Pemakaian Paket -->
+        <h3 class="quota-title" style="font-size:1.15rem;margin-bottom:14px;">Pemakaian Kuota Akun</h3>
+        <div class="quota-grid">
+          <div class="quota-card">
+            <small>Pesanan Aktif Berjalan</small>
+            <b>42 Pesanan</b>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:100%;background:var(--green);"></div>
+            </div>
+            <div style="font-size:.78rem;color:var(--ink-45);margin-top:8px;">Kuota: <b>Unlimited</b> (Tanpa Batas)
+            </div>
+          </div>
+
+          <div class="quota-card">
+            <small>Anggota Tim / Akun Staf</small>
+            <b>4 dari 5 Akun</b>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:80%;"></div>
+            </div>
+            <div style="font-size:.78rem;color:var(--ink-45);margin-top:8px;">Tersisa <b>1 slot staf</b> lagi</div>
+          </div>
+
+          <div class="quota-card">
+            <small>Notifikasi WhatsApp Bulan Ini</small>
+            <b>428 / 1.000 Pesan</b>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:43%;background:var(--indigo);"></div>
+            </div>
+            <div style="font-size:.78rem;color:var(--ink-45);margin-top:8px;">Reset otomatis tiap tgl 15</div>
+          </div>
+
+          <div class="quota-card">
+            <small>Penyimpanan Foto &amp; Pola</small>
+            <b>1.8 GB / 10 GB</b>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:18%;background:var(--amber);"></div>
+            </div>
+            <div style="font-size:.78rem;color:var(--ink-45);margin-top:8px;">Tersedia 8.2 GB lagi</div>
+          </div>
+        </div>
+
+        <!-- Riwayat Tagihan Langganan SaaS -->
+        <section class="table-card">
+          <div class="table-card-head">
+            <div>
+              <h3 style="font-size:1.1rem;margin-bottom:2px;">Riwayat Tagihan &amp; Faktur SaaS</h3>
+              <p style="font-size:.85rem;color:var(--ink-45);">Daftar seluruh pembayaran langganan TailorHub untuk
+                laporan pembukuan usaha Anda</p>
+            </div>
+            <button class="btn btn--ghost btn--sm" onclick="window.print()">
+              <svg width="15" height="15">
+                <use href="#i-download" />
+              </svg>
+              <span>Ekspor Semua Faktur</span>
             </button>
-            <button class="btn btn--outline-light btn--sm" onclick="confirm('Apakah Anda yakin ingin mematikan perpanjangan otomatis?');">
-              <span>Kelola Perpanjangan</span>
-            </button>
           </div>
-        </div>
 
-        <div class="bill-stats">
-          <div class="bill-stat-item">
-            <small>Metode Pembayaran Tersimpan</small>
-            <b>BCA Virtual Account (Auto-Debit)</b>
+          <!-- Print-Only Official Report Header -->
+          <div class="print-only" style="padding:0 0 16px 0;margin-bottom:18px;border-bottom:2.5px solid #2A1810;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+              <div>
+                <div style="font-size:1.5rem;font-weight:800;color:#C05424;letter-spacing:-.02em;">TailorHub</div>
+                <div style="font-size:1.15rem;font-weight:800;color:#2A1810;margin-top:2px;">Rekapitulasi Faktur &amp;
+                  Riwayat Tagihan SaaS</div>
+                <div style="font-size:.82rem;color:#666;">Laporan resmi bukti perpanjangan langganan sistem manajemen
+                  tailor (FR-05)</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:1.1rem;font-weight:800;color:#2A1810;">Jahit Lestari</div>
+                <div style="font-size:.82rem;color:#777;">ID Tenant: <b>TH-TENANT-001</b></div>
+                <div style="font-size:.82rem;color:#777;">Kategori: Tailor Busana &amp; Konveksi</div>
+              </div>
+            </div>
+
+            <div
+              style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;background:#FAF7F2;border:1px solid #E8DED1;border-radius:8px;padding:12px 16px;font-size:.84rem;">
+              <div><span
+                  style="color:#777;display:block;font-size:.74rem;font-weight:700;text-transform:uppercase;">Paket
+                  Langganan</span><b style="color:#2A1810;">Paket Pro (Juragan Jahit)</b></div>
+              <div><span
+                  style="color:#777;display:block;font-size:.74rem;font-weight:700;text-transform:uppercase;">Metode
+                  Bayar</span><b style="color:#2A1810;">BCA Virtual Account (Auto-Debit)</b></div>
+              <div><span
+                  style="color:#777;display:block;font-size:.74rem;font-weight:700;text-transform:uppercase;">Total
+                  Terbayar</span><b style="color:#2e7d32;">3 Periode (Rp450.000)</b></div>
+            </div>
           </div>
-          <div class="bill-stat-item">
-            <small>Total Invoice Terbayar</small>
-            <b>3 Periode (Rp447.000)</b>
+
+          <div class="tw">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>No. Invoice</th>
+                  <th>Tanggal Bayar</th>
+                  <th>Paket / Deskripsi</th>
+                  <th>Periode Layanan</th>
+                  <th class="num">Nominal</th>
+                  <th>Status</th>
+                  <th class="no-print"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>INV-TH-8821</b></td>
+                  <td>15 Nov 2026</td>
+                  <td>Paket Pro (Juragan Jahit) · 1 Bulan</td>
+                  <td style="color:var(--ink-70);">15 Nov 2026 – 15 Des 2026</td>
+                  <td class="num"><b>Rp150.000</b></td>
+                  <td><span class="chip chip--paid">Lunas</span></td>
+                  <td class="no-print"><button type="button" class="btn btn--ghost btn--sm"
+                      onclick="alert('Mengunduh file PDF Faktur #INV-TH-8821...');">Unduh PDF</button></td>
+                </tr>
+                <tr>
+                  <td><b>INV-TH-7419</b></td>
+                  <td>15 Okt 2026</td>
+                  <td>Paket Pro (Juragan Jahit) · 1 Bulan</td>
+                  <td style="color:var(--ink-70);">15 Okt 2026 – 15 Nov 2026</td>
+                  <td class="num"><b>Rp150.000</b></td>
+                  <td><span class="chip chip--paid">Lunas</span></td>
+                  <td class="no-print"><button type="button" class="btn btn--ghost btn--sm"
+                      onclick="alert('Mengunduh file PDF Faktur #INV-TH-7419...');">Unduh PDF</button></td>
+                </tr>
+                <tr>
+                  <td><b>INV-TH-6012</b></td>
+                  <td>15 Sep 2026</td>
+                  <td>Paket Pro (Juragan Jahit) · 1 Bulan</td>
+                  <td style="color:var(--ink-70);">15 Sep 2026 – 15 Okt 2026</td>
+                  <td class="num"><b>Rp150.000</b></td>
+                  <td><span class="chip chip--paid">Lunas</span></td>
+                  <td class="no-print"><button type="button" class="btn btn--ghost btn--sm"
+                      onclick="alert('Mengunduh file PDF Faktur #INV-TH-6012...');">Unduh PDF</button></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr style="background:#FAF7F2;font-weight:800;">
+                  <td colspan="4" style="text-align:right;padding:12px;color:#2A1810;">Total Pembayaran Diterima:</td>
+                  <td class="num" style="padding:12px;color:#2e7d32;font-size:1.05rem;">Rp450.000</td>
+                  <td style="padding:12px;"><span class="chip chip--paid">3 Lunas</span></td>
+                  <td class="no-print"></td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
-          <div class="bill-stat-item">
-            <small>Status Lisensi Tenant</small>
-            <b style="color:#68d391;">Resmi &amp; Terverifikasi</b>
+
+          <!-- Print-Only Official Report Footer -->
+          <div class="print-only"
+            style="margin-top:24px;border-top:1px solid #E8DED1;padding-top:12px;display:flex;justify-content:space-between;font-size:.78rem;color:#777;">
+            <span>Dokumen ini dicetak otomatis dari TailorHub Cloud sebagai bukti rekapitulasi pembayaran resmi.</span>
+            <span>Status Lisensi: <b style="color:#2e7d32;">RESMI &amp; TERVERIFIKASI</b></span>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Kuota Pemakaian Paket -->
-      <h3 style="font-size:1.15rem;margin-bottom:14px;">Pemakaian Kuota Akun</h3>
-      <div class="quota-grid">
-        <div class="quota-card">
-          <small>Pesanan Aktif Berjalan</small>
-          <b>42 Pesanan</b>
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green);"></div></div>
-          <div style="font-size:.78rem;color:var(--ink-45);margin-top:8px;">Kuota: <b>Unlimited</b> (Tanpa Batas)</div>
-        </div>
-
-        <div class="quota-card">
-          <small>Anggota Tim / Akun Staf</small>
-          <b>4 dari 5 Akun</b>
-          <div class="progress-bar"><div class="progress-fill" style="width:80%;"></div></div>
-          <div style="font-size:.78rem;color:var(--ink-45);margin-top:8px;">Tersisa <b>1 slot staf</b> lagi</div>
-        </div>
-
-        <div class="quota-card">
-          <small>Notifikasi WhatsApp Bulan Ini</small>
-          <b>428 / 1.000 Pesan</b>
-          <div class="progress-bar"><div class="progress-fill" style="width:43%;background:var(--indigo);"></div></div>
-          <div style="font-size:.78rem;color:var(--ink-45);margin-top:8px;">Reset otomatis tiap tgl 15</div>
-        </div>
-
-        <div class="quota-card">
-          <small>Penyimpanan Foto &amp; Pola</small>
-          <b>1.8 GB / 10 GB</b>
-          <div class="progress-bar"><div class="progress-fill" style="width:18%;background:var(--amber);"></div></div>
-          <div style="font-size:.78rem;color:var(--ink-45);margin-top:8px;">Tersedia 8.2 GB lagi</div>
-        </div>
-      </div>
-
-      <!-- Riwayat Tagihan Langganan SaaS -->
-      <section class="table-card">
-        <div class="table-card-head">
-          <div>
-            <h3 style="font-size:1.1rem;margin-bottom:2px;">Riwayat Tagihan &amp; Faktur SaaS</h3>
-            <p style="font-size:.85rem;color:var(--ink-45);">Daftar seluruh pembayaran langganan TailorHub untuk laporan pembukuan usaha Anda</p>
-          </div>
-          <button class="btn btn--ghost btn--sm" onclick="window.print()">
-            <svg width="15" height="15"><use href="#i-download"/></svg>
-            <span>Ekspor Semua Faktur</span>
-          </button>
-        </div>
-
-        <div class="tw">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>No. Invoice</th>
-                <th>Tanggal Bayar</th>
-                <th>Paket / Deskripsi</th>
-                <th>Periode Layanan</th>
-                <th class="num">Nominal</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><b>INV-TH-8821</b></td>
-                <td>15 Nov 2026</td>
-                <td>Paket Pro (Juragan Jahit) · 1 Bulan</td>
-                <td style="color:var(--ink-70);">15 Nov 2026 – 15 Des 2026</td>
-                <td class="num"><b>Rp149.000</b></td>
-                <td><span class="chip chip--paid">Lunas</span></td>
-                <td><button type="button" class="btn btn--ghost btn--sm" onclick="alert('Mengunduh file PDF Faktur #INV-TH-8821...');">Unduh PDF</button></td>
-              </tr>
-              <tr>
-                <td><b>INV-TH-7419</b></td>
-                <td>15 Okt 2026</td>
-                <td>Paket Pro (Juragan Jahit) · 1 Bulan</td>
-                <td style="color:var(--ink-70);">15 Okt 2026 – 15 Nov 2026</td>
-                <td class="num"><b>Rp149.000</b></td>
-                <td><span class="chip chip--paid">Lunas</span></td>
-                <td><button type="button" class="btn btn--ghost btn--sm" onclick="alert('Mengunduh file PDF Faktur #INV-TH-7419...');">Unduh PDF</button></td>
-              </tr>
-              <tr>
-                <td><b>INV-TH-6012</b></td>
-                <td>15 Sep 2026</td>
-                <td>Paket Pro (Juragan Jahit) · 1 Bulan</td>
-                <td style="color:var(--ink-70);">15 Sep 2026 – 15 Okt 2026</td>
-                <td class="num"><b>Rp149.000</b></td>
-                <td><span class="chip chip--paid">Lunas</span></td>
-                <td><button type="button" class="btn btn--ghost btn--sm" onclick="alert('Mengunduh file PDF Faktur #INV-TH-6012...');">Unduh PDF</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-    </main>
+      </main>
+    </div>
   </div>
-</div>
 
-<script src="/assets/js/api.js"></script>
-<script>TH.requireAuth("/auth/login.html");</script>
-<script src="/assets/js/app.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const [dash, team] = await Promise.all([
-      TH.get("/api/dashboard"),
-      TH.get("/api/team")
-    ]);
-    const quotaCards = document.querySelectorAll(".quota-grid .quota-card b");
-    if (quotaCards[0] && dash?.kpi) quotaCards[0].textContent = `${dash.kpi.pesananAktif || 0} Pesanan`;
-    if (quotaCards[1] && team?.data) quotaCards[1].textContent = `${team.data.length} dari 5 Akun`;
-  } catch (e) {
-    console.warn("Load billing quota error:", e);
-  }
-});
-</script>
-<script src="/assets/js/app-shell.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script>TH.requireAuth("/auth/login.html");</script>
+  <script src="/assets/js/app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const [dash, team] = await Promise.all([
+          TH.get("/api/dashboard"),
+          TH.get("/api/team")
+        ]);
+        const quotaCards = document.querySelectorAll(".quota-grid .quota-card b");
+        if (quotaCards[0] && dash?.kpi) quotaCards[0].textContent = `${dash.kpi.pesananAktif || 0} Pesanan`;
+        if (quotaCards[1] && team?.data) quotaCards[1].textContent = `${team.data.length} dari 5 Akun`;
+      } catch (e) {
+        console.warn("Load billing quota error:", e);
+      }
+    });
+  </script>
+  <script src="/assets/js/app-shell.js"></script>
 </body>
+
 </html>

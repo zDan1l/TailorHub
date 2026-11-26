@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
 <link rel="stylesheet" href="../../assets/css/production.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -62,9 +65,9 @@
         </div>
 
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <a href="deadline-alerts.html" class="btn btn--ghost">
+          <a href="deadline-alerts.html" class="btn btn--ghost" id="deadlineAlertBtn">
             <svg width="17" height="17"><use href="#i-clock"/></svg>
-            <span>Pantau Deadline (2)</span>
+            <span id="deadlineAlertLabel">Pantau Deadline</span>
           </a>
           <a href="update-status.html" class="btn btn--primary">
             <svg width="17" height="17"><use href="#i-scissors"/></svg>

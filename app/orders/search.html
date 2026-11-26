@@ -12,6 +12,10 @@
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
+<link rel="stylesheet" href="../../assets/css/orders-customers.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -60,7 +64,7 @@
       <!-- FILTER CARD -->
       <div class="card" style="margin-bottom:24px;">
         <form action="search.html" method="GET">
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:18px;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;margin-bottom:18px;">
             <div class="field">
               <label>Kata Kunci (Kode / Nama / Jenis)</label>
               <input type="text" class="input" placeholder="Misal: Jas, Hendra, ORD-..." value="Jas">
@@ -100,7 +104,7 @@
             </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:18px;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;margin-bottom:18px;">
             <div class="field">
               <label>Tanggal Masuk Mulai</label>
               <input type="date" class="input" value="2026-11-01">
@@ -135,7 +139,7 @@
 
       <!-- HASIL PENCARIAN -->
       <div class="table-wrap">
-        <table class="table">
+        <table class="table table--mid">
           <thead>
             <tr>
               <th>Kode Pesanan</th>

@@ -121,15 +121,15 @@
 .report-hub-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .report-hub-card {
   background: var(--paper);
   border: 1px solid var(--sand);
-  border-radius: var(--r-l);
-  padding: 20px;
+  border-radius: var(--r-m);
+  padding: 16px;
   box-shadow: var(--shadow-s);
   display: flex;
   flex-direction: column;
@@ -148,14 +148,14 @@
 .report-hub-card-top {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 
 .report-hub-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -163,30 +163,37 @@
   color: #fff;
 }
 
+.report-hub-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
 .report-hub-title {
-  font-size: 1rem;
+  font-size: .94rem;
   font-weight: 800;
   color: var(--ink);
   margin-bottom: 2px;
+  line-height: 1.25;
 }
 
 .report-hub-desc {
-  font-size: .8rem;
-  line-height: 1.45;
+  font-size: .78rem;
+  line-height: 1.4;
   color: var(--ink-70);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   flex: 1;
 }
 
 .report-hub-stat {
   background: var(--bg);
-  border-radius: var(--r-m);
-  padding: 10px 12px;
+  border-radius: var(--r-s);
+  padding: 7px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
-  font-size: .78rem;
+  margin-bottom: 10px;
+  font-size: .75rem;
+  gap: 6px;
 }
 
 .report-hub-stat span {
@@ -202,8 +209,8 @@
 .report-hub-cta {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: .82rem;
+  gap: 5px;
+  font-size: .78rem;
   font-weight: 800;
   color: var(--clay);
   transition: gap .2s;
@@ -261,6 +268,39 @@
 @media (max-width: 600px) {
   .report-hub-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .report-hub-card {
+    padding: 14px 16px;
+  }
+  .report-hub-card-top {
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .report-hub-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+  .report-hub-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+  .report-hub-title {
+    font-size: .9rem;
+  }
+  .report-hub-desc {
+    font-size: .78rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .report-hub-stat {
+    padding: 7px 10px;
+    margin-bottom: 8px;
+    font-size: .76rem;
+  }
+  .report-hub-cta {
+    font-size: .78rem;
   }
   .report-filter-bar {
     flex-direction: column;
@@ -268,6 +308,9 @@
   }
 }
 </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 

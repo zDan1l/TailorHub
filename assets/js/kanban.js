@@ -103,6 +103,7 @@
     if (!stage) return;
 
     card.setAttribute('data-stage', stage.key);
+    syncCardDeadline(card, stage.label);
 
     var steps = card.querySelectorAll('.kc-steps i');
     steps.forEach(function (seg, idx) {
@@ -177,6 +178,43 @@
   }
 
   /**
+   * Menghitung jumlah pesanan mendesak/lewat deadline dari kartu Kanban
+   * lalu memperbarui label tombol "Pantau Deadline (N)".
+   */
+  function updateDeadlineButtonCount() {
+    var labelEl = document.getElementById('deadlineAlertLabel');
+    if (!labelEl) return;
+    var urgentCount = 0;
+    document.querySelectorAll('.kcard').forEach(function (card) {
+      var dlCat = card.getAttribute('data-deadline');
+      var stage = card.getAttribute('data-stage');
+      if (stage === 'selesai' || stage === 'diambil') return;
+      if (dlCat === 'late' || dlCat === 'soon') {
+        urgentCount += 1;
+      }
+    });
+    labelEl.textContent = 'Pantau Deadline (' + urgentCount + ')';
+  }
+
+  /**
+   * Memperbarui tampilan deadline pada kartu apabila data-raw-deadline tersedia.
+   */
+  function syncCardDeadline(card, stageLabel) {
+    if (!card || !window.TH) return;
+    var rawDeadline = card.getAttribute('data-raw-deadline');
+    if (rawDeadline === null) return;
+    var dl = window.TH.deadlineMeta(rawDeadline, stageLabel);
+    card.setAttribute('data-deadline', dl.cat);
+    var deadEl = card.querySelector('.kc-dead');
+    if (deadEl) {
+      deadEl.className = 'kc-dead' + (dl.kanbanCls ? ' ' + dl.kanbanCls : '');
+      deadEl.textContent = '';
+      deadEl.appendChild(window.TH.svgUse(dl.icon, 14));
+      deadEl.appendChild(document.createTextNode(' ' + dl.text));
+    }
+  }
+
+  /**
    * Memindahkan kartu ke kolom tahap target dan memicu toast konfirmasi + simpan ke D1.
    * @param {HTMLElement} card
    * @param {string} targetStageKey
@@ -202,6 +240,7 @@
 
     syncCardVisual(card, targetStageKey);
     updateColumnCounts();
+    updateDeadlineButtonCount();
 
     if (silent) return;
 
@@ -402,62 +441,69 @@
     'Diambil': 'diambil'
   };
 
-  var ID_MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-  function fmtDate(s) {
-    if (!s) return '—';
-    var d = new Date(s + 'T00:00:00');
-    if (isNaN(d)) return s;
-    return (d.getDate() < 10 ? '0' : '') + d.getDate() + ' ' + ID_MONTHS[d.getMonth()];
-  }
-  function daysUntil(s) {
-    if (!s) return null;
-    var d = new Date(s + 'T00:00:00'); if (isNaN(d)) return null;
-    var now = new Date(); now.setHours(0, 0, 0, 0);
-    return Math.round((d - now) / 86400000);
-  }
   function deadlineInfo(deadline, stageKey) {
-    if (stageKey === 'selesai' || stageKey === 'diambil')
-      return { cat: 'normal', cls: '', icon: 'i-check', text: deadline ? fmtDate(deadline) : 'Selesai' };
-    var dd = daysUntil(deadline);
-    if (dd === null) return { cat: 'normal', cls: '', icon: 'i-clock', text: '—' };
-    if (dd < 0) return { cat: 'late', cls: 'is-late', icon: 'i-warn', text: Math.abs(dd) + ' hr lewat' };
-    if (dd === 0) return { cat: 'soon', cls: 'is-soon', icon: 'i-clock', text: 'Hari ini' };
-    if (dd <= 3) return { cat: 'soon', cls: 'is-soon', icon: 'i-clock', text: fmtDate(deadline) };
-    return { cat: 'normal', cls: '', icon: 'i-clock', text: fmtDate(deadline) };
+    var stage = STAGE_MAP[stageKey];
+    var dl = window.TH.deadlineMeta(deadline, stage ? stage.label : '');
+    return { cat: dl.cat, cls: dl.kanbanCls, icon: dl.icon, text: dl.text };
   }
 
   function buildCardEl(o) {
     var T = window.TH;
     var stageKey = LABEL_TO_KEY[o.production_status] || 'antrean';
     var cust = o.customer || 'Tanpa nama';
-    var title = (o.detail || o.type || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : '');
+    var title = (o.type || o.detail || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : '');
     var dl = deadlineInfo(o.deadline, stageKey);
     var staffInit = o.assignee ? T.initials(o.assignee) : '';
     var right = o.assignee
-      ? '<span class="kc-assignee" title="' + T.esc(o.assignee) + '">' + T.esc(staffInit) + '</span>'
-      : '<span class="chip ' + T.statusChip(o.payment_status) + '">' + T.esc(o.payment_status) + '</span>';
-    var steps = '';
-    for (var i = 0; i < 7; i++) steps += '<i></i>';
+      ? T.el('span', { className: 'kc-assignee', title: o.assignee, text: staffInit })
+      : T.el('span', { className: 'chip ' + T.statusChip(o.payment_status), text: o.payment_status || 'Belum Bayar' });
+
+    var stepsEl = T.el('div', { className: 'kc-steps' });
+    for (var i = 0; i < 7; i++) stepsEl.appendChild(T.el('i'));
+
     var href = 'detail.html?code=' + encodeURIComponent(o.code);
-    var html =
-      '<article class="kcard" data-code="' + T.esc(o.code) + '" data-stage="' + stageKey + '"' +
-      ' data-staff="' + T.esc(staffInit) + '" data-deadline="' + dl.cat + '" draggable="true">' +
-      '<div class="kc-top"><a href="' + href + '" class="kc-code">' + T.esc(o.code) + '</a>' +
-      '<span class="kc-type">' + T.esc(o.type || '-') + '</span></div>' +
-      '<div class="kc-title">' + T.esc(title) + '</div>' +
-      '<div class="kc-cust"><span class="mini">' + T.esc(T.initials(cust)) + '</span> ' + T.esc(cust) + '</div>' +
-      '<div class="kc-steps">' + steps + '</div>' +
-      '<div class="kc-stepslabel"><span></span><span class="pct"></span></div>' +
-      '<div class="kc-foot"><span class="kc-dead ' + dl.cls + '"><svg width="14" height="14"><use href="#' + dl.icon + '"/></svg> ' + T.esc(dl.text) + '</span>' + right + '</div>' +
-      '<div class="kc-actions">' +
-      '<button type="button" class="kc-btn kc-btn--prev" aria-label="Tahap sebelumnya">←</button>' +
-      '<div class="kc-actions-mid"><a href="' + href + '" class="kc-btn">Detail</a>' +
-      '<a href="update-status.html?code=' + encodeURIComponent(o.code) + '" class="kc-btn">Update</a></div>' +
-      '<button type="button" class="kc-btn kc-btn--next" aria-label="Tahap berikutnya">→</button>' +
-      '</div></article>';
-    var wrap = document.createElement('div');
-    wrap.innerHTML = html;
-    var card = wrap.firstElementChild;
+    var fabricFull = String(o.detail || '-').trim() || '-';
+    var fabricBadge = fabricFull.length > 20 ? fabricFull.slice(0, 17).trim() + '...' : fabricFull;
+    var card = T.el('article', {
+      className: 'kcard',
+      'data-code': o.code,
+      'data-stage': stageKey,
+      'data-staff': staffInit,
+      'data-deadline': dl.cat,
+      'data-raw-deadline': o.deadline || '',
+      draggable: 'true'
+    }, [
+      T.el('div', { className: 'kc-top' }, [
+        T.el('a', { href: href, className: 'kc-code', text: o.code }),
+        T.el('span', { className: 'kc-type', title: fabricFull, text: fabricBadge })
+      ]),
+      T.el('div', { className: 'kc-title', text: title }),
+      T.el('div', { className: 'kc-cust' }, [
+        T.el('span', { className: 'mini', text: T.initials(cust) }),
+        ' ' + cust
+      ]),
+      stepsEl,
+      T.el('div', { className: 'kc-stepslabel' }, [
+        T.el('span'),
+        T.el('span', { className: 'pct' })
+      ]),
+      T.el('div', { className: 'kc-foot' }, [
+        T.el('span', { className: 'kc-dead' + (dl.cls ? ' ' + dl.cls : '') }, [
+          T.svgUse(dl.icon, 14),
+          ' ' + dl.text
+        ]),
+        right
+      ]),
+      T.el('div', { className: 'kc-actions' }, [
+        T.el('button', { type: 'button', className: 'kc-btn kc-btn--prev', 'aria-label': 'Tahap sebelumnya', text: '←' }),
+        T.el('div', { className: 'kc-actions-mid' }, [
+          T.el('a', { href: href, className: 'kc-btn', text: 'Detail' }),
+          T.el('a', { href: 'update-status.html?code=' + encodeURIComponent(o.code), className: 'kc-btn', text: 'Update' })
+        ]),
+        T.el('button', { type: 'button', className: 'kc-btn kc-btn--next', 'aria-label': 'Tahap berikutnya', text: '→' })
+      ])
+    ]);
+
     // drag per-kartu (delegasi klik prev/next sudah terpasang di bindCardEvents)
     card.addEventListener('dragstart', function (e) {
       draggedCard = card; card.classList.add('is-dragging');
@@ -471,18 +517,7 @@
   }
 
   function populateStaffFilter(orders) {
-    var sel = document.getElementById('filterStaff');
-    if (!sel) return;
-    var seen = {};
-    var opts = '<option value="">Semua Staf</option>';
-    orders.forEach(function (o) {
-      if (o.assignee) {
-        var init = window.TH.initials(o.assignee);
-        if (!seen[init]) { seen[init] = 1; opts += '<option value="' + init + '">' + window.TH.esc(o.assignee) + ' (' + init + ')</option>'; }
-      }
-    });
-    opts += '<option value="unassigned">Belum Ditugaskan</option>';
-    sel.innerHTML = opts;
+    window.TH.populateStaffSelect(document.getElementById('filterStaff'), orders);
   }
 
   // Render papan dari data D1 (mengganti kartu statis dengan data asli).
@@ -505,6 +540,7 @@
       });
       populateStaffFilter(orders);
       updateColumnCounts();
+      updateDeadlineButtonCount();
     } catch (e) {
       console.error('Gagal memuat papan Kanban dari D1:', e);
     }
@@ -516,6 +552,7 @@
     bindColumnEvents();
     bindFilterEvents();
     updateColumnCounts();
+    updateDeadlineButtonCount();
     syncBoardWithD1();
   }
 

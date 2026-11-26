@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Riwayat Pesanan Saya — Jahit Lestari · TailorHub</title>
 <meta name="description" content="Lihat daftar riwayat dan progres seluruh pesanan jahitan Anda di Jahit Lestari.">
+<meta name="theme-color" content="#FFF8EF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,126 +13,279 @@
 <link rel="stylesheet" href="../assets/css/base.css">
 <link rel="stylesheet" href="../assets/css/components.css">
 <link rel="stylesheet" href="../assets/css/portal.css">
+<link rel="stylesheet" href="../assets/css/portal-account.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
-<body class="portal-page">
+<body class="portal-page portal-page--account">
 
 <!-- Inline SVG Sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
   <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.1" cy="18" r="2.6"/><circle cx="17.9" cy="18" r="2.6"/><path d="M7.9 16.1 18.6 4.2M16.1 16.1 5.4 4.2"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.6 4.4 4.4L19 6.8"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6 12 12M18 6 6 18"/></symbol>
   <symbol id="i-order" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3.6h9a1.8 1.8 0 0 1 1.8 1.8v13.2a1.8 1.8 0 0 1-1.8 1.8h-9a1.8 1.8 0 0 1-1.8-1.8V5.4a1.8 1.8 0 0 1 1.8-1.8Z"/><path d="M9.3 3.6V2.4h5.4v1.2"/><path d="M8.9 9.1h6.2M8.9 12.4h6.2M8.9 15.7h3.7"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 6.2L20 11.5l-5.8 2.3L12 20l-2.2-6.2L4 11.5l5.8-2.3Z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.1"/><path d="M12 6.8V12l3.4 2"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.1A8 8 0 1 1 20 11.5Z"/><path d="M9 10.5h.01M12 10.5h.01M15 10.5h.01"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6"/><path d="M10.6 5.2h2.8M10.8 18.6h2.4"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a2 2 0 0 1 2 2v10l-5 6H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M8 9h8M8 13h5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.3 7.5 9.5 4.3-1.2 7.5-4.9 7.5-9.5V6Z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
 </defs></svg>
 
 <header class="portal-header">
   <div class="portal-header-in">
-    <a href="landing.html" class="portal-brand" title="Beranda Jahit Lestari">
+    <a href="landing.html" class="portal-brand" title="Beranda Jahit Lestari" data-slug-link>
       <span class="portal-brand-mark" aria-hidden="true">
-        <svg width="20" height="20"><use href="#i-scissors"/></svg>
+        <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="30" height="30">
       </span>
       <span class="portal-brand-text">
-        <b>Jahit Lestari</b>
+        <b id="brandName">Jahit Lestari</b>
         <small>Akun Pelanggan</small>
       </span>
     </a>
 
     <nav class="portal-nav" aria-label="Navigasi Akun Pelanggan">
-      <a href="track.html" class="portal-nav-link">
+      <a href="track.html" class="portal-nav-link portal-nav-link--track" data-slug-link>
         <svg width="15" height="15"><use href="#i-search"/></svg>
-        <span>Lacak</span>
+        <span>Lacak Kode</span>
       </a>
-      <button type="button" id="logoutBtn" class="portal-nav-link" style="cursor:pointer">
+      <button type="button" id="logoutBtn" class="portal-nav-link pca-logout-btn">
+        <svg width="15" height="15" aria-hidden="true"><use href="#i-logout"/></svg>
         <span>Keluar</span>
       </button>
     </nav>
   </div>
 </header>
 
-<main class="portal-shell portal-shell--wide">
-  <div id="welcomeBanner" class="alert alert--success" role="status" style="margin-bottom:16px" hidden>
-    <svg width="20" height="20"><use href="#i-check"/></svg>
-    <div>
-      <b>Selamat datang di Portal Pelanggan Jahit Lestari!</b>
-      <span>Akun Anda telah aktif. Anda juga bisa melacak pesanan lain lewat kode nota.</span>
+<main class="pca-shell">
+  <!-- Banner Selamat Datang (?welcome=1) -->
+  <div id="welcomeBanner" class="pca-welcome pca-reveal" role="status" hidden>
+    <div class="pca-welcome-left">
+      <span class="pca-welcome-ic" aria-hidden="true">
+        <svg width="20" height="20"><use href="#i-check"/></svg>
+      </span>
+      <div>
+        <b>Selamat datang di Portal Pelanggan Jahit Lestari!</b>
+        <span>Akun Anda telah aktif. Anda juga bisa melacak pesanan lain lewat kode nota.</span>
+      </div>
     </div>
+    <button type="button" id="dismissWelcomeBtn" class="pca-welcome-close" aria-label="Tutup pemberitahuan">
+      <svg width="15" height="15"><use href="#i-close"/></svg>
+    </button>
   </div>
 
-  <section class="cust-banner" aria-label="Profil Pelanggan">
-    <div class="cust-profile">
-      <span class="cust-avatar" id="custAvatar">CD</span>
-      <div class="cust-profile-info">
-        <b id="custName">Citra Dewi</b>
-        <small id="custContact">0812-3456-7891 · citra.dewi@email.com</small>
+  <!-- ===== MEMBER ATELIER HERO ===== -->
+  <section class="pca-hero pca-reveal" aria-label="Profil Pelanggan">
+    <svg class="pca-hero-watermark" aria-hidden="true"><use href="#i-scissors"/></svg>
+
+    <div class="pca-hero-top">
+      <div class="pca-profile">
+        <span class="pca-avatar-ring" aria-hidden="true">
+          <span class="pca-avatar" id="custAvatar">CD</span>
+        </span>
+        <div class="pca-profile-copy">
+          <span class="pca-member-pill">
+            <svg width="12" height="12" aria-hidden="true"><use href="#i-spark"/></svg>
+            Anggota Portal · Jahit Lestari
+          </span>
+          <p class="pca-greeting" id="custGreeting">Selamat datang kembali,</p>
+          <h1 id="custName">Citra Dewi</h1>
+          <span class="pca-contact">
+            <svg width="14" height="14" aria-hidden="true"><use href="#i-phone"/></svg>
+            <small id="custContact">0812-3456-7891 · citra.dewi@email.com</small>
+          </span>
+        </div>
+      </div>
+
+      <div class="pca-switcher">
+        <label for="custSwitcher">Pratinjau Akun Demo</label>
+        <select id="custSwitcher" class="select" aria-label="Pilih akun pelanggan demo">
+          <option value="citra">Citra Dewi (3 pesanan)</option>
+          <option value="hendra">Hendra W. (2 pesanan)</option>
+          <option value="budi">Budi Santoso (1 pesanan)</option>
+        </select>
       </div>
     </div>
 
-    <div class="cust-switcher">
-      <label for="custSwitcher">Akun Demo:</label>
-      <select id="custSwitcher" class="select" aria-label="Pilih akun pelanggan demo">
-        <option value="citra">Citra Dewi (3 pesanan)</option>
-        <option value="hendra">Hendra W. (2 pesanan)</option>
-        <option value="budi">Budi Santoso (1 pesanan)</option>
-      </select>
+    <!-- Bento KPI Strip di dalam Hero -->
+    <div class="pca-kpis" role="region" aria-label="Ringkasan Pesanan">
+      <article class="pca-kpi">
+        <span class="pca-kpi-ic" aria-hidden="true">
+          <svg width="21" height="21"><use href="#i-order"/></svg>
+        </span>
+        <div class="pca-kpi-body">
+          <small>Total Pesanan</small>
+          <div class="pca-kpi-val">
+            <b id="kpiTotal">0</b>
+            <span class="pca-kpi-sub">Riwayat tercatat</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="pca-kpi pca-kpi--active">
+        <span class="pca-kpi-ic" aria-hidden="true">
+          <svg width="21" height="21"><use href="#i-scissors"/></svg>
+        </span>
+        <div class="pca-kpi-body">
+          <small>Sedang Proses</small>
+          <div class="pca-kpi-val">
+            <b id="kpiActive">0</b>
+            <span class="pca-kpi-sub">Aktif di workshop</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="pca-kpi pca-kpi--done">
+        <span class="pca-kpi-ic" aria-hidden="true">
+          <svg width="21" height="21"><use href="#i-shield"/></svg>
+        </span>
+        <div class="pca-kpi-body">
+          <small>Selesai / Siap</small>
+          <div class="pca-kpi-val">
+            <b id="kpiDone">0</b>
+            <span class="pca-kpi-sub">Lolos QC &amp; siap</span>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
-  <section class="cust-kpis" aria-label="Ringkasan Pesanan">
-    <div class="cust-kpi">
-      <small>Total Pesanan</small>
-      <b id="kpiTotal">0</b>
-    </div>
-    <div class="cust-kpi">
-      <small>Sedang Proses</small>
-      <b id="kpiActive" style="color:var(--clay)">0</b>
-    </div>
-    <div class="cust-kpi">
-      <small>Selesai / Siap</small>
-      <b id="kpiDone" style="color:var(--green)">0</b>
-    </div>
-  </section>
+  <!-- ===== WORKSPACE 2 KOLOM ===== -->
+  <div class="pca-workspace">
+    <!-- Kolom Utama: Filter & Daftar Pesanan -->
+    <div class="pca-main pca-reveal pca-reveal--2">
+      <section class="pca-toolbar" aria-label="Filter Riwayat Pesanan">
+        <div class="pca-tabs" id="custTabs" role="tablist" aria-label="Status Pesanan">
+          <button type="button" class="pca-tab is-on" role="tab" aria-selected="true" data-tab="all">
+            <span>Semua</span>
+            <span class="pca-tab-count" id="tabCountAll">0</span>
+          </button>
+          <button type="button" class="pca-tab" role="tab" aria-selected="false" data-tab="active">
+            <span>Proses</span>
+            <span class="pca-tab-count" id="tabCountActive">0</span>
+          </button>
+          <button type="button" class="pca-tab" role="tab" aria-selected="false" data-tab="done">
+            <span>Selesai</span>
+            <span class="pca-tab-count" id="tabCountDone">0</span>
+          </button>
+        </div>
 
-  <section class="cust-toolbar" aria-label="Filter Riwayat Pesanan">
-    <div class="cust-tabs" id="custTabs" role="tablist" aria-label="Status Pesanan">
-      <button type="button" class="cust-tab is-on" role="tab" aria-selected="true" data-tab="all">Semua</button>
-      <button type="button" class="cust-tab" role="tab" aria-selected="false" data-tab="active">Sedang Proses</button>
-      <button type="button" class="cust-tab" role="tab" aria-selected="false" data-tab="done">Selesai</button>
+        <div class="input-group pca-search">
+          <svg width="16" height="16"><use href="#i-search"/></svg>
+          <input id="custSearchInput" class="input" type="search" placeholder="Cari kode atau busana..." aria-label="Cari pesanan">
+        </div>
+      </section>
+
+      <section id="orderList" class="pca-order-list" aria-live="polite"></section>
+
+      <section id="emptyState" class="pca-empty" hidden>
+        <div class="empty-ic" style="margin:0 auto 14px">
+          <svg width="28" height="28"><use href="#i-order"/></svg>
+        </div>
+        <h3 id="emptyTitle">Belum Ada Pesanan Tertaut</h3>
+        <p id="emptyDesc">Belum ada riwayat pesanan yang cocok pada tampilan ini. Gunakan kode pesanan pada nota cetak untuk melacak secara langsung.</p>
+        <div class="pca-empty-actions">
+          <button type="button" id="resetFilterBtn" class="btn btn--primary btn--sm" hidden>
+            <span>Tampilkan Semua Pesanan</span>
+          </button>
+          <a href="track.html" class="btn btn--primary btn--sm" id="emptyTrackLink" data-slug-link>
+            <svg width="16" height="16"><use href="#i-search"/></svg>
+            <span>Lacak dengan Kode Nota</span>
+          </a>
+          <a id="waEmptyBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">
+            <svg width="16" height="16"><use href="#i-chat"/></svg>
+            <span>Hubungi WhatsApp CS</span>
+          </a>
+        </div>
+      </section>
     </div>
 
-    <div class="input-group cust-search">
-      <svg width="17" height="17"><use href="#i-search"/></svg>
-      <input id="custSearchInput" class="input" type="search" placeholder="Cari kode atau busana..." aria-label="Cari pesanan">
-    </div>
-  </section>
+    <!-- Sidebar Kanan: Lacak Cepat, Info Workshop & Legenda -->
+    <aside class="pca-side pca-reveal pca-reveal--3" aria-label="Alat Bantu & Informasi Workshop">
+      <section class="pca-quick-card" aria-labelledby="quickTrackTitle">
+        <span class="pca-side-eyebrow">
+          <svg width="13" height="13" aria-hidden="true"><use href="#i-search"/></svg>
+          Lacak Nota Lain
+        </span>
+        <h2 id="quickTrackTitle">Punya kode nota baru?</h2>
+        <p>Masukkan kode pesanan untuk melihat detail 7 tahap pengerjaannya secara instan.</p>
+        <form id="sideQuickTrackForm" class="pca-quick-form" novalidate>
+          <label for="sideQuickCode" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Kode Pesanan</label>
+          <input
+            id="sideQuickCode"
+            class="input"
+            type="text"
+            placeholder="Cth: TH-2041"
+            autocomplete="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            maxlength="32"
+          >
+          <button type="submit" class="btn btn--primary btn--sm" id="sideQuickBtn">Lacak</button>
+        </form>
+        <p id="sideQuickErr" class="pca-quick-err" role="alert" hidden></p>
+      </section>
 
-  <section id="orderList" class="cust-order-list" aria-live="polite"></section>
+      <section class="pca-concierge" aria-label="Workshop & Customer Service">
+        <div class="pca-concierge-head">
+          <h2>Workshop Jahit Lestari</h2>
+          <span id="openStatus" class="pca-open-pill">Buka</span>
+        </div>
+        <div class="pca-info-list">
+          <div class="pca-info-row">
+            <svg width="17" height="17" aria-hidden="true"><use href="#i-pin"/></svg>
+            <div>
+              <b>Jl. Dharmawangsa No. 48, Surabaya</b>
+              <span>Ruang fitting tersedia di lantai dasar.</span>
+            </div>
+          </div>
+          <div class="pca-info-row">
+            <svg width="17" height="17" aria-hidden="true"><use href="#i-clock"/></svg>
+            <div>
+              <b>Senin–Sabtu · 08.00–17.00 WIB</b>
+              <span>Minggu &amp; hari libur nasional tutup.</span>
+            </div>
+          </div>
+        </div>
+        <a id="waSideBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn pca-btn-wa">
+          <svg width="18" height="18"><use href="#i-chat"/></svg>
+          <span>Chat WhatsApp CS</span>
+        </a>
+        <a class="pca-maps-link" href="https://www.google.com/maps/search/?api=1&amp;query=Jl.+Dharmawangsa+No.+48+Surabaya" target="_blank" rel="noopener noreferrer">
+          <span>Petunjuk Arah Google Maps</span>
+          <svg width="14" height="14" aria-hidden="true"><use href="#i-chev"/></svg>
+        </a>
+      </section>
 
-  <section id="emptyState" class="portal-empty" hidden>
-    <div class="empty-ic" style="margin:0 auto 14px">
-      <svg width="28" height="28"><use href="#i-order"/></svg>
-    </div>
-    <h3 id="emptyTitle">Belum Ada Pesanan Tertaut</h3>
-    <p id="emptyDesc">Belum ada riwayat pesanan yang cocok pada tampilan ini. Gunakan kode pesanan pada nota cetak untuk melacak secara langsung.</p>
-    <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
-      <a href="track.html" class="btn btn--primary">
-        <svg width="17" height="17"><use href="#i-search"/></svg>
-        <span>Lacak dengan Kode Nota</span>
-      </a>
-      <a id="waEmptyBtn" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">
-        <svg width="17" height="17"><use href="#i-phone"/></svg>
-        <span>Hubungi WhatsApp CS</span>
-      </a>
-    </div>
-  </section>
+      <section class="pca-legend" aria-label="Legenda Tahapan Produksi">
+        <h3>Alur 7 Tahap Produksi</h3>
+        <div class="pca-legend-chips">
+          <span class="chip chip--queue"><span class="d"></span>1. Antrean</span>
+          <span class="chip chip--cut"><span class="d"></span>2. Potong</span>
+          <span class="chip chip--sew"><span class="d"></span>3. Jahit</span>
+          <span class="chip chip--finish"><span class="d"></span>4. Finishing</span>
+          <span class="chip chip--qc"><span class="d"></span>5. QC</span>
+          <span class="chip chip--done"><span class="d"></span>6. Selesai</span>
+          <span class="chip chip--taken"><span class="d"></span>7. Diambil</span>
+        </div>
+      </section>
+    </aside>
+  </div>
 </main>
 
 <footer class="portal-footer">
   <div class="portal-footer-in">
-    <span><b>Jahit Lestari</b> · Jl. Dharmawangsa No. 48, Surabaya · Senin–Sabtu 08.00–17.00 WIB</span>
+    <span><b id="footerBrandName">Jahit Lestari</b> · Jl. Dharmawangsa No. 48, Surabaya · Senin–Sabtu 08.00–17.00 WIB</span>
     <div class="portal-footer-links">
-      <a href="landing.html">Beranda</a>
-      <a href="track.html">Lacak Pesanan</a>
+      <a href="landing.html" data-slug-link>Beranda</a>
+      <a href="track.html" data-slug-link>Lacak Pesanan</a>
       <a id="waFooterLink" href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">WhatsApp CS</a>
     </div>
   </div>
@@ -146,15 +300,95 @@
   var portal = window.TailorPortal;
   if (!portal) return;
 
-  var params = new URLSearchParams(window.location.search);
-  if (params.get('welcome') === '1') {
-    document.getElementById('welcomeBanner').hidden = false;
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+
+  function createUseSvg(symbolId, size) {
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('width', String(size));
+    svg.setAttribute('height', String(size));
+    svg.setAttribute('aria-hidden', 'true');
+    var use = document.createElementNS(SVG_NS, 'use');
+    use.setAttribute('href', '#' + symbolId);
+    svg.appendChild(use);
+    return svg;
   }
 
-  var waEmpty = document.getElementById('waEmptyBtn');
-  var waFooter = document.getElementById('waFooterLink');
-  if (waEmpty) waEmpty.href = portal.buildWaUrl('');
-  if (waFooter) waFooter.href = portal.buildWaUrl('');
+  var STAGE_ACCENTS = {
+    1: 'var(--s-queue)',
+    2: 'var(--s-cut)',
+    3: 'var(--s-sew)',
+    4: 'var(--s-finish)',
+    5: 'var(--s-qc)',
+    6: 'var(--s-done)',
+    7: 'var(--s-taken)'
+  };
+
+  var params = new URLSearchParams(window.location.search);
+  var rawSlug = params.get('slug') || '';
+  var slug = /^[a-z0-9-]{1,64}$/.test(rawSlug) ? rawSlug : 'jahit-lestari';
+  var hasCustomSlug = Boolean(rawSlug && slug === rawSlug);
+
+  function withSlug(path) {
+    if (!hasCustomSlug) return path;
+    var u = new URL(path, window.location.href);
+    if (u.origin !== window.location.origin) return path;
+    u.searchParams.set('slug', slug);
+    return u.pathname + u.search;
+  }
+
+  if (hasCustomSlug) {
+    var links = document.querySelectorAll('[data-slug-link]');
+    for (var i = 0; i < links.length; i++) {
+      links[i].setAttribute('href', withSlug(links[i].getAttribute('href')));
+    }
+  }
+
+  // Welcome banner (?welcome=1)
+  var welcomeEl = document.getElementById('welcomeBanner');
+  var dismissWelcomeBtn = document.getElementById('dismissWelcomeBtn');
+  if (params.get('welcome') === '1' && welcomeEl) {
+    welcomeEl.hidden = false;
+  }
+  if (dismissWelcomeBtn && welcomeEl) {
+    dismissWelcomeBtn.addEventListener('click', function () {
+      welcomeEl.hidden = true;
+    });
+  }
+
+  // Sapaan waktu & status buka/tutup berdasarkan WIB
+  (function updateWibStatus() {
+    var greetEl = document.getElementById('custGreeting');
+    var pill = document.getElementById('openStatus');
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Jakarta', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false
+      }).formatToParts(new Date());
+      var map = {};
+      parts.forEach(function (p) { map[p.type] = p.value; });
+      var hour = parseInt(map.hour, 10) % 24;
+      var mins = hour * 60 + parseInt(map.minute, 10);
+
+      if (greetEl) {
+        if (hour >= 4 && hour < 11) greetEl.textContent = 'Selamat pagi,';
+        else if (hour >= 11 && hour < 15) greetEl.textContent = 'Selamat siang,';
+        else if (hour >= 15 && hour < 18) greetEl.textContent = 'Selamat sore,';
+        else greetEl.textContent = 'Selamat malam,';
+      }
+
+      if (pill) {
+        var open = map.weekday !== 'Sun' && mins >= 8 * 60 && mins < 17 * 60;
+        pill.textContent = open ? 'Buka Sekarang' : 'Sedang Tutup';
+        if (!open) pill.classList.add('is-closed');
+      }
+    } catch (err) {
+      // Gunakan teks default jika Intl tidak tersedia
+    }
+  })();
+
+  ['waEmptyBtn', 'waFooterLink', 'waSideBtn'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.href = portal.buildWaUrl('');
+  });
 
   var switcher = document.getElementById('custSwitcher');
   var tabsWrap = document.getElementById('custTabs');
@@ -163,6 +397,8 @@
   var emptyEl = document.getElementById('emptyState');
   var emptyTitle = document.getElementById('emptyTitle');
   var emptyDesc = document.getElementById('emptyDesc');
+  var resetFilterBtn = document.getElementById('resetFilterBtn');
+  var emptyTrackLink = document.getElementById('emptyTrackLink');
   var logoutBtn = document.getElementById('logoutBtn');
 
   var currentCustomer = portal.getSessionCustomer();
@@ -194,68 +430,157 @@
     document.getElementById('custContact').textContent = contactParts.join(' · ') || 'Pelanggan Jahit Lestari';
   }
 
-  function createOrderCard(order) {
+  function createOrderCard(order, index) {
+    var totalStages = portal.STAGES.length;
+    var stageMeta = portal.getStageMeta(order.step);
+    var accent = STAGE_ACCENTS[order.step] || 'var(--clay)';
+
     var card = document.createElement('article');
-    card.className = 'cust-order-card';
+    card.className = 'pca-order-card';
+    card.style.setProperty('--stage-accent', accent);
+    card.style.setProperty('--i', String(index));
 
+    // Header
     var head = document.createElement('div');
-    head.className = 'cust-order-head';
+    head.className = 'pca-order-head';
 
-    var left = document.createElement('div');
+    var idBlock = document.createElement('div');
+    idBlock.className = 'pca-order-idblock';
+
+    var codeRow = document.createElement('div');
+    codeRow.className = 'pca-code-row';
+
     var codeEl = document.createElement('span');
-    codeEl.className = 'cust-order-code';
+    codeEl.className = 'pca-order-code';
     codeEl.textContent = order.code;
+    codeRow.appendChild(codeEl);
+
+    if (order.orderDate) {
+      var dateEl = document.createElement('span');
+      dateEl.className = 'pca-order-date';
+      dateEl.textContent = 'Masuk ' + order.orderDate;
+      codeRow.appendChild(dateEl);
+    }
+
     var titleEl = document.createElement('h3');
-    titleEl.className = 'cust-order-title';
+    titleEl.className = 'pca-order-title';
     titleEl.textContent = order.title;
-    left.appendChild(codeEl);
-    left.appendChild(titleEl);
+
+    var qtyEl = document.createElement('p');
+    qtyEl.className = 'pca-order-qty';
+    qtyEl.textContent = order.qty;
+
+    idBlock.appendChild(codeRow);
+    idBlock.appendChild(titleEl);
+    idBlock.appendChild(qtyEl);
 
     var chips = document.createElement('div');
-    chips.className = 'cust-order-chips';
+    chips.className = 'pca-order-chips';
     chips.appendChild(portal.createChip(order.stageClass, order.stageLabel));
     chips.appendChild(portal.createChip(order.payClass, order.payLabel));
 
-    head.appendChild(left);
+    head.appendChild(idBlock);
     head.appendChild(chips);
 
-    var pct = Math.round((order.step / portal.STAGES.length) * 100);
-    var track = document.createElement('div');
-    track.className = 'bar-track';
-    track.setAttribute('aria-hidden', 'true');
-    var fill = document.createElement('div');
-    fill.className = 'bar-fill';
-    fill.style.width = pct + '%';
-    track.appendChild(fill);
+    // 7-segment progress box + catatan
+    var stageWrap = document.createElement('div');
+    stageWrap.className = 'pca-stage-wrap';
 
-    var meta = document.createElement('div');
-    meta.className = 'cust-order-meta';
-    var metaLeft = document.createElement('span');
-    metaLeft.textContent = 'Masuk: ' + order.orderDate + ' · ' + order.qty;
-    var metaRight = document.createElement('b');
-    metaRight.textContent = order.estimateLabel;
-    meta.appendChild(metaLeft);
-    meta.appendChild(metaRight);
+    var stageHead = document.createElement('div');
+    stageHead.className = 'pca-stage-head';
 
+    var stageNow = document.createElement('span');
+    stageNow.appendChild(document.createTextNode('Tahap saat ini: '));
+    var stageNowBold = document.createElement('b');
+    stageNowBold.textContent = stageMeta.label;
+    stageNow.appendChild(stageNowBold);
+
+    var stageStep = document.createElement('span');
+    stageStep.className = 'pca-stage-step';
+    stageStep.textContent = order.step + '/' + totalStages + ' Tahap';
+
+    stageHead.appendChild(stageNow);
+    stageHead.appendChild(stageStep);
+
+    var segments = document.createElement('div');
+    segments.className = 'pca-segments';
+    segments.setAttribute('aria-hidden', 'true');
+    for (var s = 1; s <= totalStages; s++) {
+      var seg = document.createElement('span');
+      seg.className = 'pca-seg';
+      if (s < order.step || (s === order.step && order.step >= 6)) {
+        seg.classList.add('is-done');
+      } else if (s === order.step) {
+        seg.classList.add('is-active');
+      }
+      segments.appendChild(seg);
+    }
+
+    stageWrap.appendChild(stageHead);
+    stageWrap.appendChild(segments);
+
+    if (order.customerNote) {
+      var noteRow = document.createElement('div');
+      noteRow.className = 'pca-order-note';
+      noteRow.appendChild(createUseSvg('i-note', 15));
+      var noteTxt = document.createElement('span');
+      noteTxt.textContent = order.customerNote;
+      noteRow.appendChild(noteTxt);
+      stageWrap.appendChild(noteRow);
+    }
+
+    // Footer
     var foot = document.createElement('div');
-    foot.className = 'cust-order-foot';
+    foot.className = 'pca-order-foot';
+
+    var footMeta = document.createElement('div');
+    footMeta.className = 'pca-order-foot-meta';
+
+    var est = document.createElement('span');
+    est.className = 'pca-order-estimate';
+    if (order.deadlineClass === 'chip--danger') est.classList.add('is-urgent');
+    else if (order.step >= 6) est.classList.add('is-ready');
+    est.appendChild(createUseSvg('i-clock', 14));
+    est.appendChild(document.createTextNode(order.estimateLabel));
+
     var updated = document.createElement('small');
-    updated.style.color = 'var(--ink-45)';
+    updated.className = 'pca-order-updated';
     updated.textContent = 'Diperbarui: ' + order.lastUpdate;
+
+    footMeta.appendChild(est);
+    footMeta.appendChild(updated);
+
+    var actions = document.createElement('div');
+    actions.className = 'pca-order-actions';
+
+    var waMini = document.createElement('a');
+    waMini.className = 'pca-wa-mini';
+    waMini.href = portal.buildWaUrl(order.code);
+    waMini.target = '_blank';
+    waMini.rel = 'noopener noreferrer';
+    waMini.title = 'Tanya pesanan ' + order.code + ' via WhatsApp';
+    waMini.setAttribute('aria-label', 'Tanya pesanan ' + order.code + ' via WhatsApp');
+    waMini.appendChild(createUseSvg('i-chat', 17));
+
+    var detailHref = 'track-result.html?code=' + encodeURIComponent(order.code) + '&from=account';
+    if (hasCustomSlug) detailHref += '&slug=' + encodeURIComponent(slug);
 
     var link = document.createElement('a');
     link.className = 'btn btn--primary btn--sm';
-    link.href = 'track-result.html?code=' + encodeURIComponent(order.code) + '&from=account';
+    link.href = detailHref;
     var linkTxt = document.createElement('span');
     linkTxt.textContent = 'Lihat Progres Detail';
     link.appendChild(linkTxt);
+    link.appendChild(createUseSvg('i-arrow', 15));
 
-    foot.appendChild(updated);
-    foot.appendChild(link);
+    actions.appendChild(waMini);
+    actions.appendChild(link);
+
+    foot.appendChild(footMeta);
+    foot.appendChild(actions);
 
     card.appendChild(head);
-    card.appendChild(track);
-    card.appendChild(meta);
+    card.appendChild(stageWrap);
     card.appendChild(foot);
     return card;
   }
@@ -269,11 +594,15 @@
     document.getElementById('kpiActive').textContent = String(activeCount);
     document.getElementById('kpiDone').textContent = String(doneCount);
 
+    document.getElementById('tabCountAll').textContent = String(allOrders.length);
+    document.getElementById('tabCountActive').textContent = String(activeCount);
+    document.getElementById('tabCountDone').textContent = String(doneCount);
+
     var filtered = allOrders.filter(function (o) {
       if (activeTab === 'active' && o.step >= 6) return false;
       if (activeTab === 'done' && o.step < 6) return false;
       if (searchQuery) {
-        var hay = (o.code + ' ' + o.title + ' ' + o.qty).toLowerCase();
+        var hay = (o.code + ' ' + o.title + ' ' + o.qty + ' ' + o.stageLabel).toLowerCase();
         if (hay.indexOf(searchQuery) === -1) return false;
       }
       return true;
@@ -287,18 +616,38 @@
       if (allOrders.length === 0) {
         emptyTitle.textContent = 'Belum Ada Pesanan Tertaut';
         emptyDesc.textContent = 'Akun baru ini belum memiliki riwayat pesanan. Anda dapat langsung melacak pesanan menggunakan kode dari nota cetak.';
+        if (resetFilterBtn) resetFilterBtn.hidden = true;
+        if (emptyTrackLink) emptyTrackLink.hidden = false;
       } else {
         emptyTitle.textContent = 'Pesanan Tidak Ditemukan';
         emptyDesc.textContent = 'Tidak ada pesanan yang cocok dengan filter atau kata kunci pencarian saat ini.';
+        if (resetFilterBtn) resetFilterBtn.hidden = false;
+        if (emptyTrackLink) emptyTrackLink.hidden = true;
       }
       return;
     }
 
     emptyEl.hidden = true;
     orderListEl.hidden = false;
-    filtered.forEach(function (order) {
-      orderListEl.appendChild(createOrderCard(order));
+    filtered.forEach(function (order, idx) {
+      orderListEl.appendChild(createOrderCard(order, idx));
     });
+  }
+
+  function resetFilters() {
+    activeTab = 'all';
+    searchQuery = '';
+    searchInput.value = '';
+    tabsWrap.querySelectorAll('.pca-tab').forEach(function (t) {
+      var on = t.getAttribute('data-tab') === 'all';
+      t.classList.toggle('is-on', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    renderOrders();
+  }
+
+  if (resetFilterBtn) {
+    resetFilterBtn.addEventListener('click', resetFilters);
   }
 
   switcher.addEventListener('change', function () {
@@ -311,10 +660,10 @@
   });
 
   tabsWrap.addEventListener('click', function (e) {
-    var btn = e.target.closest('.cust-tab');
+    var btn = e.target.closest('.pca-tab');
     if (!btn) return;
     activeTab = btn.getAttribute('data-tab') || 'all';
-    tabsWrap.querySelectorAll('.cust-tab').forEach(function (t) {
+    tabsWrap.querySelectorAll('.pca-tab').forEach(function (t) {
       var on = t === btn;
       t.classList.toggle('is-on', on);
       t.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -329,8 +678,52 @@
 
   logoutBtn.addEventListener('click', function () {
     portal.clearSessionCustomer();
-    window.location.href = 'customer-login.html';
+    window.location.href = withSlug('customer-login.html');
   });
+
+  // Lacak Cepat dari Sidebar
+  var sideForm = document.getElementById('sideQuickTrackForm');
+  var sideInput = document.getElementById('sideQuickCode');
+  var sideBtn = document.getElementById('sideQuickBtn');
+  var sideErr = document.getElementById('sideQuickErr');
+
+  if (sideInput && sideErr) {
+    sideInput.addEventListener('input', function () {
+      sideErr.hidden = true;
+      sideInput.classList.remove('input--err');
+    });
+  }
+
+  if (sideForm && sideInput) {
+    sideForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var clean = portal.normalizeCode(sideInput.value);
+      if (!clean) {
+        sideErr.textContent = 'Masukkan kode pesanan (cth: TH-2041).';
+        sideErr.hidden = false;
+        sideInput.classList.add('input--err');
+        sideInput.focus();
+        return;
+      }
+      sideBtn.disabled = true;
+      var found = null;
+      try {
+        found = await portal.fetchOrderFromApi(clean, slug);
+      } finally {
+        sideBtn.disabled = false;
+      }
+      if (!found) {
+        sideErr.textContent = 'Kode "' + clean + '" tidak ditemukan.';
+        sideErr.hidden = false;
+        sideInput.classList.add('input--err');
+        sideInput.focus();
+        return;
+      }
+      var target = 'track-result.html?code=' + encodeURIComponent(found.code) + '&from=account';
+      if (hasCustomSlug) target += '&slug=' + encodeURIComponent(slug);
+      window.location.href = target;
+    });
+  }
 
   syncSwitcherOptions();
   renderProfile();

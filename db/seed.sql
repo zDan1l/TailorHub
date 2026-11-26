@@ -60,6 +60,12 @@ INSERT INTO order_status_history (tenant_id, order_id, status, note, changed_by,
   (1, 6, 'QC',         'Masuk pemeriksaan',    2, '2026-11-22 15:00:00'),
   (1, 1, 'Selesai',    'Lolos QC, siap ambil', 3, '2026-11-19 16:00:00');
 
+-- ---------- Log catatan produksi (contoh TH-2041 & TH-2033) ----------
+INSERT INTO order_notes (tenant_id, order_id, user_id, body, created_at) VALUES
+  (1, 7, 1, 'Prioritaskan pesanan ini karena target dipakai acara kantor tanggal 25 November pagi.', '2026-11-19 09:20:00'),
+  (1, 7, 3, 'Kancing mutiara putih 11mm sudah disiapkan sesuai permintaan customer. Lanjut jahit manset lengan.', '2026-11-21 13:35:00'),
+  (1, 2, 1, 'Finishing kerah dan lubang kancing jas navy perlu dicek ulang sebelum masuk QC.', '2026-11-21 15:10:00');
+
 -- ---------- Notifikasi (3 belum dibaca) ----------
 INSERT INTO notifications (tenant_id, title, body, type, is_read) VALUES
   (1, 'Pesanan baru masuk', 'TH-2045 · Seragam ×20 dari PT Maju Jaya', 'info',    0),

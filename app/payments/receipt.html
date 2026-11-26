@@ -13,20 +13,30 @@
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
 <style>
-.receipt-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:36px;box-shadow:var(--shadow-s);max-width:520px;}
+.receipt-card{background:var(--paper);border:1px solid var(--sand);border-radius:var(--r-l);padding:36px;box-shadow:var(--shadow-s);max-width:520px;width:100%;}
 .rcpt-header{text-align:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px dashed var(--sand);}
 .rcpt-brand{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:1.1rem;margin-bottom:6px;}
 .rcpt-brand em{font-style:normal;color:var(--clay);}
 .rcpt-id{font-size:.82rem;color:var(--ink-45);margin-top:4px;}
-.rcpt-row{display:flex;justify-content:space-between;padding:8px 0;font-size:.9rem;color:var(--ink-70);}
-.rcpt-row b{color:var(--ink);}
+.rcpt-row{display:flex;justify-content:space-between;padding:8px 0;font-size:.9rem;color:var(--ink-70);gap:8px;}
+.rcpt-row b{color:var(--ink);text-align:right;}
 .rcpt-amount{text-align:center;padding:20px 0;margin:16px 0;border-top:1px dashed var(--sand);border-bottom:1px dashed var(--sand);}
 .rcpt-amount small{display:block;font-size:.78rem;font-weight:700;color:var(--ink-45);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
 .rcpt-amount b{font-size:1.8rem;font-weight:800;color:var(--green);letter-spacing:-.03em;}
 .rcpt-footer{text-align:center;padding-top:16px;font-size:.82rem;color:var(--ink-45);}
-.rcpt-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;}
+.rcpt-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+@media(max-width:600px){
+  .page{padding:16px 12px;}
+  .receipt-card{padding:20px 14px;}
+  .rcpt-amount b{font-size:1.5rem;}
+  .rcpt-actions{flex-direction:column;gap:8px;}
+  .rcpt-actions .btn{width:100%;justify-content:center;}
+}
 @media print{.page-head,.side,.top,.scrim,.rcpt-actions{display:none!important;}.app{display:block!important;}.page{padding:0!important;}.receipt-card{box-shadow:none;border:none;max-width:100%;}}
 </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -76,7 +86,7 @@
       <div class="receipt-card">
         <div class="rcpt-header">
           <div class="rcpt-brand">
-            <svg width="26" height="26" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="12" fill="#C05424"/><path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/><circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/><circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg>
+            <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="26" height="26" aria-hidden="true" style="object-fit:contain;flex:none;">
             <span>Tailor<em>Hub</em></span>
           </div>
           <div style="font-size:.86rem;color:var(--ink-70)">Jahit Lestari · Surabaya</div>

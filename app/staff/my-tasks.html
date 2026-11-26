@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
 <link rel="stylesheet" href="../../assets/css/staff.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -66,18 +69,16 @@
       <!-- Profil & Switcher Simulasi Akun Staf -->
       <section class="staff-hero" aria-label="Profil staf aktif">
         <div class="staff-profile">
-          <div class="staff-avatar" id="heroAvatar">AS</div>
+          <div class="staff-avatar" id="heroAvatar">—</div>
           <div class="staff-profile-info">
-            <b id="heroName">Andi S.</b>
-            <small id="heroSpec">Penjahit Utama · Spesialis Kemeja</small>
+            <b id="heroName">Memuat profil…</b>
+            <small id="heroSpec">Menghubungkan ke data tim</small>
           </div>
         </div>
         <div class="staff-switcher">
           <label for="staffSelect">Simulasi Akun Staf:</label>
           <select id="staffSelect" class="select">
-            <option value="AS">Andi S. (AS) — Kemeja</option>
-            <option value="RN">Rina N. (RN) — Busana Wanita</option>
-            <option value="MB">Mas Budi (MB) — Jas &amp; Blazer</option>
+            <option value="">Memuat daftar staf…</option>
           </select>
         </div>
       </section>
@@ -141,106 +142,33 @@
 (function () {
   'use strict';
 
-  var STAFF_PROFILES = {
-    AS: { code: 'AS', name: 'Andi S.', spec: 'Penjahit Utama · Spesialis Kemeja' },
-    RN: { code: 'RN', name: 'Rina N.', spec: 'Penjahit Busana Wanita' },
-    MB: { code: 'MB', name: 'Mas Budi', spec: 'Spesialis Jas & Blazer' }
+  var T = window.TH;
+  var ROLE_LABELS = { pemilik: 'Pemilik', admin: 'Admin', staff: 'Staf Produksi' };
+  var STAGE_FLOW = ['Antrean', 'Pemotongan', 'Penjahitan', 'Finishing', 'QC', 'Selesai', 'Diambil'];
+  var STAGE_META = {
+    'Antrean':    { key: 'queue',  step: 1, chip: 'chip--queue' },
+    'Pemotongan': { key: 'cut',    step: 2, chip: 'chip--cut' },
+    'Penjahitan': { key: 'sew',    step: 3, chip: 'chip--sew' },
+    'Finishing':  { key: 'finish', step: 4, chip: 'chip--finish' },
+    'QC':         { key: 'qc',     step: 5, chip: 'chip--qc' },
+    'Selesai':    { key: 'done',   step: 6, chip: 'chip--done' },
+    'Diambil':    { key: 'taken',  step: 7, chip: 'chip--taken' }
   };
 
-  var TASKS = [
-    {
-      code: 'TH-2041', staff: 'AS', title: 'Kemeja Formal ×3', customer: 'Budi Santoso',
-      stageKey: 'sew', stageLabel: 'Penjahitan (3/7)', stageChip: 'chip--sew',
-      deadlineLabel: 'Besok · 24 Nov', deadlineChip: 'chip--clay',
-      fabric: 'Katun Poplin Jepang', qty: '3 Pcs (M, L, L)',
-      note: 'Kerah shanghai kaku pakai kain keras M33, jahit tindas tepi 2mm.',
-      status: 'pending', startedAt: '', completedAt: ''
-    },
-    {
-      code: 'TH-2037', staff: 'AS', title: 'Kemeja Batik ×6', customer: 'Sari Wulandari',
-      stageKey: 'cut', stageLabel: 'Pemotongan (2/7)', stageChip: 'chip--cut',
-      deadlineLabel: '29 Nov 2026', deadlineChip: 'chip--soft',
-      fabric: 'Katun Primisima Batik', qty: '6 Pcs',
-      note: 'Sambung motif batik harus simetris di bagian kancing depan.',
-      status: 'progress', startedAt: '08:45 WIB', completedAt: ''
-    },
-    {
-      code: 'TH-2040', staff: 'AS', title: 'Jas Formal ×1', customer: 'Citra Dewi',
-      stageKey: 'qc', stageLabel: 'QC (5/7)', stageChip: 'chip--qc',
-      deadlineLabel: 'H-2 · 24 Nov', deadlineChip: 'chip--clay',
-      fabric: 'Wool Blend Hitam', qty: '1 Stel',
-      note: 'Cek kesimetrisan kerah notch lapel & bersihkan sisa benang.',
-      status: 'pending', startedAt: '', completedAt: ''
-    },
-    {
-      code: 'TH-2029', staff: 'AS', title: 'Kemeja Linen ×2', customer: 'Pak Hendra',
-      stageKey: 'done', stageLabel: 'Selesai (6/7)', stageChip: 'chip--done',
-      deadlineLabel: 'Siap Diambil', deadlineChip: 'chip--done',
-      fabric: 'Linen Rami Cream', qty: '2 Pcs',
-      note: 'Lolos QC dan sudah diserahkan ke rak siap ambil.',
-      status: 'done', startedAt: '21 Nov · 09:00', completedAt: '22 Nov · 16:10 WIB'
-    },
-    {
-      code: 'TH-2038', staff: 'RN', title: 'Gamis Pesta ×1', customer: 'Nurul Laila',
-      stageKey: 'sew', stageLabel: 'Penjahitan (3/7)', stageChip: 'chip--sew',
-      deadlineLabel: '30 Nov 2026', deadlineChip: 'chip--soft',
-      fabric: 'Ceruti Babydoll + Furing', qty: '1 Pcs',
-      note: 'Pasang furing lebih pendek 3cm dari luar, lanjut payet pinggang.',
-      status: 'progress', startedAt: '09:15 WIB', completedAt: ''
-    },
-    {
-      code: 'TH-2043', staff: 'RN', title: 'Kaos Komunitas ×30', customer: 'Komunitas Lari Sby',
-      stageKey: 'cut', stageLabel: 'Pemotongan (2/7)', stageChip: 'chip--cut',
-      deadlineLabel: '01 Des 2026', deadlineChip: 'chip--soft',
-      fabric: 'Cotton Combed 24s', qty: '30 Pcs (S–XXL)',
-      note: 'Pisahkan ikatan pola per ukuran dan beri label nomor seri.',
-      status: 'pending', startedAt: '', completedAt: ''
-    },
-    {
-      code: 'TH-2030', staff: 'RN', title: 'Kemeja Kerja ×2', customer: 'Hendra W.',
-      stageKey: 'done', stageLabel: 'Selesai (6/7)', stageChip: 'chip--done',
-      deadlineLabel: 'Siap Diambil', deadlineChip: 'chip--done',
-      fabric: 'Oxford Biru Muda', qty: '2 Pcs',
-      note: 'Sudah disetrika uap dan dibungkus rapi.',
-      status: 'done', startedAt: '20 Nov · 10:00', completedAt: '21 Nov · 15:30 WIB'
-    },
-    {
-      code: 'TH-2026', staff: 'RN', title: 'Kebaya Wisuda ×1', customer: 'Ibu Ratna',
-      stageKey: 'taken', stageLabel: 'Diambil (7/7)', stageChip: 'chip--taken',
-      deadlineLabel: 'Diambil 20 Nov', deadlineChip: 'chip--taken',
-      fabric: 'Brokat Prancis + Satin', qty: '1 Stel',
-      note: 'Pesanan sudah diambil pelanggan.',
-      status: 'done', startedAt: '18 Nov · 08:30', completedAt: '19 Nov · 14:00 WIB'
-    },
-    {
-      code: 'TH-2033', staff: 'MB', title: 'Jas Formal ×1', customer: 'Hendra W.',
-      stageKey: 'finish', stageLabel: 'Finishing (4/7)', stageChip: 'chip--finish',
-      deadlineLabel: 'Lewat (-1 hari)', deadlineChip: 'chip--danger',
-      fabric: 'Semi Wool Charcoal', qty: '1 Stel',
-      note: 'PRIORITAS: Pasang 4 kancing manset lengan dan setrika uap.',
-      status: 'pending', startedAt: '', completedAt: ''
-    },
-    {
-      code: 'TH-2035', staff: 'MB', title: 'Jas Almamater ×1', customer: 'Citra Dewi',
-      stageKey: 'finish', stageLabel: 'Finishing (4/7)', stageChip: 'chip--finish',
-      deadlineLabel: '26 Nov 2026', deadlineChip: 'chip--soft',
-      fabric: 'Nagata Drill Navy', qty: '1 Pcs',
-      note: 'Pasang bordir logo kampus di saku kiri dan obras bagian dalam.',
-      status: 'progress', startedAt: '10:05 WIB', completedAt: ''
-    },
-    {
-      code: 'TH-2042', staff: 'MB', title: 'Blazer Kerja ×2', customer: 'Ibu Maya',
-      stageKey: 'qc', stageLabel: 'QC (5/7)', stageChip: 'chip--qc',
-      deadlineLabel: '27 Nov 2026', deadlineChip: 'chip--soft',
-      fabric: 'Polyester Gabardine', qty: '2 Pcs',
-      note: 'Cek kerapian jahitan furing dalam dan lubang kancing depan.',
-      status: 'pending', startedAt: '', completedAt: ''
-    }
-  ];
+  function getNextStageName(stageName) {
+    var idx = STAGE_FLOW.indexOf(stageName);
+    if (idx === -1) return 'Pemotongan';
+    if (idx >= STAGE_FLOW.indexOf('Selesai')) return null;
+    return STAGE_FLOW[idx + 1] || null;
+  }
+
+  var TEAM_BY_ID = {};
+  var TEAM_LIST = [];
+  var STAFF_TASKS = [];
 
   var params = new URLSearchParams(window.location.search);
-  var requestedStaff = params.get('staff');
-  var currentStaff = STAFF_PROFILES[requestedStaff] ? requestedStaff : 'AS';
+  var requestedStaff = params.get('staff') || '';
+  var currentStaffId = '';
   var currentTab = 'active';
   var searchQuery = '';
 
@@ -250,40 +178,24 @@
   var taskListEl = document.getElementById('taskList');
   var emptyEl = document.getElementById('emptyState');
 
-  staffSelect.value = currentStaff;
-
-  function nowTimeLabel() {
-    var d = new Date();
-    var hh = String(d.getHours()).padStart(2, '0');
-    var mm = String(d.getMinutes()).padStart(2, '0');
-    return hh + ':' + mm + ' WIB';
-  }
-
   function showToast(title, message) {
     var old = document.getElementById('staffToast');
     if (old) old.remove();
 
-    var toast = document.createElement('div');
-    toast.id = 'staffToast';
-    toast.className = 'staff-toast';
-
-    var wrap = document.createElement('div');
-    var b = document.createElement('b');
-    b.textContent = title;
-    var s = document.createElement('small');
-    s.textContent = message;
-    wrap.appendChild(b);
-    wrap.appendChild(s);
-
-    var close = document.createElement('button');
-    close.type = 'button';
-    close.className = 'toast-x';
-    close.setAttribute('aria-label', 'Tutup notifikasi');
-    close.textContent = '×';
+    var close = T.el('button', {
+      type: 'button',
+      className: 'toast-x',
+      'aria-label': 'Tutup notifikasi',
+      text: '×'
+    });
+    var toast = T.el('div', { id: 'staffToast', className: 'staff-toast' }, [
+      T.el('div', null, [
+        T.el('b', { text: title }),
+        T.el('small', { text: message })
+      ]),
+      close
+    ]);
     close.addEventListener('click', function () { toast.remove(); });
-
-    toast.appendChild(wrap);
-    toast.appendChild(close);
     document.body.appendChild(toast);
 
     setTimeout(function () {
@@ -291,171 +203,165 @@
     }, 3800);
   }
 
-  function makeChip(cls, text) {
-    var span = document.createElement('span');
-    span.className = 'chip ' + cls;
-    var dot = document.createElement('span');
-    dot.className = 'd';
-    span.appendChild(dot);
-    span.appendChild(document.createTextNode(text));
-    return span;
+  function updateProfileUI(activeCount) {
+    var prof = TEAM_BY_ID[currentStaffId];
+    var avatarEl = document.getElementById('heroAvatar');
+    var nameEl = document.getElementById('heroName');
+    var specEl = document.getElementById('heroSpec');
+    if (!prof) {
+      if (avatarEl) avatarEl.textContent = '—';
+      if (nameEl) nameEl.textContent = 'Belum ada staf';
+      if (specEl) specEl.textContent = 'Tambahkan anggota tim terlebih dahulu';
+      return;
+    }
+    var roleText = ROLE_LABELS[prof.role] || prof.role || 'Staf';
+    if (avatarEl) avatarEl.textContent = T.initials(prof.name);
+    if (nameEl) nameEl.textContent = prof.name;
+    if (specEl) {
+      specEl.textContent = roleText + ' · ' + activeCount + ' tugas aktif';
+    }
   }
 
-  function updateProfileUI() {
-    var prof = STAFF_PROFILES[currentStaff];
-    document.getElementById('heroAvatar').textContent = prof.code;
-    document.getElementById('heroName').textContent = prof.name;
-    document.getElementById('heroSpec').textContent = prof.spec;
-    document.getElementById('topAvatar').textContent = prof.code;
-    document.getElementById('sideAvatar').textContent = prof.code;
-    document.getElementById('sideName').textContent = prof.name;
-    document.getElementById('sideRole').textContent = 'Staf · Jahit Lestari';
+  function mapOrderToTask(o) {
+    var stName = o.production_status || 'Antrean';
+    var meta = STAGE_META[stName] || STAGE_META['Antrean'];
+    var dl = T.deadlineMeta(o.deadline, stName);
+    var isDone = stName === 'Selesai' || stName === 'Diambil';
+    var isPending = stName === 'Antrean';
+    return {
+      code: o.code,
+      title: (o.type || o.detail || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : ''),
+      customer: o.customer || '-',
+      stageKey: meta.key,
+      stageName: stName,
+      stageLabel: stName + ' (' + meta.step + '/7)',
+      stageChip: meta.chip,
+      deadlineCat: dl.cat,
+      deadlineDays: T.daysUntil(o.deadline),
+      deadlineLabel: dl.chipText,
+      deadlineChip: dl.cls,
+      fabric: o.detail || o.type || 'Standar Workshop',
+      qty: (o.qty || 1) + ' Pcs',
+      note: o.notes || 'Ikuti spesifikasi ukuran dan instruksi produksi.',
+      status: isDone ? 'done' : (isPending ? 'pending' : 'progress'),
+      isUrgentToday: !isDone && (dl.cat === 'late' || dl.cat === 'soon')
+    };
+  }
+
+  async function updateOrderStatus(task, nextStatus, noteText, btn) {
+    if (!T) return;
+    if (btn) btn.disabled = true;
+    try {
+      await T.put('/api/orders/' + encodeURIComponent(task.code), {
+        production_status: nextStatus,
+        note: noteText
+      });
+      await loadStaffTasks(currentStaffId);
+      showToast('Status Diperbarui', task.code + ' diperbarui ke tahap ' + nextStatus + '.');
+    } catch (err) {
+      showToast('Gagal Memperbarui', (err && err.message) || 'Tidak dapat memperbarui status pesanan.');
+      if (btn) btn.disabled = false;
+    }
   }
 
   function createTaskCard(task) {
-    var card = document.createElement('article');
-    card.className = 'task-card';
-    card.setAttribute('data-stage', task.stageKey);
+    var stateText = task.status === 'pending'
+      ? 'Status Meja: Antrean (menunggu dimulai)'
+      : (task.status === 'progress'
+        ? 'Status Meja: Sedang dikerjakan · ' + task.stageName
+        : 'Status Meja: ' + task.stageName);
 
-    var head = document.createElement('div');
-    head.className = 'tc-head';
-
-    var codeEl = document.createElement('span');
-    codeEl.className = 'tc-code';
-    codeEl.textContent = task.code;
-
-    var badges = document.createElement('div');
-    badges.className = 'tc-badges';
-    badges.appendChild(makeChip(task.stageChip, task.stageLabel));
-    badges.appendChild(makeChip(task.deadlineChip, task.deadlineLabel));
-
-    head.appendChild(codeEl);
-    head.appendChild(badges);
-
-    var titleEl = document.createElement('h2');
-    titleEl.className = 'tc-title';
-    titleEl.textContent = task.title;
-
-    var meta = document.createElement('div');
-    meta.className = 'tc-meta';
-
-    var m1 = document.createElement('div');
-    m1.className = 'tc-meta-item';
-    var s1 = document.createElement('small');
-    s1.textContent = 'Pelanggan';
-    var b1 = document.createElement('b');
-    b1.textContent = task.customer;
-    m1.appendChild(s1);
-    m1.appendChild(b1);
-
-    var m2 = document.createElement('div');
-    m2.className = 'tc-meta-item';
-    var s2 = document.createElement('small');
-    s2.textContent = 'Bahan & Jumlah';
-    var b2 = document.createElement('b');
-    b2.textContent = task.fabric + ' (' + task.qty + ')';
-    m2.appendChild(s2);
-    m2.appendChild(b2);
-
-    meta.appendChild(m1);
-    meta.appendChild(m2);
-
-    var noteEl = document.createElement('p');
-    noteEl.className = 'tc-note';
-    noteEl.textContent = task.note;
-
-    var stateEl = document.createElement('div');
-    stateEl.className = 'tc-state';
-    var stateText = document.createElement('span');
+    var actionsChildren = [];
     if (task.status === 'pending') {
-      stateText.textContent = 'Status Meja: Menunggu dimulai';
-    } else if (task.status === 'progress') {
-      stateText.textContent = 'Status Meja: Sedang dikerjakan (' + task.startedAt + ')';
-    } else {
-      stateText.textContent = 'Selesai dikerjakan: ' + task.completedAt;
-    }
-    stateEl.appendChild(stateText);
-
-    var actions = document.createElement('div');
-    actions.className = 'tc-actions';
-
-    if (task.status === 'pending') {
-      var btnStart = document.createElement('button');
-      btnStart.type = 'button';
-      btnStart.className = 'btn btn--primary';
-      btnStart.textContent = 'Mulai Kerjakan';
+      var btnStart = T.el('button', { type: 'button', className: 'btn btn--primary', text: 'Mulai Kerjakan' });
       btnStart.addEventListener('click', function () {
-        task.status = 'progress';
-        task.startedAt = nowTimeLabel();
-        render();
-        showToast('Tugas Dimulai', task.code + ' (' + task.title + ') dicatat mulai pada ' + task.startedAt);
+        var prof = TEAM_BY_ID[currentStaffId];
+        var who = prof ? prof.name : 'staf';
+        updateOrderStatus(task, 'Pemotongan', 'Mulai dikerjakan oleh ' + who + ' melalui Tugas Saya', btnStart);
       });
-      actions.appendChild(btnStart);
+      actionsChildren.push(btnStart);
     } else if (task.status === 'progress') {
-      var btnDone = document.createElement('button');
-      btnDone.type = 'button';
-      btnDone.className = 'btn btn-finish';
-      btnDone.textContent = 'Tandai Selesai';
-      btnDone.addEventListener('click', function () {
-        task.status = 'done';
-        task.completedAt = nowTimeLabel();
-        task.stageKey = 'done';
-        task.stageLabel = 'Tahap Selesai';
-        task.stageChip = 'chip--done';
-        if (window.TH) {
-          window.TH.put('/api/orders/' + encodeURIComponent(task.code), {
-            production_status: 'Selesai',
-            note: 'Tahap diselesaikan oleh staf ' + currentStaff
-          }).catch(function () {});
-        }
-        render();
-        showToast('Tahap Diselesaikan', task.code + ' ditandai selesai pada ' + task.completedAt + '. Admin diberitahu.');
-      });
-      actions.appendChild(btnDone);
+      var nextStage = getNextStageName(task.stageName);
+      if (nextStage) {
+        var btnDone = T.el('button', {
+          type: 'button',
+          className: 'btn btn-finish',
+          title: 'Selesaikan ' + task.stageName + ' → ' + nextStage,
+          text: 'Selesai Tahap Ini'
+        });
+        btnDone.addEventListener('click', function () {
+          var prof = TEAM_BY_ID[currentStaffId];
+          var who = prof ? prof.name : 'staf';
+          updateOrderStatus(
+            task,
+            nextStage,
+            'Tahap ' + task.stageName + ' selesai dikerjakan oleh ' + who + ' -> lanjut ke ' + nextStage + ' melalui Tugas Saya',
+            btnDone
+          );
+        });
+        actionsChildren.push(btnDone);
+      }
     }
 
-    var detailLink = document.createElement('a');
-    detailLink.className = 'btn btn--ghost';
-    detailLink.href = 'task-detail.html?code=' + encodeURIComponent(task.code) + '&staff=' + encodeURIComponent(currentStaff);
-    detailLink.textContent = task.status === 'done' ? 'Lihat Detail Instruksi' : 'Detail Instruksi';
-    if (task.status === 'done') {
-      actions.style.gridTemplateColumns = '1fr';
-    }
-    actions.appendChild(detailLink);
+    var detailHref = 'task-detail.html?code=' + encodeURIComponent(task.code) +
+      (currentStaffId ? '&staff=' + encodeURIComponent(currentStaffId) : '');
+    actionsChildren.push(T.el('a', {
+      className: 'btn btn--ghost',
+      href: detailHref,
+      text: task.status === 'done' ? 'Lihat Detail Instruksi' : 'Detail Instruksi'
+    }));
 
-    card.appendChild(head);
-    card.appendChild(titleEl);
-    card.appendChild(meta);
-    card.appendChild(noteEl);
-    card.appendChild(stateEl);
-    card.appendChild(actions);
+    var actionsEl = T.el('div', {
+      className: 'tc-actions',
+      style: task.status === 'done' ? 'grid-template-columns:1fr;' : ''
+    }, actionsChildren);
 
-    return card;
+    return T.el('article', { className: 'task-card', 'data-stage': task.stageKey }, [
+      T.el('div', { className: 'tc-head' }, [
+        T.el('span', { className: 'tc-code', text: task.code }),
+        T.el('div', { className: 'tc-badges' }, [
+          T.chipEl(task.stageChip, task.stageLabel),
+          T.chipEl(task.deadlineChip, task.deadlineLabel)
+        ])
+      ]),
+      T.el('h2', { className: 'tc-title', text: task.title }),
+      T.el('div', { className: 'tc-meta' }, [
+        T.el('div', { className: 'tc-meta-item' }, [
+          T.el('small', { text: 'Pelanggan' }),
+          T.el('b', { text: task.customer })
+        ]),
+        T.el('div', { className: 'tc-meta-item' }, [
+          T.el('small', { text: 'Bahan & Jumlah' }),
+          T.el('b', { text: task.fabric + ' (' + task.qty + ')' })
+        ])
+      ]),
+      T.el('p', { className: 'tc-note', text: task.note }),
+      T.el('div', { className: 'tc-state' }, [
+        T.el('span', { text: stateText })
+      ]),
+      actionsEl
+    ]);
   }
 
   function render() {
-    updateProfileUI();
+    var activeTasks = STAFF_TASKS.filter(function (t) { return t.status !== 'done'; });
+    var todayTasks = activeTasks.filter(function (t) { return t.isUrgentToday; });
+    var progressTasks = activeTasks.filter(function (t) { return t.status === 'progress'; });
+    var doneTasks = STAFF_TASKS.filter(function (t) { return t.status === 'done'; });
 
-    var staffTasks = TASKS.filter(function (t) {
-      return t.staff === currentStaff;
-    });
+    updateProfileUI(activeTasks.length);
 
-    var pendingTasks = staffTasks.filter(function (t) { return t.status === 'pending'; });
-    var progressTasks = staffTasks.filter(function (t) { return t.status === 'progress'; });
-    var doneTasks = staffTasks.filter(function (t) { return t.status === 'done'; });
-    var activeTasks = staffTasks.filter(function (t) { return t.status !== 'done'; });
-
-    document.getElementById('kpiToday').textContent = pendingTasks.length;
+    document.getElementById('kpiToday').textContent = todayTasks.length;
     document.getElementById('kpiProgress').textContent = progressTasks.length;
     document.getElementById('kpiDone').textContent = doneTasks.length;
 
     document.getElementById('cntActive').textContent = activeTasks.length;
-    document.getElementById('cntToday').textContent = pendingTasks.length;
+    document.getElementById('cntToday').textContent = todayTasks.length;
     document.getElementById('cntProgress').textContent = progressTasks.length;
     document.getElementById('cntDone').textContent = doneTasks.length;
 
     var pool = activeTasks;
-    if (currentTab === 'today') pool = pendingTasks;
+    if (currentTab === 'today') pool = todayTasks;
     else if (currentTab === 'progress') pool = progressTasks;
     else if (currentTab === 'done') pool = doneTasks;
 
@@ -475,15 +381,108 @@
       emptyEl.hidden = false;
     } else {
       emptyEl.hidden = true;
-      filtered.forEach(function (t) {
-        taskListEl.appendChild(createTaskCard(t));
+      var frag = document.createDocumentFragment();
+      filtered.forEach(function (t) { frag.appendChild(createTaskCard(t)); });
+      taskListEl.appendChild(frag);
+    }
+  }
+
+  function sortTasks(list) {
+    var catRank = { late: 0, soon: 1, normal: 2 };
+    return list.slice().sort(function (a, b) {
+      if ((a.status === 'done') !== (b.status === 'done')) {
+        return a.status === 'done' ? 1 : -1;
+      }
+      var ra = catRank[a.deadlineCat] != null ? catRank[a.deadlineCat] : 2;
+      var rb = catRank[b.deadlineCat] != null ? catRank[b.deadlineCat] : 2;
+      if (ra !== rb) return ra - rb;
+      if (a.deadlineDays === null && b.deadlineDays === null) return 0;
+      if (a.deadlineDays === null) return 1;
+      if (b.deadlineDays === null) return -1;
+      return a.deadlineDays - b.deadlineDays;
+    });
+  }
+
+  async function loadStaffTasks(staffId) {
+    if (!T || !staffId) {
+      STAFF_TASKS = [];
+      render();
+      return;
+    }
+    emptyEl.hidden = true;
+    taskListEl.textContent = '';
+    taskListEl.appendChild(T.el('div', { className: 'staff-empty' }, [
+      T.el('b', { text: 'Memuat daftar tugas…' }),
+      T.el('span', { text: 'Mengambil data penugasan terbaru dari server.' })
+    ]));
+    try {
+      var res = await T.get('/api/orders?assignee_id=' + encodeURIComponent(staffId) + '&limit=200');
+      var orders = (res && res.data) || [];
+      STAFF_TASKS = sortTasks(orders.map(mapOrderToTask));
+      render();
+    } catch (err) {
+      console.error('Gagal memuat tugas staf dari D1:', err);
+      STAFF_TASKS = [];
+      taskListEl.textContent = '';
+      taskListEl.appendChild(T.el('div', { className: 'staff-empty' }, [
+        T.el('b', { style: 'color:var(--red)', text: 'Gagal memuat daftar tugas' }),
+        T.el('span', { text: (err && err.message) || 'Terjadi kesalahan saat menghubungi server.' })
+      ]));
+    }
+  }
+
+  async function init() {
+    if (!T) return;
+    try {
+      var meInfo = T.me();
+      var loggedId = meInfo && meInfo.user ? String(meInfo.user.id) : '';
+      var teamRes = await T.get('/api/team');
+      var members = ((teamRes && teamRes.data) || []).filter(function (m) { return m.status !== 'nonaktif'; });
+
+      TEAM_LIST = members;
+      TEAM_BY_ID = {};
+      staffSelect.textContent = '';
+
+      if (!members.length) {
+        staffSelect.appendChild(T.el('option', { value: '', text: 'Belum ada anggota tim' }));
+        currentStaffId = '';
+        STAFF_TASKS = [];
+        render();
+        return;
+      }
+
+      members.forEach(function (m) {
+        var idStr = String(m.id);
+        TEAM_BY_ID[idStr] = m;
+        var roleLabel = ROLE_LABELS[m.role] || m.role || 'Staf';
+        staffSelect.appendChild(T.el('option', {
+          value: idStr,
+          text: m.name + ' (' + T.initials(m.name) + ') — ' + roleLabel
+        }));
       });
+
+      if (requestedStaff && TEAM_BY_ID[requestedStaff]) {
+        currentStaffId = requestedStaff;
+      } else if (loggedId && TEAM_BY_ID[loggedId]) {
+        currentStaffId = loggedId;
+      } else {
+        currentStaffId = String(members[0].id);
+      }
+
+      staffSelect.value = currentStaffId;
+      await loadStaffTasks(currentStaffId);
+    } catch (err) {
+      console.error('Gagal memuat data tim:', err);
+      staffSelect.textContent = '';
+      staffSelect.appendChild(T.el('option', { value: '', text: 'Gagal memuat tim' }));
+      STAFF_TASKS = [];
+      render();
     }
   }
 
   staffSelect.addEventListener('change', function () {
-    currentStaff = staffSelect.value;
-    render();
+    currentStaffId = staffSelect.value;
+    loadStaffTasks(currentStaffId);
   });
 
   document.querySelectorAll('.staff-tab').forEach(function (tabBtn) {
@@ -501,24 +500,26 @@
 
   taskSearch.addEventListener('input', function () {
     searchQuery = taskSearch.value;
-    topSearch.value = searchQuery;
+    if (topSearch) topSearch.value = searchQuery;
     render();
   });
 
-  topSearch.addEventListener('input', function () {
-    searchQuery = topSearch.value;
-    taskSearch.value = searchQuery;
-    render();
-  });
+  if (topSearch) {
+    topSearch.addEventListener('input', function () {
+      searchQuery = topSearch.value;
+      taskSearch.value = searchQuery;
+      render();
+    });
+  }
 
   document.getElementById('btnResetSearch').addEventListener('click', function () {
     searchQuery = '';
     taskSearch.value = '';
-    topSearch.value = '';
+    if (topSearch) topSearch.value = '';
     render();
   });
 
-  render();
+  init();
 })();
 </script>
 <script src="/assets/js/app-shell.js"></script>

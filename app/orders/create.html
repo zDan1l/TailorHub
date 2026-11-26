@@ -12,6 +12,10 @@
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
+<link rel="stylesheet" href="../../assets/css/orders-customers.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -62,7 +66,7 @@
         </div>
       </div>
 
-      <form id="formCreateOrder" action="detail.html" method="GET" style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;">
+      <form id="formCreateOrder" action="detail.html" method="GET" class="rg-main" style="display:grid;gap:24px;align-items:start;">
         <!-- KOLOM UTAMA -->
         <div style="display:flex;flex-direction:column;gap:20px;">
           
@@ -103,7 +107,7 @@
 
             <!-- Form Pelanggan Baru -->
             <div id="secNew" style="display:none;background:var(--cream-200);border-radius:var(--r-m);padding:16px;border:1px dashed var(--sand-dark);">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div class="rg-2" style="display:grid;gap:14px;">
                 <div class="field">
                   <label>Nama Lengkap Pelanggan <span class="req">*</span></label>
                   <input type="text" id="newCustName" class="input" placeholder="Contoh: Budi Santoso">
@@ -126,7 +130,7 @@
               <span class="badge-count" style="width:24px;height:24px;">2</span> Rincian Item Pakaian
             </h3>
 
-            <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;">
+            <div class="rg-2-1" style="display:grid;gap:14px;">
               <div class="field">
                 <label for="orderTitle">Judul / Nama Pesanan <span class="req">*</span></label>
                 <input type="text" id="orderTitle" class="input" placeholder="Misal: Jas Formal Modern 2 Kancing" required value="Jas Formal Pria Full Set">
@@ -145,7 +149,7 @@
               </div>
             </div>
 
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+            <div class="rg-3" style="display:grid;gap:14px;">
               <div class="field">
                 <label for="itemQty">Jumlah Item (Pcs/Stel) <span class="req">*</span></label>
                 <input type="number" id="itemQty" class="input" value="1" min="1" required>
