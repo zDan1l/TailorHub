@@ -6,8 +6,8 @@
    ============================================================ */
 
 /* ---------------- Base & Tipografi Publik ---------------- */
-html { overflow-x: hidden; }
-body { font-size: 16.5px; line-height: 1.62; overflow-x: hidden; }
+html { overflow-x: clip; }
+body { font-size: 16.5px; line-height: 1.62; overflow-x: clip; }
 h1 { font-size: clamp(2.3rem, 4.3vw, 3.4rem); line-height: 1.07; }
 h2 { font-size: clamp(1.85rem, 3.3vw, 2.6rem); }
 code {
@@ -88,36 +88,36 @@ code {
   border-bottom: 1px solid transparent;
   transition: border-color .35s, box-shadow .35s, background .35s;
 }
-.site-header .wrap { display: flex; align-items: center; gap: 26px; height: 74px; }
+.site-header > .wrap { display: flex; align-items: center; gap: 24px; height: 74px; }
 .site-header.is-stuck {
   border-bottom-color: var(--sand);
   box-shadow: 0 8px 28px rgba(60, 36, 24, .07);
   background: rgba(255, 248, 239, .96);
 }
-.brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 1.26rem; letter-spacing: -.038em; }
+.brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 1.26rem; letter-spacing: -.038em; flex: none; white-space: nowrap; }
 .brand em { font-style: normal; color: var(--clay); }
 .brand svg,
 .brand img.brand-icon { object-fit: contain; flex: none; transition: transform .5s var(--ease); }
 .brand:hover svg,
 .brand:hover img.brand-icon { transform: rotate(-8deg) scale(1.06); }
-.nav { display: flex; gap: 24px; margin-left: auto; font-size: .94rem; font-weight: 600; color: var(--ink-70); }
-.nav a { position: relative; padding: 4px 0; transition: color .25s; }
+.nav { display: flex; gap: 22px; margin-left: auto; font-size: .94rem; font-weight: 600; color: var(--ink-70); min-width: 0; }
+.nav a { position: relative; padding: 4px 0; white-space: nowrap; transition: color .25s; }
 .nav a::after {
   content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--clay);
   transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease); border-radius: 2px;
 }
 .nav a:hover, .nav a.is-on { color: var(--clay); }
 .nav a:hover::after, .nav a.is-on::after { transform: scaleX(1); transform-origin: left; }
-.header-cta { display: flex; gap: 10px; }
-.header-cta .btn { padding: 11px 22px; font-size: .9rem; }
-.burger { display: none; background: none; border: 0; cursor: pointer; color: var(--ink); padding: 6px; margin-left: auto; }
+.header-cta { display: flex; gap: 10px; flex: none; }
+.header-cta .btn { padding: 11px 20px; font-size: .9rem; white-space: nowrap; }
+.burger { display: none; background: none; border: 0; cursor: pointer; color: var(--ink); padding: 6px; margin-left: auto; flex: none; }
 /* Menu mobile (dropdown panel) */
 .mobile-nav { display: none; border-top: 1px solid var(--sand); background: var(--paper); }
 .mobile-nav.open { display: block; }
-.mobile-nav .wrap { flex-direction: column; align-items: stretch; height: auto; gap: 0; padding-top: 12px; padding-bottom: 16px; }
-.mobile-nav a { padding: 12px 4px; font-size: 1rem; font-weight: 600; color: var(--ink-70); border-bottom: 1px solid var(--sand); }
-.mobile-nav a:last-of-type { border-bottom: 0; }
-.mobile-nav .btn { margin-top: 12px; }
+.mobile-nav .wrap { display: flex; flex-direction: column; align-items: stretch; height: auto; gap: 0; padding-top: 12px; padding-bottom: 16px; }
+.mobile-nav a:not(.btn) { padding: 12px 4px; font-size: 1rem; font-weight: 600; color: var(--ink-70); border-bottom: 1px solid var(--sand); }
+.mobile-nav a:not(.btn):last-of-type { border-bottom: 0; }
+.mobile-nav .btn { margin-top: 12px; width: 100%; }
 
 /* ---------------- Footer publik ---------------- */
 .site-footer { background: var(--paper); border-top: 1px solid var(--sand); padding: 60px 0 30px; }
@@ -279,13 +279,16 @@ code {
 /* ---------------- Responsive ---------------- */
 @media (max-width: 1180px) { .wrap { width: 88vw; } }
 @media (max-width: 1040px) {
+  .site-header > .wrap { gap: 16px; }
+  .nav { gap: 16px; font-size: .88rem; }
+  .header-cta .btn { padding: 10px 16px; font-size: .86rem; }
   .g-4, .g-3 { grid-template-columns: repeat(2, 1fr); }
   .price-grid { grid-template-columns: repeat(2, 1fr); }
   .foot-grid { grid-template-columns: 1fr 1fr; }
   .split-2, .split-2--form { grid-template-columns: 1fr; gap: 34px; }
   .stat-row { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 860px) {
+@media (max-width: 960px) {
   .nav, .header-cta { display: none; }
   .burger { display: inline-flex; }
 }
