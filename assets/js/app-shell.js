@@ -47,6 +47,7 @@
     '<symbol id="sh-i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>' +
     '<symbol id="sh-i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>' +
     '<symbol id="sh-i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>' +
+    '<symbol id="sh-i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m21 3-9.5 9.5M15.5 7.5l3 3M17.5 5.5l2 2"/></symbol>' +
     '<symbol id="sh-i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h8"/><path d="M18 12H9"/><path d="m15 9 3 3-3 3"/></symbol>' +
     "</defs></svg>";
 
@@ -120,6 +121,12 @@
   // ---------- Render topbar ----------
   function renderTopbar(info) {
     var name = (info && info.user && (info.user.nama || info.user.name)) || "Pengguna";
+    var role = (info && info.user && info.user.role) || "pemilik";
+    var roleName = ROLE_LABEL[role] || "Pengguna";
+    var tenant = (info && info.tenant && (info.tenant.nama || info.tenant.name)) || "";
+    var meta = roleName + (tenant ? " · " + tenant : "");
+    var init = initials(name);
+
     return (
       '<button class="burger" id="shBurger" aria-label="Buka menu">' + ic("i-menu", 24) + "</button>" +
       '<form class="search" action="/app/search.html" method="GET" role="search">' +
@@ -128,7 +135,30 @@
       "</form>" +
       '<div class="top-actions">' +
       '<a href="/app/notifications/index.html" class="icon-btn" aria-label="Notifikasi">' + ic("i-bell", 20) + '<span class="dot" data-badge="dot" hidden></span></a>' +
-      '<a href="/account/profile.html" class="top-avatar" title="' + esc(name) + '">' + esc(initials(name)) + "</a>" +
+      '<div class="top-profile-wrap">' +
+      '<button type="button" class="top-avatar" id="shProfileBtn" aria-expanded="false" aria-haspopup="true" aria-label="Menu profil ' + esc(name) + '">' + esc(init) + "</button>" +
+      '<div class="top-dropdown" id="shProfileDropdown" hidden>' +
+      '  <div class="top-dropdown-header">' +
+      '    <div class="top-dropdown-user">' +
+      '      <span class="top-dropdown-ava">' + esc(init) + "</span>" +
+      '      <div class="top-dropdown-meta">' +
+      '        <b>' + esc(name) + "</b>" +
+      '        <small>' + esc(meta) + "</small>" +
+      "      </div>" +
+      "    </div>" +
+      "  </div>" +
+      '  <div class="top-dropdown-divider"></div>' +
+      '  <div class="top-dropdown-nav">' +
+      '    <a href="/account/profile.html" class="top-dropdown-item">' + ic("i-users", 18) + "<span>Profil Saya</span></a>" +
+      '    <a href="/account/change-password.html" class="top-dropdown-item">' + ic("i-key", 18) + "<span>Keamanan &amp; Sandi</span></a>" +
+      '    <a href="/account/preferences.html" class="top-dropdown-item">' + ic("i-gear", 18) + "<span>Preferensi Akun</span></a>" +
+      "  </div>" +
+      '  <div class="top-dropdown-divider"></div>' +
+      '  <button type="button" class="top-dropdown-item top-dropdown-logout" id="shDropdownLogout">' +
+      ic("i-logout", 18) + "<span>Keluar (Logout)</span>" +
+      "  </button>" +
+      "</div>" +
+      "</div>" +
       "</div>"
     );
   }
@@ -138,9 +168,21 @@
     try {
       var r = await fetch("/api/auth/me", { headers: tokenHeader() });
       if (r.status === 401) return null;           // belum login (server nyata)
-      if (!r.ok) return "offline";                 // API tak tersedia (mis. Live Server)
+      if (!r.ok) {
+        try {
+          var u = JSON.parse(localStorage.getItem("th_user") || "null");
+          if (u) return u;
+        } catch (err) {}
+        return "offline";                          // API tak tersedia (mis. Live Server)
+      }
       return await r.json();
-    } catch (e) { return "offline"; }
+    } catch (e) {
+      try {
+        var u2 = JSON.parse(localStorage.getItem("th_user") || "null");
+        if (u2) return u2;
+      } catch (err2) {}
+      return "offline";
+    }
   }
   function logout() {
     try { fetch("/api/auth/logout", { method: "POST", headers: tokenHeader() }); } catch (e) {}
@@ -162,7 +204,7 @@
     } catch (e) {}
   }
 
-  // ---------- Wiring (burger, scrim, logout) ----------
+  // ---------- Wiring (burger, scrim, profile dropdown, logout) ----------
   function wire() {
     var app = document.querySelector(".app");
     if (!app) return;
@@ -176,6 +218,40 @@
     });
     var lo = document.getElementById("shLogout");
     if (lo) lo.addEventListener("click", logout);
+
+    // Profile Dropdown Toggle
+    var profBtn = document.getElementById("shProfileBtn");
+    var profDd  = document.getElementById("shProfileDropdown");
+    if (profBtn && profDd) {
+      profBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var isOpen = !profDd.hidden;
+        profDd.hidden = isOpen;
+        profBtn.setAttribute("aria-expanded", String(!isOpen));
+      });
+
+      profDd.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+
+      document.addEventListener("click", function () {
+        if (!profDd.hidden) {
+          profDd.hidden = true;
+          profBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !profDd.hidden) {
+          profDd.hidden = true;
+          profBtn.setAttribute("aria-expanded", "false");
+          profBtn.focus();
+        }
+      });
+    }
+
+    var ddLogout = document.getElementById("shDropdownLogout");
+    if (ddLogout) ddLogout.addEventListener("click", logout);
   }
 
   // ---------- Init ----------
@@ -188,7 +264,15 @@
 
     var info = await fetchMe();
     if (info === null) { location.href = "/auth/login.html"; return; }
-    if (info === "offline" || !info) info = { user: { nama: "Pengguna", role: "pemilik" }, tenant: {} };
+    if (info === "offline" || !info) {
+      try {
+        var cached = JSON.parse(localStorage.getItem("th_user") || "null");
+        if (cached && cached.user) info = cached;
+        else info = { user: { nama: "Pengguna", role: "pemilik" }, tenant: {} };
+      } catch (e) {
+        info = { user: { nama: "Pengguna", role: "pemilik" }, tenant: {} };
+      }
+    }
     var role = (info.user && info.user.role) || "pemilik";
 
     if (side) side.innerHTML = renderSidebar(role, info);
