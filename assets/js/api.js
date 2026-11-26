@@ -104,6 +104,154 @@
         return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
       });
     },
+
+    // --- Deadline ---
+    daysUntil: function (dateStr) {
+      if (!dateStr) return null;
+      var s = String(dateStr).trim();
+      var d = /^\d{4}-\d{2}-\d{2}$/.test(s) ? new Date(s + "T00:00:00") : new Date(s);
+      if (isNaN(d.getTime())) return null;
+      d.setHours(0, 0, 0, 0);
+      var now = new Date();
+      now.setHours(0, 0, 0, 0);
+      return Math.round((d - now) / 86400000);
+    },
+    formatShortDate: function (dateStr, withYear) {
+      if (!dateStr) return "—";
+      var s = String(dateStr).trim();
+      var d = /^\d{4}-\d{2}-\d{2}$/.test(s) ? new Date(s + "T00:00:00") : new Date(s);
+      if (isNaN(d.getTime())) return s;
+      var months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+      var day = (d.getDate() < 10 ? "0" : "") + d.getDate();
+      var base = day + " " + months[d.getMonth()];
+      return withYear ? base + " " + d.getFullYear() : base;
+    },
+    deadlineMeta: function (deadline, productionStatus) {
+      if (productionStatus === "Selesai") {
+        return {
+          cat: "normal", cls: "chip--done", kanbanCls: "", icon: "i-check",
+          text: deadline ? TH.formatShortDate(deadline) : "Selesai",
+          chipText: "Siap Diambil", detailText: "Siap Diambil"
+        };
+      }
+      if (productionStatus === "Diambil") {
+        var shortD = deadline ? TH.formatShortDate(deadline) : "";
+        return {
+          cat: "normal", cls: "chip--taken", kanbanCls: "", icon: "i-check",
+          text: shortD || "Diambil",
+          chipText: shortD ? "Diambil " + shortD : "Diambil",
+          detailText: deadline ? "Diambil " + TH.formatShortDate(deadline, true) : "Sudah Diambil"
+        };
+      }
+      var dd = TH.daysUntil(deadline);
+      if (dd === null) {
+        return {
+          cat: "normal", cls: "chip--soft", kanbanCls: "", icon: "i-clock",
+          text: "—", chipText: "—", detailText: "Deadline: —"
+        };
+      }
+      if (dd < 0) {
+        var lateDays = Math.abs(dd);
+        return {
+          cat: "late", cls: "chip--danger", kanbanCls: "is-late", icon: "i-warn",
+          text: lateDays + " hr lewat",
+          chipText: "Lewat " + lateDays + " hari",
+          detailText: "Lewat Deadline (-" + lateDays + " hari)"
+        };
+      }
+      if (dd === 0) {
+        return {
+          cat: "soon", cls: "chip--clay", kanbanCls: "is-soon", icon: "i-clock",
+          text: "Hari ini",
+          chipText: "Hari ini",
+          detailText: "Deadline: Hari ini · " + TH.formatShortDate(deadline, true)
+        };
+      }
+      if (dd === 1) {
+        return {
+          cat: "soon", cls: "chip--clay", kanbanCls: "is-soon", icon: "i-clock",
+          text: TH.formatShortDate(deadline),
+          chipText: "Besok (H-1)",
+          detailText: "Deadline: Besok · " + TH.formatShortDate(deadline, true)
+        };
+      }
+      if (dd <= 3) {
+        var shortSoon = TH.formatShortDate(deadline);
+        return {
+          cat: "soon", cls: "chip--clay", kanbanCls: "is-soon", icon: "i-clock",
+          text: shortSoon,
+          chipText: shortSoon + " (H-" + dd + ")",
+          detailText: "Deadline: " + TH.formatShortDate(deadline, true) + " (H-" + dd + ")"
+        };
+      }
+      return {
+        cat: "normal", cls: "chip--soft", kanbanCls: "", icon: "i-clock",
+        text: TH.formatShortDate(deadline),
+        chipText: TH.formatShortDate(deadline, true),
+        detailText: "Deadline: " + TH.formatShortDate(deadline, true)
+      };
+    },
+    countUrgentDeadlines: function (orders) {
+      return (orders || []).filter(function (o) {
+        var cat = TH.deadlineMeta(o.deadline, o.production_status).cat;
+        return cat === "late" || cat === "soon";
+      }).length;
+    },
+
+    // --- Safe DOM helpers ---
+    el: function (tag, attrs, children) {
+      var node = document.createElement(tag);
+      if (attrs) {
+        Object.keys(attrs).forEach(function (k) {
+          var v = attrs[k];
+          if (v == null || v === false) return;
+          if (k === "className") node.className = v;
+          else if (k === "text") node.textContent = v;
+          else node.setAttribute(k, String(v));
+        });
+      }
+      if (children != null) {
+        var list = Array.isArray(children) ? children : [children];
+        list.forEach(function (c) {
+          if (c == null || c === false) return;
+          node.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+        });
+      }
+      return node;
+    },
+    svgUse: function (iconId, size) {
+      var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("width", String(size || 14));
+      svg.setAttribute("height", String(size || 14));
+      var use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+      use.setAttribute("href", "#" + iconId);
+      svg.appendChild(use);
+      return svg;
+    },
+    chipEl: function (cls, text) {
+      return TH.el("span", { className: "chip " + cls }, [
+        TH.el("span", { className: "d" }),
+        text
+      ]);
+    },
+    populateStaffSelect: function (sel, orders) {
+      if (!sel) return;
+      var current = sel.value;
+      sel.textContent = "";
+      sel.appendChild(TH.el("option", { value: "", text: "Semua Staf" }));
+      var seen = {};
+      (orders || []).forEach(function (o) {
+        if (o.assignee) {
+          var init = TH.initials(o.assignee);
+          if (!seen[init]) {
+            seen[init] = 1;
+            sel.appendChild(TH.el("option", { value: init, text: o.assignee + " (" + init + ")" }));
+          }
+        }
+      });
+      sel.appendChild(TH.el("option", { value: "unassigned", text: "Belum Ditugaskan" }));
+      if (current) sel.value = current;
+    },
   };
 
   global.TH = TH;

@@ -313,7 +313,7 @@
 
 .tc-actions {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px;
   margin-top: auto;
   padding-top: 4px;
@@ -324,6 +324,16 @@
   min-height: 44px;
   justify-content: center;
   white-space: nowrap;
+}
+
+.tc-actions .btn {
+  padding: 10px 14px;
+  font-size: .88rem;
+  min-width: 0;
+}
+
+.tc-actions .btn--ghost {
+  margin-right: 8px;
 }
 
 .btn-finish {

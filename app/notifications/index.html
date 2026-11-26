@@ -22,16 +22,16 @@
 .time-divider {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin: 32px 0 16px;
+  gap: 12px;
+  margin: 20px 0 12px;
 }
 
 .time-divider:first-of-type {
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .time-divider h3 {
-  font-size: .82rem;
+  font-size: .78rem;
   font-weight: 800;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -47,23 +47,23 @@
   background: var(--sand);
 }
 
-/* Kartu Notifikasi Individual */
+/* Kartu Notifikasi Individual — Kompak & Clean SaaS */
 .notif-card {
   background: var(--paper);
   border: 1px solid var(--sand);
-  border-radius: var(--r-l);
+  border-radius: var(--r-m);
   box-shadow: var(--shadow-s);
-  padding: 22px 26px;
-  margin-bottom: 16px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 14px;
   position: relative;
-  transition: transform .25s var(--ease), box-shadow .25s, border-color .25s;
+  transition: transform .2s var(--ease), box-shadow .2s, border-color .2s;
 }
 
 .notif-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-m);
   border-color: var(--clay-300);
 }
@@ -71,7 +71,7 @@
 /* Aksen Belum Dibaca */
 .notif-card.is-unread {
   background: #ffffff;
-  border-left: 5px solid var(--clay);
+  border-left: 4px solid var(--clay);
 }
 
 .notif-card.is-unread.urg-danger {
@@ -84,14 +84,20 @@
 
 /* Kotak Ikon */
 .notif-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+  margin-top: 2px;
+}
+
+.notif-icon-box svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* Konten Kartu */
@@ -105,30 +111,40 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 6px;
+  gap: 10px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+
+.notif-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .notif-category {
-  font-size: .72rem;
+  font-size: .68rem;
   font-weight: 800;
-  letter-spacing: .06em;
+  letter-spacing: .05em;
   text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--bg);
 }
 
-.notif-category--danger { color: var(--red); }
-.notif-category--warn { color: var(--warn); }
-.notif-category--order { color: var(--clay); }
-.notif-category--done { color: var(--green); }
-.notif-category--prod { color: var(--indigo); }
-.notif-category--pay { color: var(--amber); }
+.notif-category--danger { color: var(--red); background: rgba(217, 45, 32, .08); }
+.notif-category--warn { color: var(--warn); background: rgba(217, 119, 6, .08); }
+.notif-category--order { color: var(--clay); background: var(--clay-100); }
+.notif-category--done { color: var(--green); background: rgba(30, 126, 52, .08); }
+.notif-category--prod { color: var(--indigo); background: rgba(73, 94, 205, .08); }
+.notif-category--pay { color: var(--amber); background: rgba(217, 119, 6, .08); }
 
 .notif-header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: .78rem;
+  gap: 8px;
+  font-size: .75rem;
   color: var(--ink-45);
   font-weight: 600;
 }
@@ -136,9 +152,9 @@
 .badge-new {
   background: var(--clay);
   color: #fff;
-  font-size: .66rem;
+  font-size: .65rem;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 1px 7px;
   border-radius: 999px;
   letter-spacing: .03em;
 }
@@ -149,18 +165,25 @@
 
 /* Judul & Teks */
 .notif-title {
-  font-size: 1.02rem;
+  font-size: .95rem;
   font-weight: 800;
   color: var(--ink);
-  letter-spacing: -.02em;
-  margin-bottom: 6px;
+  letter-spacing: -.01em;
+  margin-bottom: 2px;
+}
+
+.notif-row-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .notif-message {
-  font-size: .91rem;
+  font-size: .85rem;
   color: var(--ink-70);
-  line-height: 1.58;
-  margin-bottom: 14px;
+  line-height: 1.45;
+  margin-bottom: 0;
 }
 
 .notif-message b {
@@ -168,13 +191,14 @@
   font-weight: 700;
 }
 
-/* Footer Kartu */
+/* Footer Kartu (Untuk Fallback Statis agar tetap rapi & kompak) */
 .notif-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding-top: 14px;
+  gap: 10px;
+  padding-top: 8px;
+  margin-top: 8px;
   border-top: 1px solid var(--sand);
   flex-wrap: wrap;
 }
@@ -182,27 +206,43 @@
 .notif-footer-chips {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
+}
+
+.notif-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--clay);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: background .15s;
+}
+
+.notif-action-link:hover {
+  background: var(--clay-100);
 }
 
 /* Responsive Mobile */
 @media (max-width: 680px) {
   .notif-card {
-    padding: 18px 16px;
-    gap: 14px;
-    border-radius: var(--r-m);
-    flex-direction: column;
+    padding: 14px;
+    gap: 12px;
   }
-  .notif-icon-box {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
+  .notif-row-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
   .notif-footer {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 8px;
   }
   .notif-footer .btn {
     width: 100%;
@@ -537,32 +577,38 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (sideB) sideB.textContent = apiNotif.unread;
       if (tabU) tabU.textContent = apiNotif.unread;
       if (tabA) tabA.textContent = apiNotif.data.length;
+      var cntText = document.getElementById('notifCountText');
+      if (cntText) cntText.textContent = 'Menampilkan ' + apiNotif.data.length + ' notifikasi (Semua)';
 
       var todayGroup = document.querySelector('.time-group[data-group="today"]');
       if (todayGroup) {
         var divider = todayGroup.querySelector('.time-divider');
         var cardsHtml = apiNotif.data.map(function (n) {
           var isUnread = !n.is_read;
-          var catType = n.type === 'warn' || n.type === 'error' ? 'deadline' : (n.title && n.title.toLowerCase().indexOf('bayar') !== -1 ? 'payment' : 'production');
+          var isPay = n.title && n.title.toLowerCase().indexOf('bayar') !== -1;
+          var catType = (n.type === 'warn' || n.type === 'error') ? 'deadline' : (isPay ? 'payment' : 'production');
+          var catLabel = catType === 'deadline' ? 'Deadline' : (catType === 'payment' ? 'Pembayaran' : (n.type === 'success' ? 'Selesai' : 'Produksi'));
+          var catClass = catType === 'deadline' ? 'notif-category--warn' : (catType === 'payment' ? 'notif-category--pay' : (n.type === 'success' ? 'notif-category--done' : 'notif-category--prod'));
           var urgClass = isUnread ? (n.type === 'warn' ? ' is-unread urg-warn' : ' is-unread') : '';
           var icBg = n.type === 'warn' ? 'var(--warn)' : n.type === 'success' ? 'var(--s-done)' : 'var(--clay)';
           var icUse = n.type === 'warn' ? '#i-clock' : n.type === 'success' ? '#i-check' : '#i-order';
           return (
             '<article class="notif-card' + urgClass + '" data-type="' + catType + '" data-id="' + n.id + '">' +
-              '<div class="notif-icon-box" style="background:' + icBg + '"><svg width="22" height="22"><use href="' + icUse + '"/></svg></div>' +
+              '<div class="notif-icon-box" style="background:' + icBg + '"><svg width="18" height="18"><use href="' + icUse + '"/></svg></div>' +
               '<div class="notif-body">' +
                 '<div class="notif-header">' +
-                  '<span class="notif-category notif-category--order">' + TH.esc(n.type || 'info') + '</span>' +
-                  '<div class="notif-header-right">' +
+                  '<div class="notif-header-left">' +
+                    '<span class="notif-category ' + catClass + '">' + catLabel + '</span>' +
                     (isUnread ? '<span class="badge-new">Baru</span>' : '') +
+                  '</div>' +
+                  '<div class="notif-header-right">' +
                     '<span>' + TH.esc(n.created_at || '') + '</span>' +
                   '</div>' +
                 '</div>' +
                 '<h2 class="notif-title">' + TH.esc(n.title) + '</h2>' +
-                '<p class="notif-message">' + TH.esc(n.body || '') + '</p>' +
-                '<div class="notif-footer">' +
-                  '<div class="notif-footer-chips"><span class="chip chip--soft">D1 Live</span></div>' +
-                  '<a href="/app/orders/index.html" class="btn btn--ghost btn--sm">Buka Pesanan <svg width="14" height="14"><use href="#i-arrow"/></svg></a>' +
+                '<div class="notif-row-bottom">' +
+                  '<p class="notif-message">' + TH.esc(n.body || '') + '</p>' +
+                  '<a href="/app/orders/index.html" class="notif-action-link">Buka Pesanan <svg width="13" height="13"><use href="#i-arrow"/></svg></a>' +
                 '</div>' +
               '</div>' +
             '</article>'

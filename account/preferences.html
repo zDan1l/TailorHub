@@ -29,8 +29,8 @@
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>
 </defs></svg>
 
-<div class="app">
-  <div class="scrim" onclick="document.querySelector('.app').classList.remove('nav-open')"></div>
+<div class="app" id="app">
+  <div class="scrim" id="scrim" onclick="document.querySelector('.app').classList.remove('nav-open')"></div>
 
   <!-- SIDEBAR (reusable App Shell) -->
   <aside class="side" id="appSidebar" aria-label="Navigasi utama"></aside>
@@ -70,7 +70,7 @@
           <form id="prefForm">
             
             <h3 style="margin-bottom:14px; font-size:1.02rem;">Bahasa &amp; Lokalisasi</h3>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="form-row">
               <div class="field">
                 <label for="pref_lang">Bahasa Sistem</label>
                 <select class="select" id="pref_lang">
@@ -118,7 +118,7 @@
               </div>
             </div>
 
-            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:24px; padding-top:18px; border-top:1px solid var(--sand);">
+            <div style="display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap; margin-top:24px; padding-top:18px; border-top:1px solid var(--sand);">
               <button type="submit" class="btn btn--primary">
                 Simpan Preferensi
                 <svg width="17" height="17"><use href="#i-check"/></svg>

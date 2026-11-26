@@ -95,52 +95,47 @@
 
       <!-- Ringkasan KPI Urgensi -->
       <section class="prod-summary" aria-label="Ringkasan urgensi deadline">
-        <div class="prod-kpi">
+        <div class="prod-kpi" data-kpi="late">
           <span class="prod-kpi-ic" style="background:var(--red)"><svg width="20" height="20"><use href="#i-warn"/></svg></span>
           <small>Lewat Deadline</small>
-          <b>1</b>
-          <div class="prod-kpi-foot"><span class="delta delta--down">-1 hari</span> perlu eskalasi</div>
+          <b>—</b>
+          <div class="prod-kpi-foot"><span class="delta delta--down" id="kpiLateDelta">Memuat…</span></div>
         </div>
 
-        <div class="prod-kpi">
+        <div class="prod-kpi" data-kpi="tomorrow">
           <span class="prod-kpi-ic" style="background:var(--warn)"><svg width="20" height="20"><use href="#i-clock"/></svg></span>
-          <small>Jatuh Tempo Besok</small>
-          <b>1</b>
-          <div class="prod-kpi-foot"><span class="delta delta--warn">H-1</span> prioritas besok</div>
+          <small>Hari Ini / Besok</small>
+          <b>—</b>
+          <div class="prod-kpi-foot"><span class="delta delta--warn">H-0..H-1</span> prioritas segera</div>
         </div>
 
-        <div class="prod-kpi">
+        <div class="prod-kpi" data-kpi="within3">
           <span class="prod-kpi-ic" style="background:var(--clay)"><svg width="20" height="20"><use href="#i-scissors"/></svg></span>
-          <small>Dalam 3 Hari</small>
-          <b>2</b>
-          <div class="prod-kpi-foot"><span class="delta delta--warn">H-2..H-4</span> pantau ketat</div>
+          <small>Dalam 2–3 Hari</small>
+          <b>—</b>
+          <div class="prod-kpi-foot"><span class="delta delta--warn">H-2..H-3</span> pantau ketat</div>
         </div>
 
-        <div class="prod-kpi">
+        <div class="prod-kpi" data-kpi="safe">
           <span class="prod-kpi-ic" style="background:var(--s-done)"><svg width="20" height="20"><use href="#i-check"/></svg></span>
           <small>Jadwal Aman</small>
-          <b>5</b>
+          <b>—</b>
           <div class="prod-kpi-foot"><span class="delta delta--up">On Track</span> sesuai estimasi</div>
         </div>
       </section>
 
       <!-- Banner Peringatan Utama -->
-      <div class="alert alert--error" style="margin-bottom:18px;">
+      <div class="alert alert--error" style="margin-bottom:18px;" hidden>
         <svg width="22" height="22"><use href="#i-warn"/></svg>
-        <div style="flex:1;">
-          <b>1 pesanan telah melewati deadline!</b>
-          <div style="font-size:.85rem;opacity:.92;margin-top:2px;">
-            <b>TH-2033</b> (Jas Formal ×1 · Hendra W.) terlambat 1 hari pada tahap Finishing. Segera koordinasi dengan Mas Budi.
-          </div>
-        </div>
-        <a href="update-status.html?code=TH-2033" class="btn btn--light btn--sm">Prioritaskan</a>
+        <div style="flex:1;"></div>
+        <a href="update-status.html" class="btn btn--light btn--sm">Prioritaskan</a>
       </div>
 
       <!-- Filter Pills -->
       <div class="alert-pills" role="group" aria-label="Filter kategori deadline">
-        <button type="button" class="alert-pill is-on" data-filter="all">Semua Mendesak (4)</button>
-        <button type="button" class="alert-pill" data-filter="late">Lewat Deadline (1)</button>
-        <button type="button" class="alert-pill" data-filter="soon">Mendekati ≤3 Hari (3)</button>
+        <button type="button" class="alert-pill is-on" data-filter="all">Semua Mendesak (0)</button>
+        <button type="button" class="alert-pill" data-filter="late">Lewat Deadline (0)</button>
+        <button type="button" class="alert-pill" data-filter="soon">Mendekati ≤3 Hari (0)</button>
       </div>
 
       <!-- Tabel Prioritas Terurut -->
@@ -158,76 +153,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="row-late" data-urgency="late">
-                <td>
-                  <a href="detail.html?code=TH-2033" style="color:var(--red)"><b>TH-2033</b></a>
-                  <div style="font-size:.8rem;color:var(--ink-70)">Jas Formal ×1</div>
-                </td>
-                <td><div class="cust-cell"><span class="mini">HW</span><span>Hendra W.</span></div></td>
-                <td><span class="chip chip--danger"><span class="d"></span>Lewat 1 hari</span></td>
-                <td><span class="chip chip--finish"><span class="d"></span>Finishing</span></td>
-                <td><div class="staff-cell"><span class="avatar avatar--sm avatar--indigo">MB</span><span>Mas Budi</span></div></td>
-                <td>
-                  <div class="row-actions">
-                    <button type="button" class="btn btn--ghost btn--sm js-remind" data-code="TH-2033" data-staff="Mas Budi">Ingatkan Staf</button>
-                    <a href="update-status.html?code=TH-2033" class="btn btn--primary btn--sm">Update</a>
-                    <a href="detail.html?code=TH-2033" class="btn btn--ghost btn--sm">Detail</a>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-urgency="soon">
-                <td>
-                  <a href="detail.html?code=TH-2041" style="color:var(--clay)"><b>TH-2041</b></a>
-                  <div style="font-size:.8rem;color:var(--ink-45)">Kemeja Formal ×3</div>
-                </td>
-                <td><div class="cust-cell"><span class="mini">BS</span><span>Budi Santoso</span></div></td>
-                <td><span class="chip chip--clay"><span class="d"></span>Besok (H-1)</span></td>
-                <td><span class="chip chip--sew"><span class="d"></span>Penjahitan</span></td>
-                <td><div class="staff-cell"><span class="avatar avatar--sm">AS</span><span>Andi S.</span></div></td>
-                <td>
-                  <div class="row-actions">
-                    <button type="button" class="btn btn--ghost btn--sm js-remind" data-code="TH-2041" data-staff="Andi S.">Ingatkan Staf</button>
-                    <a href="update-status.html?code=TH-2041" class="btn btn--primary btn--sm">Update</a>
-                    <a href="detail.html?code=TH-2041" class="btn btn--ghost btn--sm">Detail</a>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-urgency="soon">
-                <td>
-                  <a href="detail.html?code=TH-2040" style="color:var(--clay)"><b>TH-2040</b></a>
-                  <div style="font-size:.8rem;color:var(--ink-45)">Jas Formal ×1</div>
-                </td>
-                <td><div class="cust-cell"><span class="mini">CD</span><span>Citra Dewi</span></div></td>
-                <td><span class="chip chip--clay"><span class="d"></span>24 Nov (H-2)</span></td>
-                <td><span class="chip chip--qc"><span class="d"></span>QC</span></td>
-                <td><div class="staff-cell"><span class="avatar avatar--sm">AS</span><span>Andi S.</span></div></td>
-                <td>
-                  <div class="row-actions">
-                    <button type="button" class="btn btn--ghost btn--sm js-remind" data-code="TH-2040" data-staff="Andi S.">Ingatkan Staf</button>
-                    <a href="update-status.html?code=TH-2040" class="btn btn--primary btn--sm">Update</a>
-                    <a href="detail.html?code=TH-2040" class="btn btn--ghost btn--sm">Detail</a>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-urgency="soon">
-                <td>
-                  <a href="detail.html?code=TH-2035" style="color:var(--clay)"><b>TH-2035</b></a>
-                  <div style="font-size:.8rem;color:var(--ink-45)">Jas Almamater ×1</div>
-                </td>
-                <td><div class="cust-cell"><span class="mini">CD</span><span>Citra Dewi</span></div></td>
-                <td><span class="chip chip--soft">26 Nov (H-4)</span></td>
-                <td><span class="chip chip--finish"><span class="d"></span>Finishing</span></td>
-                <td><div class="staff-cell"><span class="avatar avatar--sm avatar--indigo">MB</span><span>Mas Budi</span></div></td>
-                <td>
-                  <div class="row-actions">
-                    <button type="button" class="btn btn--ghost btn--sm js-remind" data-code="TH-2035" data-staff="Mas Budi">Ingatkan Staf</button>
-                    <a href="update-status.html?code=TH-2035" class="btn btn--primary btn--sm">Update</a>
-                    <a href="detail.html?code=TH-2035" class="btn btn--ghost btn--sm">Detail</a>
-                  </div>
-                </td>
+              <tr>
+                <td colspan="6" style="text-align:center;color:var(--ink-45);padding:28px">Memuat data deadline dari server…</td>
               </tr>
             </tbody>
           </table>
@@ -244,9 +171,6 @@
 (function () {
   'use strict';
   var T = window.TH;
-  var MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-  function fmt(s){ if(!s) return '—'; var d=new Date(s+'T00:00:00'); return isNaN(d)?s:((d.getDate()<10?'0':'')+d.getDate()+' '+MONTHS[d.getMonth()]); }
-  function days(s){ if(!s) return null; var d=new Date(s+'T00:00:00'); if(isNaN(d))return null; var n=new Date(); n.setHours(0,0,0,0); return Math.round((d-n)/86400000); }
   var tbody = document.querySelector('#deadlineTable tbody');
   var pills = document.querySelectorAll('.alert-pill');
   var currentFilter = 'all';
@@ -262,48 +186,120 @@
     setTimeout(function () { if (toast.parentNode) toast.remove(); }, 4200);
   }
 
-  function urgencyOf(o){ var dd=days(o.deadline); if(dd===null) return 'safe'; if(dd<0) return 'late'; if(dd<=3) return 'soon'; return 'safe'; }
-  function urgencyChip(o){ var dd=days(o.deadline);
-    if(dd<0) return '<span class="chip chip--danger"><span class="d"></span>Lewat '+Math.abs(dd)+' hari</span>';
-    if(dd===0) return '<span class="chip chip--clay"><span class="d"></span>Hari ini</span>';
-    if(dd===1) return '<span class="chip chip--clay"><span class="d"></span>Besok (H-1)</span>';
-    return '<span class="chip chip--clay"><span class="d"></span>'+fmt(o.deadline)+' (H-'+dd+')</span>'; }
+  function urgencyOf(o){ var cat = T.deadlineMeta(o.deadline, o.production_status).cat; return cat === 'normal' ? 'safe' : cat; }
+  function urgencyChipEl(o){
+    var dl = T.deadlineMeta(o.deadline, o.production_status);
+    return T.chipEl(dl.cls, dl.chipText);
+  }
   function setPill(f, n){ var L={all:'Semua Mendesak',late:'Lewat Deadline',soon:'Mendekati ≤3 Hari'}; var p=document.querySelector('.alert-pill[data-filter="'+f+'"]'); if(p) p.textContent=L[f]+' ('+n+')'; }
-  function updateKpi(key, n){ document.querySelectorAll('.prod-kpi').forEach(function(k){ var s=k.querySelector('small'); if(s && s.textContent.toLowerCase().indexOf(key.toLowerCase())>-1){ var b=k.querySelector('b'); if(b) b.textContent=n; } }); }
+  function setKpi(kpiKey, n){ var card=document.querySelector('.prod-kpi[data-kpi="'+kpiKey+'"] b'); if(card) card.textContent=n; }
   function applyFilter(){ document.querySelectorAll('#deadlineTable tbody tr[data-urgency]').forEach(function(r){ var u=r.getAttribute('data-urgency'); r.hidden=!(currentFilter==='all'||u===currentFilter); }); }
+
+  function renderStatusRow(text, colorVar) {
+    tbody.textContent = '';
+    tbody.appendChild(T.el('tr', null, [
+      T.el('td', { colspan: '6', style: 'text-align:center;color:' + colorVar + ';padding:28px', text: text })
+    ]));
+  }
+
+  function buildAlertRowEl(o) {
+    var u = urgencyOf(o);
+    var href = 'detail.html?code=' + encodeURIComponent(o.code);
+    var cust = o.customer || '-';
+    var staffEl = o.assignee
+      ? T.el('div', { className: 'staff-cell' }, [
+          T.el('span', { className: 'avatar avatar--sm', text: T.initials(o.assignee) }),
+          T.el('span', { text: o.assignee })
+        ])
+      : T.el('span', { style: 'color:var(--ink-45)', text: 'Belum ditugaskan' });
+
+    return T.el('tr', {
+      'data-urgency': u,
+      className: u === 'late' ? 'row-late' : ''
+    }, [
+      T.el('td', null, [
+        T.el('a', { href: href, style: u === 'late' ? 'color:var(--red)' : '' }, [
+          T.el('b', { text: o.code })
+        ]),
+        T.el('div', { style: 'font-size:.8rem;color:var(--ink-70)', text: (o.detail || o.type || '-') + (o.qty > 1 ? ' ×' + o.qty : '') })
+      ]),
+      T.el('td', null, [
+        T.el('div', { className: 'cust-cell' }, [
+          T.el('span', { className: 'mini', text: T.initials(cust) }),
+          T.el('span', { text: cust })
+        ])
+      ]),
+      T.el('td', null, urgencyChipEl(o)),
+      T.el('td', null, T.chipEl(T.statusChip(o.production_status), o.production_status || '-')),
+      T.el('td', null, staffEl),
+      T.el('td', null, [
+        T.el('div', { className: 'row-actions' }, [
+          T.el('button', {
+            type: 'button',
+            className: 'btn btn--ghost btn--sm js-remind',
+            'data-code': o.code,
+            'data-staff': o.assignee || 'staf terkait',
+            text: 'Ingatkan Staf'
+          }),
+          T.el('a', { href: 'update-status.html?code=' + encodeURIComponent(o.code), className: 'btn btn--primary btn--sm', text: 'Update' }),
+          T.el('a', { href: href, className: 'btn btn--ghost btn--sm', text: 'Detail' })
+        ])
+      ])
+    ]);
+  }
 
   function render(orders){
     var active = orders.filter(function(o){ return o.production_status!=='Selesai' && o.production_status!=='Diambil'; });
-    var late = active.filter(function(o){ return o.deadline && days(o.deadline)<0; });
-    var soon = active.filter(function(o){ var d=days(o.deadline); return o.deadline && d>=0 && d<=3; });
-    var safe = active.filter(function(o){ var d=days(o.deadline); return !o.deadline || d>3; });
-    var list = late.concat(soon).sort(function(a,b){ return days(a.deadline)-days(b.deadline); });
+    var late = active.filter(function(o){ var d = T.daysUntil(o.deadline); return d !== null && d < 0; });
+    var tomorrow = active.filter(function(o){ var d = T.daysUntil(o.deadline); return d !== null && d >= 0 && d <= 1; });
+    var within3 = active.filter(function(o){ var d = T.daysUntil(o.deadline); return d !== null && d >= 2 && d <= 3; });
+    var soon = tomorrow.concat(within3);
+    var safe = active.filter(function(o){ var d = T.daysUntil(o.deadline); return d === null || d > 3; });
+    var list = late.concat(soon).sort(function(a,b){ return T.daysUntil(a.deadline) - T.daysUntil(b.deadline); });
 
     setPill('all', late.length+soon.length); setPill('late', late.length); setPill('soon', soon.length);
-    updateKpi('Lewat', late.length); updateKpi('Mendekati', soon.length); updateKpi('Aman', safe.length);
+    setKpi('late', late.length);
+    setKpi('tomorrow', tomorrow.length);
+    setKpi('within3', within3.length);
+    setKpi('safe', safe.length);
+
+    var lateFoot = document.querySelector('.prod-kpi[data-kpi="late"] .prod-kpi-foot');
+    if (lateFoot) {
+      lateFoot.textContent = '';
+      if (late.length) {
+        var worstDays = Math.abs(T.daysUntil(list[0].deadline));
+        lateFoot.appendChild(T.el('span', { className: 'delta delta--down', text: '-' + worstDays + ' hari' }));
+        lateFoot.appendChild(document.createTextNode(' perlu eskalasi'));
+      } else {
+        lateFoot.appendChild(T.el('span', { className: 'delta delta--up', text: '0 terlambat' }));
+        lateFoot.appendChild(document.createTextNode(' terkendali'));
+      }
+    }
 
     var banner = document.querySelector('.alert.alert--error');
     if (banner){
-      if (late.length){ banner.hidden=false; var o=late[0];
-        var box=banner.querySelector('div'); if(box) box.innerHTML='<b>'+late.length+' pesanan telah melewati deadline!</b><div style="font-size:.85rem;opacity:.92;margin-top:2px;"><b>'+T.esc(o.code)+'</b> ('+T.esc(o.detail||o.type||'-')+') terlambat '+Math.abs(days(o.deadline))+' hari pada tahap '+T.esc(o.production_status)+'.</div>';
+      if (late.length){
+        banner.hidden=false;
+        var o = list[0];
+        var staffNote = o.assignee ? ' Segera koordinasi dengan ' + o.assignee + '.' : '';
+        var box=banner.querySelector('div');
+        if(box) {
+          box.textContent = '';
+          box.appendChild(T.el('b', { text: late.length + ' pesanan telah melewati deadline!' }));
+          box.appendChild(T.el('div', { style: 'font-size:.85rem;opacity:.92;margin-top:2px;' }, [
+            T.el('b', { text: o.code }),
+            ' (' + (o.detail || o.type || '-') + ') terlambat ' + Math.abs(T.daysUntil(o.deadline)) + ' hari pada tahap ' + (o.production_status || '-') + '.' + staffNote
+          ]));
+        }
         var pr=banner.querySelector('a'); if(pr) pr.href='update-status.html?code='+encodeURIComponent(o.code);
       } else banner.hidden=true;
     }
 
-    if (!list.length){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--ink-45);padding:28px">Tidak ada pesanan mendesak saat ini. 🎉</td></tr>'; return; }
-    tbody.innerHTML = list.map(function(o){
-      var u=urgencyOf(o);
-      var href='detail.html?code='+encodeURIComponent(o.code);
-      var staff = o.assignee ? '<div class="staff-cell"><span class="avatar avatar--sm">'+T.esc(T.initials(o.assignee))+'</span><span>'+T.esc(o.assignee)+'</span></div>' : '<span style="color:var(--ink-45)">Belum ditugaskan</span>';
-      return '<tr data-urgency="'+u+'"'+(u==='late'?' class="row-late"':'')+'>'+
-        '<td><a href="'+href+'"'+(u==='late'?' style="color:var(--red)"':'')+'><b>'+T.esc(o.code)+'</b></a><div style="font-size:.8rem;color:var(--ink-70)">'+T.esc(o.detail||o.type||'-')+(o.qty>1?' ×'+o.qty:'')+'</div></td>'+
-        '<td><div class="cust-cell"><span class="mini">'+T.esc(T.initials(o.customer||'-'))+'</span><span>'+T.esc(o.customer||'-')+'</span></div></td>'+
-        '<td>'+urgencyChip(o)+'</td>'+
-        '<td><span class="chip '+T.statusChip(o.production_status)+'"><span class="d"></span>'+T.esc(o.production_status)+'</span></td>'+
-        '<td>'+staff+'</td>'+
-        '<td><div class="row-actions"><button type="button" class="btn btn--ghost btn--sm js-remind" data-code="'+T.esc(o.code)+'" data-staff="'+T.esc(o.assignee||'staf terkait')+'">Ingatkan Staf</button><a href="update-status.html?code='+encodeURIComponent(o.code)+'" class="btn btn--primary btn--sm">Update</a><a href="'+href+'" class="btn btn--ghost btn--sm">Detail</a></div></td>'+
-      '</tr>';
-    }).join('');
+    if (!list.length){ renderStatusRow('Tidak ada pesanan mendesak saat ini. 🎉', 'var(--ink-45)'); return; }
+    tbody.textContent = '';
+    var frag = document.createDocumentFragment();
+    list.forEach(function (o) { frag.appendChild(buildAlertRowEl(o)); });
+    tbody.appendChild(frag);
     applyFilter();
   }
 
@@ -320,7 +316,7 @@
 
   (async function () {
     try { var res = await T.get('/api/orders?limit=200'); render((res && res.data) || []); }
-    catch (e) { console.error('Gagal memuat deadline:', e); tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--red);padding:28px">Gagal memuat data.</td></tr>'; }
+    catch (e) { console.error('Gagal memuat deadline:', e); renderStatusRow('Gagal memuat data.', 'var(--red)'); }
   })();
 })();
 </script>
