@@ -47,6 +47,29 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
 .signatures{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px;text-align:center;}
 .sig-line{height:70px;}
 
+/* Kelas pengganti inline (agar bisa responsive) */
+.doc-meta{text-align:right;}
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.measure-grid{grid-template-columns:repeat(6,1fr);}
+.pay-row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;}
+.calc-box{min-width:260px;}
+
+/* Tampilan layar HP (khusus pratinjau; saat dicetak tidak berlaku) */
+@media screen and (max-width:640px){
+  body{padding:12px;}
+  .no-print-bar{flex-wrap:wrap;gap:10px;}
+  .no-print-bar .btn{flex:1 1 100%;justify-content:center;}
+  .page-sheet{padding:20px 16px;border-radius:10px;}
+  .invoice-head{flex-direction:column;gap:14px;}
+  .doc-meta{text-align:left;}
+  .info-row{grid-template-columns:1fr;gap:12px;}
+  .tbl-scroll table{min-width:520px;}
+  .measure-grid{grid-template-columns:repeat(3,1fr);}
+  .pay-row{flex-wrap:wrap;}
+  .calc-box{min-width:0;width:100%;}
+  .signatures{gap:16px;margin-top:28px;}
+}
+
 @media print{
   body{background:#fff;padding:0;}
   .no-print-bar{display:none;}
@@ -74,7 +97,7 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
         Jl. Kemang Raya No. 18, Jakarta Selatan · Telp/WA: 0812-3456-7890
       </div>
     </div>
-    <div style="text-align:right;">
+    <div class="doc-meta">
       <div style="font-size:1.3rem;font-weight:800;color:var(--ink-900);">SURAT KERJA &amp; NOTA</div>
       <div style="font-size:1.1rem;font-weight:800;color:var(--clay);margin-top:2px;">TH-2033</div>
       <div style="font-size:.8rem;color:var(--ink-45);margin-top:4px;">Tgl Masuk: 10 Nov 2026</div>
@@ -99,6 +122,7 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
   </div>
 
   <!-- RINCIAN ITEM -->
+  <div class="tbl-scroll">
   <table>
     <thead>
       <tr>
@@ -126,11 +150,12 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
       </tr>
     </tbody>
   </table>
+  </div>
 
   <!-- DETAIL UKURAN (PENTING UNTUK PENJAHIT) -->
   <div class="box" style="margin-bottom:20px;">
     <div class="box-title">Kartu Ukuran Jahitan (Fitting Sentimeter)</div>
-    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;text-align:center;font-size:.85rem;">
+    <div class="measure-grid" style="display:grid;gap:10px;text-align:center;font-size:.85rem;">
       <div style="border:1px solid var(--sand);border-radius:6px;padding:8px 4px;">
         <span style="font-size:.72rem;color:var(--ink-45);display:block;">Lingkar Dada</span>
         <b>102 cm</b>
@@ -159,7 +184,7 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
   </div>
 
   <!-- KALKULASI PEMBAYARAN -->
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;">
+  <div class="pay-row">
     <div style="max-width:380px;">
       <div style="font-size:.78rem;font-weight:700;color:var(--ink-70);margin-bottom:4px;">Ketentuan Pengambilan:</div>
       <ol style="margin:0;padding-left:18px;font-size:.75rem;color:var(--ink-45);line-height:1.5;">
@@ -169,7 +194,7 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
       </ol>
     </div>
 
-    <div style="min-width:260px;">
+    <div class="calc-box">
       <div style="display:flex;justify-content:space-between;padding:4px 0;">
         <span>Total Biaya:</span>
         <b>Rp 2.500.000</b>
@@ -250,7 +275,7 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
         '<td class="num"><b>' + TH.rupiah(o.price) + '</b></td></tr>';
     }
 
-    var calcBox = document.querySelector('div[style*="min-width:260px"]');
+    var calcBox = document.querySelector('.calc-box');
     if (calcBox) {
       calcBox.innerHTML =
         '<div style="display:flex;justify-content:space-between;padding:4px 0;"><span>Total Biaya:</span><b>' + TH.rupiah(o.price) + '</b></div>' +

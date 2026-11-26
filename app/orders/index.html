@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
+<link rel="stylesheet" href="../../assets/css/orders-customers.css">
 </head>
 <body>
 
@@ -62,7 +63,7 @@
           <h1>Manajemen Pesanan</h1>
           <p class="sub">Kelola antrean pengerjaan, rincian jahitan, estimasi biaya, dan tanggal deadline.</p>
         </div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div class="head-actions">
           <a href="search.html" class="btn btn--ghost">
             <svg width="17" height="17"><use href="#i-filter"/></svg>
             <span>Filter Lanjutan</span>
@@ -75,7 +76,7 @@
       </div>
 
       <!-- Quick KPI Tiles -->
-      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px;">
+      <section class="kpi-grid" style="display:grid;gap:14px;margin-bottom:22px;">
         <div class="tile">
           <small>Total Pesanan Aktif</small>
           <b>8</b>
@@ -111,8 +112,8 @@
       </section>
 
       <!-- Filter Tabs & Search Bar -->
-      <div class="card" style="padding:16px 20px;margin-bottom:18px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div class="ord-filter-card" aria-label="Filter pesanan">
+        <div class="ord-filter-wrap">
           <!-- Tabs Status -->
           <div class="tabs" id="orderStatusTabs" style="border-bottom:0;">
             <a href="#" data-status="all" class="is-on">Semua <span class="badge-count" style="margin-left:5px;font-size:.68rem;">10</span></a>
@@ -122,14 +123,14 @@
           </div>
 
           <!-- Fast filter dropdowns -->
-          <div style="display:flex;gap:10px;align-items:center;">
-            <select id="filterPayment" class="select" style="padding-top:8px;padding-bottom:8px;min-width:145px;font-size:.85rem;">
+          <div class="ord-filters">
+            <select id="filterPayment" class="select">
               <option value="">Semua Status Bayar</option>
               <option value="unpaid">Belum Bayar</option>
               <option value="dp">DP (Uang Muka)</option>
               <option value="paid">Lunas</option>
             </select>
-            <select id="filterSort" class="select" style="padding-top:8px;padding-bottom:8px;min-width:140px;font-size:.85rem;">
+            <select id="filterSort" class="select">
               <option value="deadline">Urut: Deadline Terdekat</option>
               <option value="latest">Urut: Pesanan Terbaru</option>
               <option value="price-desc">Urut: Nilai Tertinggi</option>
@@ -140,7 +141,7 @@
 
       <!-- Tabel Pesanan -->
       <div class="table-wrap">
-        <table class="table">
+        <table class="table table--wide table--cards table--orders">
           <thead>
             <tr>
               <th style="width:40px;"><input type="checkbox" id="selectAllOrders" title="Pilih Semua"></th>

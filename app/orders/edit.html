@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
+<link rel="stylesheet" href="../../assets/css/orders-customers.css">
 </head>
 <body>
 
@@ -62,7 +63,7 @@
         </div>
       </div>
 
-      <form action="detail.html" method="GET" style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;">
+      <form action="detail.html" method="GET" class="rg-main" style="display:grid;gap:24px;align-items:start;">
         <div style="display:flex;flex-direction:column;gap:20px;">
           
           <!-- Data Customer (Readonly info) -->
@@ -84,7 +85,7 @@
           <!-- Rincian Pesanan -->
           <div class="card">
             <h3 style="margin-bottom:16px;">Rincian Item &amp; Ukuran</h3>
-            <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;">
+            <div class="rg-2-1" style="display:grid;gap:14px;">
               <div class="field">
                 <label>Judul Pesanan <span class="req">*</span></label>
                 <input type="text" class="input" value="Jas Formal ×1" required>
@@ -99,7 +100,7 @@
               </div>
             </div>
 
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div class="rg-2" style="display:grid;gap:14px;">
               <div class="field">
                 <label>Bahan Kain</label>
                 <input type="text" class="input" value="Semi Wool Italian Grey Charcoal">
