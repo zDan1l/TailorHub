@@ -1,20 +1,7 @@
 // GET    /api/orders/:id  — detail + riwayat status + pembayaran (:id boleh numeric id atau kode mis. TH-2041)
 // PUT    /api/orders/:id  — ubah data / status produksi
 // DELETE /api/orders/:id  — hapus pesanan (beserta riwayat & pembayaran)
-import { json, error, readJson, PRODUCTION_STATUSES } from "../_utils.js";
-
-async function findOrderByParam(DB, tenantId, idOrCode) {
-  const raw = String(idOrCode || "").trim();
-  return DB.prepare(
-    `SELECT o.*, c.name AS customer, c.phone AS customer_phone, c.email AS customer_email, c.address AS customer_address,
-            u.name AS assignee
-       FROM orders o
-       LEFT JOIN customers c ON c.id=o.customer_id
-       LEFT JOIN users u ON u.id=o.assignee_id
-      WHERE o.tenant_id=? AND (o.id=? OR UPPER(o.code)=UPPER(?))
-      LIMIT 1`
-  ).bind(tenantId, raw, raw).first();
-}
+import { json, error, readJson, PRODUCTION_STATUSES, findOrderByParam, listOrderNotes } from "../_utils.js";
 
 export async function onRequestGet({ env, params, data }) {
   const t = data.auth.tenantId;
@@ -24,12 +11,13 @@ export async function onRequestGet({ env, params, data }) {
   const history = await env.DB.prepare(
     "SELECT status, note, created_at FROM order_status_history WHERE order_id=? AND tenant_id=? ORDER BY id ASC"
   ).bind(order.id, t).all();
+  const notes = await listOrderNotes(env.DB, t, order.id);
   const payments = await env.DB.prepare(
     "SELECT id, type, amount, method, paid_at, created_at FROM payments WHERE order_id=? AND tenant_id=? ORDER BY id ASC"
   ).bind(order.id, t).all();
 
   const paid = payments.results.reduce((s, p) => s + p.amount, 0);
-  return json({ order, history: history.results, payments: payments.results, paid, sisa: Math.max(0, order.price - paid) });
+  return json({ order, history: history.results, notes, payments: payments.results, paid, sisa: Math.max(0, order.price - paid) });
 }
 
 export async function onRequestPut({ request, env, params, data }) {
@@ -71,6 +59,7 @@ export async function onRequestDelete({ env, params, data }) {
   const order = await findOrderByParam(DB, t, params.id);
   if (!order) return error("Pesanan tidak ditemukan.", 404);
   await DB.batch([
+    DB.prepare("DELETE FROM order_notes WHERE order_id=? AND tenant_id=?").bind(order.id, t),
     DB.prepare("DELETE FROM order_status_history WHERE order_id=? AND tenant_id=?").bind(order.id, t),
     DB.prepare("DELETE FROM payments WHERE order_id=? AND tenant_id=?").bind(order.id, t),
     DB.prepare("DELETE FROM orders WHERE id=? AND tenant_id=?").bind(order.id, t),

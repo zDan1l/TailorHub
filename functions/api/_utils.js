@@ -114,3 +114,31 @@ export async function recomputePaymentStatus(DB, tenantId, orderId) {
     .bind(status, orderId, tenantId).run();
   return status;
 }
+
+// ---------- Cari pesanan milik tenant (berdasarkan id numerik atau kode) ----------
+export async function findOrderByParam(DB, tenantId, idOrCode) {
+  const raw = String(idOrCode || "").trim();
+  return DB.prepare(
+    `SELECT o.*, c.name AS customer, c.phone AS customer_phone, c.email AS customer_email, c.address AS customer_address,
+            u.name AS assignee
+       FROM orders o
+       LEFT JOIN customers c ON c.id=o.customer_id
+       LEFT JOIN users u ON u.id=o.assignee_id
+      WHERE o.tenant_id=? AND (o.id=? OR UPPER(o.code)=UPPER(?))
+      LIMIT 1`
+  ).bind(tenantId, raw, raw).first();
+}
+
+// ---------- Ambil log catatan produksi pesanan ----------
+export async function listOrderNotes(DB, tenantId, orderId) {
+  const res = await DB.prepare(
+    `SELECT n.id, n.body, n.created_at,
+            COALESCE(u.name, 'Tim Produksi') AS author_name,
+            COALESCE(u.role, 'staff') AS author_role
+       FROM order_notes n
+       LEFT JOIN users u ON u.id=n.user_id
+      WHERE n.order_id=? AND n.tenant_id=?
+      ORDER BY n.id DESC`
+  ).bind(orderId, tenantId).all();
+  return res.results || [];
+}

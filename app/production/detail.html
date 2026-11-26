@@ -174,13 +174,8 @@
           <section class="card" aria-label="Log catatan produksi">
             <h3 style="margin-bottom:14px;">Log Catatan Produksi</h3>
             <div class="note-list" id="noteList">
-              <div class="note-item">
-                <div class="note-head"><b>Andi S. (Penjahit)</b><span>22 Nov 2026 · 08:35 WIB</span></div>
-                <p>Kancing mutiara putih 11mm sudah disiapkan sesuai permintaan customer. Lanjut jahit manset lengan.</p>
-              </div>
-              <div class="note-item">
-                <div class="note-head"><b>Pak Mardi (Pemilik)</b><span>20 Nov 2026 · 09:20 WIB</span></div>
-                <p>Prioritaskan pesanan ini karena target dipakai acara kantor tanggal 25 November pagi.</p>
+              <div class="note-item note-empty">
+                <p style="color:var(--ink-45);">Memuat catatan produksi…</p>
               </div>
             </div>
 
@@ -504,39 +499,68 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
     updateDetailWaPreview(code, data);
   }
 
-  document.getElementById('noteForm').addEventListener('submit', function (e) {
+  var ROLE_LABELS = { pemilik: 'Pemilik', admin: 'Admin', staff: 'Staf' };
+
+  function formatNoteTime(str) {
+    if (!str) return 'Baru saja';
+    var m = String(str).match(/^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})/);
+    if (m && window.TH) {
+      return window.TH.formatShortDate(m[1], true) + ' · ' + m[2];
+    }
+    return str;
+  }
+
+  function buildNoteItemEl(n) {
+    var T = window.TH;
+    var roleText = ROLE_LABELS[n.author_role] || '';
+    var authorLabel = (n.author_name || 'Tim Produksi') + (roleText ? ' (' + roleText + ')' : '');
+    return T.el('div', { className: 'note-item' }, [
+      T.el('div', { className: 'note-head' }, [
+        T.el('b', { text: authorLabel }),
+        T.el('span', { text: formatNoteTime(n.created_at) })
+      ]),
+      T.el('p', { text: n.body || '' })
+    ]);
+  }
+
+  function renderNotesList(notes) {
+    var noteList = document.getElementById('noteList');
+    if (!noteList || !window.TH) return;
+    noteList.textContent = '';
+    if (!Array.isArray(notes) || !notes.length) {
+      noteList.appendChild(window.TH.el('div', { className: 'note-item note-empty' }, [
+        window.TH.el('p', { style: 'color:var(--ink-45);', text: 'Belum ada catatan produksi untuk pesanan ini.' })
+      ]));
+      return;
+    }
+    var frag = document.createDocumentFragment();
+    notes.forEach(function (n) { frag.appendChild(buildNoteItemEl(n)); });
+    noteList.appendChild(frag);
+  }
+
+  document.getElementById('noteForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     var input = document.getElementById('noteInput');
+    var submitBtn = this.querySelector('button[type="submit"]');
     var val = input.value.trim();
-    if (!val) return;
+    if (!val || !window.TH) return;
 
     var code = document.getElementById('crumbCode').textContent.trim();
-    if (window.TH && code) {
-      window.TH.put('/api/orders/' + encodeURIComponent(code), { notes: val }).catch(function () {});
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      var res = await window.TH.post('/api/orders/' + encodeURIComponent(code) + '/notes', { body: val });
+      var noteList = document.getElementById('noteList');
+      var emptyEl = noteList.querySelector('.note-empty');
+      if (emptyEl) emptyEl.remove();
+      var item = buildNoteItemEl((res && res.note) || { body: val, author_name: 'Anda' });
+      noteList.insertBefore(item, noteList.firstChild);
+      input.value = '';
+      showToast('Catatan tersimpan', 'Catatan produksi baru berhasil disimpan ke database.');
+    } catch (err) {
+      showToast('Gagal menyimpan', (err && err.message) || 'Tidak dapat menyimpan catatan produksi.');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
     }
-
-    var item = document.createElement('div');
-    item.className = 'note-item';
-
-    var head = document.createElement('div');
-    head.className = 'note-head';
-    var author = document.createElement('b');
-    author.textContent = 'Pak Mardi (Baru saja)';
-    var time = document.createElement('span');
-    time.textContent = 'Hari ini';
-    head.appendChild(author);
-    head.appendChild(time);
-
-    var p = document.createElement('p');
-    p.textContent = val;
-
-    item.appendChild(head);
-    item.appendChild(p);
-    var noteList = document.getElementById('noteList');
-    noteList.insertBefore(item, noteList.firstChild);
-
-    input.value = '';
-    showToast('Catatan tersimpan', 'Catatan produksi baru berhasil ditambahkan ke log.');
   });
 
   document.getElementById('saveStaffBtn').addEventListener('click', function () {
@@ -623,9 +647,11 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
         };
         applyOrderFromQuery(o.code);
         syncTimelineHistory(d.history, step);
+        renderNotesList(d.notes || []);
       }
     } catch (e) {
       console.error('Gagal menyinkronkan detail pesanan dari D1:', e);
+      renderNotesList([]);
     }
   })();
 })();
