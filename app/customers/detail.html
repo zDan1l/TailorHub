@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
+<link rel="stylesheet" href="../../assets/css/orders-customers.css">
 </head>
 <body>
 
@@ -51,14 +52,14 @@
             <span class="sep">/</span>
             <b>Hendra Wibowo</b>
           </nav>
-          <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+          <div class="head-title">
             <h1>Hendra Wibowo</h1>
             <span class="chip chip--clay">VIP Member</span>
           </div>
           <p class="sub">Pelanggan terdaftar sejak 15 Januari 2025 · ID: CUST-0012</p>
         </div>
 
-        <div style="display:flex;gap:10px;align-items:center;">
+        <div class="head-actions">
           <a href="form.html?id=1" class="btn btn--ghost">
             <svg width="16" height="16"><use href="#i-edit"/></svg> Edit Profil
           </a>
@@ -69,7 +70,7 @@
       </div>
 
       <!-- Quick Stats -->
-      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px;">
+      <section class="kpi-grid" style="display:grid;gap:14px;margin-bottom:22px;">
         <div class="tile">
           <small>Total Semua Pesanan</small>
           <b>4 Kali</b>
@@ -92,7 +93,7 @@
         </div>
       </section>
 
-      <div style="display:grid;grid-template-columns:1fr 2fr;gap:24px;align-items:start;">
+      <div class="rg-side" style="display:grid;gap:24px;align-items:start;">
         <!-- KIRI: INFORMASI KONTAK & UKURAN FITTING TERSIMPAN -->
         <div style="display:flex;flex-direction:column;gap:20px;">
           <!-- Kontak -->
@@ -127,7 +128,7 @@
             </div>
             <p style="font-size:.82rem;color:var(--ink-45);margin-bottom:14px;">Ukuran ini otomatis digunakan saat membuat pesanan baru untuk pelanggan ini.</p>
 
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.85rem;">
+            <div class="rg-2 rg-keep" style="display:grid;gap:10px;font-size:.85rem;">
               <div style="background:var(--cream-200);padding:8px 12px;border-radius:8px;">
                 <span style="font-size:.72rem;color:var(--ink-45);display:block;">Lingkar Dada</span>
                 <b>102 cm</b>
@@ -164,7 +165,7 @@
           </div>
 
           <div class="table-wrap">
-            <table class="table">
+            <table class="table table--mid">
               <thead>
                 <tr>
                   <th>Kode &amp; Tgl</th>

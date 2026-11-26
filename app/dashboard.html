@@ -58,7 +58,7 @@
       <div class="page-head">
         <div>
           <nav class="crumb"><a href="dashboard.html">TailorHub</a> <span>/</span> <b>Dashboard</b></nav>
-          <h1>Selamat datang kembali, Pak Mardi</h1>
+          <h1 id="welcomeHeading">Selamat datang kembali</h1>
           <p class="sub">Ringkasan operasional - Minggu, 22 November 2026</p>
         </div>
         <a href="orders/create.html" class="btn btn--primary"><svg width="17" height="17"><use href="#i-plus"/></svg> Tambah Pesanan</a>
@@ -363,6 +363,11 @@
 <script src="/assets/js/app.js"></script>
 <script>
 (async function () {
+  var me = TH.me();
+  var uName = me && me.user && (me.user.nama || me.user.name);
+  var wh = document.getElementById("welcomeHeading");
+  if (wh && uName) wh.textContent = "Selamat datang kembali, " + uName;
+
   function initials(name) {
     var parts = String(name || "").trim().split(/\s+/);
     if (!parts[0]) return "PL";
