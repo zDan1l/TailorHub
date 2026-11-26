@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Detail Instruksi Tugas — TailorHub</title>
-<meta name="description" content="Rincian instruksi pola, foto model pakaian, ukuran kustom, dan catatan desainer untuk staf penjahit TailorHub.">
+<meta name="description" content="Rincian instruksi pola, foto model pakaian, ukuran kustom, dan log catatan produksi untuk staf penjahit TailorHub.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
 <link rel="stylesheet" href="../../assets/css/staff.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -82,7 +85,7 @@
       </div>
 
       <div class="task-detail-grid">
-        <!-- Kolom Kiri: Acuan Model, Ukuran Kustom & Catatan Desainer -->
+        <!-- Kolom Kiri: Acuan Model, Ukuran Kustom & Log Catatan Produksi -->
         <div class="task-detail-col">
           <!-- Foto / Ilustrasi Acuan Model Pakaian -->
           <section class="card">
@@ -110,12 +113,25 @@
             <div class="pattern-specs" id="patternSpecs"></div>
           </section>
 
-          <!-- Catatan Desainer -->
-          <section class="card">
+          <!-- Log Catatan Produksi -->
+          <section class="card" aria-label="Log catatan produksi">
             <div class="card-head">
-              <h2>Catatan Khusus Desainer / Pemilik</h2>
+              <h2>Log Catatan Produksi</h2>
+              <span class="chip chip--soft" id="notesCountChip"><span class="d"></span>Memuat…</span>
             </div>
-            <div class="designer-note" id="designerNote"></div>
+            <div class="note-list" id="noteList">
+              <div class="note-item note-empty">
+                <p style="color:var(--ink-45);">Memuat catatan produksi…</p>
+              </div>
+            </div>
+
+            <form id="noteForm">
+              <div class="field" style="margin-bottom:10px;">
+                <label for="noteInput">Tambah Catatan Produksi Baru</label>
+                <textarea id="noteInput" class="textarea" placeholder="Tulis kendala kain, progres jahit, atau pesan untuk tim produksi…" required></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--sm">Simpan Catatan</button>
+            </form>
           </section>
         </div>
 
@@ -184,7 +200,6 @@
         { k: 'Kain Keras / Furing', v: 'Interlining M33 pada kerah & manset' },
         { k: 'Benang & Kancing', v: 'Benang Astra Putih · Kancing mutiara 11mm' }
       ],
-      designerNote: 'Kerah shanghai wajib pakai kain keras M33 agar tegak, jahit tindas tepi 2mm sepanjang plaket depan, dan pastikan jarak lubang kancing konsisten 8,5 cm.',
       checklist: [
         'Cek kelengkapan 3 set potongan badan, lengan & kerah',
         'Jahit sambung bahu, lengan & pasang kerah shanghai',
@@ -213,7 +228,6 @@
         { k: 'Furing', v: 'Katun Hero halus pada badan depan' },
         { k: 'Benang & Kancing', v: 'Benang Cokelat Tua · Kancing tersembunyi' }
       ],
-      designerNote: 'Motif parang di tengah plaket kancing depan dan saku kiri wajib menyambung tepat tanpa terpotong. Potong satu per satu lapis, jangan ditumpuk sekaligus.',
       checklist: [
         'Cocokkan arah motif batik pada pola depan kiri & kanan',
         'Potong lapisan furing katun hero 2cm lebih pendek di bawah',
@@ -242,7 +256,6 @@
         { k: 'Furing', v: 'Dormeuil England Hitam' },
         { k: 'Benang & Kancing', v: 'Benang Hitam · 2 Kancing tanduk doff' }
       ],
-      designerNote: 'Lakukan pemeriksaan QC menyeluruh: pastikan ujung kerah notch kiri dan kanan simetris sempurna, furing lengan tidak melintir, dan tidak ada benang tersisa.',
       checklist: [
         'Periksa kesimetrisan tinggi kerah notch kiri & kanan',
         'Cek kerapian jahitan saku bobok & furing dalam',
@@ -271,7 +284,6 @@
         { k: 'Furing', v: 'Roberto Cavalli Silk (lebih pendek 3cm)' },
         { k: 'Benang & Resleting', v: 'Benang Sage · Resleting Jepang 50cm' }
       ],
-      designerNote: 'Jahit kelim bawah ceruti dengan teknik kelim gulung kecil (neci halus). Furing Roberto dipotong 3 cm lebih pendek dari kain luar agar jatuh rapi.',
       checklist: [
         'Pasang resleting Jepang belakang dengan jahitan rata',
         'Gabung furing bahu & kerung lengan tanpa berkerut',
@@ -300,7 +312,6 @@
         { k: 'Rib Kerah', v: 'Rib Spandex Terracotta 2cm' },
         { k: 'Benang', v: 'Obras 4 benang + Overdeck' }
       ],
-      designerNote: 'Pastikan potongan lengan raglan kanan dan kiri tidak tertukar tumpukannya. Beri stiker ukuran di setiap bundel 5 pcs.',
       checklist: [
         'Gelar kain combed 24s dan istirahatkan 15 menit sebelum potong',
         'Potong badan depan/belakang & lengan raglan per size',
@@ -329,7 +340,6 @@
         { k: 'Furing', v: 'Satin Asahi Abu Tua' },
         { k: 'Kancing', v: '2 Kancing depan · 8 Kancing manset 15mm' }
       ],
-      designerNote: 'PESANAN LEWAT DEADLINE (-1 HARI): Dahulukan pemasangan 4 kancing manset per lengan, rapikan double vent belakang, lalu setrika uap menggunakan bantalan jas.',
       checklist: [
         'Pasang 4 kancing manset kiri & kanan sejajar rapi',
         'Jahit kunci ujung belahan double vent belakang',
@@ -358,7 +368,6 @@
         { k: 'Furing', v: 'Half Furing Tricot' },
         { k: 'Kancing', v: 'Kancing kuningan emas 20mm' }
       ],
-      designerNote: 'Pastikan posisi emblem bordir dada kiri simetris 2 cm di atas garis saku dan tidak mengenai lipatan kerah.',
       checklist: [
         'Pasang bordir logo kampus di dada kiri',
         'Obras rapi kampuh bagian dalam yang terbuka',
@@ -387,7 +396,6 @@
         { k: 'Furing', v: 'Full Furing Satin' },
         { k: 'Kancing', v: '1 Kancing bungkus kain senada' }
       ],
-      designerNote: 'Periksa kesesuaian warna kancing bungkus pada blazer hitam dan navy, pastikan lubang kancing bersih dari serabut.',
       checklist: [
         'Cek kerapian jahitan kupnat depan & belakang',
         'Uji kekuatan kancing bungkus pada kedua blazer',
@@ -414,7 +422,6 @@
       { k: 'Jenis Kain', v: 'Linen Rami Cream' }, { k: 'Model Potongan', v: 'Relaxed Fit' },
       { k: 'Furing', v: 'Tanpa Furing' }, { k: 'Kancing', v: 'Kancing Batok Natural' }
     ],
-    designerNote: 'Sudah lulus QC dan dikemas rapi di rak selesai.',
     checklist: ['Jahitan kelim & belahan samping rapi', 'Kancing terpasang kuat', 'Lolos QC akhir']
   };
   ORDERS['TH-2030'] = ORDERS['TH-2029'];
@@ -439,8 +446,7 @@
     modelDesc: 'Mengambil instruksi produksi dari server.',
     tags: [],
     measures: [],
-    specs: [],
-    designerNote: 'Memuat catatan…'
+    specs: []
   };
   var currentAssignee = (STAFF_PROFILES[rawStaff] && STAFF_PROFILES[rawStaff].name) ||
     (STAFF_PROFILES[currentOrder.staff] && STAFF_PROFILES[currentOrder.staff].name) ||
@@ -586,8 +592,37 @@
       item.appendChild(b);
       specsEl.appendChild(item);
     });
+  }
 
-    document.getElementById('designerNote').textContent = orderVal.designerNote;
+  var noteListEl = document.getElementById('noteList');
+  var notesCountChipEl = document.getElementById('notesCountChip');
+
+  function syncNotesCountChip() {
+    if (!notesCountChipEl || !noteListEl) return;
+    var count = noteListEl.querySelectorAll('.note-item:not(.note-empty)').length;
+    setChip(notesCountChipEl, 'chip--soft', count + ' Catatan');
+  }
+
+  function renderOrderNotes(notes) {
+    if (!window.TH || !noteListEl) return;
+    window.TH.renderNotesList(noteListEl, notes);
+    syncNotesCountChip();
+  }
+
+  if (window.TH) {
+    window.TH.bindOrderNoteForm({
+      formEl: document.getElementById('noteForm'),
+      inputEl: document.getElementById('noteInput'),
+      listEl: noteListEl,
+      getCode: function () { return currentCode; },
+      onSaved: function () {
+        syncNotesCountChip();
+        showToast('Catatan Tersimpan', 'Catatan produksi baru berhasil ditambahkan ke log.');
+      },
+      onError: function (err) {
+        showToast('Gagal Menyimpan', (err && err.message) || 'Tidak dapat menyimpan catatan produksi.');
+      }
+    });
   }
 
   renderOrder(currentCode, currentOrder, currentAssignee);
@@ -693,7 +728,11 @@
           note: noteVal || ('Tahap ' + prevStage + ' selesai dikerjakan oleh ' + currentAssignee + ' -> lanjut ke ' + nextStage)
         });
         if (noteVal) {
-          window.TH.post('/api/orders/' + encodeURIComponent(currentCode) + '/notes', { body: noteVal }).catch(function () {});
+          var noteRes = await window.TH.post('/api/orders/' + encodeURIComponent(currentCode) + '/notes', { body: noteVal }).catch(function () { return null; });
+          if (noteRes && noteRes.note) {
+            window.TH.prependNoteItem(noteListEl, noteRes.note);
+            syncNotesCountChip();
+          }
         }
       }
       var nextStep = STAGE_INDEX[nextStage] + 1;
@@ -736,7 +775,6 @@
       var isDone = stName === 'Selesai' || stName === 'Diambil';
       var isPending = stName === 'Antrean';
       var fb = ORDERS[o.code];
-      var latestNote = (Array.isArray(d.notes) && d.notes.length) ? d.notes[0].body : '';
       var qtyLabel = (fb && fb.qty) || ((o.qty || 1) + ' Pcs');
       var orderData = {
         title: o.code + ' — ' + (o.type || o.detail || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : ''),
@@ -763,13 +801,14 @@
           { k: 'Penanggung Jawab', v: o.assignee || 'Belum ditugaskan' },
           { k: 'Pembayaran', v: o.payment_status || '-' },
           { k: 'Deadline', v: dl.chipText }
-        ],
-        designerNote: o.notes || latestNote || (fb && fb.designerNote) || 'Belum ada catatan khusus desainer atau pemilik.'
+        ]
       };
       renderOrder(o.code, orderData, o.assignee || 'Belum ditugaskan');
+      renderOrderNotes(d.notes || []);
       syncActionButtons();
     } catch (e) {
       console.error('Gagal menyinkronkan instruksi tugas dari D1:', e);
+      renderOrderNotes([]);
     }
   })();
 })();

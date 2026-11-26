@@ -1,0 +1,264 @@
+/* ============================================================
+   TAILORHUB — DIREKTORI TENANT TRACKING (portal/tenants.html)
+   Dimuat SETELAH tokens.css, base.css, components.css, public.css.
+   ============================================================ */
+
+[hidden] {
+  display: none !important;
+}
+
+/* ----- Toolbar Pencarian & Filter Kategori ----- */
+.tenant-controls {
+  background: var(--paper);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-l);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-s);
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tenant-search-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.tenant-search-row .input-group {
+  flex: 1 1 280px;
+}
+
+.tenant-count {
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-45);
+  white-space: nowrap;
+}
+
+.tenant-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tenant-pill {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1.5px solid var(--sand);
+  background: var(--cream);
+  color: var(--ink-70);
+  font-family: inherit;
+  font-size: .84rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease);
+}
+
+.tenant-pill:hover {
+  border-color: var(--clay-300);
+  color: var(--clay);
+  background: var(--paper);
+}
+
+.tenant-pill.is-on {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(192, 84, 36, .22);
+}
+
+/* ----- Grid & Kartu Tenant ----- */
+.tenant-grid {
+  align-items: stretch;
+}
+
+.tenant-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 16px;
+}
+
+.tenant-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tenant-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.tenant-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--clay-100);
+  color: var(--clay);
+  font-weight: 800;
+  font-size: .95rem;
+  letter-spacing: -.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border: 1px solid rgba(192, 84, 36, .16);
+  transition: transform .35s var(--ease), background .3s, color .3s;
+}
+
+.tenant-avatar--indigo {
+  background: var(--indigo-100);
+  color: var(--indigo);
+  border-color: rgba(73, 94, 205, .18);
+}
+
+.tenant-avatar--green {
+  background: var(--green-100);
+  color: var(--green);
+  border-color: rgba(47, 143, 91, .2);
+}
+
+.tenant-avatar--amber {
+  background: var(--amber-100);
+  color: #9A6209;
+  border-color: rgba(217, 138, 20, .22);
+}
+
+.tenant-card:hover .tenant-avatar {
+  transform: translateY(-2px) rotate(-5deg);
+  background: var(--clay);
+  color: #fff;
+  border-color: var(--clay);
+}
+
+.tenant-title-wrap {
+  min-width: 0;
+}
+
+.tenant-title-wrap h3 {
+  font-size: 1.08rem;
+  color: var(--ink-900);
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.tenant-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.tenant-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  flex: none;
+}
+
+.tenant-meta {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--r-s);
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  font-size: .84rem;
+  color: var(--ink-70);
+}
+
+.tenant-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tenant-meta-row svg {
+  flex: none;
+  color: var(--clay);
+}
+
+.tenant-desc {
+  font-size: .9rem;
+  color: var(--ink-70);
+  line-height: 1.55;
+}
+
+.tenant-card-foot {
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.tenant-cta {
+  width: 100%;
+  min-height: 44px;
+}
+
+/* Stretched link agar seluruh kartu tenant dapat diklik */
+.tenant-cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.tenant-cta:focus-visible {
+  outline: 3px solid var(--clay);
+  outline-offset: 3px;
+}
+
+/* ----- Empty State ----- */
+.tenant-empty {
+  background: var(--paper);
+  border: 1.5px dashed var(--sand-dark);
+  border-radius: var(--r-l);
+  margin-top: 8px;
+}
+
+/* ----- Responsif ----- */
+@media (max-width: 960px) {
+  .tenant-grid.g-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .tenant-grid.g-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .tenant-controls {
+    padding: 16px;
+    border-radius: var(--r-m);
+  }
+
+  .tenant-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+
+  .tenant-card {
+    padding: 20px;
+  }
+}

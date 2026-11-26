@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="../../assets/css/components.css">
 <link rel="stylesheet" href="../../assets/css/app.css">
 <link rel="stylesheet" href="../../assets/css/production.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 <body>
 
@@ -497,7 +500,7 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
     updateDetailWaPreview(code, data);
   }
 
-  var ROLE_LABELS = { pemilik: 'Pemilik', admin: 'Admin', staff: 'Staf Produksi' };
+  var ROLE_LABELS = (window.TH && window.TH.ROLE_LABELS) || { pemilik: 'Pemilik', admin: 'Admin', staff: 'Staf Produksi' };
   var TEAM_BY_ID = {};
 
   function applyAssigneeDisplay(assigneeId, name, roleLabel) {
@@ -536,67 +539,26 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
     return TEAM_BY_ID;
   }
 
-  function formatNoteTime(str) {
-    if (!str) return 'Baru saja';
-    var m = String(str).match(/^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})/);
-    if (m && window.TH) {
-      return window.TH.formatShortDate(m[1], true) + ' · ' + m[2];
-    }
-    return str;
-  }
-
-  function buildNoteItemEl(n) {
-    var T = window.TH;
-    var roleText = ROLE_LABELS[n.author_role] || '';
-    var authorLabel = (n.author_name || 'Tim Produksi') + (roleText ? ' (' + roleText + ')' : '');
-    return T.el('div', { className: 'note-item' }, [
-      T.el('div', { className: 'note-head' }, [
-        T.el('b', { text: authorLabel }),
-        T.el('span', { text: formatNoteTime(n.created_at) })
-      ]),
-      T.el('p', { text: n.body || '' })
-    ]);
-  }
-
   function renderNotesList(notes) {
-    var noteList = document.getElementById('noteList');
-    if (!noteList || !window.TH) return;
-    noteList.textContent = '';
-    if (!Array.isArray(notes) || !notes.length) {
-      noteList.appendChild(window.TH.el('div', { className: 'note-item note-empty' }, [
-        window.TH.el('p', { style: 'color:var(--ink-45);', text: 'Belum ada catatan produksi untuk pesanan ini.' })
-      ]));
-      return;
+    if (window.TH) {
+      window.TH.renderNotesList(document.getElementById('noteList'), notes);
     }
-    var frag = document.createDocumentFragment();
-    notes.forEach(function (n) { frag.appendChild(buildNoteItemEl(n)); });
-    noteList.appendChild(frag);
   }
 
-  document.getElementById('noteForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    var input = document.getElementById('noteInput');
-    var submitBtn = this.querySelector('button[type="submit"]');
-    var val = input.value.trim();
-    if (!val || !window.TH) return;
-
-    var code = document.getElementById('crumbCode').textContent.trim();
-    if (submitBtn) submitBtn.disabled = true;
-    try {
-      var res = await window.TH.post('/api/orders/' + encodeURIComponent(code) + '/notes', { body: val });
-      var noteList = document.getElementById('noteList');
-      var emptyEl = noteList.querySelector('.note-empty');
-      if (emptyEl) emptyEl.remove();
-      var item = buildNoteItemEl((res && res.note) || { body: val, author_name: 'Anda' });
-      noteList.insertBefore(item, noteList.firstChild);
-      input.value = '';
-      showToast('Catatan tersimpan', 'Catatan produksi baru berhasil disimpan ke database.');
-    } catch (err) {
-      showToast('Gagal menyimpan', (err && err.message) || 'Tidak dapat menyimpan catatan produksi.');
-    } finally {
-      if (submitBtn) submitBtn.disabled = false;
-    }
-  });
+  if (window.TH) {
+    window.TH.bindOrderNoteForm({
+      formEl: document.getElementById('noteForm'),
+      inputEl: document.getElementById('noteInput'),
+      listEl: document.getElementById('noteList'),
+      getCode: function () { return document.getElementById('crumbCode').textContent.trim(); },
+      onSaved: function () {
+        showToast('Catatan tersimpan', 'Catatan produksi baru berhasil disimpan ke database.');
+      },
+      onError: function (err) {
+        showToast('Gagal menyimpan', (err && err.message) || 'Tidak dapat menyimpan catatan produksi.');
+      }
+    });
+  }
 
   document.getElementById('saveStaffBtn').addEventListener('click', async function () {
     var selectEl = document.getElementById('assignStaff');

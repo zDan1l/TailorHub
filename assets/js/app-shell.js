@@ -44,7 +44,7 @@
     '<symbol id="sh-i-pay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.6a2 2 0 0 1 2-2h13.2a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2Z"/><path d="M3.4 10.2h17.2"/><path d="M6.6 14.6h3.1M13.6 14.6h3.8"/></symbol>' +
     '<symbol id="sh-i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 20.4h16.8"/><rect x="5.2" y="12.1" width="3.5" height="8.3" rx="1.1"/><rect x="10.3" y="7.4" width="3.5" height="13" rx="1.1"/><rect x="15.4" y="3.6" width="3.5" height="16.8" rx="1.1"/></symbol>' +
     '<symbol id="sh-i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.3a5.8 5.8 0 1 1 11.6 0c0 3.4.9 5.1 1.9 6.1H4.3c1-1 1.9-2.7 1.9-6.1Z"/><path d="M10 19.3a2.3 2.3 0 0 0 4 0"/></symbol>' +
-    '<symbol id="sh-i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.3"/><path d="M12 2.6v2.6M12 18.8v2.6M21.4 12h-2.6M5.2 12H2.6M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9M18.6 18.6l-1.9-1.9M7.3 7.3 5.4 5.4"/></symbol>' +
+    '<symbol id="sh-i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></symbol>' +
     '<symbol id="sh-i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>' +
     '<symbol id="sh-i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>' +
     '<symbol id="sh-i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h8"/><path d="M18 12H9"/><path d="m15 9 3 3-3 3"/></symbol>' +
@@ -81,11 +81,7 @@
   function renderSidebar(role, info) {
     var brand =
       '<a class="side-brand" href="/app/dashboard.html" aria-label="TailorHub">' +
-      '<svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">' +
-      '<rect width="40" height="40" rx="12" fill="#C05424"/>' +
-      '<path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round"/>' +
-      '<circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2"/>' +
-      '<circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD"/></svg>' +
+      '<img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="34" height="34" aria-hidden="true">' +
       "<span>Tailor<em>Hub</em></span></a>";
 
     var nav = "<nav>";

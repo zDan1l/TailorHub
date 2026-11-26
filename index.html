@@ -58,7 +58,7 @@
 
     html {
       scroll-behavior: smooth;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     body {
@@ -69,7 +69,7 @@
       font-size: 16.5px;
       line-height: 1.62;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     img {
@@ -388,7 +388,7 @@
       transition: border-color .35s, box-shadow .35s, background .35s;
     }
 
-    .site-header .wrap {
+    .site-header > .wrap {
       display: flex;
       align-items: center;
       gap: 26px;
@@ -402,7 +402,7 @@
       background: rgba(255, 248, 239, .96);
     }
 
-    .site-header.is-stuck .wrap {
+    .site-header.is-stuck > .wrap {
       height: 64px;
     }
 
@@ -413,6 +413,8 @@
       font-weight: 800;
       font-size: 1.26rem;
       letter-spacing: -.038em;
+      flex: none;
+      white-space: nowrap;
     }
 
     .brand span em {
@@ -420,26 +422,32 @@
       color: var(--clay);
     }
 
-    .brand svg {
+    .brand svg,
+    .brand img.brand-icon {
+      object-fit: contain;
+      flex: none;
       transition: transform .5s var(--ease);
     }
 
-    .brand:hover svg {
+    .brand:hover svg,
+    .brand:hover img.brand-icon {
       transform: rotate(-8deg) scale(1.06);
     }
 
     .nav {
       display: flex;
-      gap: 25px;
+      gap: 22px;
       margin-left: auto;
-      font-size: .94rem;
+      font-size: .92rem;
       font-weight: 600;
       color: var(--ink-70);
+      min-width: 0;
     }
 
     .nav a {
       position: relative;
       padding: 4px 0;
+      white-space: nowrap;
       transition: color .25s;
     }
 
@@ -469,11 +477,86 @@
     .header-cta {
       display: flex;
       gap: 10px;
+      flex: none;
     }
 
     .header-cta .btn {
-      padding: 11px 22px;
+      padding: 11px 20px;
+      font-size: .89rem;
+      white-space: nowrap;
+    }
+
+    .burger {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin-left: auto;
+      background: var(--paper);
+      border: 1.5px solid var(--sand);
+      border-radius: 12px;
+      color: var(--ink);
+      cursor: pointer;
+      flex: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .burger:hover {
+      border-color: var(--clay);
+      color: var(--clay);
+    }
+
+    .mobile-nav {
+      display: none;
+      border-top: 1px solid var(--sand);
+      background: var(--paper);
+      box-shadow: 0 18px 36px rgba(60, 36, 24, .12);
+    }
+
+    .mobile-nav.open {
+      display: block;
+    }
+
+    .mobile-nav .wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: auto;
+      gap: 0;
+      padding-top: 10px;
+      padding-bottom: 18px;
+    }
+
+    .mobile-nav a:not(.btn) {
+      padding: 12px 4px;
+      font-size: .96rem;
+      font-weight: 600;
+      color: var(--ink-70);
+      border-bottom: 1px solid var(--sand);
+      transition: color .2s;
+    }
+
+    .mobile-nav a:not(.btn):hover {
+      color: var(--clay);
+    }
+
+    .mobile-nav a:not(.btn):last-of-type {
+      border-bottom: 0;
+    }
+
+    .mobile-nav-cta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .mobile-nav-cta .btn {
+      width: 100%;
+      padding: 12px 16px;
       font-size: .9rem;
+      white-space: nowrap;
     }
 
     /* ---------- HERO (dua kolom + kartu mengambang) ---------- */
@@ -1148,6 +1231,10 @@
 
     .dash-url {
       flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       background: var(--paper);
       border: 1px solid var(--sand);
       border-radius: 999px;
@@ -1298,7 +1385,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 8px 12px;
       margin-bottom: 14px;
     }
 
@@ -1468,6 +1556,12 @@
     .app-phones {
       display: flex;
       justify-content: center;
+      min-width: 0;
+    }
+
+    .app-phones svg {
+      max-width: 100%;
+      height: auto;
     }
 
     /* ---------- Harga ---------- */
@@ -1990,21 +2084,182 @@
       }
     }
 
+    /* ---------- Section Lacak Pesanan Multi-Tenant ---------- */
+    .track-portal-sec {
+      background: var(--cream-200);
+      border-bottom: 1px solid var(--sand);
+    }
+
+    .track-portal-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 36px;
+      align-items: center;
+      background: linear-gradient(135deg, var(--paper) 0%, var(--cream) 100%);
+      border: 1.5px solid var(--sand);
+      border-radius: var(--r-xl);
+      padding: 36px 40px;
+      box-shadow: var(--shadow-m);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .35s;
+    }
+
+    .track-portal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(520px 280px at 94% 10%, rgba(192, 84, 36, .14), transparent 65%),
+        radial-gradient(380px 220px at 8% 96%, rgba(73, 94, 205, .07), transparent 65%);
+      pointer-events: none;
+    }
+
+    .track-portal-card > * {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+    }
+
+    .track-portal-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--clay-300);
+      box-shadow: var(--shadow-l);
+    }
+
+    .track-portal-card:focus-visible {
+      outline: 3px solid var(--clay);
+      outline-offset: 4px;
+    }
+
+    .track-portal-card:hover .btn svg {
+      transform: translateX(4px);
+    }
+
+    .track-portal-copy h2 {
+      margin: 16px 0 12px;
+      font-size: clamp(1.55rem, 2.7vw, 2.2rem);
+    }
+
+    .track-portal-copy .lead {
+      font-size: .98rem;
+    }
+
+    .track-tenant-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .track-tenant-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--ink-70);
+      background: var(--paper);
+      border: 1px solid var(--sand);
+      padding: 6px 13px;
+      border-radius: 999px;
+      box-shadow: var(--shadow-s);
+    }
+
+    .track-tenant-pill i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      flex: none;
+    }
+
+    .track-tenant-pill--more {
+      background: var(--clay-100);
+      border-color: rgba(192, 84, 36, .25);
+      color: var(--clay-700);
+    }
+
+    .track-portal-aside {
+      background: var(--paper);
+      border: 1px solid var(--sand);
+      border-radius: var(--r-l);
+      padding: 24px 22px;
+      box-shadow: var(--shadow-s);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .track-portal-steps {
+      display: grid;
+      gap: 10px;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--ink-70);
+    }
+
+    .track-portal-steps span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .track-portal-steps b {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--clay-100);
+      color: var(--clay);
+      font-size: .76rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+    }
+
+    .track-portal-aside .btn {
+      width: 100%;
+      white-space: nowrap;
+      padding: 14px 20px;
+      font-size: .93rem;
+    }
+
+    /* Cegah grid item meluap di layar sempit */
+    .grid > *,
+    .split > *,
+    .hero .wrap > *,
+    .app-grid > *,
+    .cta-inner > *,
+    .dash-body > *,
+    .dash-panels > * {
+      min-width: 0;
+    }
+
     /* ---------- Responsive ---------- */
-    @media (max-width:1180px) {
+    @media (max-width:1240px) {
       .wrap {
         width: 88vw;
       }
 
+      .site-header > .wrap {
+        gap: 16px;
+      }
+
       .nav {
-        gap: 17px;
-        font-size: .89rem;
+        gap: 14px;
+        font-size: .86rem;
       }
 
-      .header-cta .btn--ghost {
-        display: none;
+      .header-cta .btn {
+        padding: 10px 15px;
+        font-size: .84rem;
       }
+    }
 
+    @media (max-width:1180px) {
       .dash-body {
         grid-template-columns: 1fr;
       }
@@ -2016,6 +2271,7 @@
         border-right: 0;
         border-bottom: 1px solid var(--sand);
         padding: 12px;
+        scrollbar-width: thin;
       }
 
       .dash-side hr {
@@ -2028,14 +2284,28 @@
     }
 
     @media (max-width:1040px) {
+      .nav,
+      .header-cta {
+        display: none;
+      }
+
+      .burger {
+        display: inline-flex;
+      }
 
       .hero .wrap,
       .split,
       .app-grid,
       .cta-inner,
-      .compare-foot {
+      .compare-foot,
+      .track-portal-card {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
+      }
+
+      .track-portal-card {
+        gap: 24px;
+        padding: 30px 26px;
       }
 
       .compare-foot {
@@ -2109,13 +2379,20 @@
     }
 
     @media (max-width:720px) {
-      .section {
-        padding: 62px 0;
+      .wrap {
+        width: calc(100% - 32px);
       }
 
-      .nav,
-      .header-cta {
-        display: none;
+      .section {
+        padding: 58px 0;
+      }
+
+      .section--tight {
+        padding: 46px 0;
+      }
+
+      .site-header > .wrap {
+        height: 66px;
       }
 
       .g-2,
@@ -2127,24 +2404,124 @@
         grid-template-columns: 1fr;
       }
 
+      .compare {
+        padding: 20px 16px;
+        border-radius: var(--r-l);
+      }
+
       .cta-box {
-        padding: 44px 24px;
+        padding: 36px 22px;
       }
 
       .card,
       .flow {
-        padding: 22px;
+        padding: 20px;
       }
 
       .hero {
-        padding: 58px 0 62px;
+        padding: 48px 0 54px;
       }
 
       .hero-photo {
         aspect-ratio: 4/3.4;
       }
+
+      .portal-phone {
+        margin: -48px auto 0;
+        width: 190px;
+      }
+
+      .seg-banner {
+        aspect-ratio: auto;
+        min-height: 240px;
+      }
+
+      .seg-banner-copy {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+      }
+
+      .track-portal-card {
+        padding: 24px 18px;
+        border-radius: var(--r-l);
+      }
+
+      .track-portal-aside {
+        padding: 18px 16px;
+        border-radius: var(--r-m);
+      }
+    }
+
+    @media (max-width:520px) {
+      body {
+        font-size: 15.5px;
+      }
+
+      .hero-actions .btn,
+      .cta-actions .btn {
+        width: 100%;
+      }
+
+      .track-portal-card {
+        padding: 20px 16px;
+      }
+
+      .track-portal-aside {
+        padding: 16px 14px;
+      }
+
+      .track-portal-aside .btn {
+        padding: 13px 16px;
+        font-size: .88rem;
+        gap: 7px;
+      }
+
+      .dash-main {
+        padding: 14px;
+      }
+
+      .panel {
+        padding: 14px;
+      }
+
+      .price {
+        padding: 24px 18px;
+      }
+
+      .price-amt {
+        flex-wrap: wrap;
+      }
+
+      .price-amt b {
+        font-size: 1.95rem;
+      }
+
+      .store-badge {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .qr-box {
+        width: 100%;
+      }
+
+      .faq details {
+        padding: 16px 18px;
+      }
+
+      .faq summary {
+        font-size: .95rem;
+      }
+
+      .mobile-nav-cta {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/logo/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/img/logo/favicon-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/logo/apple-touch-icon.png">
 </head>
 
 <body>
@@ -2219,23 +2596,26 @@
         <rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.6" />
         <path d="M10.6 5.2h2.8M10.8 18.6h2.4" />
       </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.2-3.2" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"
+        stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
     </defs>
   </svg>
 
   <header class="site-header" id="header">
     <div class="wrap">
       <a class="brand" href="#top" aria-label="TailorHub beranda">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-          <rect width="40" height="40" rx="12" fill="#C05424" />
-          <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round" />
-          <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2" />
-          <path d="M13.2 27.6c-3.4-1.1-4-5 .4-5.6 4.4-.6 5.3 3.9 1.8 5.3" stroke="#F9DFCF" stroke-width="1.9"
-            stroke-linecap="round" fill="none" />
-          <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD" />
-        </svg>
+        <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="40" height="40" aria-hidden="true" style="object-fit:contain;flex:none;">
         <span>Tailor<em>Hub</em></span>
       </a>
       <nav class="nav" aria-label="Navigasi bagian halaman">
+        <a href="#lacak-pesanan">Lacak Pesanan</a>
         <a href="#segmen">Untuk Siapa</a>
         <a href="#nilai">Manfaat</a>
         <a href="#fitur">Fitur</a>
@@ -2246,6 +2626,26 @@
       <div class="header-cta">
         <a class="btn btn--ghost" href="auth/login.html">Masuk</a>
         <a class="btn btn--primary" href="auth/register.html">Coba Gratis</a>
+      </div>
+      <button type="button" class="burger" id="burgerBtn" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileNav">
+        <svg width="24" height="24" aria-hidden="true">
+          <use href="#i-menu" />
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="wrap">
+        <a href="#lacak-pesanan">Lacak Pesanan Pelanggan</a>
+        <a href="#segmen">Untuk Siapa</a>
+        <a href="#nilai">Manfaat</a>
+        <a href="#fitur">Fitur</a>
+        <a href="#produksi">Produksi</a>
+        <a href="#aplikasi">Aplikasi</a>
+        <a href="#harga">Harga</a>
+        <div class="mobile-nav-cta">
+          <a class="btn btn--ghost" href="auth/login.html">Masuk</a>
+          <a class="btn btn--primary" href="auth/register.html">Coba Gratis</a>
+        </div>
       </div>
     </div>
   </header>
@@ -2371,6 +2771,47 @@
               letter-spacing="-.5" fill="currentColor">Atelier Kirana</text>
           </svg>
         </div>
+      </div>
+    </section>
+
+    <!-- ============================ LACAK PESANAN PELANGGAN (MULTI-TENANT) ============================ -->
+    <section class="section section--tight track-portal-sec" id="lacak-pesanan" aria-labelledby="lacakPesananTitle">
+      <div class="wrap">
+        <a class="track-portal-card" href="/portal/tenants" data-reveal="zoom"
+          aria-label="Pilih penjahit mitra TailorHub dan lacak status pesanan Anda">
+          <div class="track-portal-copy">
+            <span class="eyebrow">
+              <svg width="14" height="14" aria-hidden="true">
+                <use href="#i-search" />
+              </svg>
+              Lacak Pesanan Pelanggan
+            </span>
+            <h2 id="lacakPesananTitle">Sudah memesan di mitra TailorHub? Cek progresnya di sini.</h2>
+            <p class="lead">Satu pintu untuk seluruh usaha jahit &amp; konveksi di TailorHub. Pilih penjahit tempat Anda
+              memesan, masukkan kode nota, dan pantau 7 tahap produksi secara langsung — tanpa perlu login.</p>
+            <div class="track-tenant-pills" aria-hidden="true">
+              <span class="track-tenant-pill"><i></i>Jahit Lestari</span>
+              <span class="track-tenant-pill"><i></i>Konveksi Sinar</span>
+              <span class="track-tenant-pill"><i></i>Permak Rapi</span>
+              <span class="track-tenant-pill"><i></i>Butik Melati</span>
+              <span class="track-tenant-pill track-tenant-pill--more">+2 mitra lainnya</span>
+            </div>
+          </div>
+
+          <div class="track-portal-aside">
+            <div class="track-portal-steps">
+              <span><b>1</b> Pilih usaha jahit atau konveksi mitra</span>
+              <span><b>2</b> Masukkan kode nota (mis. TH-2041)</span>
+              <span><b>3</b> Lihat progres jahitan &amp; estimasi selesai</span>
+            </div>
+            <span class="btn btn--primary">
+              Pilih Penjahit &amp; Lacak
+              <svg width="17" height="17" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg>
+            </span>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -3846,14 +4287,7 @@
       <div class="foot-grid">
         <div>
           <a class="brand" href="#top">
-            <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <rect width="40" height="40" rx="12" fill="#C05424" />
-              <path d="M13.2 27.6 25.6 11.8" stroke="#FFF8EF" stroke-width="2.4" stroke-linecap="round" />
-              <circle cx="26.4" cy="10.8" r="2.1" fill="none" stroke="#FFF8EF" stroke-width="2" />
-              <path d="M13.2 27.6c-3.4-1.1-4-5 .4-5.6 4.4-.6 5.3 3.9 1.8 5.3" stroke="#F9DFCF" stroke-width="1.9"
-                stroke-linecap="round" fill="none" />
-              <circle cx="30.4" cy="28.6" r="2.6" fill="#495ECD" />
-            </svg>
+            <img class="brand-icon" src="/assets/img/logo/tailorhub-icon.png" alt="" width="36" height="36" aria-hidden="true" style="object-fit:contain;flex:none;">
             <span>Tailor<em>Hub</em></span>
           </a>
           <p>Platform SaaS multi-tenant untuk usaha jahit dan konveksi.</p>
@@ -3864,6 +4298,7 @@
             <li><a href="#fitur">Modul produk</a></li>
             <li><a href="#produksi">Tracking produksi</a></li>
             <li><a href="#portal">Portal customer</a></li>
+            <li><a href="/portal/tenants">Lacak Pesanan</a></li>
             <li><a href="#laporan">Dashboard</a></li>
           </ul>
         </div>
@@ -3994,6 +4429,29 @@
           if (d.open) faqs.forEach(function (o) { if (o !== d) o.open = false; });
         });
       });
+
+      /* ---------- 6. Toggle menu navigasi mobile/tablet ---------- */
+      var burgerBtn = $("#burgerBtn"), mobileNav = $("#mobileNav");
+      function closeMobileNav() {
+        if (!mobileNav || !burgerBtn) return;
+        mobileNav.classList.remove("open");
+        burgerBtn.setAttribute("aria-expanded", "false");
+      }
+      if (burgerBtn && mobileNav) {
+        burgerBtn.addEventListener("click", function () {
+          var isOpen = mobileNav.classList.toggle("open");
+          burgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+        mobileNav.addEventListener("click", function (ev) {
+          if (ev.target.closest("a")) closeMobileNav();
+        });
+        document.addEventListener("keydown", function (ev) {
+          if (ev.key === "Escape") closeMobileNav();
+        });
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 1040) closeMobileNav();
+        });
+      }
     })();
   </script>
 </body>

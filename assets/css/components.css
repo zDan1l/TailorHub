@@ -890,6 +890,13 @@
   color: var(--clay);
 }
 
+.auth-brand .brand-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex: none;
+}
+
 .auth-header h1 {
   font-size: 1.55rem;
   font-weight: 800;
@@ -1572,4 +1579,43 @@
   padding-bottom: 9px;
   font-size: .88rem;
 }
+
+/* ----- Log Catatan Produksi (Shared) ----- */
+.note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.note-item {
+  padding: 12px 14px;
+  border-radius: var(--r-s);
+  background: var(--cream);
+  border: 1px solid var(--sand);
+}
+
+.note-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: .78rem;
+  color: var(--ink-45);
+}
+
+.note-head b {
+  color: var(--ink);
+  font-size: .84rem;
+}
+
+.note-item p {
+  font-size: .86rem;
+  color: var(--ink-70);
+  margin: 0;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
 
