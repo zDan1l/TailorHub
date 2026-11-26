@@ -421,12 +421,38 @@
   ORDERS['TH-2026'] = ORDERS['TH-2038'];
 
   var params = new URLSearchParams(window.location.search);
-  var rawCode = params.get('code');
-  var code = ORDERS[rawCode] ? rawCode : 'TH-2041';
-  var order = ORDERS[code];
-  var rawStaff = params.get('staff');
-  var staffCode = STAFF_PROFILES[rawStaff] ? rawStaff : order.staff;
-  var staffProf = STAFF_PROFILES[staffCode] || STAFF_PROFILES.AS;
+  var rawCode = params.get('code') || 'TH-2041';
+  var rawStaff = params.get('staff') || '';
+  var currentCode = rawCode;
+  var currentOrder = ORDERS[rawCode] || {
+    staff: 'AS',
+    title: rawCode + ' — Memuat Detail…',
+    category: 'Pesanan Jahit',
+    garmentType: 'shirt',
+    stageLabel: 'Memuat…',
+    stageChip: 'chip--soft',
+    deadlineLabel: '—',
+    deadlineChip: 'chip--soft',
+    qty: '—',
+    status: 'pending',
+    modelName: 'Memuat rincian pesanan…',
+    modelDesc: 'Mengambil instruksi produksi dari server.',
+    tags: [],
+    measures: [],
+    specs: [],
+    designerNote: 'Memuat catatan…'
+  };
+  var currentAssignee = (STAFF_PROFILES[rawStaff] && STAFF_PROFILES[rawStaff].name) ||
+    (STAFF_PROFILES[currentOrder.staff] && STAFF_PROFILES[currentOrder.staff].name) ||
+    'Tim Produksi';
+
+  function inferGarmentType(typeStr) {
+    var s = String(typeStr || '').toLowerCase();
+    if (s.indexOf('jas') !== -1 || s.indexOf('blazer') !== -1) return 'suit';
+    if (s.indexOf('gamis') !== -1 || s.indexOf('kebaya') !== -1 || s.indexOf('dress') !== -1) return 'dress';
+    if (s.indexOf('kaos') !== -1) return 'tee';
+    return 'shirt';
+  }
 
   function buildGarmentSvg(type) {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -491,69 +517,80 @@
     setTimeout(function () { if (toast.parentNode) toast.remove(); }, 3800);
   }
 
-  /* Sync profil staf & link kembali */
-  document.getElementById('topAvatar').textContent = staffProf.code;
-  document.getElementById('sideAvatar').textContent = staffProf.code;
-  document.getElementById('sideName').textContent = staffProf.name;
-  var backHref = 'my-tasks.html?staff=' + encodeURIComponent(staffCode);
-  document.getElementById('navMyTasks').href = backHref;
-  document.getElementById('crumbTasks').href = backHref;
-  document.getElementById('btnBackTasks').href = backHref;
-  document.getElementById('btnProdDetail').href = '../production/detail.html?code=' + encodeURIComponent(code);
+  /* Link kembali & timeline produksi (tanpa menimpa elemen App Shell yang dimuat belakangan) */
+  var backHref = 'my-tasks.html' + (rawStaff ? '?staff=' + encodeURIComponent(rawStaff) : '');
+  var crumbTasksEl = document.getElementById('crumbTasks');
+  var btnBackEl = document.getElementById('btnBackTasks');
+  if (crumbTasksEl) crumbTasksEl.href = backHref;
+  if (btnBackEl) btnBackEl.href = backHref;
 
-  /* Render data pesanan */
-  document.title = code + ' — Instruksi Tugas Staf — TailorHub';
-  document.getElementById('crumbCode').textContent = code;
-  document.getElementById('detailTitle').textContent = order.title;
-  setChip(document.getElementById('stageChip'), order.stageChip, order.stageLabel);
-  setChip(document.getElementById('deadlineChip'), order.deadlineChip, order.deadlineLabel);
-  setChip(document.getElementById('assigneeChip'), 'chip--soft', 'Ditugaskan: ' + staffProf.name);
-  setChip(document.getElementById('categoryChip'), 'chip--soft', order.category);
-  setChip(document.getElementById('qtyChip'), 'chip--soft', order.qty);
+  function renderOrder(codeVal, orderVal, assigneeLabel) {
+    currentCode = codeVal;
+    currentOrder = orderVal;
+    currentAssignee = assigneeLabel || 'Belum ditugaskan';
 
-  var canvas = document.getElementById('modelCanvas');
-  canvas.appendChild(buildGarmentSvg(order.garmentType));
-  var canvasCap = document.createElement('span');
-  canvasCap.textContent = 'Acuan Pola · ' + order.category;
-  canvas.appendChild(canvasCap);
+    var btnProdEl = document.getElementById('btnProdDetail');
+    if (btnProdEl) btnProdEl.href = '../production/detail.html?code=' + encodeURIComponent(codeVal);
 
-  document.getElementById('modelName').textContent = order.modelName;
-  document.getElementById('modelDesc').textContent = order.modelDesc;
+    document.title = codeVal + ' — Instruksi Tugas Staf — TailorHub';
+    document.getElementById('crumbCode').textContent = codeVal;
+    document.getElementById('detailTitle').textContent = orderVal.title;
+    setChip(document.getElementById('stageChip'), orderVal.stageChip, orderVal.stageLabel);
+    setChip(document.getElementById('deadlineChip'), orderVal.deadlineChip, orderVal.deadlineLabel);
+    setChip(document.getElementById('assigneeChip'), 'chip--soft', 'Ditugaskan: ' + currentAssignee);
+    setChip(document.getElementById('categoryChip'), 'chip--soft', orderVal.category);
+    setChip(document.getElementById('qtyChip'), 'chip--soft', orderVal.qty);
 
-  var tagsEl = document.getElementById('modelTags');
-  order.tags.forEach(function (tag) {
-    var chip = document.createElement('span');
-    chip.className = 'chip chip--soft';
-    chip.textContent = tag;
-    tagsEl.appendChild(chip);
-  });
+    var canvas = document.getElementById('modelCanvas');
+    canvas.textContent = '';
+    canvas.appendChild(buildGarmentSvg(orderVal.garmentType));
+    var canvasCap = document.createElement('span');
+    canvasCap.textContent = 'Acuan Pola · ' + orderVal.category;
+    canvas.appendChild(canvasCap);
 
-  var measureGrid = document.getElementById('measureGrid');
-  order.measures.forEach(function (m) {
-    var box = document.createElement('div');
-    box.className = 'measure-box';
-    var sm = document.createElement('small');
-    sm.textContent = m.k;
-    var b = document.createElement('b');
-    b.textContent = m.v;
-    box.appendChild(sm);
-    box.appendChild(b);
-    measureGrid.appendChild(box);
-  });
+    document.getElementById('modelName').textContent = orderVal.modelName;
+    document.getElementById('modelDesc').textContent = orderVal.modelDesc;
 
-  var specsEl = document.getElementById('patternSpecs');
-  order.specs.forEach(function (sp) {
-    var item = document.createElement('div');
-    var sm = document.createElement('small');
-    sm.textContent = sp.k;
-    var b = document.createElement('b');
-    b.textContent = sp.v;
-    item.appendChild(sm);
-    item.appendChild(b);
-    specsEl.appendChild(item);
-  });
+    var tagsEl = document.getElementById('modelTags');
+    tagsEl.textContent = '';
+    (orderVal.tags || []).forEach(function (tag) {
+      var chip = document.createElement('span');
+      chip.className = 'chip chip--soft';
+      chip.textContent = tag;
+      tagsEl.appendChild(chip);
+    });
 
-  document.getElementById('designerNote').textContent = order.designerNote;
+    var measureGrid = document.getElementById('measureGrid');
+    measureGrid.textContent = '';
+    (orderVal.measures || []).forEach(function (m) {
+      var box = document.createElement('div');
+      box.className = 'measure-box';
+      var sm = document.createElement('small');
+      sm.textContent = m.k;
+      var b = document.createElement('b');
+      b.textContent = m.v;
+      box.appendChild(sm);
+      box.appendChild(b);
+      measureGrid.appendChild(box);
+    });
+
+    var specsEl = document.getElementById('patternSpecs');
+    specsEl.textContent = '';
+    (orderVal.specs || []).forEach(function (sp) {
+      var item = document.createElement('div');
+      var sm = document.createElement('small');
+      sm.textContent = sp.k;
+      var b = document.createElement('b');
+      b.textContent = sp.v;
+      item.appendChild(sm);
+      item.appendChild(b);
+      specsEl.appendChild(item);
+    });
+
+    document.getElementById('designerNote').textContent = orderVal.designerNote;
+  }
+
+  renderOrder(currentCode, currentOrder, currentAssignee);
 
   /* Quick note chips */
   var noteArea = document.getElementById('progressNote');
@@ -575,49 +612,166 @@
     return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') + ' WIB';
   }
 
+  var STAGE_FLOW = ['Antrean', 'Pemotongan', 'Penjahitan', 'Finishing', 'QC', 'Selesai', 'Diambil'];
+  var STAGE_INDEX = { 'Antrean': 0, 'Pemotongan': 1, 'Penjahitan': 2, 'Finishing': 3, 'QC': 4, 'Selesai': 5, 'Diambil': 6 };
+
+  function getCurrentStageName(orderVal) {
+    if (orderVal && orderVal.stageName && STAGE_INDEX[orderVal.stageName] !== undefined) {
+      return orderVal.stageName;
+    }
+    var prefix = String((orderVal && orderVal.stageLabel) || '').split(' (')[0].trim();
+    return STAGE_INDEX[prefix] !== undefined ? prefix : 'Antrean';
+  }
+
+  function getNextStageName(stageName) {
+    var idx = STAGE_INDEX[stageName];
+    if (idx === undefined) return 'Pemotongan';
+    if (idx >= STAGE_INDEX['Selesai']) return null;
+    return STAGE_FLOW[idx + 1] || null;
+  }
+
   function syncActionButtons() {
-    if (order.status === 'pending') {
+    var stName = getCurrentStageName(currentOrder);
+    var nextStage = getNextStageName(stName);
+    if (currentOrder.status === 'pending') {
       btnStart.hidden = false;
-      stateText.textContent = 'Status saat ini: Menunggu dimulai di meja kerja.';
-    } else if (order.status === 'progress') {
+      btnStart.disabled = false;
+      btnFinish.disabled = false;
+      btnFinish.textContent = 'Selesaikan ' + stName + ' → ' + nextStage;
+      stateText.textContent = 'Status saat ini: Antrean (menunggu dimulai di meja kerja).';
+    } else if (currentOrder.status === 'progress' && nextStage) {
       btnStart.hidden = true;
-      stateText.textContent = 'Status saat ini: Sedang dikerjakan oleh ' + staffProf.name + '.';
+      btnFinish.disabled = false;
+      btnFinish.textContent = 'Selesaikan ' + stName + ' → ' + nextStage;
+      stateText.textContent = 'Status saat ini: Tahap ' + currentOrder.stageLabel + ' — dikerjakan oleh ' + currentAssignee + '.';
     } else {
       btnStart.hidden = true;
       btnFinish.disabled = true;
-      btnFinish.textContent = 'Tahap Ini Sudah Selesai';
-      stateText.textContent = 'Tahap telah diselesaikan dan diteruskan ke alur produksi berikutnya.';
+      btnFinish.textContent = 'Seluruh Tahap Selesai';
+      stateText.textContent = 'Pesanan sudah selesai diproduksi (' + currentOrder.stageLabel + ').';
     }
   }
 
-  btnStart.addEventListener('click', function () {
-    order.status = 'progress';
-    var t = nowWib();
-    syncActionButtons();
-    stateText.textContent = 'Status saat ini: Sedang dikerjakan sejak ' + t + '.';
-    showToast('Tugas Dimulai', code + ' dicatat mulai dikerjakan pada ' + t + '.');
+  btnStart.addEventListener('click', async function () {
+    var noteVal = noteArea.value.trim();
+    btnStart.disabled = true;
+    try {
+      if (window.TH) {
+        await window.TH.put('/api/orders/' + encodeURIComponent(currentCode), {
+          production_status: 'Pemotongan',
+          note: noteVal || ('Mulai dikerjakan oleh ' + currentAssignee)
+        });
+      }
+      currentOrder.stageName = 'Pemotongan';
+      currentOrder.stageLabel = 'Pemotongan (2/7)';
+      currentOrder.stageChip = window.TH ? window.TH.statusChip('Pemotongan') : 'chip--cut';
+      currentOrder.status = 'progress';
+      var t = nowWib();
+      setChip(document.getElementById('stageChip'), currentOrder.stageChip, currentOrder.stageLabel);
+      syncActionButtons();
+      stateText.textContent = 'Status saat ini: Tahap Pemotongan (2/7) sejak ' + t + '.';
+      showToast('Tugas Dimulai', currentCode + ' masuk tahap Pemotongan pada ' + t + '.');
+    } catch (err) {
+      btnStart.disabled = false;
+      showToast('Gagal Memulai', (err && err.message) || 'Tidak dapat memperbarui status tugas.');
+    }
   });
 
-  btnFinish.addEventListener('click', function () {
-    order.status = 'done';
-    var t = nowWib();
-    if (window.TH) {
-      window.TH.put('/api/orders/' + encodeURIComponent(code), {
-        production_status: 'Selesai',
-        note: noteArea.value.trim() || ('Tahap selesai dikerjakan oleh ' + staffProf.name)
-      }).catch(function () {});
+  btnFinish.addEventListener('click', async function () {
+    var prevStage = getCurrentStageName(currentOrder);
+    var nextStage = getNextStageName(prevStage);
+    if (!nextStage) {
+      syncActionButtons();
+      return;
     }
-    setChip(document.getElementById('stageChip'), 'chip--done', 'Tahap Selesai');
-    doneBanner.hidden = false;
-    document.getElementById('doneBannerTitle').textContent = code + ' Diselesaikan pada ' + t;
-    document.getElementById('doneBannerDesc').textContent =
-      (noteArea.value.trim() ? 'Catatan: "' + noteArea.value.trim() + '" — ' : '') +
-      'Timestamp otomatis dicatat & notifikasi diteruskan ke Admin produksi.';
-    syncActionButtons();
-    showToast('Tahap Selesai', code + ' ditandai selesai oleh ' + staffProf.name + ' (' + t + ').');
+    var noteVal = noteArea.value.trim();
+    btnFinish.disabled = true;
+    try {
+      if (window.TH) {
+        await window.TH.put('/api/orders/' + encodeURIComponent(currentCode), {
+          production_status: nextStage,
+          note: noteVal || ('Tahap ' + prevStage + ' selesai dikerjakan oleh ' + currentAssignee + ' -> lanjut ke ' + nextStage)
+        });
+        if (noteVal) {
+          window.TH.post('/api/orders/' + encodeURIComponent(currentCode) + '/notes', { body: noteVal }).catch(function () {});
+        }
+      }
+      var nextStep = STAGE_INDEX[nextStage] + 1;
+      currentOrder.stageName = nextStage;
+      currentOrder.stageLabel = nextStage + ' (' + nextStep + '/7)';
+      currentOrder.stageChip = window.TH ? window.TH.statusChip(nextStage) : 'chip--soft';
+      currentOrder.status = (nextStage === 'Selesai' || nextStage === 'Diambil') ? 'done' : 'progress';
+      var t = nowWib();
+      setChip(document.getElementById('stageChip'), currentOrder.stageChip, currentOrder.stageLabel);
+      if (nextStage === 'Selesai') {
+        setChip(document.getElementById('deadlineChip'), 'chip--done', 'Siap Diambil');
+      }
+      noteArea.value = '';
+      doneBanner.hidden = false;
+      document.getElementById('doneBannerTitle').textContent = currentCode + ' — Tahap ' + prevStage + ' Selesai pada ' + t;
+      document.getElementById('doneBannerDesc').textContent =
+        (noteVal ? 'Catatan: "' + noteVal + '" — ' : '') +
+        (nextStage === 'Selesai'
+          ? 'Seluruh tahap produksi telah selesai (Selesai 6/7) dan siap diambil pelanggan.'
+          : 'Pesanan diteruskan ke tahap berikutnya: ' + nextStage + ' (' + nextStep + '/7).');
+      syncActionButtons();
+      showToast('Tahap ' + prevStage + ' Selesai', currentCode + ' diteruskan ke tahap ' + nextStage + ' (' + t + ').');
+    } catch (err) {
+      btnFinish.disabled = false;
+      showToast('Gagal Menyelesaikan', (err && err.message) || 'Tidak dapat menyimpan penyelesaian tahap.');
+    }
   });
 
   syncActionButtons();
+
+  (async function syncTaskFromD1() {
+    if (!window.TH) return;
+    try {
+      var d = await window.TH.get('/api/orders/' + encodeURIComponent(rawCode));
+      if (!d || !d.order) return;
+      var o = d.order;
+      var stName = o.production_status || 'Antrean';
+      var step = (STAGE_INDEX[stName] !== undefined ? STAGE_INDEX[stName] : 0) + 1;
+      var dl = window.TH.deadlineMeta(o.deadline, stName);
+      var isDone = stName === 'Selesai' || stName === 'Diambil';
+      var isPending = stName === 'Antrean';
+      var fb = ORDERS[o.code];
+      var latestNote = (Array.isArray(d.notes) && d.notes.length) ? d.notes[0].body : '';
+      var qtyLabel = (fb && fb.qty) || ((o.qty || 1) + ' Pcs');
+      var orderData = {
+        title: o.code + ' — ' + (o.detail || o.type || 'Pesanan') + (o.qty > 1 ? ' ×' + o.qty : ''),
+        category: o.type || (fb && fb.category) || 'Pesanan Jahit',
+        garmentType: (fb && fb.garmentType) || inferGarmentType(o.type),
+        stageName: stName,
+        stageLabel: stName + ' (' + step + '/7)',
+        stageChip: window.TH.statusChip(stName),
+        deadlineLabel: dl.chipText,
+        deadlineChip: dl.cls,
+        qty: qtyLabel,
+        status: isDone ? 'done' : (isPending ? 'pending' : 'progress'),
+        modelName: (fb && fb.modelName) || (o.detail || o.type || 'Pesanan Custom'),
+        modelDesc: (fb && fb.modelDesc) || ('Pelanggan: ' + (o.customer || '-') + '. Tahap saat ini: ' + stName + '.'),
+        tags: (fb && fb.tags) || [o.type || 'Custom', stName, qtyLabel],
+        measures: (fb && fb.measures) || [
+          { k: 'Pelanggan', v: o.customer || '-' },
+          { k: 'Jenis Item', v: o.type || '-' },
+          { k: 'Jumlah', v: qtyLabel },
+          { k: 'Tanggal Masuk', v: o.entry_date || '—' }
+        ],
+        specs: (fb && fb.specs) || [
+          { k: 'Detail Bahan / Model', v: o.detail || 'Sesuai nota' },
+          { k: 'Penanggung Jawab', v: o.assignee || 'Belum ditugaskan' },
+          { k: 'Pembayaran', v: o.payment_status || '-' },
+          { k: 'Deadline', v: dl.chipText }
+        ],
+        designerNote: o.notes || latestNote || (fb && fb.designerNote) || 'Belum ada catatan khusus desainer atau pemilik.'
+      };
+      renderOrder(o.code, orderData, o.assignee || 'Belum ditugaskan');
+      syncActionButtons();
+    } catch (e) {
+      console.error('Gagal menyinkronkan instruksi tugas dari D1:', e);
+    }
+  })();
 })();
 </script>
 <script src="/assets/js/app-shell.js"></script>
