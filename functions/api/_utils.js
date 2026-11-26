@@ -120,7 +120,7 @@ export async function findOrderByParam(DB, tenantId, idOrCode) {
   const raw = String(idOrCode || "").trim();
   return DB.prepare(
     `SELECT o.*, c.name AS customer, c.phone AS customer_phone, c.email AS customer_email, c.address AS customer_address,
-            u.name AS assignee
+            u.name AS assignee, u.role AS assignee_role
        FROM orders o
        LEFT JOIN customers c ON c.id=o.customer_id
        LEFT JOIN users u ON u.id=o.assignee_id

@@ -43,7 +43,22 @@ export async function onRequestPut({ request, env, params, data }) {
   const fields = ["customer_id","type","qty","detail","entry_date","deadline","price","production_status","payment_status","assignee_id","notes"];
   const sets = [], args = [];
   for (const f of fields) {
-    if (b[f] !== undefined) { sets.push(`${f}=?`); args.push(b[f]); }
+    if (b[f] !== undefined) {
+      let val = b[f];
+      if (f === "assignee_id") {
+        if (val === null || val === "") {
+          val = null;
+        } else {
+          const assigneeId = Number(val);
+          if (!Number.isInteger(assigneeId) || assigneeId <= 0) return error("Penanggung jawab tidak valid.");
+          const member = await DB.prepare("SELECT id FROM users WHERE id=? AND tenant_id=?").bind(assigneeId, t).first();
+          if (!member) return error("Penanggung jawab tidak ditemukan.", 404);
+          val = assigneeId;
+        }
+      }
+      sets.push(`${f}=?`);
+      args.push(val);
+    }
   }
   if (sets.length) {
     sets.push("updated_at=datetime('now')");
