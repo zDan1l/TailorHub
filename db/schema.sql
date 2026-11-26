@@ -6,6 +6,7 @@
 PRAGMA foreign_keys = ON;
 
 -- Hapus (urutan aman terhadap foreign key) agar bisa di-reset berulang.
+DROP TABLE IF EXISTS order_notes;
 DROP TABLE IF EXISTS order_status_history;
 DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS notifications;
@@ -94,6 +95,16 @@ CREATE TABLE order_status_history (
   created_at  TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- ---------- Log catatan produksi per pesanan ----------
+CREATE TABLE order_notes (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  tenant_id   INTEGER NOT NULL REFERENCES tenants(id),
+  order_id    INTEGER NOT NULL REFERENCES orders(id),
+  user_id     INTEGER REFERENCES users(id),
+  body        TEXT NOT NULL,
+  created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 -- ---------- Pembayaran ----------
 CREATE TABLE payments (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -124,5 +135,6 @@ CREATE INDEX idx_orders_tenant     ON orders(tenant_id);
 CREATE INDEX idx_orders_status     ON orders(tenant_id, production_status);
 CREATE INDEX idx_orders_payment    ON orders(tenant_id, payment_status);
 CREATE INDEX idx_history_order      ON order_status_history(order_id);
+CREATE INDEX idx_notes_order        ON order_notes(tenant_id, order_id);
 CREATE INDEX idx_payments_order     ON payments(order_id);
 CREATE INDEX idx_notif_tenant       ON notifications(tenant_id, is_read);

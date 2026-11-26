@@ -67,7 +67,7 @@
 
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
           <a href="board.html" class="btn btn--ghost">Kembali ke Kanban</a>
-          <a href="../orders/detail.html" class="btn btn--ghost">Lihat Detail Pesanan</a>
+          <a id="btnOrderDetail" href="../orders/detail.html" class="btn btn--ghost">Lihat Detail Pesanan</a>
           <a id="btnUpdateStatus" href="update-status.html?code=TH-2041" class="btn btn--primary">
             <svg width="17" height="17"><use href="#i-scissors"/></svg>
             <span>Update Status</span>
@@ -174,13 +174,8 @@
           <section class="card" aria-label="Log catatan produksi">
             <h3 style="margin-bottom:14px;">Log Catatan Produksi</h3>
             <div class="note-list" id="noteList">
-              <div class="note-item">
-                <div class="note-head"><b>Andi S. (Penjahit)</b><span>22 Nov 2026 · 08:35 WIB</span></div>
-                <p>Kancing mutiara putih 11mm sudah disiapkan sesuai permintaan customer. Lanjut jahit manset lengan.</p>
-              </div>
-              <div class="note-item">
-                <div class="note-head"><b>Pak Mardi (Pemilik)</b><span>20 Nov 2026 · 09:20 WIB</span></div>
-                <p>Prioritaskan pesanan ini karena target dipakai acara kantor tanggal 25 November pagi.</p>
+              <div class="note-item note-empty">
+                <p style="color:var(--ink-45);">Memuat catatan produksi…</p>
               </div>
             </div>
 
@@ -210,10 +205,7 @@
             <div class="field">
               <label for="assignStaff">Ganti Penanggung Jawab</label>
               <select id="assignStaff" class="select">
-                <option value="AS|Andi S.|Penjahit Utama · Spesialis Kemeja" selected>Andi S. (AS)</option>
-                <option value="RN|Rina N.|Penjahit Busana Wanita">Rina N. (RN)</option>
-                <option value="MB|Mas Budi|Spesialis Jas &amp; Blazer">Mas Budi (MB)</option>
-                <option value="PM|Pak Mardi|Kepala Produksi &amp; QC">Pak Mardi (PM)</option>
+                <option value="">Memuat daftar tim…</option>
               </select>
             </div>
             <button type="button" id="saveStaffBtn" class="btn btn--ghost btn--block btn--sm">Simpan Penugasan</button>
@@ -240,7 +232,7 @@
                 <b id="specSize">LD 100 · Lgn 60 · Krh 40 cm</b>
               </div>
             </div>
-            <a href="../orders/detail.html" class="btn btn--ghost btn--block btn--sm">Buka Rincian Ukuran Lengkap →</a>
+            <a id="btnOrderMeasureDetail" href="../orders/detail.html" class="btn btn--ghost btn--block btn--sm">Buka Rincian Ukuran Lengkap →</a>
           </section>
 
           <!-- Sinkronisasi Portal Customer -->
@@ -442,9 +434,9 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
       'https://tailorhub.id/portal/track-result.html?code=' + code;
   }
 
-  function applyOrderFromQuery() {
+  function applyOrderFromQuery(overrideCode) {
     var params = new URLSearchParams(window.location.search);
-    var code = params.get('code') || 'TH-2041';
+    var code = overrideCode || params.get('code') || 'TH-2041';
     if (!ORDERS[code]) code = 'TH-2041';
 
     var data = ORDERS[code];
@@ -456,6 +448,11 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
     document.getElementById('portalCode').textContent = code;
     document.getElementById('btnUpdateStatus').href = 'update-status.html?code=' + encodeURIComponent(code);
     document.getElementById('btnPortalPreview').href = '../../portal/track-result.html?code=' + encodeURIComponent(code);
+    var orderDetailParam = data.id ? ('id=' + encodeURIComponent(data.id)) : ('code=' + encodeURIComponent(code));
+    var btnOrderDetail = document.getElementById('btnOrderDetail');
+    var btnOrderMeasureDetail = document.getElementById('btnOrderMeasureDetail');
+    if (btnOrderDetail) btnOrderDetail.href = '../orders/detail.html?' + orderDetailParam;
+    if (btnOrderMeasureDetail) btnOrderMeasureDetail.href = '../orders/detail.html?' + orderDetailParam;
 
     setChip(document.getElementById('stageChip'), data.stageClass, data.stageLabel);
     setChip(document.getElementById('deadlineChip'), data.deadlineClass, data.deadlineLabel);
@@ -466,17 +463,13 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
     document.getElementById('specCut').textContent = data.cut;
     document.getElementById('specSize').textContent = data.size;
 
-    var staffParts = data.staff.split('|');
-    document.getElementById('staffAvatar').textContent = staffParts[0];
-    document.getElementById('staffName').textContent = staffParts[1];
-    document.getElementById('staffRole').textContent = staffParts[2];
-
-    var selectEl = document.getElementById('assignStaff');
-    for (var i = 0; i < selectEl.options.length; i++) {
-      if (selectEl.options[i].value.indexOf(staffParts[0] + '|') === 0) {
-        selectEl.selectedIndex = i;
-        break;
-      }
+    if (data.assigneeId !== undefined) {
+      applyAssigneeDisplay(data.assigneeId, data.assigneeName, data.assigneeRole);
+    } else {
+      var staffParts = data.staff.split('|');
+      document.getElementById('staffAvatar').textContent = staffParts[0];
+      document.getElementById('staffName').textContent = staffParts[1];
+      document.getElementById('staffRole').textContent = staffParts[2];
     }
 
     var activeBadge = document.getElementById('activeStageBadge');
@@ -504,47 +497,136 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
     updateDetailWaPreview(code, data);
   }
 
-  document.getElementById('noteForm').addEventListener('submit', function (e) {
+  var ROLE_LABELS = { pemilik: 'Pemilik', admin: 'Admin', staff: 'Staf Produksi' };
+  var TEAM_BY_ID = {};
+
+  function applyAssigneeDisplay(assigneeId, name, roleLabel) {
+    var avatarEl = document.getElementById('staffAvatar');
+    var nameEl = document.getElementById('staffName');
+    var roleEl = document.getElementById('staffRole');
+    var selectEl = document.getElementById('assignStaff');
+    var cleanName = String(name || '').trim();
+    if (avatarEl) avatarEl.textContent = cleanName && window.TH ? window.TH.initials(cleanName) : '—';
+    if (nameEl) nameEl.textContent = cleanName || 'Belum Ditugaskan';
+    if (roleEl) roleEl.textContent = roleLabel || (cleanName ? 'Tim Produksi' : 'Belum ada penanggung jawab');
+    if (selectEl) {
+      var targetVal = assigneeId ? String(assigneeId) : '';
+      var hasOpt = Array.prototype.some.call(selectEl.options, function (opt) { return opt.value === targetVal; });
+      if (targetVal && !hasOpt && cleanName && window.TH) {
+        selectEl.appendChild(window.TH.el('option', { value: targetVal, text: cleanName + (roleLabel ? ' (' + roleLabel + ')' : '') }));
+      }
+      selectEl.value = targetVal;
+    }
+  }
+
+  async function loadTeamOptions() {
+    var selectEl = document.getElementById('assignStaff');
+    if (!selectEl || !window.TH) return {};
+    var res = await window.TH.get('/api/team');
+    var members = ((res && res.data) || []).filter(function (m) { return m.status !== 'nonaktif'; });
+    TEAM_BY_ID = {};
+    selectEl.textContent = '';
+    selectEl.appendChild(window.TH.el('option', { value: '', text: 'Belum Ditugaskan' }));
+    members.forEach(function (m) {
+      var idStr = String(m.id);
+      TEAM_BY_ID[idStr] = m;
+      var roleText = ROLE_LABELS[m.role] || m.role || 'Staf';
+      selectEl.appendChild(window.TH.el('option', { value: idStr, text: m.name + ' (' + roleText + ')' }));
+    });
+    return TEAM_BY_ID;
+  }
+
+  function formatNoteTime(str) {
+    if (!str) return 'Baru saja';
+    var m = String(str).match(/^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})/);
+    if (m && window.TH) {
+      return window.TH.formatShortDate(m[1], true) + ' · ' + m[2];
+    }
+    return str;
+  }
+
+  function buildNoteItemEl(n) {
+    var T = window.TH;
+    var roleText = ROLE_LABELS[n.author_role] || '';
+    var authorLabel = (n.author_name || 'Tim Produksi') + (roleText ? ' (' + roleText + ')' : '');
+    return T.el('div', { className: 'note-item' }, [
+      T.el('div', { className: 'note-head' }, [
+        T.el('b', { text: authorLabel }),
+        T.el('span', { text: formatNoteTime(n.created_at) })
+      ]),
+      T.el('p', { text: n.body || '' })
+    ]);
+  }
+
+  function renderNotesList(notes) {
+    var noteList = document.getElementById('noteList');
+    if (!noteList || !window.TH) return;
+    noteList.textContent = '';
+    if (!Array.isArray(notes) || !notes.length) {
+      noteList.appendChild(window.TH.el('div', { className: 'note-item note-empty' }, [
+        window.TH.el('p', { style: 'color:var(--ink-45);', text: 'Belum ada catatan produksi untuk pesanan ini.' })
+      ]));
+      return;
+    }
+    var frag = document.createDocumentFragment();
+    notes.forEach(function (n) { frag.appendChild(buildNoteItemEl(n)); });
+    noteList.appendChild(frag);
+  }
+
+  document.getElementById('noteForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     var input = document.getElementById('noteInput');
+    var submitBtn = this.querySelector('button[type="submit"]');
     var val = input.value.trim();
-    if (!val) return;
+    if (!val || !window.TH) return;
 
     var code = document.getElementById('crumbCode').textContent.trim();
-    if (window.TH && code) {
-      window.TH.put('/api/orders/' + encodeURIComponent(code), { notes: val }).catch(function () {});
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      var res = await window.TH.post('/api/orders/' + encodeURIComponent(code) + '/notes', { body: val });
+      var noteList = document.getElementById('noteList');
+      var emptyEl = noteList.querySelector('.note-empty');
+      if (emptyEl) emptyEl.remove();
+      var item = buildNoteItemEl((res && res.note) || { body: val, author_name: 'Anda' });
+      noteList.insertBefore(item, noteList.firstChild);
+      input.value = '';
+      showToast('Catatan tersimpan', 'Catatan produksi baru berhasil disimpan ke database.');
+    } catch (err) {
+      showToast('Gagal menyimpan', (err && err.message) || 'Tidak dapat menyimpan catatan produksi.');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
     }
-
-    var item = document.createElement('div');
-    item.className = 'note-item';
-
-    var head = document.createElement('div');
-    head.className = 'note-head';
-    var author = document.createElement('b');
-    author.textContent = 'Pak Mardi (Baru saja)';
-    var time = document.createElement('span');
-    time.textContent = 'Hari ini';
-    head.appendChild(author);
-    head.appendChild(time);
-
-    var p = document.createElement('p');
-    p.textContent = val;
-
-    item.appendChild(head);
-    item.appendChild(p);
-    var noteList = document.getElementById('noteList');
-    noteList.insertBefore(item, noteList.firstChild);
-
-    input.value = '';
-    showToast('Catatan tersimpan', 'Catatan produksi baru berhasil ditambahkan ke log.');
   });
 
-  document.getElementById('saveStaffBtn').addEventListener('click', function () {
-    var parts = document.getElementById('assignStaff').value.split('|');
-    document.getElementById('staffAvatar').textContent = parts[0];
-    document.getElementById('staffName').textContent = parts[1];
-    document.getElementById('staffRole').textContent = parts[2];
-    showToast('Penugasan diperbarui', 'Pesanan dialokasikan kepada ' + parts[1] + '.');
+  document.getElementById('saveStaffBtn').addEventListener('click', async function () {
+    var selectEl = document.getElementById('assignStaff');
+    var saveBtn = this;
+    if (!selectEl || !window.TH) return;
+    var rawVal = selectEl.value;
+    var selectedId = rawVal ? Number(rawVal) : null;
+    var code = document.getElementById('crumbCode').textContent.trim();
+
+    saveBtn.disabled = true;
+    try {
+      await window.TH.put('/api/orders/' + encodeURIComponent(code), { assignee_id: selectedId });
+      var member = rawVal ? TEAM_BY_ID[rawVal] : null;
+      var name = member ? member.name : (rawVal ? (selectEl.options[selectEl.selectedIndex] ? selectEl.options[selectEl.selectedIndex].textContent : '') : '');
+      var roleLabel = member ? (ROLE_LABELS[member.role] || member.role || 'Tim Produksi') : '';
+      if (ORDERS[code]) {
+        ORDERS[code].assigneeId = rawVal;
+        ORDERS[code].assigneeName = name;
+        ORDERS[code].assigneeRole = roleLabel;
+      }
+      applyAssigneeDisplay(rawVal, name, roleLabel);
+      showToast(
+        'Penugasan diperbarui',
+        name ? ('Pesanan dialokasikan kepada ' + name + '.') : 'Penanggung jawab pesanan dikosongkan.'
+      );
+    } catch (err) {
+      showToast('Gagal menyimpan', (err && err.message) || 'Tidak dapat memperbarui penanggung jawab.');
+    } finally {
+      saveBtn.disabled = false;
+    }
   });
 
   document.getElementById('btnSendWa').addEventListener('click', function () {
@@ -554,41 +636,88 @@ https://tailorhub.id/portal/track-result.html?code=TH-2041</div>
 
   applyOrderFromQuery();
 
-  // Sinkronisasi status terbaru dari D1
+  function syncTimelineHistory(history, currentStep) {
+    if (!Array.isArray(history) || !history.length) return;
+    var STEP_MAP = { 'Antrean': 1, 'Pemotongan': 2, 'Penjahitan': 3, 'Finishing': 4, 'QC': 5, 'Selesai': 6, 'Diambil': 7 };
+    var byStep = {};
+    history.forEach(function (h) {
+      var st = STEP_MAP[h.status];
+      if (st) byStep[st] = h;
+    });
+    document.querySelectorAll('#prodTimeline .pt-item').forEach(function (item) {
+      var stepNum = Number(item.getAttribute('data-step'));
+      var h = byStep[stepNum];
+      var body = item.querySelector('.pt-body');
+      if (!body) return;
+      var metaEl = body.querySelector('.pt-meta');
+      var noteEl = body.querySelector('.pt-note');
+      if (h) {
+        if (metaEl) metaEl.textContent = (stepNum === currentStep ? 'Mulai: ' : '') + (h.created_at || 'Tercatat di sistem');
+        if (h.note) {
+          if (!noteEl) {
+            noteEl = document.createElement('div');
+            noteEl.className = 'pt-note';
+            body.appendChild(noteEl);
+          }
+          noteEl.textContent = h.note;
+        } else if (noteEl) {
+          noteEl.remove();
+        }
+      } else if (stepNum <= currentStep && metaEl) {
+        metaEl.textContent = stepNum === currentStep ? 'Sedang berlangsung' : 'Tahap selesai';
+        if (noteEl) noteEl.remove();
+      }
+    });
+  }
+
+  // Sinkronisasi status, deadline, dan detail terbaru dari D1
   (async function syncFromD1() {
     if (!window.TH) return;
     var params = new URLSearchParams(window.location.search);
     var idOrCode = params.get('id') || params.get('code') || 'TH-2041';
     var STEP_MAP = { 'Antrean': 1, 'Pemotongan': 2, 'Penjahitan': 3, 'Finishing': 4, 'QC': 5, 'Selesai': 6, 'Diambil': 7 };
     try {
-      var d = await window.TH.get('/api/orders/' + encodeURIComponent(idOrCode));
+      var results = await Promise.all([
+        window.TH.get('/api/orders/' + encodeURIComponent(idOrCode)),
+        loadTeamOptions().catch(function () { return {}; })
+      ]);
+      var d = results[0];
       if (d && d.order) {
         var o = d.order;
         var step = STEP_MAP[o.production_status] || 1;
-        ORDERS[o.code] = ORDERS[o.code] || {
-          title: o.code + ' — ' + o.type + ' ×' + o.qty,
-          customer: o.customer || '-',
+        var existing = ORDERS[o.code];
+        var dl = window.TH.deadlineMeta(o.deadline, o.production_status);
+        var assigneeId = o.assignee_id ? String(o.assignee_id) : '';
+        var assigneeName = o.assignee || '';
+        var assigneeRole = o.assignee_role ? (ROLE_LABELS[o.assignee_role] || o.assignee_role) : '';
+        ORDERS[o.code] = {
+          id: o.id,
+          title: o.code + ' — ' + (o.type || 'Pesanan') + ' ×' + (o.qty || 1),
+          customer: o.customer || (existing && existing.customer) || '-',
           step: step,
           stageLabel: o.production_status + ' (' + step + '/7)',
           stageClass: window.TH.statusChip(o.production_status),
-          deadlineLabel: 'Deadline: ' + (o.deadline || '—'),
-          deadlineClass: 'chip--soft',
+          deadlineLabel: dl.detailText,
+          deadlineClass: dl.cls,
           payLabel: o.payment_status,
           payClass: window.TH.statusChip(o.payment_status),
-          staff: 'AS|' + (o.assignee || 'Tim Produksi') + '|Penjahit Produksi',
-          fabric: o.detail || 'Standar Workshop',
-          qty: o.qty + ' Pcs',
-          cut: 'Sesuai Nota',
-          size: 'Sesuai Fitting'
+          assigneeId: assigneeId,
+          assigneeName: assigneeName,
+          assigneeRole: assigneeRole,
+          staff: existing ? existing.staff : ('PM|' + (assigneeName || 'Belum Ditugaskan') + '|Tim Produksi'),
+          fabric: o.detail || (existing && existing.fabric) || 'Standar Workshop',
+          qty: (existing && existing.qty) || ((o.qty || 1) + ' Pcs'),
+          cut: (existing && existing.cut) || 'Sesuai Nota',
+          size: (existing && existing.size) || 'Sesuai Fitting'
         };
-        ORDERS[o.code].step = step;
-        ORDERS[o.code].stageLabel = o.production_status + ' (' + step + '/7)';
-        ORDERS[o.code].stageClass = window.TH.statusChip(o.production_status);
-        ORDERS[o.code].payLabel = o.payment_status;
-        ORDERS[o.code].payClass = window.TH.statusChip(o.payment_status);
-        applyOrderFromQuery();
+        applyOrderFromQuery(o.code);
+        syncTimelineHistory(d.history, step);
+        renderNotesList(d.notes || []);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error('Gagal menyinkronkan detail pesanan dari D1:', e);
+      renderNotesList([]);
+    }
   })();
 })();
 </script>
