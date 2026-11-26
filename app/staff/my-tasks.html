@@ -141,6 +141,7 @@
 
   var T = window.TH;
   var ROLE_LABELS = { pemilik: 'Pemilik', admin: 'Admin', staff: 'Staf Produksi' };
+  var STAGE_FLOW = ['Antrean', 'Pemotongan', 'Penjahitan', 'Finishing', 'QC', 'Selesai', 'Diambil'];
   var STAGE_META = {
     'Antrean':    { key: 'queue',  step: 1, chip: 'chip--queue' },
     'Pemotongan': { key: 'cut',    step: 2, chip: 'chip--cut' },
@@ -150,6 +151,13 @@
     'Selesai':    { key: 'done',   step: 6, chip: 'chip--done' },
     'Diambil':    { key: 'taken',  step: 7, chip: 'chip--taken' }
   };
+
+  function getNextStageName(stageName) {
+    var idx = STAGE_FLOW.indexOf(stageName);
+    if (idx === -1) return 'Pemotongan';
+    if (idx >= STAGE_FLOW.indexOf('Selesai')) return null;
+    return STAGE_FLOW[idx + 1] || null;
+  }
 
   var TEAM_BY_ID = {};
   var TEAM_LIST = [];
@@ -270,13 +278,26 @@
       });
       actionsChildren.push(btnStart);
     } else if (task.status === 'progress') {
-      var btnDone = T.el('button', { type: 'button', className: 'btn btn-finish', text: 'Tandai Selesai' });
-      btnDone.addEventListener('click', function () {
-        var prof = TEAM_BY_ID[currentStaffId];
-        var who = prof ? prof.name : 'staf';
-        updateOrderStatus(task, 'Selesai', 'Tahap diselesaikan oleh ' + who + ' melalui Tugas Saya', btnDone);
-      });
-      actionsChildren.push(btnDone);
+      var nextStage = getNextStageName(task.stageName);
+      if (nextStage) {
+        var btnDone = T.el('button', {
+          type: 'button',
+          className: 'btn btn-finish',
+          title: 'Selesaikan ' + task.stageName + ' → ' + nextStage,
+          text: 'Selesai Tahap Ini'
+        });
+        btnDone.addEventListener('click', function () {
+          var prof = TEAM_BY_ID[currentStaffId];
+          var who = prof ? prof.name : 'staf';
+          updateOrderStatus(
+            task,
+            nextStage,
+            'Tahap ' + task.stageName + ' selesai dikerjakan oleh ' + who + ' -> lanjut ke ' + nextStage + ' melalui Tugas Saya',
+            btnDone
+          );
+        });
+        actionsChildren.push(btnDone);
+      }
     }
 
     var detailHref = 'task-detail.html?code=' + encodeURIComponent(task.code) +

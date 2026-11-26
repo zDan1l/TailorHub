@@ -252,6 +252,70 @@
       sel.appendChild(TH.el("option", { value: "unassigned", text: "Belum Ditugaskan" }));
       if (current) sel.value = current;
     },
+
+    // --- Log Catatan Produksi (Shared) ---
+    ROLE_LABELS: { pemilik: "Pemilik", admin: "Admin", staff: "Staf Produksi" },
+    formatNoteTime: function (str) {
+      if (!str) return "Baru saja";
+      var m = String(str).match(/^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})/);
+      if (m) return TH.formatShortDate(m[1], true) + " · " + m[2];
+      return str;
+    },
+    buildNoteItemEl: function (n) {
+      var roleText = TH.ROLE_LABELS[n.author_role] || "";
+      var authorLabel = (n.author_name || "Tim Produksi") + (roleText ? " (" + roleText + ")" : "");
+      return TH.el("div", { className: "note-item" }, [
+        TH.el("div", { className: "note-head" }, [
+          TH.el("b", { text: authorLabel }),
+          TH.el("span", { text: TH.formatNoteTime(n.created_at) })
+        ]),
+        TH.el("p", { text: n.body || "" })
+      ]);
+    },
+    renderNotesList: function (containerEl, notes, emptyText) {
+      if (!containerEl) return;
+      containerEl.textContent = "";
+      if (!Array.isArray(notes) || !notes.length) {
+        containerEl.appendChild(TH.el("div", { className: "note-item note-empty" }, [
+          TH.el("p", {
+            style: "color:var(--ink-45);",
+            text: emptyText || "Belum ada catatan produksi untuk pesanan ini."
+          })
+        ]));
+        return;
+      }
+      var frag = document.createDocumentFragment();
+      notes.forEach(function (n) { frag.appendChild(TH.buildNoteItemEl(n)); });
+      containerEl.appendChild(frag);
+    },
+    prependNoteItem: function (containerEl, note) {
+      if (!containerEl || !note) return;
+      var emptyEl = containerEl.querySelector(".note-empty");
+      if (emptyEl) emptyEl.remove();
+      containerEl.insertBefore(TH.buildNoteItemEl(note), containerEl.firstChild);
+    },
+    bindOrderNoteForm: function (opts) {
+      if (!opts || !opts.formEl || !opts.inputEl || !opts.listEl) return;
+      opts.formEl.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var val = opts.inputEl.value.trim();
+        if (!val) return;
+        var submitBtn = opts.formEl.querySelector('button[type="submit"]');
+        var code = typeof opts.getCode === "function" ? opts.getCode() : "";
+        if (!code) return;
+        if (submitBtn) submitBtn.disabled = true;
+        try {
+          var res = await TH.post("/api/orders/" + encodeURIComponent(code) + "/notes", { body: val });
+          TH.prependNoteItem(opts.listEl, (res && res.note) || { body: val, author_name: "Anda" });
+          opts.inputEl.value = "";
+          if (typeof opts.onSaved === "function") opts.onSaved(res && res.note);
+        } catch (err) {
+          if (typeof opts.onError === "function") opts.onError(err);
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    },
   };
 
   global.TH = TH;
