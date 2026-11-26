@@ -376,6 +376,21 @@
   }
 }
 
+/* ---- Responsive Profile & Account Grids ---- */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
 @media (max-width: 560px) {
   .top {
     padding: 10px 14px;
