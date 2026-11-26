@@ -308,6 +308,9 @@
 .page {
   padding: 26px;
   flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .page-head {
@@ -370,5 +373,51 @@
   }
   .burger {
     display: inline-flex;
+  }
+}
+
+/* ---- Responsive Profile & Account Grids ---- */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .top {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+  .page {
+    padding: 16px 14px;
+  }
+  .page-head {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .page-head h1 {
+    font-size: 1.35rem;
+  }
+  .page-head > div:last-child:not(:first-child) {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap !important;
+  }
+  .page-head .btn {
+    flex: 1;
+    padding: 9px 10px;
+    font-size: .76rem;
+    gap: 5px;
+    white-space: nowrap;
+    min-width: 0;
   }
 }

@@ -290,6 +290,7 @@
 }
 
 .kc-code {
+  flex: none;
   font-weight: 800;
   font-size: .92rem;
   letter-spacing: -.02em;
@@ -310,6 +311,10 @@
   padding: 2px 8px;
   border-radius: 999px;
   margin-left: auto;
+  max-width: 155px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .kc-title {
