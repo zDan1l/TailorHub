@@ -74,8 +74,8 @@
           <a href="../production/board.html" class="btn btn--primary">
             <svg width="17" height="17"><use href="#i-scissors"/></svg> Update Status Produksi
           </a>
-          <a href="delete-modal.html" class="btn btn--danger btn--icon" title="Hapus Pesanan">
-            <svg width="17" height="17"><use href="#i-trash"/></svg>
+          <a href="delete-modal.html" class="btn btn--ghost btn--delete" style="color:var(--red);border-color:rgba(192,57,43,.35);" title="Hapus Pesanan">
+            <svg width="17" height="17"><use href="#i-trash"/></svg> Hapus Pesanan
           </a>
         </div>
       </div>
@@ -130,39 +130,33 @@
                   </div>
                 </div>
 
-                <!-- Tabel Fitting -->
-                <h4 style="margin-bottom:10px;">Detail Ukuran Badan (Fitting CM)</h4>
-                <div class="table-wrap" style="margin-bottom:20px;">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Bagian Tubuh</th>
-                        <th class="num">Ukuran (cm)</th>
-                        <th>Bagian Tubuh</th>
-                        <th class="num">Ukuran (cm)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Lingkar Dada (Chest)</td>
-                        <td class="num"><b>102 cm</b></td>
-                        <td>Panjang Lengan (Sleeve)</td>
-                        <td class="num"><b>61 cm</b></td>
-                      </tr>
-                      <tr>
-                        <td>Panjang Baju (Jacket Length)</td>
-                        <td class="num"><b>74 cm</b></td>
-                        <td>Lingkar Pinggang (Waist)</td>
-                        <td class="num"><b>88 cm</b></td>
-                      </tr>
-                      <tr>
-                        <td>Lebar Pundak (Shoulder)</td>
-                        <td class="num"><b>46 cm</b></td>
-                        <td>Panjang Celana (Inseam)</td>
-                        <td class="num"><b>98 cm</b></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <!-- Kartu Ukuran Tubuh Fitting (Responsif & Konsisten dengan Profil Customer) -->
+                <h4 style="margin-bottom:12px;">Detail Ukuran Badan (Fitting CM)</h4>
+                <div class="rg-2 rg-keep" style="display:grid;gap:10px;font-size:.85rem;margin-bottom:20px;">
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Lingkar Dada (Chest)</span>
+                    <b>102 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Panjang Baju (Jacket Length)</span>
+                    <b>74 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Lebar Pundak (Shoulder)</span>
+                    <b>46 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Panjang Lengan (Sleeve)</span>
+                    <b>61 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Lingkar Pinggang (Waist)</span>
+                    <b>88 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Panjang Celana (Inseam)</span>
+                    <b>98 cm</b>
+                  </div>
                 </div>
 
                 <h4 style="margin-bottom:8px;">Instruksi Khusus &amp; Catatan Penjahit</h4>
@@ -280,7 +274,7 @@
                 </div>
 
                 <div class="table-wrap">
-                  <table class="table">
+                  <table class="table table--mid">
                     <thead>
                       <tr>
                         <th>Tanggal Transaksi</th>
@@ -319,7 +313,7 @@
               <div id="tabHistory" style="display:none;">
                 <h3 style="margin-bottom:14px;">Log Aktivitas Pesanan (FR-13)</h3>
                 <div class="table-wrap">
-                  <table class="table">
+                  <table class="table table--mid">
                     <thead>
                       <tr>
                         <th>Waktu</th>
