@@ -46,6 +46,14 @@
     <header class="top" id="appTopbar"></header>
 
     <main class="page">
+      <!-- Tombol Kembali ke Daftar Pesanan -->
+      <div style="margin-bottom:14px;">
+        <a href="index.html" class="btn btn--ghost btn--sm" style="display:inline-flex;align-items:center;gap:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Kembali ke Daftar Pesanan
+        </a>
+      </div>
+
       <!-- Breadcrumb & Header Title -->
       <div class="page-head">
         <div>
@@ -462,11 +470,14 @@ function switchTab(e, tabId) {
     }
 
     // Update tombol aksi header dengan ?id=
-    var headBtns = document.querySelectorAll('.page-head a.btn');
-    if (headBtns[0]) headBtns[0].href = 'print.html?id=' + encodeURIComponent(o.id);
-    if (headBtns[1]) headBtns[1].href = 'edit.html?id=' + encodeURIComponent(o.id);
-    if (headBtns[2]) headBtns[2].href = '../production/update-status.html?id=' + encodeURIComponent(o.id);
-    if (headBtns[3]) headBtns[3].href = 'delete-modal.html?id=' + encodeURIComponent(o.id);
+    var printBtn = document.querySelector('.head-actions a[href*="print.html"]');
+    if (printBtn) printBtn.href = 'print.html?id=' + encodeURIComponent(o.id);
+    var editBtn = document.querySelector('.head-actions a[href*="edit.html"]');
+    if (editBtn) editBtn.href = 'edit.html?id=' + encodeURIComponent(o.id);
+    var prodBtn = document.querySelector('.head-actions a[href*="production"]');
+    if (prodBtn) prodBtn.href = '../production/update-status.html?id=' + encodeURIComponent(o.id);
+    var delBtn = document.querySelector('.head-actions a[href*="delete-modal.html"]');
+    if (delBtn) delBtn.href = 'delete-modal.html?id=' + encodeURIComponent(o.id);
 
     // Tab 1: Detail
     var tabDetailH3 = document.querySelector('#tabDetail h3');
