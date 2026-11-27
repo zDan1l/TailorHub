@@ -65,7 +65,7 @@
         </div>
 
         <div class="head-actions">
-          <a href="print.html" class="btn btn--ghost" target="_blank">
+          <a href="print.html" class="btn btn--ghost">
             <svg width="17" height="17"><use href="#i-print"/></svg> Cetak Nota / Surat Kerja
           </a>
           <a href="edit.html" class="btn btn--ghost">
@@ -432,7 +432,11 @@ function switchTab(e, tabId) {
 
 (async function () {
   var params = new URLSearchParams(location.search);
-  var id = params.get('id') || params.get('code') || 'TH-2033';
+  var id = params.get('id') || params.get('code');
+  if (!id) {
+    location.href = 'index.html';
+    return;
+  }
   try {
     var d = await TH.get('/api/orders/' + encodeURIComponent(id));
     if (!d || !d.order) return;
@@ -507,6 +511,8 @@ function switchTab(e, tabId) {
     if (trackCodeEl) trackCodeEl.textContent = o.code;
   } catch (err) {
     console.error('Gagal memuat detail pesanan:', err);
+    alert('Pesanan tidak ditemukan atau gagal dimuat. Kembali ke daftar pesanan.');
+    location.href = 'index.html';
   }
 })();
 </script>

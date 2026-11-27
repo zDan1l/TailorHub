@@ -80,7 +80,7 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
 <body>
 
 <div class="no-print-bar">
-  <a href="detail.html" class="btn btn--ghost">← Kembali ke Detail Pesanan</a>
+  <a href="index.html" class="btn btn--ghost">← Kembali ke Daftar Pesanan</a>
   <button class="btn btn--primary" onclick="window.print()">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg>
     <span>Cetak Dokumen (Print / PDF)</span>
@@ -230,14 +230,18 @@ td{padding:10px 14px;border:1px solid var(--sand);vertical-align:top;}
 <script>
 (async function () {
   var params = new URLSearchParams(location.search);
-  var id = params.get('id') || params.get('code') || 'TH-2033';
+  var id = params.get('id') || params.get('code');
+  if (!id) {
+    location.href = 'index.html';
+    return;
+  }
   try {
     var d = await TH.get('/api/orders/' + encodeURIComponent(id));
     if (!d || !d.order) return;
     var o = d.order;
     document.title = 'Surat Kerja & Nota Pesanan ' + o.code + ' — TailorHub';
     var backBtn = document.querySelector('.no-print-bar a');
-    if (backBtn) backBtn.href = 'detail.html?id=' + encodeURIComponent(o.id);
+    if (backBtn) backBtn.href = 'index.html';
 
     var headRight = document.querySelector('.invoice-head > div:last-child');
     if (headRight) {
