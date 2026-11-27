@@ -83,9 +83,9 @@
     var tName = (info.tenant && (info.tenant.nama || info.tenant.name)) || 'TailorHub';
     var init = initials(uName);
 
-    document.querySelectorAll('.side-user b').forEach(function (el) { el.textContent = uName; });
-    document.querySelectorAll('.side-user small').forEach(function (el) { el.textContent = role + ' · ' + tName; });
-    document.querySelectorAll('.side-user .avatar, .side-user .top-avatar, header.top .top-avatar').forEach(function (el) {
+    document.querySelectorAll('.side-user b, .top-dropdown-meta b').forEach(function (el) { el.textContent = uName; });
+    document.querySelectorAll('.side-user small, .top-dropdown-meta small').forEach(function (el) { el.textContent = role + ' · ' + tName; });
+    document.querySelectorAll('.side-user .avatar, .side-user .top-avatar, header.top .top-avatar, .top-dropdown-ava').forEach(function (el) {
       el.textContent = init;
     });
   }
