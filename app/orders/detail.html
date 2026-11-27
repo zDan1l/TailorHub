@@ -511,8 +511,6 @@ function switchTab(e, tabId) {
     if (trackCodeEl) trackCodeEl.textContent = o.code;
   } catch (err) {
     console.error('Gagal memuat detail pesanan:', err);
-    alert('Pesanan tidak ditemukan atau gagal dimuat. Kembali ke daftar pesanan.');
-    location.href = 'index.html';
   }
 })();
 </script>
