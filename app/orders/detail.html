@@ -49,6 +49,14 @@
     <header class="top" id="appTopbar"></header>
 
     <main class="page">
+      <!-- Tombol Kembali ke Daftar Pesanan -->
+      <div style="margin-bottom:14px;">
+        <a href="index.html" class="btn btn--ghost btn--sm" style="display:inline-flex;align-items:center;gap:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Kembali ke Daftar Pesanan
+        </a>
+      </div>
+
       <!-- Breadcrumb & Header Title -->
       <div class="page-head">
         <div>
@@ -68,7 +76,7 @@
         </div>
 
         <div class="head-actions">
-          <a href="print.html" class="btn btn--ghost" target="_blank">
+          <a href="print.html" class="btn btn--ghost">
             <svg width="17" height="17"><use href="#i-print"/></svg> Cetak Nota / Surat Kerja
           </a>
           <a href="edit.html" class="btn btn--ghost">
@@ -77,8 +85,8 @@
           <a href="../production/board.html" class="btn btn--primary">
             <svg width="17" height="17"><use href="#i-scissors"/></svg> Update Status Produksi
           </a>
-          <a href="delete-modal.html" class="btn btn--danger btn--icon" title="Hapus Pesanan">
-            <svg width="17" height="17"><use href="#i-trash"/></svg>
+          <a href="delete-modal.html" class="btn btn--ghost btn--delete" style="color:var(--red);border-color:rgba(192,57,43,.35);" title="Hapus Pesanan">
+            <svg width="17" height="17"><use href="#i-trash"/></svg> Hapus Pesanan
           </a>
         </div>
       </div>
@@ -133,39 +141,33 @@
                   </div>
                 </div>
 
-                <!-- Tabel Fitting -->
-                <h4 style="margin-bottom:10px;">Detail Ukuran Badan (Fitting CM)</h4>
-                <div class="table-wrap" style="margin-bottom:20px;">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Bagian Tubuh</th>
-                        <th class="num">Ukuran (cm)</th>
-                        <th>Bagian Tubuh</th>
-                        <th class="num">Ukuran (cm)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Lingkar Dada (Chest)</td>
-                        <td class="num"><b>102 cm</b></td>
-                        <td>Panjang Lengan (Sleeve)</td>
-                        <td class="num"><b>61 cm</b></td>
-                      </tr>
-                      <tr>
-                        <td>Panjang Baju (Jacket Length)</td>
-                        <td class="num"><b>74 cm</b></td>
-                        <td>Lingkar Pinggang (Waist)</td>
-                        <td class="num"><b>88 cm</b></td>
-                      </tr>
-                      <tr>
-                        <td>Lebar Pundak (Shoulder)</td>
-                        <td class="num"><b>46 cm</b></td>
-                        <td>Panjang Celana (Inseam)</td>
-                        <td class="num"><b>98 cm</b></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <!-- Kartu Ukuran Tubuh Fitting (Responsif & Konsisten dengan Profil Customer) -->
+                <h4 style="margin-bottom:12px;">Detail Ukuran Badan (Fitting CM)</h4>
+                <div class="rg-2 rg-keep" style="display:grid;gap:10px;font-size:.85rem;margin-bottom:20px;">
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Lingkar Dada (Chest)</span>
+                    <b>102 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Panjang Baju (Jacket Length)</span>
+                    <b>74 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Lebar Pundak (Shoulder)</span>
+                    <b>46 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Panjang Lengan (Sleeve)</span>
+                    <b>61 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Lingkar Pinggang (Waist)</span>
+                    <b>88 cm</b>
+                  </div>
+                  <div style="background:var(--cream-200);padding:9px 12px;border-radius:8px;">
+                    <span style="font-size:.72rem;color:var(--ink-45);display:block;">Panjang Celana (Inseam)</span>
+                    <b>98 cm</b>
+                  </div>
                 </div>
 
                 <h4 style="margin-bottom:8px;">Instruksi Khusus &amp; Catatan Penjahit</h4>
@@ -283,7 +285,7 @@
                 </div>
 
                 <div class="table-wrap">
-                  <table class="table">
+                  <table class="table table--mid">
                     <thead>
                       <tr>
                         <th>Tanggal Transaksi</th>
@@ -322,7 +324,7 @@
               <div id="tabHistory" style="display:none;">
                 <h3 style="margin-bottom:14px;">Log Aktivitas Pesanan (FR-13)</h3>
                 <div class="table-wrap">
-                  <table class="table">
+                  <table class="table table--mid">
                     <thead>
                       <tr>
                         <th>Waktu</th>
@@ -441,7 +443,11 @@ function switchTab(e, tabId) {
 
 (async function () {
   var params = new URLSearchParams(location.search);
-  var id = params.get('id') || params.get('code') || 'TH-2033';
+  var id = params.get('id') || params.get('code');
+  if (!id) {
+    location.href = 'index.html';
+    return;
+  }
   try {
     var d = await TH.get('/api/orders/' + encodeURIComponent(id));
     if (!d || !d.order) return;
@@ -467,11 +473,14 @@ function switchTab(e, tabId) {
     }
 
     // Update tombol aksi header dengan ?id=
-    var headBtns = document.querySelectorAll('.page-head a.btn');
-    if (headBtns[0]) headBtns[0].href = 'print.html?id=' + encodeURIComponent(o.id);
-    if (headBtns[1]) headBtns[1].href = 'edit.html?id=' + encodeURIComponent(o.id);
-    if (headBtns[2]) headBtns[2].href = '../production/update-status.html?id=' + encodeURIComponent(o.id);
-    if (headBtns[3]) headBtns[3].href = 'delete-modal.html?id=' + encodeURIComponent(o.id);
+    var printBtn = document.querySelector('.head-actions a[href*="print.html"]');
+    if (printBtn) printBtn.href = 'print.html?id=' + encodeURIComponent(o.id);
+    var editBtn = document.querySelector('.head-actions a[href*="edit.html"]');
+    if (editBtn) editBtn.href = 'edit.html?id=' + encodeURIComponent(o.id);
+    var prodBtn = document.querySelector('.head-actions a[href*="production"]');
+    if (prodBtn) prodBtn.href = '../production/update-status.html?id=' + encodeURIComponent(o.id);
+    var delBtn = document.querySelector('.head-actions a[href*="delete-modal.html"]');
+    if (delBtn) delBtn.href = 'delete-modal.html?id=' + encodeURIComponent(o.id);
 
     // Tab 1: Detail
     var tabDetailH3 = document.querySelector('#tabDetail h3');

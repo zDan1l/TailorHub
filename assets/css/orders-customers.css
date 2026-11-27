@@ -29,21 +29,6 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* ---- Perapihan Tile KPI agar tinggi sejajar dan isi proporsional ---- */
-.tile {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 112px;
-}
-
-.tile-foot {
-  margin-top: auto;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-}
-
 /* ---- Perapihan Tile KPI ---- */
 .tile {
   display: flex;
@@ -62,22 +47,19 @@
   margin-top: auto;
 }
 
-/* ---- Perapihan KPI Tile ---- */
-.tile {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 108px;
+/* ---- Layout 2-kolom halaman detail (bebas overflow horizontal) ---- */
+.rg-side,
+.rg-main {
+  min-width: 0;
+  max-width: 100%;
 }
 
-.tile-foot {
-  margin-top: auto;
-  flex-wrap: wrap;
-  gap: 4px 8px;
-  align-items: center;
+.rg-side > *,
+.rg-main > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
-/* ---- Layout 2-kolom halaman detail ---- */
 .rg-side {
   grid-template-columns: 1fr 320px;
 }
@@ -215,6 +197,46 @@
 .ord-filter-wrap .tabs a.is-on .badge-count {
   background: rgba(255, 255, 255, .28) !important;
   color: #fff !important;
+}
+
+/* Card tabs (tab navigasi detail pesanan & customer) */
+.card > .tabs {
+  padding: 0 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-wrap: nowrap;
+  scrollbar-width: thin;
+}
+
+.card > .tabs::-webkit-scrollbar {
+  height: 3px;
+}
+
+.card > .tabs::-webkit-scrollbar-thumb {
+  background: var(--sand-500, #c8bcaf);
+  border-radius: 3px;
+}
+
+.card > .tabs a {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 12px 14px;
+  font-size: .88rem;
+}
+
+/* Card & Block Button agar rapi dan tidak overflow di mobile */
+.card {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.card .btn--block,
+.card button.btn--block,
+.card a.btn--block {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  text-align: center;
 }
 
 /* ---- Tab content padding ---- */
@@ -390,15 +412,33 @@
     grid-template-columns: 1fr;
   }
 
-  /* head-actions: tombol stack & full-width */
+  /* head-actions: tombol stack & full-width, prioritaskan tombol aksi utama */
   .head-actions {
     flex-direction: column;
     align-items: stretch;
+    width: 100%;
+    gap: 8px;
   }
 
   .head-actions .btn {
     width: 100%;
     justify-content: center;
+    box-sizing: border-box;
+    padding: 11px 16px;
+    font-size: .88rem;
+  }
+
+  .head-actions .btn--primary {
+    order: -1;
+  }
+
+  .card > .tabs {
+    padding: 0 8px;
+  }
+
+  .card > .tabs a {
+    padding: 10px 10px;
+    font-size: .82rem;
   }
 
   .page-head > a.btn {

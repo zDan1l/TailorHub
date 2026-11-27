@@ -56,7 +56,7 @@
   </div>
 
   <div class="modal-foot" style="padding:16px 24px;display:flex;justify-content:flex-end;gap:12px;background:var(--cream);border-top:1px solid var(--sand);">
-    <a href="detail.html" id="btnCancelDelete" class="btn btn--ghost btn--sm">Batal</a>
+    <a href="index.html" id="btnCancelDelete" class="btn btn--ghost btn--sm">Batal</a>
     <button type="button" id="btnConfirmDelete" class="btn btn--danger btn--sm">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
       <span>Hapus Pesanan Permanen</span>
@@ -69,7 +69,11 @@
 <script>
 (async function () {
   var params = new URLSearchParams(location.search);
-  var id = params.get('id') || params.get('code') || 'TH-2033';
+  var id = params.get('id') || params.get('code');
+  if (!id) {
+    location.href = 'index.html';
+    return;
+  }
   var targetId = id;
   var targetBox = document.querySelector('.modal-body > div');
 
@@ -79,7 +83,7 @@
       var o = d.order;
       targetId = o.id;
       document.title = 'Hapus Pesanan ' + o.code + ' — TailorHub';
-      document.getElementById('btnCancelDelete').href = 'detail.html?id=' + encodeURIComponent(o.id);
+      document.getElementById('btnCancelDelete').href = 'index.html';
       if (targetBox) {
         targetBox.innerHTML =
           '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +

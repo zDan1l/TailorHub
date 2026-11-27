@@ -131,14 +131,19 @@ export async function findOrderByParam(DB, tenantId, idOrCode) {
 
 // ---------- Ambil log catatan produksi pesanan ----------
 export async function listOrderNotes(DB, tenantId, orderId) {
-  const res = await DB.prepare(
-    `SELECT n.id, n.body, n.created_at,
-            COALESCE(u.name, 'Tim Produksi') AS author_name,
-            COALESCE(u.role, 'staff') AS author_role
-       FROM order_notes n
-       LEFT JOIN users u ON u.id=n.user_id
-      WHERE n.order_id=? AND n.tenant_id=?
-      ORDER BY n.id DESC`
-  ).bind(orderId, tenantId).all();
-  return res.results || [];
+  try {
+    const res = await DB.prepare(
+      `SELECT n.id, n.body, n.created_at,
+              COALESCE(u.name, 'Tim Produksi') AS author_name,
+              COALESCE(u.role, 'staff') AS author_role
+         FROM order_notes n
+         LEFT JOIN users u ON u.id=n.user_id
+        WHERE n.order_id=? AND n.tenant_id=?
+        ORDER BY n.id DESC`
+    ).bind(orderId, tenantId).all();
+    return res.results || [];
+  } catch (err) {
+    console.warn("listOrderNotes warning (mungkin tabel belum ada):", err.message);
+    return [];
+  }
 }

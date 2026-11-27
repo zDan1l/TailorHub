@@ -58,11 +58,8 @@
           <h1>Edit Pesanan TH-2033</h1>
           <p class="sub">Perbarui informasi spesifikasi pakaian, penyesuaian tenggat waktu, atau biaya tambahan (FR-07).</p>
         </div>
-        <div style="display:flex;gap:10px;">
-          <a href="detail.html" class="btn btn--ghost">Batal</a>
-          <a href="detail.html" class="btn btn--primary">
-            <svg width="17" height="17"><use href="#i-check"/></svg> Simpan Perubahan
-          </a>
+        <div>
+          <a href="index.html" class="btn btn--ghost">Kembali ke Daftar</a>
         </div>
       </div>
 
@@ -192,7 +189,7 @@
 
             <hr style="border:0;border-top:1px solid var(--sand);margin:18px 0;">
             <button type="submit" class="btn btn--primary btn--block">Simpan Perubahan</button>
-            <a href="detail.html" id="btnCancelEdit" class="btn btn--ghost btn--block" style="text-align:center;margin-top:8px;">Batal</a>
+            <a href="index.html" id="btnCancelEdit" class="btn btn--ghost btn--block" style="text-align:center;margin-top:8px;">Batal</a>
           </div>
         </div>
       </form>
@@ -206,7 +203,11 @@
 <script>
 (async function () {
   var params = new URLSearchParams(location.search);
-  var id = params.get('id') || params.get('code') || 'TH-2033';
+  var id = params.get('id') || params.get('code');
+  if (!id) {
+    location.href = 'index.html';
+    return;
+  }
   var form = document.querySelector('form');
   var currentOrderId = id;
 
@@ -250,7 +251,7 @@
         if (pMap[o.payment_status]) selects[3].value = pMap[o.payment_status];
       }
       var cancelBtn = document.getElementById('btnCancelEdit');
-      if (cancelBtn) cancelBtn.href = 'detail.html?id=' + encodeURIComponent(o.id);
+      if (cancelBtn) cancelBtn.href = 'index.html';
     }
   } catch (e) {
     console.error(e);
